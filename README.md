@@ -1,9 +1,9 @@
-# E Invoice Java API Library
+# e-invoice.be Peppol API Library
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice_api.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice_api.api/e-invoice-java/0.0.1-alpha.0)
 [![javadoc](https://javadoc.io/badge2/com.e_invoice_api.api/e-invoice-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.e_invoice_api.api/e-invoice-java/0.0.1-alpha.0)
 
-The E Invoice Java SDK provides convenient access to the [E Invoice REST API](https://api.e-invoice.be) from applications written in Java.
+The e-invoice.be Peppol SDK provides convenient access to the [E Invoice REST API](https://api.e-invoice.be) from applications written in Java.
 
 It is generated with [Stainless](https://www.stainless.com/).
 
