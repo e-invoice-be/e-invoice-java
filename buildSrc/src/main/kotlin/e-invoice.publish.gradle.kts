@@ -27,9 +27,9 @@ configure<PublishingExtension> {
                 }
 
                 scm {
-                    connection.set("scm:git:git://github.com/stainless-sdks/e-invoice-api-java.git")
-                    developerConnection.set("scm:git:git://github.com/stainless-sdks/e-invoice-api-java.git")
-                    url.set("https://github.com/stainless-sdks/e-invoice-api-java")
+                    connection.set("scm:git:git://github.com/e-invoice-be/e-invoice-java.git")
+                    developerConnection.set("scm:git:git://github.com/e-invoice-be/e-invoice-java.git")
+                    url.set("https://github.com/e-invoice-be/e-invoice-java")
                 }
 
                 versionMapping {
