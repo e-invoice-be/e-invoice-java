@@ -8,7 +8,7 @@ repositories {
 }
 
 allprojects {
-    group = "com.e_invoice_api.api"
+    group = "com.e_invoice.api"
     version = "0.0.1-alpha.0" // x-release-please-version
 }
 
