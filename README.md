@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice_api.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice_api.api/e-invoice-java/0.0.1-alpha.0)
-[![javadoc](https://javadoc.io/badge2/com.e_invoice_api.api/e-invoice-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.e_invoice_api.api/e-invoice-java/0.0.1-alpha.0)
+[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.0.1-alpha.0)
+[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.0.1-alpha.0/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.0.1-alpha.0)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice_api.api/e-invoice-java/0.0.1-alpha.0).
+The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.0.1-alpha.0).
 
 <!-- x-release-please-end -->
 
@@ -24,14 +24,14 @@ The REST API documentation can be found on [api.e-invoice.be](https://api.e-invo
 ### Gradle
 
 ```kotlin
-implementation("com.e_invoice_api.api:e-invoice-java:0.0.1-alpha.0")
+implementation("com.e_invoice.api:e-invoice-java:0.0.1-alpha.0")
 ```
 
 ### Maven
 
 ```xml
 <dependency>
-  <groupId>com.e_invoice_api.api</groupId>
+  <groupId>com.e_invoice.api</groupId>
   <artifactId>e-invoice-java</artifactId>
   <version>0.0.1-alpha.0</version>
 </dependency>
@@ -46,11 +46,11 @@ This library requires Java 8 or later.
 ## Usage
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
-import com.e_invoice_api.api.models.documents.DocumentCreate;
-import com.e_invoice_api.api.models.documents.DocumentCreateParams;
-import com.e_invoice_api.api.models.documents.DocumentResponse;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.models.documents.DocumentCreate;
+import com.e_invoice.api.models.documents.DocumentCreateParams;
+import com.e_invoice.api.models.documents.DocumentResponse;
 
 // Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
@@ -66,8 +66,8 @@ DocumentResponse documentResponse = client.documents().create(params);
 Configure the client using environment variables:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 // Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
@@ -76,8 +76,8 @@ EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 Or manually:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
     .apiKey("My API Key")
@@ -87,8 +87,8 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
 Or using a combination of the two approaches:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
     // Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
@@ -127,11 +127,11 @@ Because each class is immutable, builder modification will _never_ affect alread
 The default client is synchronous. To switch to asynchronous execution, call the `async()` method:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
-import com.e_invoice_api.api.models.documents.DocumentCreate;
-import com.e_invoice_api.api.models.documents.DocumentCreateParams;
-import com.e_invoice_api.api.models.documents.DocumentResponse;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.models.documents.DocumentCreate;
+import com.e_invoice.api.models.documents.DocumentCreateParams;
+import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
@@ -146,11 +146,11 @@ CompletableFuture<DocumentResponse> documentResponse = client.async().documents(
 Or create an asynchronous client from the beginning:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClientAsync;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClientAsync;
-import com.e_invoice_api.api.models.documents.DocumentCreate;
-import com.e_invoice_api.api.models.documents.DocumentCreateParams;
-import com.e_invoice_api.api.models.documents.DocumentResponse;
+import com.e_invoice.api.client.EInvoiceClientAsync;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClientAsync;
+import com.e_invoice.api.models.documents.DocumentCreate;
+import com.e_invoice.api.models.documents.DocumentCreateParams;
+import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
 // Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
@@ -171,8 +171,8 @@ The SDK defines methods that accept files.
 To upload a file, pass a [`Path`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html):
 
 ```java
-import com.e_invoice_api.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice_api.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
+import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
 import java.nio.file.Paths;
 
 AttachmentAddParams params = AttachmentAddParams.builder()
@@ -185,8 +185,8 @@ DocumentAttachment documentAttachment = client.documents().attachments().add(par
 Or an arbitrary [`InputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
-import com.e_invoice_api.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice_api.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
+import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
 import java.net.URL;
 
 AttachmentAddParams params = AttachmentAddParams.builder()
@@ -199,8 +199,8 @@ DocumentAttachment documentAttachment = client.documents().attachments().add(par
 Or a `byte[]` array:
 
 ```java
-import com.e_invoice_api.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice_api.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
+import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
 
 AttachmentAddParams params = AttachmentAddParams.builder()
     .documentId("document_id")
@@ -209,12 +209,12 @@ AttachmentAddParams params = AttachmentAddParams.builder()
 DocumentAttachment documentAttachment = client.documents().attachments().add(params);
 ```
 
-Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/core/Values.kt):
+Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/core/Values.kt):
 
 ```java
-import com.e_invoice_api.api.core.MultipartField;
-import com.e_invoice_api.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice_api.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.core.MultipartField;
+import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
+import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
 import java.io.InputStream;
 import java.net.URL;
 
@@ -235,11 +235,11 @@ The SDK defines methods that deserialize responses into instances of Java classe
 To access this data, prefix any HTTP method call on a client or service with `withRawResponse()`:
 
 ```java
-import com.e_invoice_api.api.core.http.Headers;
-import com.e_invoice_api.api.core.http.HttpResponseFor;
-import com.e_invoice_api.api.models.documents.DocumentCreate;
-import com.e_invoice_api.api.models.documents.DocumentCreateParams;
-import com.e_invoice_api.api.models.documents.DocumentResponse;
+import com.e_invoice.api.core.http.Headers;
+import com.e_invoice.api.core.http.HttpResponseFor;
+import com.e_invoice.api.models.documents.DocumentCreate;
+import com.e_invoice.api.models.documents.DocumentCreateParams;
+import com.e_invoice.api.models.documents.DocumentResponse;
 
 DocumentCreateParams params = DocumentCreateParams.builder()
     .documentCreate(DocumentCreate.builder().build())
@@ -253,7 +253,7 @@ Headers headers = documentResponse.headers();
 You can still deserialize the response into an instance of a Java class if needed:
 
 ```java
-import com.e_invoice_api.api.models.documents.DocumentResponse;
+import com.e_invoice.api.models.documents.DocumentResponse;
 
 DocumentResponse parsedDocumentResponse = documentResponse.parse();
 ```
@@ -262,24 +262,24 @@ DocumentResponse parsedDocumentResponse = documentResponse.parse();
 
 The SDK throws custom unchecked exception types:
 
-- [`EInvoiceServiceException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/EInvoiceServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
+- [`EInvoiceServiceException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceServiceException.kt): Base class for HTTP errors. See this table for which exception subclass is thrown for each HTTP status code:
 
-  | Status | Exception                                                                                                                            |
-  | ------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-  | 400    | [`BadRequestException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/BadRequestException.kt)                     |
-  | 401    | [`UnauthorizedException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/UnauthorizedException.kt)                 |
-  | 403    | [`PermissionDeniedException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/PermissionDeniedException.kt)         |
-  | 404    | [`NotFoundException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/NotFoundException.kt)                         |
-  | 422    | [`UnprocessableEntityException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/UnprocessableEntityException.kt)   |
-  | 429    | [`RateLimitException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/RateLimitException.kt)                       |
-  | 5xx    | [`InternalServerException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/InternalServerException.kt)             |
-  | others | [`UnexpectedStatusCodeException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/UnexpectedStatusCodeException.kt) |
+  | Status | Exception                                                                                                                        |
+  | ------ | -------------------------------------------------------------------------------------------------------------------------------- |
+  | 400    | [`BadRequestException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/BadRequestException.kt)                     |
+  | 401    | [`UnauthorizedException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/UnauthorizedException.kt)                 |
+  | 403    | [`PermissionDeniedException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/PermissionDeniedException.kt)         |
+  | 404    | [`NotFoundException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/NotFoundException.kt)                         |
+  | 422    | [`UnprocessableEntityException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/UnprocessableEntityException.kt)   |
+  | 429    | [`RateLimitException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/RateLimitException.kt)                       |
+  | 5xx    | [`InternalServerException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/InternalServerException.kt)             |
+  | others | [`UnexpectedStatusCodeException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/UnexpectedStatusCodeException.kt) |
 
-- [`EInvoiceIoException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/EInvoiceIoException.kt): I/O networking errors.
+- [`EInvoiceIoException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceIoException.kt): I/O networking errors.
 
-- [`EInvoiceInvalidDataException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/EInvoiceInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
+- [`EInvoiceInvalidDataException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
-- [`EInvoiceException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/EInvoiceException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
+- [`EInvoiceException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
 
 ## Pagination
 
@@ -292,8 +292,8 @@ To iterate through all results across all pages, use the `autoPager()` method, w
 When using the synchronous client, the method returns an [`Iterable`](https://docs.oracle.com/javase/8/docs/api/java/lang/Iterable.html)
 
 ```java
-import com.e_invoice_api.api.models.documents.DocumentResponse;
-import com.e_invoice_api.api.models.inbox.InboxListPage;
+import com.e_invoice.api.models.documents.DocumentResponse;
+import com.e_invoice.api.models.inbox.InboxListPage;
 
 InboxListPage page = client.inbox().list();
 
@@ -309,12 +309,12 @@ page.autoPager()
     .forEach(inbox -> System.out.println(inbox));
 ```
 
-When using the asynchronous client, the method returns an [`AsyncStreamResponse`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/core/http/AsyncStreamResponse.kt):
+When using the asynchronous client, the method returns an [`AsyncStreamResponse`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/core/http/AsyncStreamResponse.kt):
 
 ```java
-import com.e_invoice_api.api.core.http.AsyncStreamResponse;
-import com.e_invoice_api.api.models.documents.DocumentResponse;
-import com.e_invoice_api.api.models.inbox.InboxListPageAsync;
+import com.e_invoice.api.core.http.AsyncStreamResponse;
+import com.e_invoice.api.models.documents.DocumentResponse;
+import com.e_invoice.api.models.inbox.InboxListPageAsync;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -364,8 +364,8 @@ To access individual page items and manually request the next page, use the `ite
 `hasNextPage()`, and `nextPage()` methods:
 
 ```java
-import com.e_invoice_api.api.models.documents.DocumentResponse;
-import com.e_invoice_api.api.models.inbox.InboxListPage;
+import com.e_invoice.api.models.documents.DocumentResponse;
+import com.e_invoice.api.models.inbox.InboxListPage;
 
 InboxListPage page = client.inbox().list();
 while (true) {
@@ -403,7 +403,7 @@ The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON seri
 
 The SDK throws an exception if it detects an incompatible Jackson version at runtime (e.g. if the default version was overridden in your Maven or Gradle config).
 
-If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`EInvoiceOkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/EInvoiceOkHttpClient.kt) or [`EInvoiceOkHttpClientAsync`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/EInvoiceOkHttpClientAsync.kt).
+If the SDK threw an exception, but you're _certain_ the version is compatible, then disable the version check using the `checkJacksonVersionCompatibility` on [`EInvoiceOkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/EInvoiceOkHttpClient.kt) or [`EInvoiceOkHttpClientAsync`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/EInvoiceOkHttpClientAsync.kt).
 
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
@@ -427,8 +427,8 @@ The API may also explicitly instruct the SDK to retry or not retry a response.
 To set a custom number of retries, configure the client using the `maxRetries` method:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
     .fromEnv()
@@ -443,7 +443,7 @@ Requests time out after 1 minute by default.
 To set a custom timeout, configure the method call using the `timeout` method:
 
 ```java
-import com.e_invoice_api.api.models.documents.DocumentResponse;
+import com.e_invoice.api.models.documents.DocumentResponse;
 
 DocumentResponse documentResponse = client.documents().create(
   params, RequestOptions.builder().timeout(Duration.ofSeconds(30)).build()
@@ -453,8 +453,8 @@ DocumentResponse documentResponse = client.documents().create(
 Or configure the default for all method calls at the client level:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 import java.time.Duration;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
@@ -468,8 +468,8 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
 To route requests through a proxy, configure the client using the `proxy` method:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
@@ -488,8 +488,8 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
 The SDK sends requests to the production by default. To send requests to a different environment, configure the client like so:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
     .fromEnv()
@@ -504,10 +504,10 @@ The SDK consists of three artifacts:
 - `e-invoice-java-core`
   - Contains core SDK logic
   - Does not depend on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`EInvoiceClient`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClient.kt), [`EInvoiceClientAsync`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientAsync.kt), [`EInvoiceClientImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientImpl.kt), and [`EInvoiceClientAsyncImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientAsyncImpl.kt), all of which can work with any HTTP client
+  - Exposes [`EInvoiceClient`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClient.kt), [`EInvoiceClientAsync`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientAsync.kt), [`EInvoiceClientImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientImpl.kt), and [`EInvoiceClientAsyncImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientAsyncImpl.kt), all of which can work with any HTTP client
 - `e-invoice-java-client-okhttp`
   - Depends on [OkHttp](https://square.github.io/okhttp)
-  - Exposes [`EInvoiceOkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/EInvoiceOkHttpClient.kt) and [`EInvoiceOkHttpClientAsync`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/EInvoiceOkHttpClientAsync.kt), which provide a way to construct [`EInvoiceClientImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientImpl.kt) and [`EInvoiceClientAsyncImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientAsyncImpl.kt), respectively, using OkHttp
+  - Exposes [`EInvoiceOkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/EInvoiceOkHttpClient.kt) and [`EInvoiceOkHttpClientAsync`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/EInvoiceOkHttpClientAsync.kt), which provide a way to construct [`EInvoiceClientImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientImpl.kt) and [`EInvoiceClientAsyncImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientAsyncImpl.kt), respectively, using OkHttp
 - `e-invoice-java`
   - Depends on and exposes the APIs of both `e-invoice-java-core` and `e-invoice-java-client-okhttp`
   - Does not have its own logic
@@ -522,16 +522,16 @@ This structure allows replacing the SDK's default HTTP client without pulling in
 To use a customized `OkHttpClient`:
 
 1. Replace your [`e-invoice-java` dependency](#installation) with `e-invoice-java-core`
-2. Copy `e-invoice-java-client-okhttp`'s [`OkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
-3. Construct [`EInvoiceClientImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientImpl.kt) or [`EInvoiceClientAsyncImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientAsyncImpl.kt), similarly to [`EInvoiceOkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/EInvoiceOkHttpClient.kt) or [`EInvoiceOkHttpClientAsync`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/EInvoiceOkHttpClientAsync.kt), using your customized client
+2. Copy `e-invoice-java-client-okhttp`'s [`OkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/OkHttpClient.kt) class into your code and customize it
+3. Construct [`EInvoiceClientImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientImpl.kt) or [`EInvoiceClientAsyncImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientAsyncImpl.kt), similarly to [`EInvoiceOkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/EInvoiceOkHttpClient.kt) or [`EInvoiceOkHttpClientAsync`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/EInvoiceOkHttpClientAsync.kt), using your customized client
 
 ### Completely custom HTTP client
 
 To use a completely custom HTTP client:
 
 1. Replace your [`e-invoice-java` dependency](#installation) with `e-invoice-java-core`
-2. Write a class that implements the [`HttpClient`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/core/http/HttpClient.kt) interface
-3. Construct [`EInvoiceClientImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientImpl.kt) or [`EInvoiceClientAsyncImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/client/EInvoiceClientAsyncImpl.kt), similarly to [`EInvoiceOkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/EInvoiceOkHttpClient.kt) or [`EInvoiceOkHttpClientAsync`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice_api/api/client/okhttp/EInvoiceOkHttpClientAsync.kt), using your new client class
+2. Write a class that implements the [`HttpClient`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/core/http/HttpClient.kt) interface
+3. Construct [`EInvoiceClientImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientImpl.kt) or [`EInvoiceClientAsyncImpl`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/client/EInvoiceClientAsyncImpl.kt), similarly to [`EInvoiceOkHttpClient`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/EInvoiceOkHttpClient.kt) or [`EInvoiceOkHttpClientAsync`](e-invoice-java-client-okhttp/src/main/kotlin/com/e_invoice/api/client/okhttp/EInvoiceOkHttpClientAsync.kt), using your new client class
 
 ## Undocumented API functionality
 
@@ -542,8 +542,8 @@ The SDK is typed for convenient usage of the documented API. However, it also su
 To set undocumented parameters, call the `putAdditionalHeader`, `putAdditionalQueryParam`, or `putAdditionalBodyProperty` methods on any `Params` class:
 
 ```java
-import com.e_invoice_api.api.core.JsonValue;
-import com.e_invoice_api.api.models.documents.DocumentCreateParams;
+import com.e_invoice.api.core.JsonValue;
+import com.e_invoice.api.models.documents.DocumentCreateParams;
 
 DocumentCreateParams params = DocumentCreateParams.builder()
     .putAdditionalHeader("Secret-Header", "42")
@@ -554,21 +554,21 @@ DocumentCreateParams params = DocumentCreateParams.builder()
 
 These can be accessed on the built object later using the `_additionalHeaders()`, `_additionalQueryParams()`, and `_additionalBodyProperties()` methods.
 
-To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/core/Values.kt) object to its setter:
+To set a documented parameter or property to an undocumented or not yet supported _value_, pass a [`JsonValue`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/core/Values.kt) object to its setter:
 
 ```java
-import com.e_invoice_api.api.models.documents.DocumentCreate;
-import com.e_invoice_api.api.models.documents.DocumentCreateParams;
+import com.e_invoice.api.models.documents.DocumentCreate;
+import com.e_invoice.api.models.documents.DocumentCreateParams;
 
 DocumentCreateParams params = DocumentCreateParams.builder()
     .documentCreate(DocumentCreate.builder().build())
     .build();
 ```
 
-The most straightforward way to create a [`JsonValue`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/core/Values.kt) is using its `from(...)` method:
+The most straightforward way to create a [`JsonValue`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/core/Values.kt) is using its `from(...)` method:
 
 ```java
-import com.e_invoice_api.api.core.JsonValue;
+import com.e_invoice.api.core.JsonValue;
 import java.util.List;
 import java.util.Map;
 
@@ -606,12 +606,12 @@ JsonValue complexValue = JsonValue.from(Map.of(
 
 Normally a `Builder` class's `build` method will throw [`IllegalStateException`](https://docs.oracle.com/javase/8/docs/api/java/lang/IllegalStateException.html) if any required parameter or property is unset.
 
-To forcibly omit a required parameter or property, pass [`JsonMissing`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/core/Values.kt):
+To forcibly omit a required parameter or property, pass [`JsonMissing`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/core/Values.kt):
 
 ```java
-import com.e_invoice_api.api.core.JsonMissing;
-import com.e_invoice_api.api.models.documents.DocumentCreateParams;
-import com.e_invoice_api.api.models.documents.DocumentRetrieveParams;
+import com.e_invoice.api.core.JsonMissing;
+import com.e_invoice.api.models.documents.DocumentCreateParams;
+import com.e_invoice.api.models.documents.DocumentRetrieveParams;
 
 DocumentCreateParams params = DocumentRetrieveParams.builder()
     .documentId(JsonMissing.of())
@@ -623,7 +623,7 @@ DocumentCreateParams params = DocumentRetrieveParams.builder()
 To access undocumented response properties, call the `_additionalProperties()` method:
 
 ```java
-import com.e_invoice_api.api.core.JsonValue;
+import com.e_invoice.api.core.JsonValue;
 import java.util.Map;
 
 Map<String, JsonValue> additionalProperties = client.documents().create(params)._additionalProperties();
@@ -653,7 +653,7 @@ String result = secretPropertyValue.accept(new JsonValue.Visitor<>() {
 To access a property's raw JSON value, which may be undocumented, call its `_` prefixed method:
 
 ```java
-import com.e_invoice_api.api.core.JsonField;
+import com.e_invoice.api.core.JsonField;
 import java.util.Optional;
 
 JsonField<Object> field = client.documents().create(params)._field();
@@ -676,12 +676,12 @@ if (field.isMissing()) {
 
 In rare cases, the API may return a response that doesn't match the expected type. For example, the SDK may expect a property to contain a `String`, but the API could return something else.
 
-By default, the SDK will not throw an exception in this case. It will throw [`EInvoiceInvalidDataException`](e-invoice-java-core/src/main/kotlin/com/e_invoice_api/api/errors/EInvoiceInvalidDataException.kt) only if you directly access the property.
+By default, the SDK will not throw an exception in this case. It will throw [`EInvoiceInvalidDataException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceInvalidDataException.kt) only if you directly access the property.
 
 If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
-import com.e_invoice_api.api.models.documents.DocumentResponse;
+import com.e_invoice.api.models.documents.DocumentResponse;
 
 DocumentResponse documentResponse = client.documents().create(params).validate();
 ```
@@ -689,7 +689,7 @@ DocumentResponse documentResponse = client.documents().create(params).validate()
 Or configure the method call to validate the response using the `responseValidation` method:
 
 ```java
-import com.e_invoice_api.api.models.documents.DocumentResponse;
+import com.e_invoice.api.models.documents.DocumentResponse;
 
 DocumentResponse documentResponse = client.documents().create(
   params, RequestOptions.builder().responseValidation(true).build()
@@ -699,8 +699,8 @@ DocumentResponse documentResponse = client.documents().create(
 Or configure the default for all method calls at the client level:
 
 ```java
-import com.e_invoice_api.api.client.EInvoiceClient;
-import com.e_invoice_api.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
     .fromEnv()
