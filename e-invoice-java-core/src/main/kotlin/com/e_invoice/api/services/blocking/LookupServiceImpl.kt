@@ -49,6 +49,7 @@ class LookupServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "lookup")
                     .build()
                     .prepare(clientOptions, params)

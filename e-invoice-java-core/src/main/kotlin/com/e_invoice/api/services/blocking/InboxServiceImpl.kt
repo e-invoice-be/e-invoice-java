@@ -65,6 +65,7 @@ class InboxServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "")
                     .build()
                     .prepare(clientOptions, params)
@@ -99,6 +100,7 @@ class InboxServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "credit-notes")
                     .build()
                     .prepare(clientOptions, params)
@@ -133,6 +135,7 @@ class InboxServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "invoices")
                     .build()
                     .prepare(clientOptions, params)

@@ -60,6 +60,7 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "outbox", "drafts")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -98,6 +99,7 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "outbox", "")
                     .build()
                     .prepareAsync(clientOptions, params)

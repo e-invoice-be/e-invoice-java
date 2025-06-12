@@ -54,6 +54,7 @@ class UblServiceAsyncImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "ubl")
                     .build()
                     .prepareAsync(clientOptions, params)

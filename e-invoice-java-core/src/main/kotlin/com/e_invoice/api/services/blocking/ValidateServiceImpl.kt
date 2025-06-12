@@ -68,6 +68,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "json")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -96,6 +97,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "peppol-id")
                     .build()
                     .prepare(clientOptions, params)
@@ -123,6 +125,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "ubl")
                     .body(multipartFormData(clientOptions.jsonMapper, params._body()))
                     .build()
