@@ -50,6 +50,7 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "lookup")
                     .build()
                     .prepareAsync(clientOptions, params)

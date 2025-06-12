@@ -69,6 +69,7 @@ class InboxServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -107,6 +108,7 @@ class InboxServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "credit-notes")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -145,6 +147,7 @@ class InboxServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "invoices")
                     .build()
                     .prepareAsync(clientOptions, params)

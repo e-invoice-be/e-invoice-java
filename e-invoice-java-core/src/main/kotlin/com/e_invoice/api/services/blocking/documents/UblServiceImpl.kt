@@ -49,6 +49,7 @@ class UblServiceImpl internal constructor(private val clientOptions: ClientOptio
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "ubl")
                     .build()
                     .prepare(clientOptions, params)

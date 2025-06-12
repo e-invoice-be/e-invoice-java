@@ -80,6 +80,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "documents",
@@ -116,6 +117,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "attachments")
                     .build()
                     .prepare(clientOptions, params)
@@ -146,6 +148,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "documents",
@@ -182,6 +185,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "attachments")
                     .body(multipartFormData(clientOptions.jsonMapper, params._body()))
                     .build()
