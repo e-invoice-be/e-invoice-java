@@ -47,8 +47,6 @@ private constructor(
 
         const val PRODUCTION_URL = "https://api.e-invoice.be"
 
-        const val DEVELOPMENT_URL = "https://api-dev.e-invoice.be"
-
         /**
          * Returns a mutable builder for constructing an instance of [ClientOptions].
          *
