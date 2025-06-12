@@ -483,20 +483,6 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
     .build();
 ```
 
-### Environments
-
-The SDK sends requests to the production by default. To send requests to a different environment, configure the client like so:
-
-```java
-import com.e_invoice.api.client.EInvoiceClient;
-import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
-
-EInvoiceClient client = EInvoiceOkHttpClient.builder()
-    .fromEnv()
-    .development()
-    .build();
-```
-
 ### Custom HTTP client
 
 The SDK consists of three artifacts:

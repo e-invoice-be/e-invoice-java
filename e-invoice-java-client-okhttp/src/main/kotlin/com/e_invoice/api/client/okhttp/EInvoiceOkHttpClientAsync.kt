@@ -33,8 +33,6 @@ class EInvoiceOkHttpClientAsync private constructor() {
         private var timeout: Timeout = Timeout.default()
         private var proxy: Proxy? = null
 
-        fun development() = apply { baseUrl(ClientOptions.DEVELOPMENT_URL) }
-
         fun baseUrl(baseUrl: String) = apply { clientOptions.baseUrl(baseUrl) }
 
         /**
