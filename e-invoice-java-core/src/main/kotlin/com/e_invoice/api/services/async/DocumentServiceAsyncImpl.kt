@@ -27,6 +27,7 @@ import com.e_invoice.api.services.async.documents.AttachmentServiceAsyncImpl
 import com.e_invoice.api.services.async.documents.UblServiceAsync
 import com.e_invoice.api.services.async.documents.UblServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -43,6 +44,9 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
     private val ubl: UblServiceAsync by lazy { UblServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): DocumentServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentServiceAsync =
+        DocumentServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun attachments(): AttachmentServiceAsync = attachments
 
@@ -88,6 +92,13 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
         private val ubl: UblServiceAsync.WithRawResponse by lazy {
             UblServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DocumentServiceAsync.WithRawResponse =
+            DocumentServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun attachments(): AttachmentServiceAsync.WithRawResponse = attachments
 

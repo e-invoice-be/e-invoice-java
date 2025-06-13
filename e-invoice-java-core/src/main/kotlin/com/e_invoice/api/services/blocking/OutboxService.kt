@@ -2,6 +2,7 @@
 
 package com.e_invoice.api.services.blocking
 
+import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.models.outbox.OutboxListDraftDocumentsPage
@@ -9,6 +10,7 @@ import com.e_invoice.api.models.outbox.OutboxListDraftDocumentsParams
 import com.e_invoice.api.models.outbox.OutboxListReceivedDocumentsPage
 import com.e_invoice.api.models.outbox.OutboxListReceivedDocumentsParams
 import com.google.errorprone.annotations.MustBeClosed
+import java.util.function.Consumer
 
 interface OutboxService {
 
@@ -16,6 +18,13 @@ interface OutboxService {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxService
 
     /** Retrieve a paginated list of draft documents with filtering options. */
     fun listDraftDocuments(): OutboxListDraftDocumentsPage =
@@ -57,6 +66,13 @@ interface OutboxService {
 
     /** A view of [OutboxService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxService.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/outbox/drafts`, but is otherwise the same as

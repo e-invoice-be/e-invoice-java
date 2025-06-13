@@ -2,11 +2,13 @@
 
 package com.e_invoice.api.services.async.documents
 
+import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.models.documents.ubl.UblGetParams
 import com.e_invoice.api.models.documents.ubl.UblGetResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface UblServiceAsync {
 
@@ -14,6 +16,13 @@ interface UblServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblServiceAsync
 
     /** Get the UBL for an invoice or credit note */
     fun get(documentId: String): CompletableFuture<UblGetResponse> =
@@ -49,6 +58,13 @@ interface UblServiceAsync {
 
     /** A view of [UblServiceAsync] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblServiceAsync.WithRawResponse
 
         /**
          * Returns a raw HTTP response for `get /api/documents/{document_id}/ubl`, but is otherwise

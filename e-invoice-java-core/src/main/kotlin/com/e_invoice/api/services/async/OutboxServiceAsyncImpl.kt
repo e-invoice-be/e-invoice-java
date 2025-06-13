@@ -20,6 +20,7 @@ import com.e_invoice.api.models.outbox.OutboxListDraftDocumentsParams
 import com.e_invoice.api.models.outbox.OutboxListReceivedDocumentsPageAsync
 import com.e_invoice.api.models.outbox.OutboxListReceivedDocumentsParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class OutboxServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     OutboxServiceAsync {
@@ -29,6 +30,9 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
     }
 
     override fun withRawResponse(): OutboxServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxServiceAsync =
+        OutboxServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams,
@@ -48,6 +52,13 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
         OutboxServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): OutboxServiceAsync.WithRawResponse =
+            OutboxServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listDraftDocumentsHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)

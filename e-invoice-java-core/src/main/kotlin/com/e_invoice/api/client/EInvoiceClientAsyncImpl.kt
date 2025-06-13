@@ -16,6 +16,7 @@ import com.e_invoice.api.services.async.ValidateServiceAsync
 import com.e_invoice.api.services.async.ValidateServiceAsyncImpl
 import com.e_invoice.api.services.async.WebhookServiceAsync
 import com.e_invoice.api.services.async.WebhookServiceAsyncImpl
+import java.util.function.Consumer
 
 class EInvoiceClientAsyncImpl(private val clientOptions: ClientOptions) : EInvoiceClientAsync {
 
@@ -62,6 +63,9 @@ class EInvoiceClientAsyncImpl(private val clientOptions: ClientOptions) : EInvoi
 
     override fun withRawResponse(): EInvoiceClientAsync.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): EInvoiceClientAsync =
+        EInvoiceClientAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun documents(): DocumentServiceAsync = documents
 
     override fun inbox(): InboxServiceAsync = inbox
@@ -102,6 +106,13 @@ class EInvoiceClientAsyncImpl(private val clientOptions: ClientOptions) : EInvoi
         private val webhooks: WebhookServiceAsync.WithRawResponse by lazy {
             WebhookServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EInvoiceClientAsync.WithRawResponse =
+            EInvoiceClientAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun documents(): DocumentServiceAsync.WithRawResponse = documents
 

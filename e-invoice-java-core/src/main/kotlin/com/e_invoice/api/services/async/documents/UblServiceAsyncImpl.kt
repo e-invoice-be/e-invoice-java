@@ -18,6 +18,7 @@ import com.e_invoice.api.core.prepareAsync
 import com.e_invoice.api.models.documents.ubl.UblGetParams
 import com.e_invoice.api.models.documents.ubl.UblGetResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class UblServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -28,6 +29,9 @@ class UblServiceAsyncImpl internal constructor(private val clientOptions: Client
     }
 
     override fun withRawResponse(): UblServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblServiceAsync =
+        UblServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun get(
         params: UblGetParams,
@@ -40,6 +44,13 @@ class UblServiceAsyncImpl internal constructor(private val clientOptions: Client
         UblServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): UblServiceAsync.WithRawResponse =
+            UblServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val getHandler: Handler<UblGetResponse> =
             jsonHandler<UblGetResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

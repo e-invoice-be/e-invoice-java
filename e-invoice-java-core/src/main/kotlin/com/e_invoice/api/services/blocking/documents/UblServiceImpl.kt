@@ -17,6 +17,7 @@ import com.e_invoice.api.core.http.parseable
 import com.e_invoice.api.core.prepare
 import com.e_invoice.api.models.documents.ubl.UblGetParams
 import com.e_invoice.api.models.documents.ubl.UblGetResponse
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class UblServiceImpl internal constructor(private val clientOptions: ClientOptions) : UblService {
@@ -27,6 +28,9 @@ class UblServiceImpl internal constructor(private val clientOptions: ClientOptio
 
     override fun withRawResponse(): UblService.WithRawResponse = withRawResponse
 
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblService =
+        UblServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
     override fun get(params: UblGetParams, requestOptions: RequestOptions): UblGetResponse =
         // get /api/documents/{document_id}/ubl
         withRawResponse().get(params, requestOptions).parse()
@@ -35,6 +39,13 @@ class UblServiceImpl internal constructor(private val clientOptions: ClientOptio
         UblService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): UblService.WithRawResponse =
+            UblServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val getHandler: Handler<UblGetResponse> =
             jsonHandler<UblGetResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

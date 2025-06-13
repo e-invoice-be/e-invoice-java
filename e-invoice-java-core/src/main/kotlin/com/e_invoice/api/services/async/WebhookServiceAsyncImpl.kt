@@ -24,6 +24,7 @@ import com.e_invoice.api.models.webhooks.WebhookResponse
 import com.e_invoice.api.models.webhooks.WebhookRetrieveParams
 import com.e_invoice.api.models.webhooks.WebhookUpdateParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class WebhookServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -34,6 +35,9 @@ class WebhookServiceAsyncImpl internal constructor(private val clientOptions: Cl
     }
 
     override fun withRawResponse(): WebhookServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): WebhookServiceAsync =
+        WebhookServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: WebhookCreateParams,
@@ -74,6 +78,13 @@ class WebhookServiceAsyncImpl internal constructor(private val clientOptions: Cl
         WebhookServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): WebhookServiceAsync.WithRawResponse =
+            WebhookServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val createHandler: Handler<WebhookResponse> =
             jsonHandler<WebhookResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)

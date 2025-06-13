@@ -19,6 +19,7 @@ import com.e_invoice.api.models.outbox.OutboxListDraftDocumentsPage
 import com.e_invoice.api.models.outbox.OutboxListDraftDocumentsParams
 import com.e_invoice.api.models.outbox.OutboxListReceivedDocumentsPage
 import com.e_invoice.api.models.outbox.OutboxListReceivedDocumentsParams
+import java.util.function.Consumer
 
 class OutboxServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     OutboxService {
@@ -28,6 +29,9 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
     }
 
     override fun withRawResponse(): OutboxService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxService =
+        OutboxServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams,
@@ -47,6 +51,13 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
         OutboxService.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): OutboxService.WithRawResponse =
+            OutboxServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val listDraftDocumentsHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
