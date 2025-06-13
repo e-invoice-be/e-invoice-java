@@ -26,6 +26,7 @@ import com.e_invoice.api.services.blocking.documents.AttachmentService
 import com.e_invoice.api.services.blocking.documents.AttachmentServiceImpl
 import com.e_invoice.api.services.blocking.documents.UblService
 import com.e_invoice.api.services.blocking.documents.UblServiceImpl
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -40,6 +41,9 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
     private val ubl: UblService by lazy { UblServiceImpl(clientOptions) }
 
     override fun withRawResponse(): DocumentService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentService =
+        DocumentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun attachments(): AttachmentService = attachments
 
@@ -85,6 +89,13 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         private val ubl: UblService.WithRawResponse by lazy {
             UblServiceImpl.WithRawResponseImpl(clientOptions)
         }
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DocumentService.WithRawResponse =
+            DocumentServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         override fun attachments(): AttachmentService.WithRawResponse = attachments
 

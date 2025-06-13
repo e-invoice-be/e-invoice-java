@@ -2,6 +2,7 @@
 
 package com.e_invoice.api.services.async
 
+import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.models.documents.DocumentCreateParams
@@ -13,6 +14,7 @@ import com.e_invoice.api.models.documents.DocumentSendParams
 import com.e_invoice.api.services.async.documents.AttachmentServiceAsync
 import com.e_invoice.api.services.async.documents.UblServiceAsync
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 interface DocumentServiceAsync {
 
@@ -20,6 +22,13 @@ interface DocumentServiceAsync {
      * Returns a view of this service that provides access to raw HTTP responses for each method.
      */
     fun withRawResponse(): WithRawResponse
+
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentServiceAsync
 
     fun attachments(): AttachmentServiceAsync
 
@@ -144,6 +153,15 @@ interface DocumentServiceAsync {
      * A view of [DocumentServiceAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DocumentServiceAsync.WithRawResponse
 
         fun attachments(): AttachmentServiceAsync.WithRawResponse
 

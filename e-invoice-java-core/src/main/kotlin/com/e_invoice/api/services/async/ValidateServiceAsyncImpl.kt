@@ -22,6 +22,7 @@ import com.e_invoice.api.models.validate.ValidateValidatePeppolIdParams
 import com.e_invoice.api.models.validate.ValidateValidatePeppolIdResponse
 import com.e_invoice.api.models.validate.ValidateValidateUblParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class ValidateServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     ValidateServiceAsync {
@@ -31,6 +32,9 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
     }
 
     override fun withRawResponse(): ValidateServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ValidateServiceAsync =
+        ValidateServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun validateJson(
         params: ValidateValidateJsonParams,
@@ -57,6 +61,13 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
         ValidateServiceAsync.WithRawResponse {
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ValidateServiceAsync.WithRawResponse =
+            ValidateServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
 
         private val validateJsonHandler: Handler<UblDocumentValidation> =
             jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)

@@ -2,12 +2,14 @@
 
 package com.e_invoice.api.client
 
+import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.services.async.DocumentServiceAsync
 import com.e_invoice.api.services.async.InboxServiceAsync
 import com.e_invoice.api.services.async.LookupServiceAsync
 import com.e_invoice.api.services.async.OutboxServiceAsync
 import com.e_invoice.api.services.async.ValidateServiceAsync
 import com.e_invoice.api.services.async.WebhookServiceAsync
+import java.util.function.Consumer
 
 /**
  * A client for interacting with the E Invoice REST API asynchronously. You can also switch to
@@ -38,6 +40,13 @@ interface EInvoiceClientAsync {
      */
     fun withRawResponse(): WithRawResponse
 
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): EInvoiceClientAsync
+
     fun documents(): DocumentServiceAsync
 
     fun inbox(): InboxServiceAsync
@@ -67,6 +76,15 @@ interface EInvoiceClientAsync {
      * A view of [EInvoiceClientAsync] that provides access to raw HTTP responses for each method.
      */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): EInvoiceClientAsync.WithRawResponse
 
         fun documents(): DocumentServiceAsync.WithRawResponse
 
