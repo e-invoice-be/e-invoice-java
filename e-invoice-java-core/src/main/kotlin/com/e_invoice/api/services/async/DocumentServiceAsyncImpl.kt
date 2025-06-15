@@ -27,6 +27,7 @@ import com.e_invoice.api.services.async.documents.AttachmentServiceAsyncImpl
 import com.e_invoice.api.services.async.documents.UblServiceAsync
 import com.e_invoice.api.services.async.documents.UblServiceAsyncImpl
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -43,6 +44,9 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
     private val ubl: UblServiceAsync by lazy { UblServiceAsyncImpl(clientOptions) }
 
     override fun withRawResponse(): DocumentServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): DocumentServiceAsync =
+        DocumentServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun attachments(): AttachmentServiceAsync = attachments
 
@@ -89,6 +93,13 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
             UblServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): DocumentServiceAsync.WithRawResponse =
+            DocumentServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         override fun attachments(): AttachmentServiceAsync.WithRawResponse = attachments
 
         override fun ubl(): UblServiceAsync.WithRawResponse = ubl
@@ -103,6 +114,7 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", "")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -136,6 +148,7 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0))
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -169,6 +182,7 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0))
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()
@@ -202,6 +216,7 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "send")
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()

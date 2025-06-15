@@ -17,12 +17,14 @@ internal class WebhookResponseTest {
             WebhookResponse.builder()
                 .id("id")
                 .addEvent("string")
+                .secret("secret")
                 .url("https://example.com")
                 .enabled(true)
                 .build()
 
         assertThat(webhookResponse.id()).isEqualTo("id")
         assertThat(webhookResponse.events()).containsExactly("string")
+        assertThat(webhookResponse.secret()).isEqualTo("secret")
         assertThat(webhookResponse.url()).isEqualTo("https://example.com")
         assertThat(webhookResponse.enabled()).contains(true)
     }
@@ -35,6 +37,7 @@ internal class WebhookResponseTest {
             WebhookResponse.builder()
                 .id("id")
                 .addEvent("string")
+                .secret("secret")
                 .url("https://example.com")
                 .enabled(true)
                 .build()

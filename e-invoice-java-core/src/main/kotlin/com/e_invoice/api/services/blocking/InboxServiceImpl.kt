@@ -21,6 +21,7 @@ import com.e_invoice.api.models.inbox.InboxListInvoicesParams
 import com.e_invoice.api.models.inbox.InboxListPage
 import com.e_invoice.api.models.inbox.InboxListParams
 import com.e_invoice.api.models.inbox.PaginatedDocumentResponse
+import java.util.function.Consumer
 
 class InboxServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     InboxService {
@@ -30,6 +31,9 @@ class InboxServiceImpl internal constructor(private val clientOptions: ClientOpt
     }
 
     override fun withRawResponse(): InboxService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): InboxService =
+        InboxServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(params: InboxListParams, requestOptions: RequestOptions): InboxListPage =
         // get /api/inbox/
@@ -54,6 +58,13 @@ class InboxServiceImpl internal constructor(private val clientOptions: ClientOpt
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): InboxService.WithRawResponse =
+            InboxServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -65,6 +76,7 @@ class InboxServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "")
                     .build()
                     .prepare(clientOptions, params)
@@ -99,6 +111,7 @@ class InboxServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "credit-notes")
                     .build()
                     .prepare(clientOptions, params)
@@ -133,6 +146,7 @@ class InboxServiceImpl internal constructor(private val clientOptions: ClientOpt
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "invoices")
                     .build()
                     .prepare(clientOptions, params)

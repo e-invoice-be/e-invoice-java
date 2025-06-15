@@ -23,6 +23,7 @@ import com.e_invoice.api.models.webhooks.WebhookListParams
 import com.e_invoice.api.models.webhooks.WebhookResponse
 import com.e_invoice.api.models.webhooks.WebhookRetrieveParams
 import com.e_invoice.api.models.webhooks.WebhookUpdateParams
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class WebhookServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -33,6 +34,9 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
     }
 
     override fun withRawResponse(): WebhookService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): WebhookService =
+        WebhookServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun create(
         params: WebhookCreateParams,
@@ -74,6 +78,13 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): WebhookService.WithRawResponse =
+            WebhookServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val createHandler: Handler<WebhookResponse> =
             jsonHandler<WebhookResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -84,6 +95,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "webhooks", "")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -114,6 +126,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "webhooks", params._pathParam(0))
                     .build()
                     .prepare(clientOptions, params)
@@ -143,6 +156,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.PUT)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "webhooks", params._pathParam(0))
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -171,6 +185,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "webhooks", "")
                     .build()
                     .prepare(clientOptions, params)
@@ -201,6 +216,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "webhooks", params._pathParam(0))
                     .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
                     .build()

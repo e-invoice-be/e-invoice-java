@@ -17,6 +17,7 @@ import com.e_invoice.api.core.prepareAsync
 import com.e_invoice.api.models.lookup.LookupRetrieveParams
 import com.e_invoice.api.models.lookup.LookupRetrieveResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class LookupServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     LookupServiceAsync {
@@ -26,6 +27,9 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
     }
 
     override fun withRawResponse(): LookupServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): LookupServiceAsync =
+        LookupServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: LookupRetrieveParams,
@@ -39,6 +43,13 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LookupServiceAsync.WithRawResponse =
+            LookupServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<LookupRetrieveResponse> =
             jsonHandler<LookupRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -50,6 +61,7 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "lookup")
                     .build()
                     .prepareAsync(clientOptions, params)

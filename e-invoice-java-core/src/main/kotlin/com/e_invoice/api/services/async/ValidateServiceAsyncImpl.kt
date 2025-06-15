@@ -22,6 +22,7 @@ import com.e_invoice.api.models.validate.ValidateValidatePeppolIdParams
 import com.e_invoice.api.models.validate.ValidateValidatePeppolIdResponse
 import com.e_invoice.api.models.validate.ValidateValidateUblParams
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class ValidateServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     ValidateServiceAsync {
@@ -31,6 +32,9 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
     }
 
     override fun withRawResponse(): ValidateServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ValidateServiceAsync =
+        ValidateServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun validateJson(
         params: ValidateValidateJsonParams,
@@ -58,6 +62,13 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ValidateServiceAsync.WithRawResponse =
+            ValidateServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val validateJsonHandler: Handler<UblDocumentValidation> =
             jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -69,6 +80,7 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "json")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -100,6 +112,7 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "peppol-id")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -130,6 +143,7 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "ubl")
                     .body(multipartFormData(clientOptions.jsonMapper, params._body()))
                     .build()

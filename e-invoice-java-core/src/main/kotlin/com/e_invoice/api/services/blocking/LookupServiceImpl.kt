@@ -16,6 +16,7 @@ import com.e_invoice.api.core.http.parseable
 import com.e_invoice.api.core.prepare
 import com.e_invoice.api.models.lookup.LookupRetrieveParams
 import com.e_invoice.api.models.lookup.LookupRetrieveResponse
+import java.util.function.Consumer
 
 class LookupServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     LookupService {
@@ -25,6 +26,9 @@ class LookupServiceImpl internal constructor(private val clientOptions: ClientOp
     }
 
     override fun withRawResponse(): LookupService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): LookupService =
+        LookupServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: LookupRetrieveParams,
@@ -38,6 +42,13 @@ class LookupServiceImpl internal constructor(private val clientOptions: ClientOp
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): LookupService.WithRawResponse =
+            LookupServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<LookupRetrieveResponse> =
             jsonHandler<LookupRetrieveResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -49,6 +60,7 @@ class LookupServiceImpl internal constructor(private val clientOptions: ClientOp
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "lookup")
                     .build()
                     .prepare(clientOptions, params)

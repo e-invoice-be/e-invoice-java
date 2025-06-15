@@ -23,6 +23,7 @@ import com.e_invoice.api.models.documents.attachments.AttachmentDeleteResponse
 import com.e_invoice.api.models.documents.attachments.AttachmentListParams
 import com.e_invoice.api.models.documents.attachments.AttachmentRetrieveParams
 import com.e_invoice.api.models.documents.attachments.DocumentAttachment
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AttachmentServiceImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -33,6 +34,9 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
     }
 
     override fun withRawResponse(): AttachmentService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AttachmentService =
+        AttachmentServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: AttachmentRetrieveParams,
@@ -67,6 +71,13 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AttachmentService.WithRawResponse =
+            AttachmentServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<DocumentAttachment> =
             jsonHandler<DocumentAttachment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -80,6 +91,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "documents",
@@ -116,6 +128,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "attachments")
                     .build()
                     .prepare(clientOptions, params)
@@ -146,6 +159,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "documents",
@@ -182,6 +196,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "attachments")
                     .body(multipartFormData(clientOptions.jsonMapper, params._body()))
                     .build()

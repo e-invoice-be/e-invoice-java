@@ -24,6 +24,7 @@ class WebhookResponse
 private constructor(
     private val id: JsonField<String>,
     private val events: JsonField<List<String>>,
+    private val secret: JsonField<String>,
     private val url: JsonField<String>,
     private val enabled: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -33,9 +34,10 @@ private constructor(
     private constructor(
         @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
         @JsonProperty("events") @ExcludeMissing events: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("secret") @ExcludeMissing secret: JsonField<String> = JsonMissing.of(),
         @JsonProperty("url") @ExcludeMissing url: JsonField<String> = JsonMissing.of(),
         @JsonProperty("enabled") @ExcludeMissing enabled: JsonField<Boolean> = JsonMissing.of(),
-    ) : this(id, events, url, enabled, mutableMapOf())
+    ) : this(id, events, secret, url, enabled, mutableMapOf())
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
@@ -48,6 +50,12 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun events(): List<String> = events.getRequired("events")
+
+    /**
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun secret(): String = secret.getRequired("secret")
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
@@ -74,6 +82,13 @@ private constructor(
      * Unlike [events], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("events") @ExcludeMissing fun _events(): JsonField<List<String>> = events
+
+    /**
+     * Returns the raw JSON value of [secret].
+     *
+     * Unlike [secret], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("secret") @ExcludeMissing fun _secret(): JsonField<String> = secret
 
     /**
      * Returns the raw JSON value of [url].
@@ -110,6 +125,7 @@ private constructor(
          * ```java
          * .id()
          * .events()
+         * .secret()
          * .url()
          * ```
          */
@@ -121,6 +137,7 @@ private constructor(
 
         private var id: JsonField<String>? = null
         private var events: JsonField<MutableList<String>>? = null
+        private var secret: JsonField<String>? = null
         private var url: JsonField<String>? = null
         private var enabled: JsonField<Boolean> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -129,6 +146,7 @@ private constructor(
         internal fun from(webhookResponse: WebhookResponse) = apply {
             id = webhookResponse.id
             events = webhookResponse.events.map { it.toMutableList() }
+            secret = webhookResponse.secret
             url = webhookResponse.url
             enabled = webhookResponse.enabled
             additionalProperties = webhookResponse.additionalProperties.toMutableMap()
@@ -168,6 +186,16 @@ private constructor(
                     checkKnown("events", it).add(event)
                 }
         }
+
+        fun secret(secret: String) = secret(JsonField.of(secret))
+
+        /**
+         * Sets [Builder.secret] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.secret] with a well-typed [String] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun secret(secret: JsonField<String>) = apply { this.secret = secret }
 
         fun url(url: String) = url(JsonField.of(url))
 
@@ -217,6 +245,7 @@ private constructor(
          * ```java
          * .id()
          * .events()
+         * .secret()
          * .url()
          * ```
          *
@@ -226,6 +255,7 @@ private constructor(
             WebhookResponse(
                 checkRequired("id", id),
                 checkRequired("events", events).map { it.toImmutable() },
+                checkRequired("secret", secret),
                 checkRequired("url", url),
                 enabled,
                 additionalProperties.toMutableMap(),
@@ -241,6 +271,7 @@ private constructor(
 
         id()
         events()
+        secret()
         url()
         enabled()
         validated = true
@@ -263,6 +294,7 @@ private constructor(
     internal fun validity(): Int =
         (if (id.asKnown().isPresent) 1 else 0) +
             (events.asKnown().getOrNull()?.size ?: 0) +
+            (if (secret.asKnown().isPresent) 1 else 0) +
             (if (url.asKnown().isPresent) 1 else 0) +
             (if (enabled.asKnown().isPresent) 1 else 0)
 
@@ -271,15 +303,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is WebhookResponse && id == other.id && events == other.events && url == other.url && enabled == other.enabled && additionalProperties == other.additionalProperties /* spotless:on */
+        return /* spotless:off */ other is WebhookResponse && id == other.id && events == other.events && secret == other.secret && url == other.url && enabled == other.enabled && additionalProperties == other.additionalProperties /* spotless:on */
     }
 
     /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, events, url, enabled, additionalProperties) }
+    private val hashCode: Int by lazy { Objects.hash(id, events, secret, url, enabled, additionalProperties) }
     /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "WebhookResponse{id=$id, events=$events, url=$url, enabled=$enabled, additionalProperties=$additionalProperties}"
+        "WebhookResponse{id=$id, events=$events, secret=$secret, url=$url, enabled=$enabled, additionalProperties=$additionalProperties}"
 }

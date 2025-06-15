@@ -2,12 +2,14 @@
 
 package com.e_invoice.api.client
 
+import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.services.blocking.DocumentService
 import com.e_invoice.api.services.blocking.InboxService
 import com.e_invoice.api.services.blocking.LookupService
 import com.e_invoice.api.services.blocking.OutboxService
 import com.e_invoice.api.services.blocking.ValidateService
 import com.e_invoice.api.services.blocking.WebhookService
+import java.util.function.Consumer
 
 /**
  * A client for interacting with the E Invoice REST API synchronously. You can also switch to
@@ -38,6 +40,13 @@ interface EInvoiceClient {
      */
     fun withRawResponse(): WithRawResponse
 
+    /**
+     * Returns a view of this service with the given option modifications applied.
+     *
+     * The original service is not modified.
+     */
+    fun withOptions(modifier: Consumer<ClientOptions.Builder>): EInvoiceClient
+
     fun documents(): DocumentService
 
     fun inbox(): InboxService
@@ -65,6 +74,13 @@ interface EInvoiceClient {
 
     /** A view of [EInvoiceClient] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
+
+        /**
+         * Returns a view of this service with the given option modifications applied.
+         *
+         * The original service is not modified.
+         */
+        fun withOptions(modifier: Consumer<ClientOptions.Builder>): EInvoiceClient.WithRawResponse
 
         fun documents(): DocumentService.WithRawResponse
 

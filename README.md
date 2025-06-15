@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.1)
-[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.1.0-alpha.1/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.1)
+[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.2)
+[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.1.0-alpha.2/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.2)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.1).
+The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.2).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ The REST API documentation can be found on [api.e-invoice.be](https://api.e-invo
 ### Gradle
 
 ```kotlin
-implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.1")
+implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.2")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.1")
 <dependency>
   <groupId>com.e_invoice.api</groupId>
   <artifactId>e-invoice-java</artifactId>
-  <version>0.1.0-alpha.1</version>
+  <version>0.1.0-alpha.2</version>
 </dependency>
 ```
 
@@ -107,6 +107,21 @@ See this table for the available options:
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
 > thread pools, which are more efficient to share between requests.
+
+### Modifying configuration
+
+To temporarily use a modified client configuration, while reusing the same connection and thread pools, call `withOptions()` on any client or service:
+
+```java
+import com.e_invoice.api.client.EInvoiceClient;
+
+EInvoiceClient clientWithOptions = client.withOptions(optionsBuilder -> {
+    optionsBuilder.baseUrl("https://example.com");
+    optionsBuilder.maxRetries(42);
+});
+```
+
+The `withOptions()` method does not affect the original client or service.
 
 ## Requests and responses
 
@@ -480,20 +495,6 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
         "https://example.com", 8080
       )
     ))
-    .build();
-```
-
-### Environments
-
-The SDK sends requests to the production by default. To send requests to a different environment, configure the client like so:
-
-```java
-import com.e_invoice.api.client.EInvoiceClient;
-import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
-
-EInvoiceClient client = EInvoiceOkHttpClient.builder()
-    .fromEnv()
-    .development()
     .build();
 ```
 

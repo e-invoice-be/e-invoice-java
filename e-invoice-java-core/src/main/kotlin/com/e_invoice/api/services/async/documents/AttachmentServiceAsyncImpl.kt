@@ -24,6 +24,7 @@ import com.e_invoice.api.models.documents.attachments.AttachmentListParams
 import com.e_invoice.api.models.documents.attachments.AttachmentRetrieveParams
 import com.e_invoice.api.models.documents.attachments.DocumentAttachment
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 import kotlin.jvm.optionals.getOrNull
 
 class AttachmentServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
@@ -34,6 +35,9 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
     }
 
     override fun withRawResponse(): AttachmentServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): AttachmentServiceAsync =
+        AttachmentServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun retrieve(
         params: AttachmentRetrieveParams,
@@ -68,6 +72,13 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): AttachmentServiceAsync.WithRawResponse =
+            AttachmentServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val retrieveHandler: Handler<DocumentAttachment> =
             jsonHandler<DocumentAttachment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
 
@@ -81,6 +92,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "documents",
@@ -120,6 +132,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "attachments")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -153,6 +166,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.DELETE)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments(
                         "api",
                         "documents",
@@ -192,6 +206,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "documents", params._pathParam(0), "attachments")
                     .body(multipartFormData(clientOptions.jsonMapper, params._body()))
                     .build()

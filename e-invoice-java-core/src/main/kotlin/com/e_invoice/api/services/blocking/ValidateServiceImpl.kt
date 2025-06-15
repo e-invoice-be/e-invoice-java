@@ -21,6 +21,7 @@ import com.e_invoice.api.models.validate.ValidateValidateJsonParams
 import com.e_invoice.api.models.validate.ValidateValidatePeppolIdParams
 import com.e_invoice.api.models.validate.ValidateValidatePeppolIdResponse
 import com.e_invoice.api.models.validate.ValidateValidateUblParams
+import java.util.function.Consumer
 
 class ValidateServiceImpl internal constructor(private val clientOptions: ClientOptions) :
     ValidateService {
@@ -30,6 +31,9 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
     }
 
     override fun withRawResponse(): ValidateService.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): ValidateService =
+        ValidateServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun validateJson(
         params: ValidateValidateJsonParams,
@@ -57,6 +61,13 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): ValidateService.WithRawResponse =
+            ValidateServiceImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val validateJsonHandler: Handler<UblDocumentValidation> =
             jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -68,6 +79,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "json")
                     .body(json(clientOptions.jsonMapper, params._body()))
                     .build()
@@ -96,6 +108,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "peppol-id")
                     .build()
                     .prepare(clientOptions, params)
@@ -123,6 +136,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "validate", "ubl")
                     .body(multipartFormData(clientOptions.jsonMapper, params._body()))
                     .build()

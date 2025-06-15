@@ -22,6 +22,7 @@ import com.e_invoice.api.models.inbox.InboxListPageAsync
 import com.e_invoice.api.models.inbox.InboxListParams
 import com.e_invoice.api.models.inbox.PaginatedDocumentResponse
 import java.util.concurrent.CompletableFuture
+import java.util.function.Consumer
 
 class InboxServiceAsyncImpl internal constructor(private val clientOptions: ClientOptions) :
     InboxServiceAsync {
@@ -31,6 +32,9 @@ class InboxServiceAsyncImpl internal constructor(private val clientOptions: Clie
     }
 
     override fun withRawResponse(): InboxServiceAsync.WithRawResponse = withRawResponse
+
+    override fun withOptions(modifier: Consumer<ClientOptions.Builder>): InboxServiceAsync =
+        InboxServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
     override fun list(
         params: InboxListParams,
@@ -58,6 +62,13 @@ class InboxServiceAsyncImpl internal constructor(private val clientOptions: Clie
 
         private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
 
+        override fun withOptions(
+            modifier: Consumer<ClientOptions.Builder>
+        ): InboxServiceAsync.WithRawResponse =
+            InboxServiceAsyncImpl.WithRawResponseImpl(
+                clientOptions.toBuilder().apply(modifier::accept).build()
+            )
+
         private val listHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
                 .withErrorHandler(errorHandler)
@@ -69,6 +80,7 @@ class InboxServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -107,6 +119,7 @@ class InboxServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "credit-notes")
                     .build()
                     .prepareAsync(clientOptions, params)
@@ -145,6 +158,7 @@ class InboxServiceAsyncImpl internal constructor(private val clientOptions: Clie
             val request =
                 HttpRequest.builder()
                     .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
                     .addPathSegments("api", "inbox", "invoices")
                     .build()
                     .prepareAsync(clientOptions, params)
