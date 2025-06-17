@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2025-06-17)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Chores
+
+* **ci:** enable for pull requests ([c49c94c](https://github.com/e-invoice-be/e-invoice-java/commit/c49c94c06c606e91aed99bf3ddb5d696c0c3a1e9))
+
 ## 0.1.0-alpha.2 (2025-06-13)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
