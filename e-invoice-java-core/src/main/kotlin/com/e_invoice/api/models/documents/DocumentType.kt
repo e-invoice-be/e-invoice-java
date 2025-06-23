@@ -24,6 +24,8 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
 
         @JvmField val CREDIT_NOTE = of("CREDIT_NOTE")
 
+        @JvmField val DEBIT_NOTE = of("DEBIT_NOTE")
+
         @JvmStatic fun of(value: String) = DocumentType(JsonField.of(value))
     }
 
@@ -31,6 +33,7 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
     enum class Known {
         INVOICE,
         CREDIT_NOTE,
+        DEBIT_NOTE,
     }
 
     /**
@@ -45,6 +48,7 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
     enum class Value {
         INVOICE,
         CREDIT_NOTE,
+        DEBIT_NOTE,
         /** An enum member indicating that [DocumentType] was instantiated with an unknown value. */
         _UNKNOWN,
     }
@@ -60,6 +64,7 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
         when (this) {
             INVOICE -> Value.INVOICE
             CREDIT_NOTE -> Value.CREDIT_NOTE
+            DEBIT_NOTE -> Value.DEBIT_NOTE
             else -> Value._UNKNOWN
         }
 
@@ -75,6 +80,7 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
         when (this) {
             INVOICE -> Known.INVOICE
             CREDIT_NOTE -> Known.CREDIT_NOTE
+            DEBIT_NOTE -> Known.DEBIT_NOTE
             else -> throw EInvoiceInvalidDataException("Unknown DocumentType: $value")
         }
 
