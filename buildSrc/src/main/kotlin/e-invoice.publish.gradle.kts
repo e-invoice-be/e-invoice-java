@@ -9,7 +9,7 @@ configure<PublishingExtension> {
             from(components["java"])
 
             pom {
-                name.set("e-invoice.be Peppel Access Point API")
+                name.set("e-invoice.be Peppol Access Point API")
                 description.set("An SDK library for e-invoice")
                 url.set("https://api.e-invoice.be")
 
