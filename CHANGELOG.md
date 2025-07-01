@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2025-07-01)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Features
+
+* **api:** api update ([c6c1d7f](https://github.com/e-invoice-be/e-invoice-java/commit/c6c1d7fdcd4ffd12cedf0b5eacb289d53e1563a3))
+
+
+### Bug Fixes
+
+* **ci:** release-doctor — report correct token name ([36c9814](https://github.com/e-invoice-be/e-invoice-java/commit/36c98149d5d832801a5db19d138ebefa57baa499))
+* **client:** bump max requests per host to max requests (5 -&gt; 64) ([014f090](https://github.com/e-invoice-be/e-invoice-java/commit/014f090e68f1476807d60540c2b8df63a1892a52))
+* **client:** don't close client on `withOptions` usage when original is gc'd ([8653f47](https://github.com/e-invoice-be/e-invoice-java/commit/8653f4736152e078a10154de9fc34e935b9d5de7))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([f3e7faa](https://github.com/e-invoice-be/e-invoice-java/commit/f3e7faa150ae18e912d05b1292139e9f1fda54c4))
+
+
+### Refactors
+
+* **internal:** minor `ClientOptionsTest` change ([a9bc03b](https://github.com/e-invoice-be/e-invoice-java/commit/a9bc03b270c7120a91eb45b0a6293f73cd3d45a1))
+
 ## 0.1.0-alpha.3 (2025-06-17)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
