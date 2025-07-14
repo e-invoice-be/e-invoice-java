@@ -6,6 +6,8 @@ import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.models.lookup.LookupRetrieveParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsResponse
 import com.e_invoice.api.models.lookup.LookupRetrieveResponse
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -39,6 +41,20 @@ interface LookupService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): LookupRetrieveResponse
 
+    /**
+     * Lookup Peppol participants by name or other identifiers. You can limit the search to a
+     * specific country by providing the country code.
+     */
+    fun retrieveParticipants(
+        params: LookupRetrieveParticipantsParams
+    ): LookupRetrieveParticipantsResponse = retrieveParticipants(params, RequestOptions.none())
+
+    /** @see [retrieveParticipants] */
+    fun retrieveParticipants(
+        params: LookupRetrieveParticipantsParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): LookupRetrieveParticipantsResponse
+
     /** A view of [LookupService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
 
@@ -63,5 +79,22 @@ interface LookupService {
             params: LookupRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<LookupRetrieveResponse>
+
+        /**
+         * Returns a raw HTTP response for `get /api/lookup/participants`, but is otherwise the same
+         * as [LookupService.retrieveParticipants].
+         */
+        @MustBeClosed
+        fun retrieveParticipants(
+            params: LookupRetrieveParticipantsParams
+        ): HttpResponseFor<LookupRetrieveParticipantsResponse> =
+            retrieveParticipants(params, RequestOptions.none())
+
+        /** @see [retrieveParticipants] */
+        @MustBeClosed
+        fun retrieveParticipants(
+            params: LookupRetrieveParticipantsParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<LookupRetrieveParticipantsResponse>
     }
 }

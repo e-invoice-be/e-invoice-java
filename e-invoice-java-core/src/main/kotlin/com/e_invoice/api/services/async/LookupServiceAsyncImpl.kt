@@ -15,6 +15,8 @@ import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.parseable
 import com.e_invoice.api.core.prepareAsync
 import com.e_invoice.api.models.lookup.LookupRetrieveParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsResponse
 import com.e_invoice.api.models.lookup.LookupRetrieveResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -37,6 +39,13 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
     ): CompletableFuture<LookupRetrieveResponse> =
         // get /api/lookup
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveParticipants(
+        params: LookupRetrieveParticipantsParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<LookupRetrieveParticipantsResponse> =
+        // get /api/lookup/participants
+        withRawResponse().retrieveParticipants(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         LookupServiceAsync.WithRawResponse {
@@ -72,6 +81,37 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
                     response.parseable {
                         response
                             .use { retrieveHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveParticipantsHandler: Handler<LookupRetrieveParticipantsResponse> =
+            jsonHandler<LookupRetrieveParticipantsResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveParticipants(
+            params: LookupRetrieveParticipantsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<LookupRetrieveParticipantsResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "lookup", "participants")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    response.parseable {
+                        response
+                            .use { retrieveParticipantsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

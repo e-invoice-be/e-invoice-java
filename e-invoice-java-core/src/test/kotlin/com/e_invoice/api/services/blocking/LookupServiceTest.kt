@@ -5,6 +5,7 @@ package com.e_invoice.api.services.blocking
 import com.e_invoice.api.TestServerExtension
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient
 import com.e_invoice.api.models.lookup.LookupRetrieveParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
@@ -26,5 +27,26 @@ internal class LookupServiceTest {
             lookupService.retrieve(LookupRetrieveParams.builder().peppolId("peppol_id").build())
 
         lookup.validate()
+    }
+
+    @Disabled("skipped: tests are disabled for the time being")
+    @Test
+    fun retrieveParticipants() {
+        val client =
+            EInvoiceOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val lookupService = client.lookup()
+
+        val response =
+            lookupService.retrieveParticipants(
+                LookupRetrieveParticipantsParams.builder()
+                    .query("query")
+                    .countryCode("country_code")
+                    .build()
+            )
+
+        response.validate()
     }
 }

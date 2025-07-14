@@ -15,6 +15,8 @@ import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.parseable
 import com.e_invoice.api.core.prepare
 import com.e_invoice.api.models.lookup.LookupRetrieveParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsResponse
 import com.e_invoice.api.models.lookup.LookupRetrieveResponse
 import java.util.function.Consumer
 
@@ -36,6 +38,13 @@ class LookupServiceImpl internal constructor(private val clientOptions: ClientOp
     ): LookupRetrieveResponse =
         // get /api/lookup
         withRawResponse().retrieve(params, requestOptions).parse()
+
+    override fun retrieveParticipants(
+        params: LookupRetrieveParticipantsParams,
+        requestOptions: RequestOptions,
+    ): LookupRetrieveParticipantsResponse =
+        // get /api/lookup/participants
+        withRawResponse().retrieveParticipants(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         LookupService.WithRawResponse {
@@ -69,6 +78,34 @@ class LookupServiceImpl internal constructor(private val clientOptions: ClientOp
             return response.parseable {
                 response
                     .use { retrieveHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val retrieveParticipantsHandler: Handler<LookupRetrieveParticipantsResponse> =
+            jsonHandler<LookupRetrieveParticipantsResponse>(clientOptions.jsonMapper)
+                .withErrorHandler(errorHandler)
+
+        override fun retrieveParticipants(
+            params: LookupRetrieveParticipantsParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<LookupRetrieveParticipantsResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "lookup", "participants")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return response.parseable {
+                response
+                    .use { retrieveParticipantsHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()
