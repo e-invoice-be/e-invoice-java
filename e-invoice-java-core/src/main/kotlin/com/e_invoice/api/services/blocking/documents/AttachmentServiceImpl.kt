@@ -3,14 +3,14 @@
 package com.e_invoice.api.services.blocking.documents
 
 import com.e_invoice.api.core.ClientOptions
-import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.checkRequired
+import com.e_invoice.api.core.handlers.errorBodyHandler
 import com.e_invoice.api.core.handlers.errorHandler
 import com.e_invoice.api.core.handlers.jsonHandler
-import com.e_invoice.api.core.handlers.withErrorHandler
 import com.e_invoice.api.core.http.HttpMethod
 import com.e_invoice.api.core.http.HttpRequest
+import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.json
@@ -69,7 +69,8 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AttachmentService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -79,7 +80,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
             )
 
         private val retrieveHandler: Handler<DocumentAttachment> =
-            jsonHandler<DocumentAttachment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<DocumentAttachment>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AttachmentRetrieveParams,
@@ -103,7 +104,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -116,7 +117,6 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
 
         private val listHandler: Handler<List<DocumentAttachment>> =
             jsonHandler<List<DocumentAttachment>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: AttachmentListParams,
@@ -134,7 +134,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -147,7 +147,6 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
 
         private val deleteHandler: Handler<AttachmentDeleteResponse> =
             jsonHandler<AttachmentDeleteResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun delete(
             params: AttachmentDeleteParams,
@@ -172,7 +171,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { deleteHandler.handle(it) }
                     .also {
@@ -184,7 +183,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
         }
 
         private val addHandler: Handler<DocumentAttachment> =
-            jsonHandler<DocumentAttachment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<DocumentAttachment>(clientOptions.jsonMapper)
 
         override fun add(
             params: AttachmentAddParams,
@@ -203,7 +202,7 @@ class AttachmentServiceImpl internal constructor(private val clientOptions: Clie
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { addHandler.handle(it) }
                     .also {

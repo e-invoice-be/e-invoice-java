@@ -3,13 +3,13 @@
 package com.e_invoice.api.services.blocking
 
 import com.e_invoice.api.core.ClientOptions
-import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.RequestOptions
+import com.e_invoice.api.core.handlers.errorBodyHandler
 import com.e_invoice.api.core.handlers.errorHandler
 import com.e_invoice.api.core.handlers.jsonHandler
-import com.e_invoice.api.core.handlers.withErrorHandler
 import com.e_invoice.api.core.http.HttpMethod
 import com.e_invoice.api.core.http.HttpRequest
+import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.json
@@ -59,7 +59,8 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ValidateService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -70,7 +71,6 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
 
         private val validateJsonHandler: Handler<UblDocumentValidation> =
             jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun validateJson(
             params: ValidateValidateJsonParams,
@@ -86,7 +86,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { validateJsonHandler.handle(it) }
                     .also {
@@ -99,7 +99,6 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
 
         private val validatePeppolIdHandler: Handler<ValidateValidatePeppolIdResponse> =
             jsonHandler<ValidateValidatePeppolIdResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun validatePeppolId(
             params: ValidateValidatePeppolIdParams,
@@ -114,7 +113,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { validatePeppolIdHandler.handle(it) }
                     .also {
@@ -127,7 +126,6 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
 
         private val validateUblHandler: Handler<UblDocumentValidation> =
             jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun validateUbl(
             params: ValidateValidateUblParams,
@@ -143,7 +141,7 @@ class ValidateServiceImpl internal constructor(private val clientOptions: Client
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { validateUblHandler.handle(it) }
                     .also {

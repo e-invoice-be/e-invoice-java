@@ -3,13 +3,13 @@
 package com.e_invoice.api.services.async
 
 import com.e_invoice.api.core.ClientOptions
-import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.RequestOptions
+import com.e_invoice.api.core.handlers.errorBodyHandler
 import com.e_invoice.api.core.handlers.errorHandler
 import com.e_invoice.api.core.handlers.jsonHandler
-import com.e_invoice.api.core.handlers.withErrorHandler
 import com.e_invoice.api.core.http.HttpMethod
 import com.e_invoice.api.core.http.HttpRequest
+import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.json
@@ -60,7 +60,8 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         ValidateServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -71,7 +72,6 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
 
         private val validateJsonHandler: Handler<UblDocumentValidation> =
             jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun validateJson(
             params: ValidateValidateJsonParams,
@@ -89,7 +89,7 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { validateJsonHandler.handle(it) }
                             .also {
@@ -103,7 +103,6 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
 
         private val validatePeppolIdHandler: Handler<ValidateValidatePeppolIdResponse> =
             jsonHandler<ValidateValidatePeppolIdResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun validatePeppolId(
             params: ValidateValidatePeppolIdParams,
@@ -120,7 +119,7 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { validatePeppolIdHandler.handle(it) }
                             .also {
@@ -134,7 +133,6 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
 
         private val validateUblHandler: Handler<UblDocumentValidation> =
             jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun validateUbl(
             params: ValidateValidateUblParams,
@@ -152,7 +150,7 @@ class ValidateServiceAsyncImpl internal constructor(private val clientOptions: C
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { validateUblHandler.handle(it) }
                             .also {
