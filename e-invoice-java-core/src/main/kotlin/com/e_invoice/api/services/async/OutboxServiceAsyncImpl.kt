@@ -3,13 +3,13 @@
 package com.e_invoice.api.services.async
 
 import com.e_invoice.api.core.ClientOptions
-import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.RequestOptions
+import com.e_invoice.api.core.handlers.errorBodyHandler
 import com.e_invoice.api.core.handlers.errorHandler
 import com.e_invoice.api.core.handlers.jsonHandler
-import com.e_invoice.api.core.handlers.withErrorHandler
 import com.e_invoice.api.core.http.HttpMethod
 import com.e_invoice.api.core.http.HttpRequest
+import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.parseable
@@ -51,7 +51,8 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         OutboxServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -62,7 +63,6 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
         private val listDraftDocumentsHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams,
@@ -79,7 +79,7 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listDraftDocumentsHandler.handle(it) }
                             .also {
@@ -101,7 +101,6 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
         private val listReceivedDocumentsHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listReceivedDocuments(
             params: OutboxListReceivedDocumentsParams,
@@ -118,7 +117,7 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listReceivedDocumentsHandler.handle(it) }
                             .also {

@@ -3,14 +3,14 @@
 package com.e_invoice.api.services.async.documents
 
 import com.e_invoice.api.core.ClientOptions
-import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.checkRequired
+import com.e_invoice.api.core.handlers.errorBodyHandler
 import com.e_invoice.api.core.handlers.errorHandler
 import com.e_invoice.api.core.handlers.jsonHandler
-import com.e_invoice.api.core.handlers.withErrorHandler
 import com.e_invoice.api.core.http.HttpMethod
 import com.e_invoice.api.core.http.HttpRequest
+import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.json
@@ -70,7 +70,8 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         AttachmentServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -80,7 +81,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             )
 
         private val retrieveHandler: Handler<DocumentAttachment> =
-            jsonHandler<DocumentAttachment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<DocumentAttachment>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: AttachmentRetrieveParams,
@@ -106,7 +107,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
                             .also {
@@ -120,7 +121,6 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
 
         private val listHandler: Handler<List<DocumentAttachment>> =
             jsonHandler<List<DocumentAttachment>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: AttachmentListParams,
@@ -140,7 +140,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { listHandler.handle(it) }
                             .also {
@@ -154,7 +154,6 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
 
         private val deleteHandler: Handler<AttachmentDeleteResponse> =
             jsonHandler<AttachmentDeleteResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun delete(
             params: AttachmentDeleteParams,
@@ -181,7 +180,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { deleteHandler.handle(it) }
                             .also {
@@ -194,7 +193,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
         }
 
         private val addHandler: Handler<DocumentAttachment> =
-            jsonHandler<DocumentAttachment>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<DocumentAttachment>(clientOptions.jsonMapper)
 
         override fun add(
             params: AttachmentAddParams,
@@ -215,7 +214,7 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { addHandler.handle(it) }
                             .also {

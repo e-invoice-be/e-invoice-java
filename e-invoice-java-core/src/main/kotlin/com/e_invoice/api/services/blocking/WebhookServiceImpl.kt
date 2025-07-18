@@ -3,14 +3,14 @@
 package com.e_invoice.api.services.blocking
 
 import com.e_invoice.api.core.ClientOptions
-import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.checkRequired
+import com.e_invoice.api.core.handlers.errorBodyHandler
 import com.e_invoice.api.core.handlers.errorHandler
 import com.e_invoice.api.core.handlers.jsonHandler
-import com.e_invoice.api.core.handlers.withErrorHandler
 import com.e_invoice.api.core.http.HttpMethod
 import com.e_invoice.api.core.http.HttpRequest
+import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.json
@@ -76,7 +76,8 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WebhookService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -86,7 +87,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
             )
 
         private val createHandler: Handler<WebhookResponse> =
-            jsonHandler<WebhookResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<WebhookResponse>(clientOptions.jsonMapper)
 
         override fun create(
             params: WebhookCreateParams,
@@ -102,7 +103,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { createHandler.handle(it) }
                     .also {
@@ -114,7 +115,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
         }
 
         private val retrieveHandler: Handler<WebhookResponse> =
-            jsonHandler<WebhookResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<WebhookResponse>(clientOptions.jsonMapper)
 
         override fun retrieve(
             params: WebhookRetrieveParams,
@@ -132,7 +133,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { retrieveHandler.handle(it) }
                     .also {
@@ -144,7 +145,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
         }
 
         private val updateHandler: Handler<WebhookResponse> =
-            jsonHandler<WebhookResponse>(clientOptions.jsonMapper).withErrorHandler(errorHandler)
+            jsonHandler<WebhookResponse>(clientOptions.jsonMapper)
 
         override fun update(
             params: WebhookUpdateParams,
@@ -163,7 +164,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { updateHandler.handle(it) }
                     .also {
@@ -176,7 +177,6 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
 
         private val listHandler: Handler<List<WebhookResponse>> =
             jsonHandler<List<WebhookResponse>>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun list(
             params: WebhookListParams,
@@ -191,7 +191,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listHandler.handle(it) }
                     .also {
@@ -204,7 +204,6 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
 
         private val deleteHandler: Handler<WebhookDeleteResponse> =
             jsonHandler<WebhookDeleteResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun delete(
             params: WebhookDeleteParams,
@@ -223,7 +222,7 @@ class WebhookServiceImpl internal constructor(private val clientOptions: ClientO
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { deleteHandler.handle(it) }
                     .also {

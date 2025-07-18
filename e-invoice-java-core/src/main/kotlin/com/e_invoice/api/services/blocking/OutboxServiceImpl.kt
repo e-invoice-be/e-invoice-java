@@ -3,13 +3,13 @@
 package com.e_invoice.api.services.blocking
 
 import com.e_invoice.api.core.ClientOptions
-import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.RequestOptions
+import com.e_invoice.api.core.handlers.errorBodyHandler
 import com.e_invoice.api.core.handlers.errorHandler
 import com.e_invoice.api.core.handlers.jsonHandler
-import com.e_invoice.api.core.handlers.withErrorHandler
 import com.e_invoice.api.core.http.HttpMethod
 import com.e_invoice.api.core.http.HttpRequest
+import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.parseable
@@ -50,7 +50,8 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         OutboxService.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -61,7 +62,6 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
 
         private val listDraftDocumentsHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams,
@@ -76,7 +76,7 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listDraftDocumentsHandler.handle(it) }
                     .also {
@@ -96,7 +96,6 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
 
         private val listReceivedDocumentsHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun listReceivedDocuments(
             params: OutboxListReceivedDocumentsParams,
@@ -111,7 +110,7 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
                     .prepare(clientOptions, params)
             val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
             val response = clientOptions.httpClient.execute(request, requestOptions)
-            return response.parseable {
+            return errorHandler.handle(response).parseable {
                 response
                     .use { listReceivedDocumentsHandler.handle(it) }
                     .also {
