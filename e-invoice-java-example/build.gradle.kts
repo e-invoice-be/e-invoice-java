@@ -17,5 +17,12 @@ tasks.withType<JavaCompile>().configureEach {
 }
 
 application {
-    mainClass = "com.e_invoice.api.example.Main"
+    // Use `./gradlew :e-invoice-java-example:run` to run `Main`
+    // Use `./gradlew :e-invoice-java-example:run -Dexample=Something` to run `SomethingExample`
+    mainClass = "com.e_invoice.api.example.${
+        if (project.hasProperty("example"))
+            "${project.property("example")}Example"
+        else
+            "Main"
+    }"
 }

@@ -3,18 +3,20 @@
 package com.e_invoice.api.services.async
 
 import com.e_invoice.api.core.ClientOptions
-import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.RequestOptions
+import com.e_invoice.api.core.handlers.errorBodyHandler
 import com.e_invoice.api.core.handlers.errorHandler
 import com.e_invoice.api.core.handlers.jsonHandler
-import com.e_invoice.api.core.handlers.withErrorHandler
 import com.e_invoice.api.core.http.HttpMethod
 import com.e_invoice.api.core.http.HttpRequest
+import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.parseable
 import com.e_invoice.api.core.prepareAsync
 import com.e_invoice.api.models.lookup.LookupRetrieveParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsParams
+import com.e_invoice.api.models.lookup.LookupRetrieveParticipantsResponse
 import com.e_invoice.api.models.lookup.LookupRetrieveResponse
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -38,10 +40,18 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
         // get /api/lookup
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
 
+    override fun retrieveParticipants(
+        params: LookupRetrieveParticipantsParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<LookupRetrieveParticipantsResponse> =
+        // get /api/lookup/participants
+        withRawResponse().retrieveParticipants(params, requestOptions).thenApply { it.parse() }
+
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         LookupServiceAsync.WithRawResponse {
 
-        private val errorHandler: Handler<JsonValue> = errorHandler(clientOptions.jsonMapper)
+        private val errorHandler: Handler<HttpResponse> =
+            errorHandler(errorBodyHandler(clientOptions.jsonMapper))
 
         override fun withOptions(
             modifier: Consumer<ClientOptions.Builder>
@@ -52,7 +62,6 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
 
         private val retrieveHandler: Handler<LookupRetrieveResponse> =
             jsonHandler<LookupRetrieveResponse>(clientOptions.jsonMapper)
-                .withErrorHandler(errorHandler)
 
         override fun retrieve(
             params: LookupRetrieveParams,
@@ -69,9 +78,39 @@ class LookupServiceAsyncImpl internal constructor(private val clientOptions: Cli
             return request
                 .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
                 .thenApply { response ->
-                    response.parseable {
+                    errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveParticipantsHandler: Handler<LookupRetrieveParticipantsResponse> =
+            jsonHandler<LookupRetrieveParticipantsResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveParticipants(
+            params: LookupRetrieveParticipantsParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<LookupRetrieveParticipantsResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "lookup", "participants")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { retrieveParticipantsHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.1.0-alpha.5 (2025-07-19)
+
+Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
+
+### Features
+
+* **api:** manual updates ([b88e6f3](https://github.com/e-invoice-be/e-invoice-java/commit/b88e6f3486cbca8c1408e727777a6b51bc8c4955))
+* **client:** add https config options ([bd9f5df](https://github.com/e-invoice-be/e-invoice-java/commit/bd9f5df13c169317b272e82234f0aa97f09fde24))
+* **client:** allow setting additional multipart body props ([85fec7d](https://github.com/e-invoice-be/e-invoice-java/commit/85fec7d33c4186959aa28dffab99f0b0358eb83a))
+
+
+### Bug Fixes
+
+* **client:** ensure error handling always occurs ([3f5b304](https://github.com/e-invoice-be/e-invoice-java/commit/3f5b304f92a5dd871ab33e37523d24044b0f6061))
+
+
+### Chores
+
+* **ci:** bump `actions/setup-java` to v4 ([938a589](https://github.com/e-invoice-be/e-invoice-java/commit/938a58941beb598bb4e5ed2ed64b9f727e20ff7c))
+* **internal:** allow running specific example from cli ([b7b4d4b](https://github.com/e-invoice-be/e-invoice-java/commit/b7b4d4bf4f4d59e42beed25d36c256852b976fbf))
+* **internal:** refactor delegating from client to options ([0c79f11](https://github.com/e-invoice-be/e-invoice-java/commit/0c79f11d20b552df1ed4c183f814875841fda4a3))
+
 ## 0.1.0-alpha.4 (2025-07-01)
 
 Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)

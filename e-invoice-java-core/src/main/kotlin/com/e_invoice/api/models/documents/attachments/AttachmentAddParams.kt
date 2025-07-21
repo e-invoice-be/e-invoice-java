@@ -3,6 +3,7 @@
 package com.e_invoice.api.models.documents.attachments
 
 import com.e_invoice.api.core.ExcludeMissing
+import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.MultipartField
 import com.e_invoice.api.core.Params
 import com.e_invoice.api.core.checkRequired
@@ -10,9 +11,12 @@ import com.e_invoice.api.core.http.Headers
 import com.e_invoice.api.core.http.QueryParams
 import com.e_invoice.api.core.toImmutable
 import com.e_invoice.api.errors.EInvoiceInvalidDataException
+import com.fasterxml.jackson.annotation.JsonAnyGetter
+import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.io.InputStream
 import java.nio.file.Path
+import java.util.Collections
 import java.util.Objects
 import java.util.Optional
 import kotlin.io.path.inputStream
@@ -42,6 +46,8 @@ private constructor(
      * Unlike [file], this method doesn't throw if the multipart field has an unexpected type.
      */
     fun _file(): MultipartField<InputStream> = body._file()
+
+    fun _additionalBodyProperties(): Map<String, JsonValue> = body._additionalProperties()
 
     fun _additionalHeaders(): Headers = additionalHeaders
 
@@ -106,6 +112,25 @@ private constructor(
         fun file(file: ByteArray) = apply { body.file(file) }
 
         fun file(file: Path) = apply { body.file(file) }
+
+        fun additionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) = apply {
+            body.additionalProperties(additionalBodyProperties)
+        }
+
+        fun putAdditionalBodyProperty(key: String, value: JsonValue) = apply {
+            body.putAdditionalProperty(key, value)
+        }
+
+        fun putAllAdditionalBodyProperties(additionalBodyProperties: Map<String, JsonValue>) =
+            apply {
+                body.putAllAdditionalProperties(additionalBodyProperties)
+            }
+
+        fun removeAdditionalBodyProperty(key: String) = apply { body.removeAdditionalProperty(key) }
+
+        fun removeAllAdditionalBodyProperties(keys: Set<String>) = apply {
+            body.removeAllAdditionalProperties(keys)
+        }
 
         fun additionalHeaders(additionalHeaders: Headers) = apply {
             this.additionalHeaders.clear()
@@ -226,7 +251,9 @@ private constructor(
             )
     }
 
-    fun _body(): Map<String, MultipartField<*>> = mapOf("file" to _file()).toImmutable()
+    fun _body(): Map<String, MultipartField<*>> =
+        (mapOf("file" to _file()) + _additionalBodyProperties().mapValues { MultipartField.of(it) })
+            .toImmutable()
 
     fun _pathParam(index: Int): String =
         when (index) {
@@ -238,7 +265,11 @@ private constructor(
 
     override fun _queryParams(): QueryParams = additionalQueryParams
 
-    class Body private constructor(private val file: MultipartField<InputStream>) {
+    class Body
+    private constructor(
+        private val file: MultipartField<InputStream>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
 
         /**
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
@@ -252,6 +283,16 @@ private constructor(
          * Unlike [file], this method doesn't throw if the multipart field has an unexpected type.
          */
         @JsonProperty("file") @ExcludeMissing fun _file(): MultipartField<InputStream> = file
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
 
         fun toBuilder() = Builder().from(this)
 
@@ -272,8 +313,13 @@ private constructor(
         class Builder internal constructor() {
 
             private var file: MultipartField<InputStream>? = null
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
-            @JvmSynthetic internal fun from(body: Body) = apply { file = body.file }
+            @JvmSynthetic
+            internal fun from(body: Body) = apply {
+                file = body.file
+                additionalProperties = body.additionalProperties.toMutableMap()
+            }
 
             fun file(file: InputStream) = file(MultipartField.of(file))
 
@@ -296,6 +342,25 @@ private constructor(
                         .build()
                 )
 
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
             /**
              * Returns an immutable instance of [Body].
              *
@@ -308,7 +373,8 @@ private constructor(
              *
              * @throws IllegalStateException if any required field is unset.
              */
-            fun build(): Body = Body(checkRequired("file", file))
+            fun build(): Body =
+                Body(checkRequired("file", file), additionalProperties.toMutableMap())
         }
 
         private var validated: Boolean = false
@@ -335,16 +401,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Body && file == other.file /* spotless:on */
+            return /* spotless:off */ other is Body && file == other.file && additionalProperties == other.additionalProperties /* spotless:on */
         }
 
         /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(file) }
+        private val hashCode: Int by lazy { Objects.hash(file, additionalProperties) }
         /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
-        override fun toString() = "Body{file=$file}"
+        override fun toString() = "Body{file=$file, additionalProperties=$additionalProperties}"
     }
 
     override fun equals(other: Any?): Boolean {
