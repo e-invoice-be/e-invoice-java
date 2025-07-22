@@ -52,7 +52,8 @@ import com.e_invoice.api.models.documents.DocumentCreate;
 import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 
-// Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+// Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+// Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 
 DocumentCreateParams params = DocumentCreateParams.builder()
@@ -63,13 +64,14 @@ DocumentResponse documentResponse = client.documents().create(params);
 
 ## Client configuration
 
-Configure the client using environment variables:
+Configure the client using system properties or environment variables:
 
 ```java
 import com.e_invoice.api.client.EInvoiceClient;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
-// Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+// Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+// Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 ```
 
@@ -91,7 +93,8 @@ import com.e_invoice.api.client.EInvoiceClient;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
-    // Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+    // Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+    Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
@@ -99,10 +102,12 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter    | Environment variable | Required | Default value                |
-| --------- | -------------------- | -------- | ---------------------------- |
-| `apiKey`  | `E_INVOICE_API_KEY`  | true     | -                            |
-| `baseUrl` | `E_INVOICE_BASE_URL` | true     | `"https://api.e-invoice.be"` |
+| Setter    | System property    | Environment variable | Required | Default value                |
+| --------- | ------------------ | -------------------- | -------- | ---------------------------- |
+| `apiKey`  | `einvoice.apiKey`  | `E_INVOICE_API_KEY`  | true     | -                            |
+| `baseUrl` | `einvoice.baseUrl` | `E_INVOICE_BASE_URL` | true     | `"https://api.e-invoice.be"` |
+
+System properties take precedence over environment variables.
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -149,7 +154,8 @@ import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+// Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+// Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 
 DocumentCreateParams params = DocumentCreateParams.builder()
@@ -168,7 +174,8 @@ import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+// Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+// Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClientAsync client = EInvoiceOkHttpClientAsync.fromEnv();
 
 DocumentCreateParams params = DocumentCreateParams.builder()

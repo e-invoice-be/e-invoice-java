@@ -231,8 +231,12 @@ private constructor(
         fun timeout(): Timeout = timeout
 
         fun fromEnv() = apply {
-            System.getenv("E_INVOICE_BASE_URL")?.let { baseUrl(it) }
-            System.getenv("E_INVOICE_API_KEY")?.let { apiKey(it) }
+            (System.getProperty("einvoice.baseUrl") ?: System.getenv("E_INVOICE_BASE_URL"))?.let {
+                baseUrl(it)
+            }
+            (System.getProperty("einvoice.apiKey") ?: System.getenv("E_INVOICE_API_KEY"))?.let {
+                apiKey(it)
+            }
         }
 
         /**
