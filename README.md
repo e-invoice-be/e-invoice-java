@@ -94,7 +94,7 @@ import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
     // Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
-    Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+    // Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
