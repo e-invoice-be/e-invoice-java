@@ -33,7 +33,7 @@ interface WebhookServiceAsync {
     fun create(params: WebhookCreateParams): CompletableFuture<WebhookResponse> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: WebhookCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -43,7 +43,7 @@ interface WebhookServiceAsync {
     fun retrieve(webhookId: String): CompletableFuture<WebhookResponse> =
         retrieve(webhookId, WebhookRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         webhookId: String,
         params: WebhookRetrieveParams = WebhookRetrieveParams.none(),
@@ -51,23 +51,23 @@ interface WebhookServiceAsync {
     ): CompletableFuture<WebhookResponse> =
         retrieve(params.toBuilder().webhookId(webhookId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         webhookId: String,
         params: WebhookRetrieveParams = WebhookRetrieveParams.none(),
     ): CompletableFuture<WebhookResponse> = retrieve(webhookId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: WebhookRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<WebhookResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: WebhookRetrieveParams): CompletableFuture<WebhookResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         webhookId: String,
         requestOptions: RequestOptions,
@@ -78,7 +78,7 @@ interface WebhookServiceAsync {
     fun update(webhookId: String): CompletableFuture<WebhookResponse> =
         update(webhookId, WebhookUpdateParams.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         webhookId: String,
         params: WebhookUpdateParams = WebhookUpdateParams.none(),
@@ -86,23 +86,23 @@ interface WebhookServiceAsync {
     ): CompletableFuture<WebhookResponse> =
         update(params.toBuilder().webhookId(webhookId).build(), requestOptions)
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         webhookId: String,
         params: WebhookUpdateParams = WebhookUpdateParams.none(),
     ): CompletableFuture<WebhookResponse> = update(webhookId, params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         params: WebhookUpdateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<WebhookResponse>
 
-    /** @see [update] */
+    /** @see update */
     fun update(params: WebhookUpdateParams): CompletableFuture<WebhookResponse> =
         update(params, RequestOptions.none())
 
-    /** @see [update] */
+    /** @see update */
     fun update(
         webhookId: String,
         requestOptions: RequestOptions,
@@ -112,18 +112,18 @@ interface WebhookServiceAsync {
     /** Get all webhooks for the current tenant */
     fun list(): CompletableFuture<List<WebhookResponse>> = list(WebhookListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: WebhookListParams = WebhookListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<WebhookResponse>>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: WebhookListParams = WebhookListParams.none()
     ): CompletableFuture<List<WebhookResponse>> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<List<WebhookResponse>> =
         list(WebhookListParams.none(), requestOptions)
 
@@ -131,7 +131,7 @@ interface WebhookServiceAsync {
     fun delete(webhookId: String): CompletableFuture<WebhookDeleteResponse> =
         delete(webhookId, WebhookDeleteParams.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         webhookId: String,
         params: WebhookDeleteParams = WebhookDeleteParams.none(),
@@ -139,23 +139,23 @@ interface WebhookServiceAsync {
     ): CompletableFuture<WebhookDeleteResponse> =
         delete(params.toBuilder().webhookId(webhookId).build(), requestOptions)
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         webhookId: String,
         params: WebhookDeleteParams = WebhookDeleteParams.none(),
     ): CompletableFuture<WebhookDeleteResponse> = delete(webhookId, params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         params: WebhookDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<WebhookDeleteResponse>
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(params: WebhookDeleteParams): CompletableFuture<WebhookDeleteResponse> =
         delete(params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         webhookId: String,
         requestOptions: RequestOptions,
@@ -185,7 +185,7 @@ interface WebhookServiceAsync {
         ): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: WebhookCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -198,7 +198,7 @@ interface WebhookServiceAsync {
         fun retrieve(webhookId: String): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             retrieve(webhookId, WebhookRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             webhookId: String,
             params: WebhookRetrieveParams = WebhookRetrieveParams.none(),
@@ -206,26 +206,26 @@ interface WebhookServiceAsync {
         ): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             retrieve(params.toBuilder().webhookId(webhookId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             webhookId: String,
             params: WebhookRetrieveParams = WebhookRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             retrieve(webhookId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: WebhookRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<WebhookResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: WebhookRetrieveParams
         ): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             webhookId: String,
             requestOptions: RequestOptions,
@@ -239,7 +239,7 @@ interface WebhookServiceAsync {
         fun update(webhookId: String): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             update(webhookId, WebhookUpdateParams.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             webhookId: String,
             params: WebhookUpdateParams = WebhookUpdateParams.none(),
@@ -247,26 +247,26 @@ interface WebhookServiceAsync {
         ): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             update(params.toBuilder().webhookId(webhookId).build(), requestOptions)
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             webhookId: String,
             params: WebhookUpdateParams = WebhookUpdateParams.none(),
         ): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             update(webhookId, params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: WebhookUpdateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<WebhookResponse>>
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             params: WebhookUpdateParams
         ): CompletableFuture<HttpResponseFor<WebhookResponse>> =
             update(params, RequestOptions.none())
 
-        /** @see [update] */
+        /** @see update */
         fun update(
             webhookId: String,
             requestOptions: RequestOptions,
@@ -280,19 +280,19 @@ interface WebhookServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<List<WebhookResponse>>> =
             list(WebhookListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: WebhookListParams = WebhookListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<WebhookResponse>>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: WebhookListParams = WebhookListParams.none()
         ): CompletableFuture<HttpResponseFor<List<WebhookResponse>>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<List<WebhookResponse>>> =
@@ -305,7 +305,7 @@ interface WebhookServiceAsync {
         fun delete(webhookId: String): CompletableFuture<HttpResponseFor<WebhookDeleteResponse>> =
             delete(webhookId, WebhookDeleteParams.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             webhookId: String,
             params: WebhookDeleteParams = WebhookDeleteParams.none(),
@@ -313,26 +313,26 @@ interface WebhookServiceAsync {
         ): CompletableFuture<HttpResponseFor<WebhookDeleteResponse>> =
             delete(params.toBuilder().webhookId(webhookId).build(), requestOptions)
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             webhookId: String,
             params: WebhookDeleteParams = WebhookDeleteParams.none(),
         ): CompletableFuture<HttpResponseFor<WebhookDeleteResponse>> =
             delete(webhookId, params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             params: WebhookDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<WebhookDeleteResponse>>
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             params: WebhookDeleteParams
         ): CompletableFuture<HttpResponseFor<WebhookDeleteResponse>> =
             delete(params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             webhookId: String,
             requestOptions: RequestOptions,

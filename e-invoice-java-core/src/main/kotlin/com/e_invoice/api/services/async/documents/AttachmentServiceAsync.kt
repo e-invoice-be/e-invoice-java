@@ -37,7 +37,7 @@ interface AttachmentServiceAsync {
         params: AttachmentRetrieveParams,
     ): CompletableFuture<DocumentAttachment> = retrieve(attachmentId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         attachmentId: String,
         params: AttachmentRetrieveParams,
@@ -45,11 +45,11 @@ interface AttachmentServiceAsync {
     ): CompletableFuture<DocumentAttachment> =
         retrieve(params.toBuilder().attachmentId(attachmentId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: AttachmentRetrieveParams): CompletableFuture<DocumentAttachment> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AttachmentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -59,7 +59,7 @@ interface AttachmentServiceAsync {
     fun list(documentId: String): CompletableFuture<List<DocumentAttachment>> =
         list(documentId, AttachmentListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         documentId: String,
         params: AttachmentListParams = AttachmentListParams.none(),
@@ -67,23 +67,23 @@ interface AttachmentServiceAsync {
     ): CompletableFuture<List<DocumentAttachment>> =
         list(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         documentId: String,
         params: AttachmentListParams = AttachmentListParams.none(),
     ): CompletableFuture<List<DocumentAttachment>> = list(documentId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AttachmentListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<List<DocumentAttachment>>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: AttachmentListParams): CompletableFuture<List<DocumentAttachment>> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         documentId: String,
         requestOptions: RequestOptions,
@@ -97,7 +97,7 @@ interface AttachmentServiceAsync {
     ): CompletableFuture<AttachmentDeleteResponse> =
         delete(attachmentId, params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         attachmentId: String,
         params: AttachmentDeleteParams,
@@ -105,11 +105,11 @@ interface AttachmentServiceAsync {
     ): CompletableFuture<AttachmentDeleteResponse> =
         delete(params.toBuilder().attachmentId(attachmentId).build(), requestOptions)
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(params: AttachmentDeleteParams): CompletableFuture<AttachmentDeleteResponse> =
         delete(params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         params: AttachmentDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -121,7 +121,7 @@ interface AttachmentServiceAsync {
         params: AttachmentAddParams,
     ): CompletableFuture<DocumentAttachment> = add(documentId, params, RequestOptions.none())
 
-    /** @see [add] */
+    /** @see add */
     fun add(
         documentId: String,
         params: AttachmentAddParams,
@@ -129,11 +129,11 @@ interface AttachmentServiceAsync {
     ): CompletableFuture<DocumentAttachment> =
         add(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [add] */
+    /** @see add */
     fun add(params: AttachmentAddParams): CompletableFuture<DocumentAttachment> =
         add(params, RequestOptions.none())
 
-    /** @see [add] */
+    /** @see add */
     fun add(
         params: AttachmentAddParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -165,7 +165,7 @@ interface AttachmentServiceAsync {
         ): CompletableFuture<HttpResponseFor<DocumentAttachment>> =
             retrieve(attachmentId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             attachmentId: String,
             params: AttachmentRetrieveParams,
@@ -173,13 +173,13 @@ interface AttachmentServiceAsync {
         ): CompletableFuture<HttpResponseFor<DocumentAttachment>> =
             retrieve(params.toBuilder().attachmentId(attachmentId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AttachmentRetrieveParams
         ): CompletableFuture<HttpResponseFor<DocumentAttachment>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: AttachmentRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -192,7 +192,7 @@ interface AttachmentServiceAsync {
         fun list(documentId: String): CompletableFuture<HttpResponseFor<List<DocumentAttachment>>> =
             list(documentId, AttachmentListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             documentId: String,
             params: AttachmentListParams = AttachmentListParams.none(),
@@ -200,26 +200,26 @@ interface AttachmentServiceAsync {
         ): CompletableFuture<HttpResponseFor<List<DocumentAttachment>>> =
             list(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             documentId: String,
             params: AttachmentListParams = AttachmentListParams.none(),
         ): CompletableFuture<HttpResponseFor<List<DocumentAttachment>>> =
             list(documentId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: AttachmentListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<List<DocumentAttachment>>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: AttachmentListParams
         ): CompletableFuture<HttpResponseFor<List<DocumentAttachment>>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             documentId: String,
             requestOptions: RequestOptions,
@@ -237,7 +237,7 @@ interface AttachmentServiceAsync {
         ): CompletableFuture<HttpResponseFor<AttachmentDeleteResponse>> =
             delete(attachmentId, params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             attachmentId: String,
             params: AttachmentDeleteParams,
@@ -245,13 +245,13 @@ interface AttachmentServiceAsync {
         ): CompletableFuture<HttpResponseFor<AttachmentDeleteResponse>> =
             delete(params.toBuilder().attachmentId(attachmentId).build(), requestOptions)
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             params: AttachmentDeleteParams
         ): CompletableFuture<HttpResponseFor<AttachmentDeleteResponse>> =
             delete(params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             params: AttachmentDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -267,7 +267,7 @@ interface AttachmentServiceAsync {
         ): CompletableFuture<HttpResponseFor<DocumentAttachment>> =
             add(documentId, params, RequestOptions.none())
 
-        /** @see [add] */
+        /** @see add */
         fun add(
             documentId: String,
             params: AttachmentAddParams,
@@ -275,13 +275,13 @@ interface AttachmentServiceAsync {
         ): CompletableFuture<HttpResponseFor<DocumentAttachment>> =
             add(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [add] */
+        /** @see add */
         fun add(
             params: AttachmentAddParams
         ): CompletableFuture<HttpResponseFor<DocumentAttachment>> =
             add(params, RequestOptions.none())
 
-        /** @see [add] */
+        /** @see add */
         fun add(
             params: AttachmentAddParams,
             requestOptions: RequestOptions = RequestOptions.none(),

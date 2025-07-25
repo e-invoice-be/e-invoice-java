@@ -31,7 +31,7 @@ interface ValidateService {
     fun validateJson(params: ValidateValidateJsonParams): UblDocumentValidation =
         validateJson(params, RequestOptions.none())
 
-    /** @see [validateJson] */
+    /** @see validateJson */
     fun validateJson(
         params: ValidateValidateJsonParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -47,7 +47,7 @@ interface ValidateService {
     fun validatePeppolId(params: ValidateValidatePeppolIdParams): ValidateValidatePeppolIdResponse =
         validatePeppolId(params, RequestOptions.none())
 
-    /** @see [validatePeppolId] */
+    /** @see validatePeppolId */
     fun validatePeppolId(
         params: ValidateValidatePeppolIdParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -57,7 +57,7 @@ interface ValidateService {
     fun validateUbl(params: ValidateValidateUblParams): UblDocumentValidation =
         validateUbl(params, RequestOptions.none())
 
-    /** @see [validateUbl] */
+    /** @see validateUbl */
     fun validateUbl(
         params: ValidateValidateUblParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -82,7 +82,7 @@ interface ValidateService {
             params: ValidateValidateJsonParams
         ): HttpResponseFor<UblDocumentValidation> = validateJson(params, RequestOptions.none())
 
-        /** @see [validateJson] */
+        /** @see validateJson */
         @MustBeClosed
         fun validateJson(
             params: ValidateValidateJsonParams,
@@ -99,7 +99,7 @@ interface ValidateService {
         ): HttpResponseFor<ValidateValidatePeppolIdResponse> =
             validatePeppolId(params, RequestOptions.none())
 
-        /** @see [validatePeppolId] */
+        /** @see validatePeppolId */
         @MustBeClosed
         fun validatePeppolId(
             params: ValidateValidatePeppolIdParams,
@@ -114,7 +114,7 @@ interface ValidateService {
         fun validateUbl(params: ValidateValidateUblParams): HttpResponseFor<UblDocumentValidation> =
             validateUbl(params, RequestOptions.none())
 
-        /** @see [validateUbl] */
+        /** @see validateUbl */
         @MustBeClosed
         fun validateUbl(
             params: ValidateValidateUblParams,

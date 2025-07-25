@@ -30,19 +30,19 @@ interface OutboxServiceAsync {
     fun listDraftDocuments(): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
         listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
-    /** @see [listDraftDocuments] */
+    /** @see listDraftDocuments */
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync>
 
-    /** @see [listDraftDocuments] */
+    /** @see listDraftDocuments */
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
         listDraftDocuments(params, RequestOptions.none())
 
-    /** @see [listDraftDocuments] */
+    /** @see listDraftDocuments */
     fun listDraftDocuments(
         requestOptions: RequestOptions
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
@@ -52,19 +52,19 @@ interface OutboxServiceAsync {
     fun listReceivedDocuments(): CompletableFuture<OutboxListReceivedDocumentsPageAsync> =
         listReceivedDocuments(OutboxListReceivedDocumentsParams.none())
 
-    /** @see [listReceivedDocuments] */
+    /** @see listReceivedDocuments */
     fun listReceivedDocuments(
         params: OutboxListReceivedDocumentsParams = OutboxListReceivedDocumentsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OutboxListReceivedDocumentsPageAsync>
 
-    /** @see [listReceivedDocuments] */
+    /** @see listReceivedDocuments */
     fun listReceivedDocuments(
         params: OutboxListReceivedDocumentsParams = OutboxListReceivedDocumentsParams.none()
     ): CompletableFuture<OutboxListReceivedDocumentsPageAsync> =
         listReceivedDocuments(params, RequestOptions.none())
 
-    /** @see [listReceivedDocuments] */
+    /** @see listReceivedDocuments */
     fun listReceivedDocuments(
         requestOptions: RequestOptions
     ): CompletableFuture<OutboxListReceivedDocumentsPageAsync> =
@@ -92,19 +92,19 @@ interface OutboxServiceAsync {
             CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =
             listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
-        /** @see [listDraftDocuments] */
+        /** @see listDraftDocuments */
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>>
 
-        /** @see [listDraftDocuments] */
+        /** @see listDraftDocuments */
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =
             listDraftDocuments(params, RequestOptions.none())
 
-        /** @see [listDraftDocuments] */
+        /** @see listDraftDocuments */
         fun listDraftDocuments(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =
@@ -118,19 +118,19 @@ interface OutboxServiceAsync {
             CompletableFuture<HttpResponseFor<OutboxListReceivedDocumentsPageAsync>> =
             listReceivedDocuments(OutboxListReceivedDocumentsParams.none())
 
-        /** @see [listReceivedDocuments] */
+        /** @see listReceivedDocuments */
         fun listReceivedDocuments(
             params: OutboxListReceivedDocumentsParams = OutboxListReceivedDocumentsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<OutboxListReceivedDocumentsPageAsync>>
 
-        /** @see [listReceivedDocuments] */
+        /** @see listReceivedDocuments */
         fun listReceivedDocuments(
             params: OutboxListReceivedDocumentsParams = OutboxListReceivedDocumentsParams.none()
         ): CompletableFuture<HttpResponseFor<OutboxListReceivedDocumentsPageAsync>> =
             listReceivedDocuments(params, RequestOptions.none())
 
-        /** @see [listReceivedDocuments] */
+        /** @see listReceivedDocuments */
         fun listReceivedDocuments(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<OutboxListReceivedDocumentsPageAsync>> =
