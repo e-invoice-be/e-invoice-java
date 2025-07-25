@@ -35,7 +35,7 @@ interface LookupService {
     fun retrieve(params: LookupRetrieveParams): LookupRetrieveResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: LookupRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -49,7 +49,7 @@ interface LookupService {
         params: LookupRetrieveParticipantsParams
     ): LookupRetrieveParticipantsResponse = retrieveParticipants(params, RequestOptions.none())
 
-    /** @see [retrieveParticipants] */
+    /** @see retrieveParticipants */
     fun retrieveParticipants(
         params: LookupRetrieveParticipantsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -73,7 +73,7 @@ interface LookupService {
         fun retrieve(params: LookupRetrieveParams): HttpResponseFor<LookupRetrieveResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: LookupRetrieveParams,
@@ -90,7 +90,7 @@ interface LookupService {
         ): HttpResponseFor<LookupRetrieveParticipantsResponse> =
             retrieveParticipants(params, RequestOptions.none())
 
-        /** @see [retrieveParticipants] */
+        /** @see retrieveParticipants */
         @MustBeClosed
         fun retrieveParticipants(
             params: LookupRetrieveParticipantsParams,

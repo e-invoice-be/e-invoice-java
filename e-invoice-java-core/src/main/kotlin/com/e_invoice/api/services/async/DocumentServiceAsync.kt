@@ -38,7 +38,7 @@ interface DocumentServiceAsync {
     fun create(params: DocumentCreateParams): CompletableFuture<DocumentResponse> =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: DocumentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -48,7 +48,7 @@ interface DocumentServiceAsync {
     fun retrieve(documentId: String): CompletableFuture<DocumentResponse> =
         retrieve(documentId, DocumentRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         documentId: String,
         params: DocumentRetrieveParams = DocumentRetrieveParams.none(),
@@ -56,23 +56,23 @@ interface DocumentServiceAsync {
     ): CompletableFuture<DocumentResponse> =
         retrieve(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         documentId: String,
         params: DocumentRetrieveParams = DocumentRetrieveParams.none(),
     ): CompletableFuture<DocumentResponse> = retrieve(documentId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: DocumentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DocumentResponse>
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: DocumentRetrieveParams): CompletableFuture<DocumentResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         documentId: String,
         requestOptions: RequestOptions,
@@ -83,7 +83,7 @@ interface DocumentServiceAsync {
     fun delete(documentId: String): CompletableFuture<DocumentDeleteResponse> =
         delete(documentId, DocumentDeleteParams.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         documentId: String,
         params: DocumentDeleteParams = DocumentDeleteParams.none(),
@@ -91,23 +91,23 @@ interface DocumentServiceAsync {
     ): CompletableFuture<DocumentDeleteResponse> =
         delete(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         documentId: String,
         params: DocumentDeleteParams = DocumentDeleteParams.none(),
     ): CompletableFuture<DocumentDeleteResponse> = delete(documentId, params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         params: DocumentDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DocumentDeleteResponse>
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(params: DocumentDeleteParams): CompletableFuture<DocumentDeleteResponse> =
         delete(params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         documentId: String,
         requestOptions: RequestOptions,
@@ -118,7 +118,7 @@ interface DocumentServiceAsync {
     fun send(documentId: String): CompletableFuture<DocumentResponse> =
         send(documentId, DocumentSendParams.none())
 
-    /** @see [send] */
+    /** @see send */
     fun send(
         documentId: String,
         params: DocumentSendParams = DocumentSendParams.none(),
@@ -126,23 +126,23 @@ interface DocumentServiceAsync {
     ): CompletableFuture<DocumentResponse> =
         send(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [send] */
+    /** @see send */
     fun send(
         documentId: String,
         params: DocumentSendParams = DocumentSendParams.none(),
     ): CompletableFuture<DocumentResponse> = send(documentId, params, RequestOptions.none())
 
-    /** @see [send] */
+    /** @see send */
     fun send(
         params: DocumentSendParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DocumentResponse>
 
-    /** @see [send] */
+    /** @see send */
     fun send(params: DocumentSendParams): CompletableFuture<DocumentResponse> =
         send(params, RequestOptions.none())
 
-    /** @see [send] */
+    /** @see send */
     fun send(
         documentId: String,
         requestOptions: RequestOptions,
@@ -176,7 +176,7 @@ interface DocumentServiceAsync {
         ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         fun create(
             params: DocumentCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -189,7 +189,7 @@ interface DocumentServiceAsync {
         fun retrieve(documentId: String): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             retrieve(documentId, DocumentRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             documentId: String,
             params: DocumentRetrieveParams = DocumentRetrieveParams.none(),
@@ -197,26 +197,26 @@ interface DocumentServiceAsync {
         ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             retrieve(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             documentId: String,
             params: DocumentRetrieveParams = DocumentRetrieveParams.none(),
         ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             retrieve(documentId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: DocumentRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DocumentResponse>>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: DocumentRetrieveParams
         ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             documentId: String,
             requestOptions: RequestOptions,
@@ -230,7 +230,7 @@ interface DocumentServiceAsync {
         fun delete(documentId: String): CompletableFuture<HttpResponseFor<DocumentDeleteResponse>> =
             delete(documentId, DocumentDeleteParams.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             documentId: String,
             params: DocumentDeleteParams = DocumentDeleteParams.none(),
@@ -238,26 +238,26 @@ interface DocumentServiceAsync {
         ): CompletableFuture<HttpResponseFor<DocumentDeleteResponse>> =
             delete(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             documentId: String,
             params: DocumentDeleteParams = DocumentDeleteParams.none(),
         ): CompletableFuture<HttpResponseFor<DocumentDeleteResponse>> =
             delete(documentId, params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             params: DocumentDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DocumentDeleteResponse>>
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             params: DocumentDeleteParams
         ): CompletableFuture<HttpResponseFor<DocumentDeleteResponse>> =
             delete(params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         fun delete(
             documentId: String,
             requestOptions: RequestOptions,
@@ -271,7 +271,7 @@ interface DocumentServiceAsync {
         fun send(documentId: String): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             send(documentId, DocumentSendParams.none())
 
-        /** @see [send] */
+        /** @see send */
         fun send(
             documentId: String,
             params: DocumentSendParams = DocumentSendParams.none(),
@@ -279,24 +279,24 @@ interface DocumentServiceAsync {
         ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             send(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [send] */
+        /** @see send */
         fun send(
             documentId: String,
             params: DocumentSendParams = DocumentSendParams.none(),
         ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             send(documentId, params, RequestOptions.none())
 
-        /** @see [send] */
+        /** @see send */
         fun send(
             params: DocumentSendParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DocumentResponse>>
 
-        /** @see [send] */
+        /** @see send */
         fun send(params: DocumentSendParams): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             send(params, RequestOptions.none())
 
-        /** @see [send] */
+        /** @see send */
         fun send(
             documentId: String,
             requestOptions: RequestOptions,

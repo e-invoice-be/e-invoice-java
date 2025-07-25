@@ -14,7 +14,7 @@ import java.util.concurrent.Executor
 import kotlin.jvm.optionals.getOrDefault
 import kotlin.jvm.optionals.getOrNull
 
-/** @see [InboxServiceAsync.listCreditNotes] */
+/** @see InboxServiceAsync.listCreditNotes */
 class InboxListCreditNotesPageAsync
 private constructor(
     private val service: InboxServiceAsync,
@@ -26,7 +26,7 @@ private constructor(
     /**
      * Delegates to [PaginatedDocumentResponse], but gracefully handles missing data.
      *
-     * @see [PaginatedDocumentResponse.items]
+     * @see PaginatedDocumentResponse.items
      */
     override fun items(): List<DocumentResponse> =
         response._items().getOptional("items").getOrNull() ?: emptyList()
@@ -34,21 +34,21 @@ private constructor(
     /**
      * Delegates to [PaginatedDocumentResponse], but gracefully handles missing data.
      *
-     * @see [PaginatedDocumentResponse.page]
+     * @see PaginatedDocumentResponse.page
      */
     fun page(): Optional<Long> = response._page().getOptional("page")
 
     /**
      * Delegates to [PaginatedDocumentResponse], but gracefully handles missing data.
      *
-     * @see [PaginatedDocumentResponse.pageSize]
+     * @see PaginatedDocumentResponse.pageSize
      */
     fun pageSize(): Optional<Long> = response._pageSize().getOptional("page_size")
 
     /**
      * Delegates to [PaginatedDocumentResponse], but gracefully handles missing data.
      *
-     * @see [PaginatedDocumentResponse.total]
+     * @see PaginatedDocumentResponse.total
      */
     fun total(): Optional<Long> = response._total().getOptional("total")
 

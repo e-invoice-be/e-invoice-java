@@ -31,18 +31,18 @@ interface InboxServiceAsync {
     /** Retrieve a paginated list of received documents with filtering options. */
     fun list(): CompletableFuture<InboxListPageAsync> = list(InboxListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: InboxListParams = InboxListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<InboxListPageAsync>
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: InboxListParams = InboxListParams.none()
     ): CompletableFuture<InboxListPageAsync> = list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): CompletableFuture<InboxListPageAsync> =
         list(InboxListParams.none(), requestOptions)
 
@@ -50,19 +50,19 @@ interface InboxServiceAsync {
     fun listCreditNotes(): CompletableFuture<InboxListCreditNotesPageAsync> =
         listCreditNotes(InboxListCreditNotesParams.none())
 
-    /** @see [listCreditNotes] */
+    /** @see listCreditNotes */
     fun listCreditNotes(
         params: InboxListCreditNotesParams = InboxListCreditNotesParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<InboxListCreditNotesPageAsync>
 
-    /** @see [listCreditNotes] */
+    /** @see listCreditNotes */
     fun listCreditNotes(
         params: InboxListCreditNotesParams = InboxListCreditNotesParams.none()
     ): CompletableFuture<InboxListCreditNotesPageAsync> =
         listCreditNotes(params, RequestOptions.none())
 
-    /** @see [listCreditNotes] */
+    /** @see listCreditNotes */
     fun listCreditNotes(
         requestOptions: RequestOptions
     ): CompletableFuture<InboxListCreditNotesPageAsync> =
@@ -72,18 +72,18 @@ interface InboxServiceAsync {
     fun listInvoices(): CompletableFuture<InboxListInvoicesPageAsync> =
         listInvoices(InboxListInvoicesParams.none())
 
-    /** @see [listInvoices] */
+    /** @see listInvoices */
     fun listInvoices(
         params: InboxListInvoicesParams = InboxListInvoicesParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<InboxListInvoicesPageAsync>
 
-    /** @see [listInvoices] */
+    /** @see listInvoices */
     fun listInvoices(
         params: InboxListInvoicesParams = InboxListInvoicesParams.none()
     ): CompletableFuture<InboxListInvoicesPageAsync> = listInvoices(params, RequestOptions.none())
 
-    /** @see [listInvoices] */
+    /** @see listInvoices */
     fun listInvoices(
         requestOptions: RequestOptions
     ): CompletableFuture<InboxListInvoicesPageAsync> =
@@ -108,19 +108,19 @@ interface InboxServiceAsync {
         fun list(): CompletableFuture<HttpResponseFor<InboxListPageAsync>> =
             list(InboxListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: InboxListParams = InboxListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<InboxListPageAsync>>
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             params: InboxListParams = InboxListParams.none()
         ): CompletableFuture<HttpResponseFor<InboxListPageAsync>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         fun list(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<InboxListPageAsync>> =
@@ -133,19 +133,19 @@ interface InboxServiceAsync {
         fun listCreditNotes(): CompletableFuture<HttpResponseFor<InboxListCreditNotesPageAsync>> =
             listCreditNotes(InboxListCreditNotesParams.none())
 
-        /** @see [listCreditNotes] */
+        /** @see listCreditNotes */
         fun listCreditNotes(
             params: InboxListCreditNotesParams = InboxListCreditNotesParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<InboxListCreditNotesPageAsync>>
 
-        /** @see [listCreditNotes] */
+        /** @see listCreditNotes */
         fun listCreditNotes(
             params: InboxListCreditNotesParams = InboxListCreditNotesParams.none()
         ): CompletableFuture<HttpResponseFor<InboxListCreditNotesPageAsync>> =
             listCreditNotes(params, RequestOptions.none())
 
-        /** @see [listCreditNotes] */
+        /** @see listCreditNotes */
         fun listCreditNotes(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<InboxListCreditNotesPageAsync>> =
@@ -158,19 +158,19 @@ interface InboxServiceAsync {
         fun listInvoices(): CompletableFuture<HttpResponseFor<InboxListInvoicesPageAsync>> =
             listInvoices(InboxListInvoicesParams.none())
 
-        /** @see [listInvoices] */
+        /** @see listInvoices */
         fun listInvoices(
             params: InboxListInvoicesParams = InboxListInvoicesParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<InboxListInvoicesPageAsync>>
 
-        /** @see [listInvoices] */
+        /** @see listInvoices */
         fun listInvoices(
             params: InboxListInvoicesParams = InboxListInvoicesParams.none()
         ): CompletableFuture<HttpResponseFor<InboxListInvoicesPageAsync>> =
             listInvoices(params, RequestOptions.none())
 
-        /** @see [listInvoices] */
+        /** @see listInvoices */
         fun listInvoices(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<InboxListInvoicesPageAsync>> =

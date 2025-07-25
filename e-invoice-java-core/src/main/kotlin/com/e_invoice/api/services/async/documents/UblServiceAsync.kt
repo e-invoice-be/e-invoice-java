@@ -28,7 +28,7 @@ interface UblServiceAsync {
     fun get(documentId: String): CompletableFuture<UblGetResponse> =
         get(documentId, UblGetParams.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         documentId: String,
         params: UblGetParams = UblGetParams.none(),
@@ -36,23 +36,23 @@ interface UblServiceAsync {
     ): CompletableFuture<UblGetResponse> =
         get(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         documentId: String,
         params: UblGetParams = UblGetParams.none(),
     ): CompletableFuture<UblGetResponse> = get(documentId, params, RequestOptions.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         params: UblGetParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<UblGetResponse>
 
-    /** @see [get] */
+    /** @see get */
     fun get(params: UblGetParams): CompletableFuture<UblGetResponse> =
         get(params, RequestOptions.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(documentId: String, requestOptions: RequestOptions): CompletableFuture<UblGetResponse> =
         get(documentId, UblGetParams.none(), requestOptions)
 
@@ -73,7 +73,7 @@ interface UblServiceAsync {
         fun get(documentId: String): CompletableFuture<HttpResponseFor<UblGetResponse>> =
             get(documentId, UblGetParams.none())
 
-        /** @see [get] */
+        /** @see get */
         fun get(
             documentId: String,
             params: UblGetParams = UblGetParams.none(),
@@ -81,24 +81,24 @@ interface UblServiceAsync {
         ): CompletableFuture<HttpResponseFor<UblGetResponse>> =
             get(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [get] */
+        /** @see get */
         fun get(
             documentId: String,
             params: UblGetParams = UblGetParams.none(),
         ): CompletableFuture<HttpResponseFor<UblGetResponse>> =
             get(documentId, params, RequestOptions.none())
 
-        /** @see [get] */
+        /** @see get */
         fun get(
             params: UblGetParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<UblGetResponse>>
 
-        /** @see [get] */
+        /** @see get */
         fun get(params: UblGetParams): CompletableFuture<HttpResponseFor<UblGetResponse>> =
             get(params, RequestOptions.none())
 
-        /** @see [get] */
+        /** @see get */
         fun get(
             documentId: String,
             requestOptions: RequestOptions,

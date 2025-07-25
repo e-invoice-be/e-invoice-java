@@ -35,7 +35,7 @@ interface LookupServiceAsync {
     fun retrieve(params: LookupRetrieveParams): CompletableFuture<LookupRetrieveResponse> =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: LookupRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -50,7 +50,7 @@ interface LookupServiceAsync {
     ): CompletableFuture<LookupRetrieveParticipantsResponse> =
         retrieveParticipants(params, RequestOptions.none())
 
-    /** @see [retrieveParticipants] */
+    /** @see retrieveParticipants */
     fun retrieveParticipants(
         params: LookupRetrieveParticipantsParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -79,7 +79,7 @@ interface LookupServiceAsync {
         ): CompletableFuture<HttpResponseFor<LookupRetrieveResponse>> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         fun retrieve(
             params: LookupRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -94,7 +94,7 @@ interface LookupServiceAsync {
         ): CompletableFuture<HttpResponseFor<LookupRetrieveParticipantsResponse>> =
             retrieveParticipants(params, RequestOptions.none())
 
-        /** @see [retrieveParticipants] */
+        /** @see retrieveParticipants */
         fun retrieveParticipants(
             params: LookupRetrieveParticipantsParams,
             requestOptions: RequestOptions = RequestOptions.none(),

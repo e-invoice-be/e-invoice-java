@@ -30,18 +30,18 @@ interface OutboxService {
     fun listDraftDocuments(): OutboxListDraftDocumentsPage =
         listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
-    /** @see [listDraftDocuments] */
+    /** @see listDraftDocuments */
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OutboxListDraftDocumentsPage
 
-    /** @see [listDraftDocuments] */
+    /** @see listDraftDocuments */
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
     ): OutboxListDraftDocumentsPage = listDraftDocuments(params, RequestOptions.none())
 
-    /** @see [listDraftDocuments] */
+    /** @see listDraftDocuments */
     fun listDraftDocuments(requestOptions: RequestOptions): OutboxListDraftDocumentsPage =
         listDraftDocuments(OutboxListDraftDocumentsParams.none(), requestOptions)
 
@@ -49,18 +49,18 @@ interface OutboxService {
     fun listReceivedDocuments(): OutboxListReceivedDocumentsPage =
         listReceivedDocuments(OutboxListReceivedDocumentsParams.none())
 
-    /** @see [listReceivedDocuments] */
+    /** @see listReceivedDocuments */
     fun listReceivedDocuments(
         params: OutboxListReceivedDocumentsParams = OutboxListReceivedDocumentsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OutboxListReceivedDocumentsPage
 
-    /** @see [listReceivedDocuments] */
+    /** @see listReceivedDocuments */
     fun listReceivedDocuments(
         params: OutboxListReceivedDocumentsParams = OutboxListReceivedDocumentsParams.none()
     ): OutboxListReceivedDocumentsPage = listReceivedDocuments(params, RequestOptions.none())
 
-    /** @see [listReceivedDocuments] */
+    /** @see listReceivedDocuments */
     fun listReceivedDocuments(requestOptions: RequestOptions): OutboxListReceivedDocumentsPage =
         listReceivedDocuments(OutboxListReceivedDocumentsParams.none(), requestOptions)
 
@@ -82,21 +82,21 @@ interface OutboxService {
         fun listDraftDocuments(): HttpResponseFor<OutboxListDraftDocumentsPage> =
             listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
-        /** @see [listDraftDocuments] */
+        /** @see listDraftDocuments */
         @MustBeClosed
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<OutboxListDraftDocumentsPage>
 
-        /** @see [listDraftDocuments] */
+        /** @see listDraftDocuments */
         @MustBeClosed
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
         ): HttpResponseFor<OutboxListDraftDocumentsPage> =
             listDraftDocuments(params, RequestOptions.none())
 
-        /** @see [listDraftDocuments] */
+        /** @see listDraftDocuments */
         @MustBeClosed
         fun listDraftDocuments(
             requestOptions: RequestOptions
@@ -111,21 +111,21 @@ interface OutboxService {
         fun listReceivedDocuments(): HttpResponseFor<OutboxListReceivedDocumentsPage> =
             listReceivedDocuments(OutboxListReceivedDocumentsParams.none())
 
-        /** @see [listReceivedDocuments] */
+        /** @see listReceivedDocuments */
         @MustBeClosed
         fun listReceivedDocuments(
             params: OutboxListReceivedDocumentsParams = OutboxListReceivedDocumentsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<OutboxListReceivedDocumentsPage>
 
-        /** @see [listReceivedDocuments] */
+        /** @see listReceivedDocuments */
         @MustBeClosed
         fun listReceivedDocuments(
             params: OutboxListReceivedDocumentsParams = OutboxListReceivedDocumentsParams.none()
         ): HttpResponseFor<OutboxListReceivedDocumentsPage> =
             listReceivedDocuments(params, RequestOptions.none())
 
-        /** @see [listReceivedDocuments] */
+        /** @see listReceivedDocuments */
         @MustBeClosed
         fun listReceivedDocuments(
             requestOptions: RequestOptions

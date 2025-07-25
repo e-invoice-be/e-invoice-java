@@ -38,7 +38,7 @@ interface DocumentService {
     fun create(params: DocumentCreateParams): DocumentResponse =
         create(params, RequestOptions.none())
 
-    /** @see [create] */
+    /** @see create */
     fun create(
         params: DocumentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -48,7 +48,7 @@ interface DocumentService {
     fun retrieve(documentId: String): DocumentResponse =
         retrieve(documentId, DocumentRetrieveParams.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         documentId: String,
         params: DocumentRetrieveParams = DocumentRetrieveParams.none(),
@@ -56,23 +56,23 @@ interface DocumentService {
     ): DocumentResponse =
         retrieve(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         documentId: String,
         params: DocumentRetrieveParams = DocumentRetrieveParams.none(),
     ): DocumentResponse = retrieve(documentId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: DocumentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DocumentResponse
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: DocumentRetrieveParams): DocumentResponse =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(documentId: String, requestOptions: RequestOptions): DocumentResponse =
         retrieve(documentId, DocumentRetrieveParams.none(), requestOptions)
 
@@ -80,7 +80,7 @@ interface DocumentService {
     fun delete(documentId: String): DocumentDeleteResponse =
         delete(documentId, DocumentDeleteParams.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         documentId: String,
         params: DocumentDeleteParams = DocumentDeleteParams.none(),
@@ -88,52 +88,52 @@ interface DocumentService {
     ): DocumentDeleteResponse =
         delete(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         documentId: String,
         params: DocumentDeleteParams = DocumentDeleteParams.none(),
     ): DocumentDeleteResponse = delete(documentId, params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         params: DocumentDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DocumentDeleteResponse
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(params: DocumentDeleteParams): DocumentDeleteResponse =
         delete(params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(documentId: String, requestOptions: RequestOptions): DocumentDeleteResponse =
         delete(documentId, DocumentDeleteParams.none(), requestOptions)
 
     /** Send an invoice or credit note via Peppol */
     fun send(documentId: String): DocumentResponse = send(documentId, DocumentSendParams.none())
 
-    /** @see [send] */
+    /** @see send */
     fun send(
         documentId: String,
         params: DocumentSendParams = DocumentSendParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DocumentResponse = send(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [send] */
+    /** @see send */
     fun send(
         documentId: String,
         params: DocumentSendParams = DocumentSendParams.none(),
     ): DocumentResponse = send(documentId, params, RequestOptions.none())
 
-    /** @see [send] */
+    /** @see send */
     fun send(
         params: DocumentSendParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DocumentResponse
 
-    /** @see [send] */
+    /** @see send */
     fun send(params: DocumentSendParams): DocumentResponse = send(params, RequestOptions.none())
 
-    /** @see [send] */
+    /** @see send */
     fun send(documentId: String, requestOptions: RequestOptions): DocumentResponse =
         send(documentId, DocumentSendParams.none(), requestOptions)
 
@@ -159,7 +159,7 @@ interface DocumentService {
         fun create(params: DocumentCreateParams): HttpResponseFor<DocumentResponse> =
             create(params, RequestOptions.none())
 
-        /** @see [create] */
+        /** @see create */
         @MustBeClosed
         fun create(
             params: DocumentCreateParams,
@@ -174,7 +174,7 @@ interface DocumentService {
         fun retrieve(documentId: String): HttpResponseFor<DocumentResponse> =
             retrieve(documentId, DocumentRetrieveParams.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             documentId: String,
@@ -183,26 +183,26 @@ interface DocumentService {
         ): HttpResponseFor<DocumentResponse> =
             retrieve(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             documentId: String,
             params: DocumentRetrieveParams = DocumentRetrieveParams.none(),
         ): HttpResponseFor<DocumentResponse> = retrieve(documentId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: DocumentRetrieveParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DocumentResponse>
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: DocumentRetrieveParams): HttpResponseFor<DocumentResponse> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             documentId: String,
@@ -218,7 +218,7 @@ interface DocumentService {
         fun delete(documentId: String): HttpResponseFor<DocumentDeleteResponse> =
             delete(documentId, DocumentDeleteParams.none())
 
-        /** @see [delete] */
+        /** @see delete */
         @MustBeClosed
         fun delete(
             documentId: String,
@@ -227,7 +227,7 @@ interface DocumentService {
         ): HttpResponseFor<DocumentDeleteResponse> =
             delete(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [delete] */
+        /** @see delete */
         @MustBeClosed
         fun delete(
             documentId: String,
@@ -235,19 +235,19 @@ interface DocumentService {
         ): HttpResponseFor<DocumentDeleteResponse> =
             delete(documentId, params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         @MustBeClosed
         fun delete(
             params: DocumentDeleteParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DocumentDeleteResponse>
 
-        /** @see [delete] */
+        /** @see delete */
         @MustBeClosed
         fun delete(params: DocumentDeleteParams): HttpResponseFor<DocumentDeleteResponse> =
             delete(params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         @MustBeClosed
         fun delete(
             documentId: String,
@@ -263,7 +263,7 @@ interface DocumentService {
         fun send(documentId: String): HttpResponseFor<DocumentResponse> =
             send(documentId, DocumentSendParams.none())
 
-        /** @see [send] */
+        /** @see send */
         @MustBeClosed
         fun send(
             documentId: String,
@@ -272,26 +272,26 @@ interface DocumentService {
         ): HttpResponseFor<DocumentResponse> =
             send(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [send] */
+        /** @see send */
         @MustBeClosed
         fun send(
             documentId: String,
             params: DocumentSendParams = DocumentSendParams.none(),
         ): HttpResponseFor<DocumentResponse> = send(documentId, params, RequestOptions.none())
 
-        /** @see [send] */
+        /** @see send */
         @MustBeClosed
         fun send(
             params: DocumentSendParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DocumentResponse>
 
-        /** @see [send] */
+        /** @see send */
         @MustBeClosed
         fun send(params: DocumentSendParams): HttpResponseFor<DocumentResponse> =
             send(params, RequestOptions.none())
 
-        /** @see [send] */
+        /** @see send */
         @MustBeClosed
         fun send(
             documentId: String,

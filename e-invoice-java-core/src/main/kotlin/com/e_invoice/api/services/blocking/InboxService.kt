@@ -31,17 +31,17 @@ interface InboxService {
     /** Retrieve a paginated list of received documents with filtering options. */
     fun list(): InboxListPage = list(InboxListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: InboxListParams = InboxListParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): InboxListPage
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: InboxListParams = InboxListParams.none()): InboxListPage =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(requestOptions: RequestOptions): InboxListPage =
         list(InboxListParams.none(), requestOptions)
 
@@ -49,36 +49,36 @@ interface InboxService {
     fun listCreditNotes(): InboxListCreditNotesPage =
         listCreditNotes(InboxListCreditNotesParams.none())
 
-    /** @see [listCreditNotes] */
+    /** @see listCreditNotes */
     fun listCreditNotes(
         params: InboxListCreditNotesParams = InboxListCreditNotesParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): InboxListCreditNotesPage
 
-    /** @see [listCreditNotes] */
+    /** @see listCreditNotes */
     fun listCreditNotes(
         params: InboxListCreditNotesParams = InboxListCreditNotesParams.none()
     ): InboxListCreditNotesPage = listCreditNotes(params, RequestOptions.none())
 
-    /** @see [listCreditNotes] */
+    /** @see listCreditNotes */
     fun listCreditNotes(requestOptions: RequestOptions): InboxListCreditNotesPage =
         listCreditNotes(InboxListCreditNotesParams.none(), requestOptions)
 
     /** Retrieve a paginated list of received invoices with filtering options. */
     fun listInvoices(): InboxListInvoicesPage = listInvoices(InboxListInvoicesParams.none())
 
-    /** @see [listInvoices] */
+    /** @see listInvoices */
     fun listInvoices(
         params: InboxListInvoicesParams = InboxListInvoicesParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): InboxListInvoicesPage
 
-    /** @see [listInvoices] */
+    /** @see listInvoices */
     fun listInvoices(
         params: InboxListInvoicesParams = InboxListInvoicesParams.none()
     ): InboxListInvoicesPage = listInvoices(params, RequestOptions.none())
 
-    /** @see [listInvoices] */
+    /** @see listInvoices */
     fun listInvoices(requestOptions: RequestOptions): InboxListInvoicesPage =
         listInvoices(InboxListInvoicesParams.none(), requestOptions)
 
@@ -98,19 +98,19 @@ interface InboxService {
          */
         @MustBeClosed fun list(): HttpResponseFor<InboxListPage> = list(InboxListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: InboxListParams = InboxListParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<InboxListPage>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(params: InboxListParams = InboxListParams.none()): HttpResponseFor<InboxListPage> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(requestOptions: RequestOptions): HttpResponseFor<InboxListPage> =
             list(InboxListParams.none(), requestOptions)
@@ -123,21 +123,21 @@ interface InboxService {
         fun listCreditNotes(): HttpResponseFor<InboxListCreditNotesPage> =
             listCreditNotes(InboxListCreditNotesParams.none())
 
-        /** @see [listCreditNotes] */
+        /** @see listCreditNotes */
         @MustBeClosed
         fun listCreditNotes(
             params: InboxListCreditNotesParams = InboxListCreditNotesParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<InboxListCreditNotesPage>
 
-        /** @see [listCreditNotes] */
+        /** @see listCreditNotes */
         @MustBeClosed
         fun listCreditNotes(
             params: InboxListCreditNotesParams = InboxListCreditNotesParams.none()
         ): HttpResponseFor<InboxListCreditNotesPage> =
             listCreditNotes(params, RequestOptions.none())
 
-        /** @see [listCreditNotes] */
+        /** @see listCreditNotes */
         @MustBeClosed
         fun listCreditNotes(
             requestOptions: RequestOptions
@@ -152,20 +152,20 @@ interface InboxService {
         fun listInvoices(): HttpResponseFor<InboxListInvoicesPage> =
             listInvoices(InboxListInvoicesParams.none())
 
-        /** @see [listInvoices] */
+        /** @see listInvoices */
         @MustBeClosed
         fun listInvoices(
             params: InboxListInvoicesParams = InboxListInvoicesParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<InboxListInvoicesPage>
 
-        /** @see [listInvoices] */
+        /** @see listInvoices */
         @MustBeClosed
         fun listInvoices(
             params: InboxListInvoicesParams = InboxListInvoicesParams.none()
         ): HttpResponseFor<InboxListInvoicesPage> = listInvoices(params, RequestOptions.none())
 
-        /** @see [listInvoices] */
+        /** @see listInvoices */
         @MustBeClosed
         fun listInvoices(requestOptions: RequestOptions): HttpResponseFor<InboxListInvoicesPage> =
             listInvoices(InboxListInvoicesParams.none(), requestOptions)
