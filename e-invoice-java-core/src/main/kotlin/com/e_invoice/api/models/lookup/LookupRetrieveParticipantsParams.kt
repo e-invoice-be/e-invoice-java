@@ -28,8 +28,10 @@ private constructor(
     /** Country code of the company to lookup. If not provided, the search will be global. */
     fun countryCode(): Optional<String> = Optional.ofNullable(countryCode)
 
+    /** Additional headers to send with the request. */
     fun _additionalHeaders(): Headers = additionalHeaders
 
+    /** Additional query param to send with the request. */
     fun _additionalQueryParams(): QueryParams = additionalQueryParams
 
     fun toBuilder() = Builder().from(this)
