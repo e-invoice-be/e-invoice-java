@@ -299,6 +299,8 @@ The SDK throws custom unchecked exception types:
 
 - [`EInvoiceIoException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceIoException.kt): I/O networking errors.
 
+- [`EInvoiceRetryableException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+
 - [`EInvoiceInvalidDataException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
 - [`EInvoiceException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
