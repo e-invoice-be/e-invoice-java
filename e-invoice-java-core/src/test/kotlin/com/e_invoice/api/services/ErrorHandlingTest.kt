@@ -35,7 +35,6 @@ import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.entry
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.parallel.ResourceLock
@@ -68,7 +67,6 @@ internal class ErrorHandlingTest {
                 .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate400() {
         val documentService = client.documents()
@@ -168,7 +166,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate400WithRawResponse() {
         val documentService = client.documents().withRawResponse()
@@ -268,7 +265,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate401() {
         val documentService = client.documents()
@@ -368,7 +364,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate401WithRawResponse() {
         val documentService = client.documents().withRawResponse()
@@ -468,7 +463,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate403() {
         val documentService = client.documents()
@@ -568,7 +562,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate403WithRawResponse() {
         val documentService = client.documents().withRawResponse()
@@ -668,7 +661,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate404() {
         val documentService = client.documents()
@@ -768,7 +760,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate404WithRawResponse() {
         val documentService = client.documents().withRawResponse()
@@ -868,7 +859,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate422() {
         val documentService = client.documents()
@@ -968,7 +958,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate422WithRawResponse() {
         val documentService = client.documents().withRawResponse()
@@ -1068,7 +1057,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate429() {
         val documentService = client.documents()
@@ -1168,7 +1156,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate429WithRawResponse() {
         val documentService = client.documents().withRawResponse()
@@ -1268,7 +1255,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate500() {
         val documentService = client.documents()
@@ -1368,7 +1354,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate500WithRawResponse() {
         val documentService = client.documents().withRawResponse()
@@ -1468,7 +1453,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate999() {
         val documentService = client.documents()
@@ -1568,7 +1552,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreate999WithRawResponse() {
         val documentService = client.documents().withRawResponse()
@@ -1668,7 +1651,6 @@ internal class ErrorHandlingTest {
         assertThat(e.body()).isEqualTo(ERROR_JSON)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentsCreateInvalidJsonBody() {
         val documentService = client.documents()

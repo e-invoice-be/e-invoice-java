@@ -3,18 +3,15 @@
 package com.e_invoice.api.models.documents
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class DocumentRetrieveParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         DocumentRetrieveParams.builder().documentId("document_id").build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params = DocumentRetrieveParams.builder().documentId("document_id").build()

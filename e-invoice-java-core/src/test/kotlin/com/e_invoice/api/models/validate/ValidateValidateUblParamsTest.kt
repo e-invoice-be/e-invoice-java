@@ -5,18 +5,15 @@ package com.e_invoice.api.models.validate
 import com.e_invoice.api.core.MultipartField
 import java.io.InputStream
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class ValidateValidateUblParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         ValidateValidateUblParams.builder().file("some content".byteInputStream()).build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =

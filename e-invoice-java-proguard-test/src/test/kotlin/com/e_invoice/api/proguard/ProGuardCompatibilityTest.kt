@@ -9,7 +9,6 @@ import com.e_invoice.api.models.documents.DocumentAttachmentCreate
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeAll
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class ProGuardCompatibilityTest {
@@ -46,7 +45,6 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.webhooks()).isNotNull()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun documentAttachmentCreateRoundtrip() {
         val jsonMapper = jsonMapper()
@@ -67,7 +65,6 @@ internal class ProGuardCompatibilityTest {
         assertThat(roundtrippedDocumentAttachmentCreate).isEqualTo(documentAttachmentCreate)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun currencyCodeRoundtrip() {
         val jsonMapper = jsonMapper()

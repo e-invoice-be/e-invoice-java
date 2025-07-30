@@ -7,12 +7,10 @@ import com.e_invoice.api.models.documents.DocumentType
 import com.e_invoice.api.models.inbox.DocumentState
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class OutboxListReceivedDocumentsParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         OutboxListReceivedDocumentsParams.builder()
@@ -27,7 +25,6 @@ internal class OutboxListReceivedDocumentsParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params =
@@ -59,7 +56,6 @@ internal class OutboxListReceivedDocumentsParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = OutboxListReceivedDocumentsParams.builder().build()
