@@ -4,12 +4,10 @@ package com.e_invoice.api.models.webhooks
 
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class WebhookUpdateParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         WebhookUpdateParams.builder()
@@ -20,7 +18,6 @@ internal class WebhookUpdateParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params = WebhookUpdateParams.builder().webhookId("webhook_id").build()
@@ -30,7 +27,6 @@ internal class WebhookUpdateParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -48,7 +44,6 @@ internal class WebhookUpdateParamsTest {
         assertThat(body.url()).contains("https://example.com")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params = WebhookUpdateParams.builder().webhookId("webhook_id").build()

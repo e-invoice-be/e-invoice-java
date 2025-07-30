@@ -3,12 +3,10 @@
 package com.e_invoice.api.models.documents.attachments
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class AttachmentRetrieveParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         AttachmentRetrieveParams.builder()
@@ -17,7 +15,6 @@ internal class AttachmentRetrieveParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =

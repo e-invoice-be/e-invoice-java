@@ -12,12 +12,10 @@ import com.e_invoice.api.models.documents.attachments.DocumentAttachment
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class PaginatedDocumentResponseTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val paginatedDocumentResponse =
@@ -188,7 +186,6 @@ internal class PaginatedDocumentResponseTest {
         assertThat(paginatedDocumentResponse.total()).isEqualTo(0L)
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()

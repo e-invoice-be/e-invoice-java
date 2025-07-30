@@ -4,12 +4,10 @@ package com.e_invoice.api.models.lookup
 
 import com.e_invoice.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class LookupRetrieveParticipantsParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         LookupRetrieveParticipantsParams.builder()
@@ -18,7 +16,6 @@ internal class LookupRetrieveParticipantsParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params =
@@ -38,7 +35,6 @@ internal class LookupRetrieveParticipantsParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = LookupRetrieveParticipantsParams.builder().query("query").build()

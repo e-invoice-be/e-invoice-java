@@ -9,12 +9,10 @@ import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class DocumentResponseTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val documentResponse =
@@ -172,7 +170,6 @@ internal class DocumentResponseTest {
         assertThat(documentResponse.vendorTaxId()).contains("vendor_tax_id")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()

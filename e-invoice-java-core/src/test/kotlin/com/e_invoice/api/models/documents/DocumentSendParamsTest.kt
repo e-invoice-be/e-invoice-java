@@ -4,12 +4,10 @@ package com.e_invoice.api.models.documents
 
 import com.e_invoice.api.core.http.QueryParams
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class DocumentSendParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         DocumentSendParams.builder()
@@ -22,7 +20,6 @@ internal class DocumentSendParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params = DocumentSendParams.builder().documentId("document_id").build()
@@ -32,7 +29,6 @@ internal class DocumentSendParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParams() {
         val params =
@@ -59,7 +55,6 @@ internal class DocumentSendParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params = DocumentSendParams.builder().documentId("document_id").build()
