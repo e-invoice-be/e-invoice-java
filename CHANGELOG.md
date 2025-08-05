@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.1.0-alpha.6 (2025-08-05)
+
+Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
+
+### Features
+
+* add retryable exception ([3ba2ee0](https://github.com/e-invoice-be/e-invoice-java/commit/3ba2ee098d60afa3eafbd46d2a463186ed74b872))
+* **client:** add `{QueryParams,Headers}#put(String, JsonValue)` methods ([8212887](https://github.com/e-invoice-be/e-invoice-java/commit/821288744869772153e5d1102c5021558a91c9bb))
+* **client:** allow configuring env via system properties ([922e82b](https://github.com/e-invoice-be/e-invoice-java/commit/922e82b7faedec5157906d5bcb4109d66fae0ce6))
+* **client:** ensure compat with proguard ([5365433](https://github.com/e-invoice-be/e-invoice-java/commit/5365433fe3a3489deb6e17d5be8e76ca04adab42))
+
+
+### Bug Fixes
+
+* **client:** r8 support ([8368c2b](https://github.com/e-invoice-be/e-invoice-java/commit/8368c2b420c260634748826ce234b9ac3694c92d))
+* **client:** some bad `_additionalBodyProperties` serialization ([9fcb985](https://github.com/e-invoice-be/e-invoice-java/commit/9fcb9854cf3064e604767465dfa981be3e93da50))
+
+
+### Chores
+
+* **internal:** add async lock helper ([df26ed2](https://github.com/e-invoice-be/e-invoice-java/commit/df26ed29f9e2bf7306a2732b293baff57cdb4a87))
+* **internal:** bump ci test timeout ([f38c48d](https://github.com/e-invoice-be/e-invoice-java/commit/f38c48df97cbd9c8ccdff60e19ce6c5f5c317acd))
+* **internal:** reduce proguard ci logging ([76ac77f](https://github.com/e-invoice-be/e-invoice-java/commit/76ac77fcd54b3196327b41c130ee1477550f818f))
+* **internal:** remove unnecessary `[...]` in `[@see](https://github.com/see)` ([a926ca0](https://github.com/e-invoice-be/e-invoice-java/commit/a926ca08e02b2fb36c84d3cf22be0b3eb200fe85))
+* **internal:** unskip some tests ([3b68970](https://github.com/e-invoice-be/e-invoice-java/commit/3b689707d5e3a4fafa31cb98dcdac3db52fab700))
+
+
+### Documentation
+
+* fix missing readme comment ([a006913](https://github.com/e-invoice-be/e-invoice-java/commit/a00691393b266b06beac8f9d23127ef847b28cba))
+* more code comments ([a6d3c71](https://github.com/e-invoice-be/e-invoice-java/commit/a6d3c71d7fd8168a0c6324c0619d301935814480))
+
 ## 0.1.0-alpha.5 (2025-07-19)
 
 Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)

@@ -5,12 +5,10 @@ package com.e_invoice.api.models.documents.attachments
 import com.e_invoice.api.core.MultipartField
 import java.io.InputStream
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class AttachmentAddParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         AttachmentAddParams.builder()
@@ -19,7 +17,6 @@ internal class AttachmentAddParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params =
@@ -33,7 +30,6 @@ internal class AttachmentAddParamsTest {
         assertThat(params._pathParam(1)).isEqualTo("")
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =

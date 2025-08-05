@@ -6,12 +6,10 @@ import com.e_invoice.api.core.jsonMapper
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class UblGetResponseTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         val ublGetResponse =
@@ -41,7 +39,6 @@ internal class UblGetResponseTest {
             .contains(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun roundtrip() {
         val jsonMapper = jsonMapper()

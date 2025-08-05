@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.5)
-[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.1.0-alpha.5/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.5)
+[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.6)
+[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.1.0-alpha.6/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.6)
 
 <!-- x-release-please-end -->
 
@@ -13,7 +13,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.5).
+The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.6).
 
 <!-- x-release-please-end -->
 
@@ -24,7 +24,7 @@ The REST API documentation can be found on [api.e-invoice.be](https://api.e-invo
 ### Gradle
 
 ```kotlin
-implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.5")
+implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.6")
 ```
 
 ### Maven
@@ -33,7 +33,7 @@ implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.5")
 <dependency>
   <groupId>com.e_invoice.api</groupId>
   <artifactId>e-invoice-java</artifactId>
-  <version>0.1.0-alpha.5</version>
+  <version>0.1.0-alpha.6</version>
 </dependency>
 ```
 
@@ -52,7 +52,8 @@ import com.e_invoice.api.models.documents.DocumentCreate;
 import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 
-// Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+// Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+// Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 
 DocumentCreateParams params = DocumentCreateParams.builder()
@@ -63,13 +64,14 @@ DocumentResponse documentResponse = client.documents().create(params);
 
 ## Client configuration
 
-Configure the client using environment variables:
+Configure the client using system properties or environment variables:
 
 ```java
 import com.e_invoice.api.client.EInvoiceClient;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
-// Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+// Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+// Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 ```
 
@@ -91,7 +93,8 @@ import com.e_invoice.api.client.EInvoiceClient;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 
 EInvoiceClient client = EInvoiceOkHttpClient.builder()
-    // Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+    // Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+    // Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
     .fromEnv()
     .apiKey("My API Key")
     .build();
@@ -99,10 +102,12 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
 
 See this table for the available options:
 
-| Setter    | Environment variable | Required | Default value                |
-| --------- | -------------------- | -------- | ---------------------------- |
-| `apiKey`  | `E_INVOICE_API_KEY`  | true     | -                            |
-| `baseUrl` | `E_INVOICE_BASE_URL` | true     | `"https://api.e-invoice.be"` |
+| Setter    | System property    | Environment variable | Required | Default value                |
+| --------- | ------------------ | -------------------- | -------- | ---------------------------- |
+| `apiKey`  | `einvoice.apiKey`  | `E_INVOICE_API_KEY`  | true     | -                            |
+| `baseUrl` | `einvoice.baseUrl` | `E_INVOICE_BASE_URL` | true     | `"https://api.e-invoice.be"` |
+
+System properties take precedence over environment variables.
 
 > [!TIP]
 > Don't create more than one client in the same application. Each client has a connection pool and
@@ -149,7 +154,8 @@ import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+// Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+// Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 
 DocumentCreateParams params = DocumentCreateParams.builder()
@@ -168,7 +174,8 @@ import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
-// Configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
+// Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
+// Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClientAsync client = EInvoiceOkHttpClientAsync.fromEnv();
 
 DocumentCreateParams params = DocumentCreateParams.builder()
@@ -292,6 +299,8 @@ The SDK throws custom unchecked exception types:
 
 - [`EInvoiceIoException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceIoException.kt): I/O networking errors.
 
+- [`EInvoiceRetryableException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceRetryableException.kt): Generic error indicating a failure that could be retried by the client.
+
 - [`EInvoiceInvalidDataException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceInvalidDataException.kt): Failure to interpret successfully parsed data. For example, when accessing a property that's supposed to be required, but the API unexpectedly omitted it from the response.
 
 - [`EInvoiceException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceException.kt): Base class for all exceptions. Most errors will result in one of the previously mentioned ones, but completely generic errors may be thrown using the base class.
@@ -412,6 +421,12 @@ Or to `debug` for more verbose logging:
 $ export E_INVOICE_LOG=debug
 ```
 
+## ProGuard and R8
+
+Although the SDK uses reflection, it is still usable with [ProGuard](https://github.com/Guardsquare/proguard) and [R8](https://developer.android.com/topic/performance/app-optimization/enable-app-optimization) because `e-invoice-java-core` is published with a [configuration file](e-invoice-java-core/src/main/resources/META-INF/proguard/e-invoice-java-core.pro) containing [keep rules](https://www.guardsquare.com/manual/configuration/usage).
+
+ProGuard and R8 should automatically detect and use the published rules, but you can also manually copy the keep rules if necessary.
+
 ## Jackson
 
 The SDK depends on [Jackson](https://github.com/FasterXML/jackson) for JSON serialization/deserialization. It is compatible with version 2.13.4 or higher, but depends on version 2.18.2 by default.
@@ -427,7 +442,7 @@ If the SDK threw an exception, but you're _certain_ the version is compatible, t
 
 ### Retries
 
-The SDK automatically retries 2 times by default, with a short exponential backoff.
+The SDK automatically retries 2 times by default, with a short exponential backoff between requests.
 
 Only the following error types are retried:
 
@@ -437,7 +452,7 @@ Only the following error types are retried:
 - 429 Rate Limit
 - 5xx Internal
 
-The API may also explicitly instruct the SDK to retry or not retry a response.
+The API may also explicitly instruct the SDK to retry or not retry a request.
 
 To set a custom number of retries, configure the client using the `maxRetries` method:
 

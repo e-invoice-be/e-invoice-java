@@ -3,18 +3,15 @@
 package com.e_invoice.api.models.documents.ubl
 
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class UblGetParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         UblGetParams.builder().documentId("document_id").build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun pathParams() {
         val params = UblGetParams.builder().documentId("document_id").build()

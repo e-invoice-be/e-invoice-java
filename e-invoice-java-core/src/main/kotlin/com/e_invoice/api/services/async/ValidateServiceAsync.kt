@@ -31,7 +31,7 @@ interface ValidateServiceAsync {
     fun validateJson(params: ValidateValidateJsonParams): CompletableFuture<UblDocumentValidation> =
         validateJson(params, RequestOptions.none())
 
-    /** @see [validateJson] */
+    /** @see validateJson */
     fun validateJson(
         params: ValidateValidateJsonParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -49,7 +49,7 @@ interface ValidateServiceAsync {
     ): CompletableFuture<ValidateValidatePeppolIdResponse> =
         validatePeppolId(params, RequestOptions.none())
 
-    /** @see [validatePeppolId] */
+    /** @see validatePeppolId */
     fun validatePeppolId(
         params: ValidateValidatePeppolIdParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -59,7 +59,7 @@ interface ValidateServiceAsync {
     fun validateUbl(params: ValidateValidateUblParams): CompletableFuture<UblDocumentValidation> =
         validateUbl(params, RequestOptions.none())
 
-    /** @see [validateUbl] */
+    /** @see validateUbl */
     fun validateUbl(
         params: ValidateValidateUblParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -88,7 +88,7 @@ interface ValidateServiceAsync {
         ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
             validateJson(params, RequestOptions.none())
 
-        /** @see [validateJson] */
+        /** @see validateJson */
         fun validateJson(
             params: ValidateValidateJsonParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -103,7 +103,7 @@ interface ValidateServiceAsync {
         ): CompletableFuture<HttpResponseFor<ValidateValidatePeppolIdResponse>> =
             validatePeppolId(params, RequestOptions.none())
 
-        /** @see [validatePeppolId] */
+        /** @see validatePeppolId */
         fun validatePeppolId(
             params: ValidateValidatePeppolIdParams,
             requestOptions: RequestOptions = RequestOptions.none(),
@@ -118,7 +118,7 @@ interface ValidateServiceAsync {
         ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
             validateUbl(params, RequestOptions.none())
 
-        /** @see [validateUbl] */
+        /** @see validateUbl */
         fun validateUbl(
             params: ValidateValidateUblParams,
             requestOptions: RequestOptions = RequestOptions.none(),

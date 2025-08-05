@@ -35,7 +35,7 @@ interface AttachmentService {
     fun retrieve(attachmentId: String, params: AttachmentRetrieveParams): DocumentAttachment =
         retrieve(attachmentId, params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         attachmentId: String,
         params: AttachmentRetrieveParams,
@@ -43,11 +43,11 @@ interface AttachmentService {
     ): DocumentAttachment =
         retrieve(params.toBuilder().attachmentId(attachmentId).build(), requestOptions)
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(params: AttachmentRetrieveParams): DocumentAttachment =
         retrieve(params, RequestOptions.none())
 
-    /** @see [retrieve] */
+    /** @see retrieve */
     fun retrieve(
         params: AttachmentRetrieveParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -57,7 +57,7 @@ interface AttachmentService {
     fun list(documentId: String): List<DocumentAttachment> =
         list(documentId, AttachmentListParams.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         documentId: String,
         params: AttachmentListParams = AttachmentListParams.none(),
@@ -65,23 +65,23 @@ interface AttachmentService {
     ): List<DocumentAttachment> =
         list(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         documentId: String,
         params: AttachmentListParams = AttachmentListParams.none(),
     ): List<DocumentAttachment> = list(documentId, params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(
         params: AttachmentListParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): List<DocumentAttachment>
 
-    /** @see [list] */
+    /** @see list */
     fun list(params: AttachmentListParams): List<DocumentAttachment> =
         list(params, RequestOptions.none())
 
-    /** @see [list] */
+    /** @see list */
     fun list(documentId: String, requestOptions: RequestOptions): List<DocumentAttachment> =
         list(documentId, AttachmentListParams.none(), requestOptions)
 
@@ -89,7 +89,7 @@ interface AttachmentService {
     fun delete(attachmentId: String, params: AttachmentDeleteParams): AttachmentDeleteResponse =
         delete(attachmentId, params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         attachmentId: String,
         params: AttachmentDeleteParams,
@@ -97,11 +97,11 @@ interface AttachmentService {
     ): AttachmentDeleteResponse =
         delete(params.toBuilder().attachmentId(attachmentId).build(), requestOptions)
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(params: AttachmentDeleteParams): AttachmentDeleteResponse =
         delete(params, RequestOptions.none())
 
-    /** @see [delete] */
+    /** @see delete */
     fun delete(
         params: AttachmentDeleteParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -111,17 +111,17 @@ interface AttachmentService {
     fun add(documentId: String, params: AttachmentAddParams): DocumentAttachment =
         add(documentId, params, RequestOptions.none())
 
-    /** @see [add] */
+    /** @see add */
     fun add(
         documentId: String,
         params: AttachmentAddParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DocumentAttachment = add(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [add] */
+    /** @see add */
     fun add(params: AttachmentAddParams): DocumentAttachment = add(params, RequestOptions.none())
 
-    /** @see [add] */
+    /** @see add */
     fun add(
         params: AttachmentAddParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -151,7 +151,7 @@ interface AttachmentService {
         ): HttpResponseFor<DocumentAttachment> =
             retrieve(attachmentId, params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             attachmentId: String,
@@ -160,12 +160,12 @@ interface AttachmentService {
         ): HttpResponseFor<DocumentAttachment> =
             retrieve(params.toBuilder().attachmentId(attachmentId).build(), requestOptions)
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(params: AttachmentRetrieveParams): HttpResponseFor<DocumentAttachment> =
             retrieve(params, RequestOptions.none())
 
-        /** @see [retrieve] */
+        /** @see retrieve */
         @MustBeClosed
         fun retrieve(
             params: AttachmentRetrieveParams,
@@ -180,7 +180,7 @@ interface AttachmentService {
         fun list(documentId: String): HttpResponseFor<List<DocumentAttachment>> =
             list(documentId, AttachmentListParams.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             documentId: String,
@@ -189,7 +189,7 @@ interface AttachmentService {
         ): HttpResponseFor<List<DocumentAttachment>> =
             list(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             documentId: String,
@@ -197,19 +197,19 @@ interface AttachmentService {
         ): HttpResponseFor<List<DocumentAttachment>> =
             list(documentId, params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             params: AttachmentListParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<List<DocumentAttachment>>
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(params: AttachmentListParams): HttpResponseFor<List<DocumentAttachment>> =
             list(params, RequestOptions.none())
 
-        /** @see [list] */
+        /** @see list */
         @MustBeClosed
         fun list(
             documentId: String,
@@ -229,7 +229,7 @@ interface AttachmentService {
         ): HttpResponseFor<AttachmentDeleteResponse> =
             delete(attachmentId, params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         @MustBeClosed
         fun delete(
             attachmentId: String,
@@ -238,12 +238,12 @@ interface AttachmentService {
         ): HttpResponseFor<AttachmentDeleteResponse> =
             delete(params.toBuilder().attachmentId(attachmentId).build(), requestOptions)
 
-        /** @see [delete] */
+        /** @see delete */
         @MustBeClosed
         fun delete(params: AttachmentDeleteParams): HttpResponseFor<AttachmentDeleteResponse> =
             delete(params, RequestOptions.none())
 
-        /** @see [delete] */
+        /** @see delete */
         @MustBeClosed
         fun delete(
             params: AttachmentDeleteParams,
@@ -260,7 +260,7 @@ interface AttachmentService {
             params: AttachmentAddParams,
         ): HttpResponseFor<DocumentAttachment> = add(documentId, params, RequestOptions.none())
 
-        /** @see [add] */
+        /** @see add */
         @MustBeClosed
         fun add(
             documentId: String,
@@ -269,12 +269,12 @@ interface AttachmentService {
         ): HttpResponseFor<DocumentAttachment> =
             add(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [add] */
+        /** @see add */
         @MustBeClosed
         fun add(params: AttachmentAddParams): HttpResponseFor<DocumentAttachment> =
             add(params, RequestOptions.none())
 
-        /** @see [add] */
+        /** @see add */
         @MustBeClosed
         fun add(
             params: AttachmentAddParams,

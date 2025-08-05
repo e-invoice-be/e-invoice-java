@@ -12,12 +12,10 @@ import com.e_invoice.api.models.documents.UnitOfMeasureCode
 import com.e_invoice.api.models.inbox.DocumentState
 import java.time.LocalDate
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 internal class ValidateValidateJsonParamsTest {
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun create() {
         ValidateValidateJsonParams.builder()
@@ -97,7 +95,6 @@ internal class ValidateValidateJsonParamsTest {
             .build()
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun body() {
         val params =
@@ -255,7 +252,6 @@ internal class ValidateValidateJsonParamsTest {
             )
     }
 
-    @Disabled("skipped: tests are disabled for the time being")
     @Test
     fun bodyWithoutOptionalFields() {
         val params =

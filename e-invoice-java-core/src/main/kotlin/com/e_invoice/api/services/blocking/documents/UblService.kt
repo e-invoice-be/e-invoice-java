@@ -27,27 +27,27 @@ interface UblService {
     /** Get the UBL for an invoice or credit note */
     fun get(documentId: String): UblGetResponse = get(documentId, UblGetParams.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         documentId: String,
         params: UblGetParams = UblGetParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): UblGetResponse = get(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-    /** @see [get] */
+    /** @see get */
     fun get(documentId: String, params: UblGetParams = UblGetParams.none()): UblGetResponse =
         get(documentId, params, RequestOptions.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(
         params: UblGetParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): UblGetResponse
 
-    /** @see [get] */
+    /** @see get */
     fun get(params: UblGetParams): UblGetResponse = get(params, RequestOptions.none())
 
-    /** @see [get] */
+    /** @see get */
     fun get(documentId: String, requestOptions: RequestOptions): UblGetResponse =
         get(documentId, UblGetParams.none(), requestOptions)
 
@@ -69,7 +69,7 @@ interface UblService {
         fun get(documentId: String): HttpResponseFor<UblGetResponse> =
             get(documentId, UblGetParams.none())
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(
             documentId: String,
@@ -78,26 +78,26 @@ interface UblService {
         ): HttpResponseFor<UblGetResponse> =
             get(params.toBuilder().documentId(documentId).build(), requestOptions)
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(
             documentId: String,
             params: UblGetParams = UblGetParams.none(),
         ): HttpResponseFor<UblGetResponse> = get(documentId, params, RequestOptions.none())
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(
             params: UblGetParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<UblGetResponse>
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(params: UblGetParams): HttpResponseFor<UblGetResponse> =
             get(params, RequestOptions.none())
 
-        /** @see [get] */
+        /** @see get */
         @MustBeClosed
         fun get(
             documentId: String,
