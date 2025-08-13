@@ -214,10 +214,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentDeleteParams && documentId == other.documentId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return other is DocumentDeleteParams &&
+            documentId == other.documentId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(documentId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(documentId, additionalHeaders, additionalQueryParams, additionalBodyProperties)
 
     override fun toString() =
         "DocumentDeleteParams{documentId=$documentId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"

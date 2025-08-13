@@ -2316,12 +2316,33 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Item && amount == other.amount && date == other.date && description == other.description && productCode == other.productCode && quantity == other.quantity && tax == other.tax && taxRate == other.taxRate && unit == other.unit && unitPrice == other.unitPrice && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Item &&
+                amount == other.amount &&
+                date == other.date &&
+                description == other.description &&
+                productCode == other.productCode &&
+                quantity == other.quantity &&
+                tax == other.tax &&
+                taxRate == other.taxRate &&
+                unit == other.unit &&
+                unitPrice == other.unitPrice &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(amount, date, description, productCode, quantity, tax, taxRate, unit, unitPrice, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                amount,
+                date,
+                description,
+                productCode,
+                quantity,
+                tax,
+                taxRate,
+                unit,
+                unitPrice,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2587,12 +2608,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is PaymentDetail && bankAccountNumber == other.bankAccountNumber && iban == other.iban && paymentReference == other.paymentReference && swift == other.swift && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is PaymentDetail &&
+                bankAccountNumber == other.bankAccountNumber &&
+                iban == other.iban &&
+                paymentReference == other.paymentReference &&
+                swift == other.swift &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(bankAccountNumber, iban, paymentReference, swift, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(bankAccountNumber, iban, paymentReference, swift, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -2761,12 +2787,13 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is TaxDetail && amount == other.amount && rate == other.rate && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is TaxDetail &&
+                amount == other.amount &&
+                rate == other.rate &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
         private val hashCode: Int by lazy { Objects.hash(amount, rate, additionalProperties) }
-        /* spotless:on */
 
         override fun hashCode(): Int = hashCode
 
@@ -2779,12 +2806,99 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentResponse && id == other.id && amountDue == other.amountDue && attachments == other.attachments && billingAddress == other.billingAddress && billingAddressRecipient == other.billingAddressRecipient && currency == other.currency && customerAddress == other.customerAddress && customerAddressRecipient == other.customerAddressRecipient && customerEmail == other.customerEmail && customerId == other.customerId && customerName == other.customerName && customerTaxId == other.customerTaxId && direction == other.direction && documentType == other.documentType && dueDate == other.dueDate && invoiceDate == other.invoiceDate && invoiceId == other.invoiceId && invoiceTotal == other.invoiceTotal && items == other.items && note == other.note && paymentDetails == other.paymentDetails && paymentTerm == other.paymentTerm && previousUnpaidBalance == other.previousUnpaidBalance && purchaseOrder == other.purchaseOrder && remittanceAddress == other.remittanceAddress && remittanceAddressRecipient == other.remittanceAddressRecipient && serviceAddress == other.serviceAddress && serviceAddressRecipient == other.serviceAddressRecipient && serviceEndDate == other.serviceEndDate && serviceStartDate == other.serviceStartDate && shippingAddress == other.shippingAddress && shippingAddressRecipient == other.shippingAddressRecipient && state == other.state && subtotal == other.subtotal && taxDetails == other.taxDetails && totalDiscount == other.totalDiscount && totalTax == other.totalTax && vendorAddress == other.vendorAddress && vendorAddressRecipient == other.vendorAddressRecipient && vendorEmail == other.vendorEmail && vendorName == other.vendorName && vendorTaxId == other.vendorTaxId && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is DocumentResponse &&
+            id == other.id &&
+            amountDue == other.amountDue &&
+            attachments == other.attachments &&
+            billingAddress == other.billingAddress &&
+            billingAddressRecipient == other.billingAddressRecipient &&
+            currency == other.currency &&
+            customerAddress == other.customerAddress &&
+            customerAddressRecipient == other.customerAddressRecipient &&
+            customerEmail == other.customerEmail &&
+            customerId == other.customerId &&
+            customerName == other.customerName &&
+            customerTaxId == other.customerTaxId &&
+            direction == other.direction &&
+            documentType == other.documentType &&
+            dueDate == other.dueDate &&
+            invoiceDate == other.invoiceDate &&
+            invoiceId == other.invoiceId &&
+            invoiceTotal == other.invoiceTotal &&
+            items == other.items &&
+            note == other.note &&
+            paymentDetails == other.paymentDetails &&
+            paymentTerm == other.paymentTerm &&
+            previousUnpaidBalance == other.previousUnpaidBalance &&
+            purchaseOrder == other.purchaseOrder &&
+            remittanceAddress == other.remittanceAddress &&
+            remittanceAddressRecipient == other.remittanceAddressRecipient &&
+            serviceAddress == other.serviceAddress &&
+            serviceAddressRecipient == other.serviceAddressRecipient &&
+            serviceEndDate == other.serviceEndDate &&
+            serviceStartDate == other.serviceStartDate &&
+            shippingAddress == other.shippingAddress &&
+            shippingAddressRecipient == other.shippingAddressRecipient &&
+            state == other.state &&
+            subtotal == other.subtotal &&
+            taxDetails == other.taxDetails &&
+            totalDiscount == other.totalDiscount &&
+            totalTax == other.totalTax &&
+            vendorAddress == other.vendorAddress &&
+            vendorAddressRecipient == other.vendorAddressRecipient &&
+            vendorEmail == other.vendorEmail &&
+            vendorName == other.vendorName &&
+            vendorTaxId == other.vendorTaxId &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, amountDue, attachments, billingAddress, billingAddressRecipient, currency, customerAddress, customerAddressRecipient, customerEmail, customerId, customerName, customerTaxId, direction, documentType, dueDate, invoiceDate, invoiceId, invoiceTotal, items, note, paymentDetails, paymentTerm, previousUnpaidBalance, purchaseOrder, remittanceAddress, remittanceAddressRecipient, serviceAddress, serviceAddressRecipient, serviceEndDate, serviceStartDate, shippingAddress, shippingAddressRecipient, state, subtotal, taxDetails, totalDiscount, totalTax, vendorAddress, vendorAddressRecipient, vendorEmail, vendorName, vendorTaxId, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            amountDue,
+            attachments,
+            billingAddress,
+            billingAddressRecipient,
+            currency,
+            customerAddress,
+            customerAddressRecipient,
+            customerEmail,
+            customerId,
+            customerName,
+            customerTaxId,
+            direction,
+            documentType,
+            dueDate,
+            invoiceDate,
+            invoiceId,
+            invoiceTotal,
+            items,
+            note,
+            paymentDetails,
+            paymentTerm,
+            previousUnpaidBalance,
+            purchaseOrder,
+            remittanceAddress,
+            remittanceAddressRecipient,
+            serviceAddress,
+            serviceAddressRecipient,
+            serviceEndDate,
+            serviceStartDate,
+            shippingAddress,
+            shippingAddressRecipient,
+            state,
+            subtotal,
+            taxDetails,
+            totalDiscount,
+            totalTax,
+            vendorAddress,
+            vendorAddressRecipient,
+            vendorEmail,
+            vendorName,
+            vendorTaxId,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

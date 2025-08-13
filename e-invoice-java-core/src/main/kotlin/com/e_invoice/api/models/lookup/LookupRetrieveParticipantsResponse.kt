@@ -813,12 +813,13 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is DocumentType && scheme == other.scheme && value == other.value && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is DocumentType &&
+                    scheme == other.scheme &&
+                    value == other.value &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
             private val hashCode: Int by lazy { Objects.hash(scheme, value, additionalProperties) }
-            /* spotless:on */
 
             override fun hashCode(): Int = hashCode
 
@@ -1441,12 +1442,15 @@ private constructor(
                         return true
                     }
 
-                    return /* spotless:off */ other is Identifier && scheme == other.scheme && value == other.value && additionalProperties == other.additionalProperties /* spotless:on */
+                    return other is Identifier &&
+                        scheme == other.scheme &&
+                        value == other.value &&
+                        additionalProperties == other.additionalProperties
                 }
 
-                /* spotless:off */
-                private val hashCode: Int by lazy { Objects.hash(scheme, value, additionalProperties) }
-                /* spotless:on */
+                private val hashCode: Int by lazy {
+                    Objects.hash(scheme, value, additionalProperties)
+                }
 
                 override fun hashCode(): Int = hashCode
 
@@ -1459,12 +1463,29 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Entity && additionalInfo == other.additionalInfo && countryCode == other.countryCode && geoInfo == other.geoInfo && identifiers == other.identifiers && name == other.name && registrationDate == other.registrationDate && website == other.website && additionalProperties == other.additionalProperties /* spotless:on */
+                return other is Entity &&
+                    additionalInfo == other.additionalInfo &&
+                    countryCode == other.countryCode &&
+                    geoInfo == other.geoInfo &&
+                    identifiers == other.identifiers &&
+                    name == other.name &&
+                    registrationDate == other.registrationDate &&
+                    website == other.website &&
+                    additionalProperties == other.additionalProperties
             }
 
-            /* spotless:off */
-            private val hashCode: Int by lazy { Objects.hash(additionalInfo, countryCode, geoInfo, identifiers, name, registrationDate, website, additionalProperties) }
-            /* spotless:on */
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    additionalInfo,
+                    countryCode,
+                    geoInfo,
+                    identifiers,
+                    name,
+                    registrationDate,
+                    website,
+                    additionalProperties,
+                )
+            }
 
             override fun hashCode(): Int = hashCode
 
@@ -1477,12 +1498,17 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Participant && peppolId == other.peppolId && peppolScheme == other.peppolScheme && documentTypes == other.documentTypes && entities == other.entities && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Participant &&
+                peppolId == other.peppolId &&
+                peppolScheme == other.peppolScheme &&
+                documentTypes == other.documentTypes &&
+                entities == other.entities &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(peppolId, peppolScheme, documentTypes, entities, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(peppolId, peppolScheme, documentTypes, entities, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -1495,12 +1521,25 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is LookupRetrieveParticipantsResponse && queryTerms == other.queryTerms && searchDate == other.searchDate && totalCount == other.totalCount && usedCount == other.usedCount && participants == other.participants && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is LookupRetrieveParticipantsResponse &&
+            queryTerms == other.queryTerms &&
+            searchDate == other.searchDate &&
+            totalCount == other.totalCount &&
+            usedCount == other.usedCount &&
+            participants == other.participants &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(queryTerms, searchDate, totalCount, usedCount, participants, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            queryTerms,
+            searchDate,
+            totalCount,
+            usedCount,
+            participants,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

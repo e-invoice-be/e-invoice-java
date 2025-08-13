@@ -303,12 +303,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is WebhookResponse && id == other.id && events == other.events && secret == other.secret && url == other.url && enabled == other.enabled && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is WebhookResponse &&
+            id == other.id &&
+            events == other.events &&
+            secret == other.secret &&
+            url == other.url &&
+            enabled == other.enabled &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, events, secret, url, enabled, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(id, events, secret, url, enabled, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

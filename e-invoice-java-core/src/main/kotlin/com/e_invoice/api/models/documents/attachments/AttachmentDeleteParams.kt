@@ -237,10 +237,22 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AttachmentDeleteParams && documentId == other.documentId && attachmentId == other.attachmentId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return other is AttachmentDeleteParams &&
+            documentId == other.documentId &&
+            attachmentId == other.attachmentId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(documentId, attachmentId, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            documentId,
+            attachmentId,
+            additionalHeaders,
+            additionalQueryParams,
+            additionalBodyProperties,
+        )
 
     override fun toString() =
         "AttachmentDeleteParams{documentId=$documentId, attachmentId=$attachmentId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
