@@ -775,7 +775,7 @@ private constructor(
                     return true
                 }
 
-                return /* spotless:off */ other is Type && value == other.value /* spotless:on */
+                return other is Type && value == other.value
             }
 
             override fun hashCode() = value.hashCode()
@@ -788,12 +788,29 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is Issue && message == other.message && schematron == other.schematron && type == other.type && flag == other.flag && location == other.location && ruleId == other.ruleId && test == other.test && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is Issue &&
+                message == other.message &&
+                schematron == other.schematron &&
+                type == other.type &&
+                flag == other.flag &&
+                location == other.location &&
+                ruleId == other.ruleId &&
+                test == other.test &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(message, schematron, type, flag, location, ruleId, test, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                message,
+                schematron,
+                type,
+                flag,
+                location,
+                ruleId,
+                test,
+                additionalProperties,
+            )
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -806,12 +823,18 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is UblDocumentValidation && id == other.id && fileName == other.fileName && isValid == other.isValid && issues == other.issues && ublDocument == other.ublDocument && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is UblDocumentValidation &&
+            id == other.id &&
+            fileName == other.fileName &&
+            isValid == other.isValid &&
+            issues == other.issues &&
+            ublDocument == other.ublDocument &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, fileName, isValid, issues, ublDocument, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(id, fileName, isValid, issues, ublDocument, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

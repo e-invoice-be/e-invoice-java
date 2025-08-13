@@ -266,12 +266,17 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is PaymentDetailCreate && bankAccountNumber == other.bankAccountNumber && iban == other.iban && paymentReference == other.paymentReference && swift == other.swift && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is PaymentDetailCreate &&
+            bankAccountNumber == other.bankAccountNumber &&
+            iban == other.iban &&
+            paymentReference == other.paymentReference &&
+            swift == other.swift &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(bankAccountNumber, iban, paymentReference, swift, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(bankAccountNumber, iban, paymentReference, swift, additionalProperties)
+    }
 
     override fun hashCode(): Int = hashCode
 

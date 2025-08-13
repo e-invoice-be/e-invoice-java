@@ -205,10 +205,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is AttachmentRetrieveParams && documentId == other.documentId && attachmentId == other.attachmentId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is AttachmentRetrieveParams &&
+            documentId == other.documentId &&
+            attachmentId == other.attachmentId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(documentId, attachmentId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(documentId, attachmentId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "AttachmentRetrieveParams{documentId=$documentId, attachmentId=$attachmentId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

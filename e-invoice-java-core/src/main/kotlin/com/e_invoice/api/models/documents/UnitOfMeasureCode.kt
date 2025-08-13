@@ -660,7 +660,7 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             return true
         }
 
-        return /* spotless:off */ other is UnitOfMeasureCode && value == other.value /* spotless:on */
+        return other is UnitOfMeasureCode && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

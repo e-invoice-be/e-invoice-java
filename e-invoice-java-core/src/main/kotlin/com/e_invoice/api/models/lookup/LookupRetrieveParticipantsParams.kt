@@ -212,10 +212,15 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is LookupRetrieveParticipantsParams && query == other.query && countryCode == other.countryCode && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is LookupRetrieveParticipantsParams &&
+            query == other.query &&
+            countryCode == other.countryCode &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(query, countryCode, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(query, countryCode, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "LookupRetrieveParticipantsParams{query=$query, countryCode=$countryCode, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

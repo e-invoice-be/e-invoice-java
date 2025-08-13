@@ -200,10 +200,13 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is LookupRetrieveParams && peppolId == other.peppolId && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is LookupRetrieveParams &&
+            peppolId == other.peppolId &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(peppolId, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int = Objects.hash(peppolId, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "LookupRetrieveParams{peppolId=$peppolId, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

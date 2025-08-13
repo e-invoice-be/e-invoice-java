@@ -521,12 +521,35 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is UblGetResponse && id == other.id && fileName == other.fileName && fileHash == other.fileHash && fileSize == other.fileSize && receiverPeppolId == other.receiverPeppolId && receiverPeppolScheme == other.receiverPeppolScheme && senderPeppolId == other.senderPeppolId && senderPeppolScheme == other.senderPeppolScheme && signedUrl == other.signedUrl && validatedAt == other.validatedAt && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is UblGetResponse &&
+            id == other.id &&
+            fileName == other.fileName &&
+            fileHash == other.fileHash &&
+            fileSize == other.fileSize &&
+            receiverPeppolId == other.receiverPeppolId &&
+            receiverPeppolScheme == other.receiverPeppolScheme &&
+            senderPeppolId == other.senderPeppolId &&
+            senderPeppolScheme == other.senderPeppolScheme &&
+            signedUrl == other.signedUrl &&
+            validatedAt == other.validatedAt &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(id, fileName, fileHash, fileSize, receiverPeppolId, receiverPeppolScheme, senderPeppolId, senderPeppolScheme, signedUrl, validatedAt, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            id,
+            fileName,
+            fileHash,
+            fileSize,
+            receiverPeppolId,
+            receiverPeppolScheme,
+            senderPeppolId,
+            senderPeppolScheme,
+            signedUrl,
+            validatedAt,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

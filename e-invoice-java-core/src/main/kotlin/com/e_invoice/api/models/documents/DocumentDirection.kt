@@ -125,7 +125,7 @@ class DocumentDirection @JsonCreator private constructor(private val value: Json
             return true
         }
 
-        return /* spotless:off */ other is DocumentDirection && value == other.value /* spotless:on */
+        return other is DocumentDirection && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

@@ -294,10 +294,30 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentSendParams && documentId == other.documentId && email == other.email && receiverPeppolId == other.receiverPeppolId && receiverPeppolScheme == other.receiverPeppolScheme && senderPeppolId == other.senderPeppolId && senderPeppolScheme == other.senderPeppolScheme && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams && additionalBodyProperties == other.additionalBodyProperties /* spotless:on */
+        return other is DocumentSendParams &&
+            documentId == other.documentId &&
+            email == other.email &&
+            receiverPeppolId == other.receiverPeppolId &&
+            receiverPeppolScheme == other.receiverPeppolScheme &&
+            senderPeppolId == other.senderPeppolId &&
+            senderPeppolScheme == other.senderPeppolScheme &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams &&
+            additionalBodyProperties == other.additionalBodyProperties
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(documentId, email, receiverPeppolId, receiverPeppolScheme, senderPeppolId, senderPeppolScheme, additionalHeaders, additionalQueryParams, additionalBodyProperties) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            documentId,
+            email,
+            receiverPeppolId,
+            receiverPeppolScheme,
+            senderPeppolId,
+            senderPeppolScheme,
+            additionalHeaders,
+            additionalQueryParams,
+            additionalBodyProperties,
+        )
 
     override fun toString() =
         "DocumentSendParams{documentId=$documentId, email=$email, receiverPeppolId=$receiverPeppolId, receiverPeppolScheme=$receiverPeppolScheme, senderPeppolId=$senderPeppolId, senderPeppolScheme=$senderPeppolScheme, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams, additionalBodyProperties=$additionalBodyProperties}"
