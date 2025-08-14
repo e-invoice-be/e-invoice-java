@@ -189,10 +189,14 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentCreateParams && documentCreate == other.documentCreate && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is DocumentCreateParams &&
+            documentCreate == other.documentCreate &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(documentCreate, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(documentCreate, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
         "DocumentCreateParams{documentCreate=$documentCreate, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"

@@ -156,12 +156,12 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is DocumentDeleteResponse && isDeleted == other.isDeleted && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is DocumentDeleteResponse &&
+            isDeleted == other.isDeleted &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
     private val hashCode: Int by lazy { Objects.hash(isDeleted, additionalProperties) }
-    /* spotless:on */
 
     override fun hashCode(): Int = hashCode
 

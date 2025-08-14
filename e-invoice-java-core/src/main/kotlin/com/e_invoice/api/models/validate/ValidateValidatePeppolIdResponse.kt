@@ -578,12 +578,16 @@ private constructor(
                 return true
             }
 
-            return /* spotless:off */ other is BusinessCard && countryCode == other.countryCode && name == other.name && registrationDate == other.registrationDate && additionalProperties == other.additionalProperties /* spotless:on */
+            return other is BusinessCard &&
+                countryCode == other.countryCode &&
+                name == other.name &&
+                registrationDate == other.registrationDate &&
+                additionalProperties == other.additionalProperties
         }
 
-        /* spotless:off */
-        private val hashCode: Int by lazy { Objects.hash(countryCode, name, registrationDate, additionalProperties) }
-        /* spotless:on */
+        private val hashCode: Int by lazy {
+            Objects.hash(countryCode, name, registrationDate, additionalProperties)
+        }
 
         override fun hashCode(): Int = hashCode
 
@@ -596,12 +600,25 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is ValidateValidatePeppolIdResponse && businessCard == other.businessCard && businessCardValid == other.businessCardValid && dnsValid == other.dnsValid && isValid == other.isValid && supportedDocumentTypes == other.supportedDocumentTypes && additionalProperties == other.additionalProperties /* spotless:on */
+        return other is ValidateValidatePeppolIdResponse &&
+            businessCard == other.businessCard &&
+            businessCardValid == other.businessCardValid &&
+            dnsValid == other.dnsValid &&
+            isValid == other.isValid &&
+            supportedDocumentTypes == other.supportedDocumentTypes &&
+            additionalProperties == other.additionalProperties
     }
 
-    /* spotless:off */
-    private val hashCode: Int by lazy { Objects.hash(businessCard, businessCardValid, dnsValid, isValid, supportedDocumentTypes, additionalProperties) }
-    /* spotless:on */
+    private val hashCode: Int by lazy {
+        Objects.hash(
+            businessCard,
+            businessCardValid,
+            dnsValid,
+            isValid,
+            supportedDocumentTypes,
+            additionalProperties,
+        )
+    }
 
     override fun hashCode(): Int = hashCode
 

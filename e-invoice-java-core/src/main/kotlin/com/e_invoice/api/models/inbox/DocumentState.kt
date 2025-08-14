@@ -141,7 +141,7 @@ class DocumentState @JsonCreator private constructor(private val value: JsonFiel
             return true
         }
 
-        return /* spotless:off */ other is DocumentState && value == other.value /* spotless:on */
+        return other is DocumentState && value == other.value
     }
 
     override fun hashCode() = value.hashCode()

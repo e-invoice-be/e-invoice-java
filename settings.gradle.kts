@@ -1,7 +1,14 @@
 rootProject.name = "e-invoice-java-root"
 
-include("e-invoice-java")
-include("e-invoice-java-client-okhttp")
-include("e-invoice-java-core")
-include("e-invoice-java-proguard-test")
-include("e-invoice-java-example")
+val projectNames = rootDir.listFiles()
+    ?.asSequence()
+    .orEmpty()
+    .filter { file ->
+        file.isDirectory &&
+        file.name.startsWith("e-invoice-java") &&
+        file.listFiles()?.asSequence().orEmpty().any { it.name == "build.gradle.kts" }
+    }
+    .map { it.name }
+    .toList()
+println("projects: $projectNames")
+projectNames.forEach { include(it) }

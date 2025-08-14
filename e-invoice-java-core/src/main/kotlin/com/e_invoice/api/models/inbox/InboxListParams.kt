@@ -299,10 +299,32 @@ private constructor(
             return true
         }
 
-        return /* spotless:off */ other is InboxListParams && dateFrom == other.dateFrom && dateTo == other.dateTo && page == other.page && pageSize == other.pageSize && search == other.search && sender == other.sender && state == other.state && type == other.type && additionalHeaders == other.additionalHeaders && additionalQueryParams == other.additionalQueryParams /* spotless:on */
+        return other is InboxListParams &&
+            dateFrom == other.dateFrom &&
+            dateTo == other.dateTo &&
+            page == other.page &&
+            pageSize == other.pageSize &&
+            search == other.search &&
+            sender == other.sender &&
+            state == other.state &&
+            type == other.type &&
+            additionalHeaders == other.additionalHeaders &&
+            additionalQueryParams == other.additionalQueryParams
     }
 
-    override fun hashCode(): Int = /* spotless:off */ Objects.hash(dateFrom, dateTo, page, pageSize, search, sender, state, type, additionalHeaders, additionalQueryParams) /* spotless:on */
+    override fun hashCode(): Int =
+        Objects.hash(
+            dateFrom,
+            dateTo,
+            page,
+            pageSize,
+            search,
+            sender,
+            state,
+            type,
+            additionalHeaders,
+            additionalQueryParams,
+        )
 
     override fun toString() =
         "InboxListParams{dateFrom=$dateFrom, dateTo=$dateTo, page=$page, pageSize=$pageSize, search=$search, sender=$sender, state=$state, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
