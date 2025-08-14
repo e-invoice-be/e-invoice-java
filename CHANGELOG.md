@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2025-08-14)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Features
+
+* **api:** api update ([311e44f](https://github.com/e-invoice-be/e-invoice-java/commit/311e44f37543ce127f08022886770c960ee05ba3))
+
+
+### Performance Improvements
+
+* **internal:** make formatting faster ([5b69fbc](https://github.com/e-invoice-be/e-invoice-java/commit/5b69fbc89f42c3762360fc9355455ca2dbee934b))
+
+
+### Chores
+
+* **example:** fix run example comment ([fe1f984](https://github.com/e-invoice-be/e-invoice-java/commit/fe1f98492c0678f764453fdddffbaa5eb0eaccea))
+* increase max gradle JVM heap to 8GB ([e9440a3](https://github.com/e-invoice-be/e-invoice-java/commit/e9440a3ac9a5b4213e2c8d2a9c6d659e16c2070f))
+* **internal:** codegen related update ([227345e](https://github.com/e-invoice-be/e-invoice-java/commit/227345efdb09466b0dc0e92c3bdd1eba8062ebd3))
+* **internal:** codegen related update ([650bbc8](https://github.com/e-invoice-be/e-invoice-java/commit/650bbc8bfe961ad48a9f4c089110f5dc9a60e8f1))
+* **internal:** dynamically determine included projects ([8e33968](https://github.com/e-invoice-be/e-invoice-java/commit/8e33968efe05120786ca51ecbd4acc7e9ca34fb5))
+* **internal:** support passing arguments to test script ([b22cdda](https://github.com/e-invoice-be/e-invoice-java/commit/b22cddacbf4c7bf95f4ce4f499a8b655d6c7c4fe))
+* **internal:** update comment in script ([9bcb766](https://github.com/e-invoice-be/e-invoice-java/commit/9bcb76606ac9c17b9e69324d6e6ed538319c930d))
+* update @stainless-api/prism-cli to v5.15.0 ([b7840c3](https://github.com/e-invoice-be/e-invoice-java/commit/b7840c3f3e2be8c8a91827f0cb625a1a77aa9346))
+
 ## 0.1.0-alpha.6 (2025-08-05)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
