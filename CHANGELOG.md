@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2025-08-19)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Chores
+
+* **ci:** add build job ([5afab60](https://github.com/e-invoice-be/e-invoice-java/commit/5afab60b8544b532afcf6873f47acd457357f625))
+
 ## 0.1.0-alpha.7 (2025-08-14)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
