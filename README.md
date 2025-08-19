@@ -7,9 +7,7 @@
 
 <!-- x-release-please-end -->
 
-The e-invoice.be Peppol SDK provides convenient access to the [E Invoice REST API](https://api.e-invoice.be) from applications written in Java.
-
-It is generated with [Stainless](https://www.stainless.com/).
+The e-invoice.be Peppol SDK provides convenient access to the [e-invoice.be REST API](https://api.e-invoice.be) from applications written in Java.
 
 <!-- x-release-please-start-version -->
 
