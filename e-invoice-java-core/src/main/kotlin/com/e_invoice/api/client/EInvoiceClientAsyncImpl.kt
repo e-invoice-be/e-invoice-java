@@ -78,7 +78,7 @@ class EInvoiceClientAsyncImpl(private val clientOptions: ClientOptions) : EInvoi
 
     override fun webhooks(): WebhookServiceAsync = webhooks
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         EInvoiceClientAsync.WithRawResponse {
