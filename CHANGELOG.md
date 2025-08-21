@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.10 (2025-08-21)
+
+Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
+
+### Bug Fixes
+
+* **client:** ensure correct binary content type ([7b62a4b](https://github.com/e-invoice-be/e-invoice-java/commit/7b62a4b87f594b596dde8e3738efd983b620cdc4))
+
+
+### Chores
+
+* **client:** refactor closing / shutdown ([2eab5cf](https://github.com/e-invoice-be/e-invoice-java/commit/2eab5cf2b04875379d52359c716e6829f0514e26))
+* **client:** rename parameter ([7b62a4b](https://github.com/e-invoice-be/e-invoice-java/commit/7b62a4b87f594b596dde8e3738efd983b620cdc4))
+* **internal:** support running formatters directly ([279bc08](https://github.com/e-invoice-be/e-invoice-java/commit/279bc0852fab3b4de473b00c5cfd753f6f06744e))
+
 ## 0.1.0-alpha.9 (2025-08-19)
 
 Full Changelog: [v0.1.0-alpha.8...v0.1.0-alpha.9](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.8...v0.1.0-alpha.9)

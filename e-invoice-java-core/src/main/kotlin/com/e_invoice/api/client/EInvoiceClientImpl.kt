@@ -70,7 +70,7 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
 
     override fun webhooks(): WebhookService = webhooks
 
-    override fun close() = clientOptions.httpClient.close()
+    override fun close() = clientOptions.close()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         EInvoiceClient.WithRawResponse {
