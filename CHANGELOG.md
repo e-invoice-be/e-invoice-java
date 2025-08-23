@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-alpha.11 (2025-08-22)
+
+Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
+
+### Chores
+
+* **ci:** reduce log noise ([65662e7](https://github.com/e-invoice-be/e-invoice-java/commit/65662e741dfcd4935df3b73884f55a6b0ddccb3f))
+
 ## 0.1.0-alpha.10 (2025-08-21)
 
 Full Changelog: [v0.1.0-alpha.9...v0.1.0-alpha.10](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.9...v0.1.0-alpha.10)
