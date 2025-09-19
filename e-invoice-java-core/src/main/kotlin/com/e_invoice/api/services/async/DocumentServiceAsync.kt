@@ -5,6 +5,7 @@ package com.e_invoice.api.services.async
 import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
+import com.e_invoice.api.models.documents.DocumentCreate
 import com.e_invoice.api.models.documents.DocumentCreateParams
 import com.e_invoice.api.models.documents.DocumentDeleteParams
 import com.e_invoice.api.models.documents.DocumentDeleteResponse
@@ -43,6 +44,20 @@ interface DocumentServiceAsync {
         params: DocumentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DocumentResponse>
+
+    /** @see create */
+    fun create(
+        documentCreate: DocumentCreate,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentResponse> =
+        create(
+            DocumentCreateParams.builder().documentCreate(documentCreate).build(),
+            requestOptions,
+        )
+
+    /** @see create */
+    fun create(documentCreate: DocumentCreate): CompletableFuture<DocumentResponse> =
+        create(documentCreate, RequestOptions.none())
 
     /** Get an invoice or credit note by ID */
     fun retrieve(documentId: String): CompletableFuture<DocumentResponse> =
@@ -181,6 +196,22 @@ interface DocumentServiceAsync {
             params: DocumentCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<DocumentResponse>>
+
+        /** @see create */
+        fun create(
+            documentCreate: DocumentCreate,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
+            create(
+                DocumentCreateParams.builder().documentCreate(documentCreate).build(),
+                requestOptions,
+            )
+
+        /** @see create */
+        fun create(
+            documentCreate: DocumentCreate
+        ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
+            create(documentCreate, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /api/documents/{document_id}`, but is otherwise the

@@ -56,9 +56,7 @@ import com.e_invoice.api.models.documents.DocumentResponse;
 // Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 
-DocumentCreateParams params = DocumentCreateParams.builder()
-    .documentCreate(DocumentCreate.builder().build())
-    .build();
+DocumentCreate params = DocumentCreate.builder().build();
 DocumentResponse documentResponse = client.documents().create(params);
 ```
 
@@ -158,9 +156,7 @@ import java.util.concurrent.CompletableFuture;
 // Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 
-DocumentCreateParams params = DocumentCreateParams.builder()
-    .documentCreate(DocumentCreate.builder().build())
-    .build();
+DocumentCreate params = DocumentCreate.builder().build();
 CompletableFuture<DocumentResponse> documentResponse = client.async().documents().create(params);
 ```
 
@@ -178,9 +174,7 @@ import java.util.concurrent.CompletableFuture;
 // Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClientAsync client = EInvoiceOkHttpClientAsync.fromEnv();
 
-DocumentCreateParams params = DocumentCreateParams.builder()
-    .documentCreate(DocumentCreate.builder().build())
-    .build();
+DocumentCreate params = DocumentCreate.builder().build();
 CompletableFuture<DocumentResponse> documentResponse = client.documents().create(params);
 ```
 
@@ -263,9 +257,7 @@ import com.e_invoice.api.models.documents.DocumentCreate;
 import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 
-DocumentCreateParams params = DocumentCreateParams.builder()
-    .documentCreate(DocumentCreate.builder().build())
-    .build();
+DocumentCreate params = DocumentCreate.builder().build();
 HttpResponseFor<DocumentResponse> documentResponse = client.documents().withRawResponse().create(params);
 
 int statusCode = documentResponse.statusCode();
