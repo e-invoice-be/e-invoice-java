@@ -5,6 +5,7 @@ package com.e_invoice.api.services.blocking
 import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
+import com.e_invoice.api.models.documents.DocumentCreate
 import com.e_invoice.api.models.validate.UblDocumentValidation
 import com.e_invoice.api.models.validate.ValidateValidateJsonParams
 import com.e_invoice.api.models.validate.ValidateValidatePeppolIdParams
@@ -36,6 +37,20 @@ interface ValidateService {
         params: ValidateValidateJsonParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): UblDocumentValidation
+
+    /** @see validateJson */
+    fun validateJson(
+        documentCreate: DocumentCreate,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): UblDocumentValidation =
+        validateJson(
+            ValidateValidateJsonParams.builder().documentCreate(documentCreate).build(),
+            requestOptions,
+        )
+
+    /** @see validateJson */
+    fun validateJson(documentCreate: DocumentCreate): UblDocumentValidation =
+        validateJson(documentCreate, RequestOptions.none())
 
     /**
      * Validate if a Peppol ID exists in the Peppol network and retrieve supported document types.
@@ -88,6 +103,22 @@ interface ValidateService {
             params: ValidateValidateJsonParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<UblDocumentValidation>
+
+        /** @see validateJson */
+        @MustBeClosed
+        fun validateJson(
+            documentCreate: DocumentCreate,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<UblDocumentValidation> =
+            validateJson(
+                ValidateValidateJsonParams.builder().documentCreate(documentCreate).build(),
+                requestOptions,
+            )
+
+        /** @see validateJson */
+        @MustBeClosed
+        fun validateJson(documentCreate: DocumentCreate): HttpResponseFor<UblDocumentValidation> =
+            validateJson(documentCreate, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /api/validate/peppol-id`, but is otherwise the same
