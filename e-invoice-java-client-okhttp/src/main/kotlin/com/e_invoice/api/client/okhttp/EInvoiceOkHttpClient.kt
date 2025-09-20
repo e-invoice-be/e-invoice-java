@@ -5,6 +5,7 @@ package com.e_invoice.api.client.okhttp
 import com.e_invoice.api.client.EInvoiceClient
 import com.e_invoice.api.client.EInvoiceClientImpl
 import com.e_invoice.api.core.ClientOptions
+import com.e_invoice.api.core.Sleeper
 import com.e_invoice.api.core.Timeout
 import com.e_invoice.api.core.http.AsyncStreamResponse
 import com.e_invoice.api.core.http.Headers
@@ -132,6 +133,17 @@ class EInvoiceOkHttpClient private constructor() {
         fun streamHandlerExecutor(streamHandlerExecutor: Executor) = apply {
             clientOptions.streamHandlerExecutor(streamHandlerExecutor)
         }
+
+        /**
+         * The interface to use for delaying execution, like during retries.
+         *
+         * This is primarily useful for using fake delays in tests.
+         *
+         * Defaults to real execution delays.
+         *
+         * This class takes ownership of the sleeper and closes it when closed.
+         */
+        fun sleeper(sleeper: Sleeper) = apply { clientOptions.sleeper(sleeper) }
 
         /**
          * The clock to use for operations that require timing, like retries.
