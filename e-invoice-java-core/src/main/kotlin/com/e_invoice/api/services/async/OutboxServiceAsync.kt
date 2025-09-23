@@ -48,7 +48,10 @@ interface OutboxServiceAsync {
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
         listDraftDocuments(OutboxListDraftDocumentsParams.none(), requestOptions)
 
-    /** Retrieve a paginated list of received documents with filtering options. */
+    /**
+     * Retrieve a paginated list of sent documents with filtering options including state, type,
+     * sender, date range, and text search.
+     */
     fun listReceivedDocuments(): CompletableFuture<OutboxListReceivedDocumentsPageAsync> =
         listReceivedDocuments(OutboxListReceivedDocumentsParams.none())
 

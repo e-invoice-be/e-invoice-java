@@ -45,7 +45,10 @@ interface OutboxService {
     fun listDraftDocuments(requestOptions: RequestOptions): OutboxListDraftDocumentsPage =
         listDraftDocuments(OutboxListDraftDocumentsParams.none(), requestOptions)
 
-    /** Retrieve a paginated list of received documents with filtering options. */
+    /**
+     * Retrieve a paginated list of sent documents with filtering options including state, type,
+     * sender, date range, and text search.
+     */
     fun listReceivedDocuments(): OutboxListReceivedDocumentsPage =
         listReceivedDocuments(OutboxListReceivedDocumentsParams.none())
 
