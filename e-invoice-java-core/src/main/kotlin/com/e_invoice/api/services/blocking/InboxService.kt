@@ -28,7 +28,10 @@ interface InboxService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): InboxService
 
-    /** Retrieve a paginated list of received documents with filtering options. */
+    /**
+     * Retrieve a paginated list of received documents with filtering options including state, type,
+     * sender, date range, and text search.
+     */
     fun list(): InboxListPage = list(InboxListParams.none())
 
     /** @see list */

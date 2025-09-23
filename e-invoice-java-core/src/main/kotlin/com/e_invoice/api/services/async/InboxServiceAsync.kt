@@ -28,7 +28,10 @@ interface InboxServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): InboxServiceAsync
 
-    /** Retrieve a paginated list of received documents with filtering options. */
+    /**
+     * Retrieve a paginated list of received documents with filtering options including state, type,
+     * sender, date range, and text search.
+     */
     fun list(): CompletableFuture<InboxListPageAsync> = list(InboxListParams.none())
 
     /** @see list */
