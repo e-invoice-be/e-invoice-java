@@ -320,6 +320,7 @@ private constructor(
 
     /** Schema for updating an existing webhook. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val enabled: JsonField<Boolean>,
         private val events: JsonField<List<String>>,

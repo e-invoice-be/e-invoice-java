@@ -32,6 +32,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentCreate
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val amountDue: JsonField<AmountDue>,
     private val attachments: JsonField<List<DocumentAttachmentCreate>>,
@@ -2246,6 +2247,7 @@ private constructor(
     }
 
     class Item
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amount: JsonField<Amount>,
         private val date: JsonField<Void>,
@@ -3764,6 +3766,7 @@ private constructor(
     }
 
     class TaxDetail
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amount: JsonField<Amount>,
         private val rate: JsonField<String>,

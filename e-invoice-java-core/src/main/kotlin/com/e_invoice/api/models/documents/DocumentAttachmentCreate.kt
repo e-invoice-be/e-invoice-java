@@ -18,6 +18,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentAttachmentCreate
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val fileName: JsonField<String>,
     private val fileData: JsonField<String>,
