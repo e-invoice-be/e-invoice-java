@@ -21,6 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Response model for webhook API endpoints. */
 class WebhookResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val events: JsonField<List<String>>,

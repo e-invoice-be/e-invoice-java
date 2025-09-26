@@ -20,6 +20,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Certificate information for a Peppol endpoint. */
 class Certificate
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val status: JsonField<String>,
     private val details: JsonField<Details>,

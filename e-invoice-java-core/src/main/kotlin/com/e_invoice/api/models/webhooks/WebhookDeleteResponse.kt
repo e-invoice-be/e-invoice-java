@@ -17,6 +17,7 @@ import java.util.Objects
 
 /** Model for webhook deletion. */
 class WebhookDeleteResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val isDeleted: JsonField<Boolean>,
     private val additionalProperties: MutableMap<String, JsonValue>,

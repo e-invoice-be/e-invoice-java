@@ -27,6 +27,7 @@ import kotlin.jvm.optionals.getOrNull
  * whether the ID is valid and what document types it supports.
  */
 class ValidateValidatePeppolIdResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val businessCard: JsonField<BusinessCard>,
     private val businessCardValid: JsonField<Boolean>,
@@ -360,6 +361,7 @@ private constructor(
 
     /** Business card information for the Peppol ID */
     class BusinessCard
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val countryCode: JsonField<String>,
         private val name: JsonField<String>,
