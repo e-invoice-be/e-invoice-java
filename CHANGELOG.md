@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.1.0-alpha.12 (2025-09-26)
+
+Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
+
+### Features
+
+* **api:** api update ([4b9b393](https://github.com/e-invoice-be/e-invoice-java/commit/4b9b393e67551dcdcaed5b8d3bbfb62a7b1c7328))
+* **api:** api update ([168252d](https://github.com/e-invoice-be/e-invoice-java/commit/168252d070d5bac9f013a3320c938710c41b9f3d))
+* **api:** api update ([f4f51b7](https://github.com/e-invoice-be/e-invoice-java/commit/f4f51b774ee950f0f2878f370b2271a981014c94))
+
+
+### Bug Fixes
+
+* **ci:** use java-version 21 for publish step ([a870226](https://github.com/e-invoice-be/e-invoice-java/commit/a870226d5a679bc9e187eec0969db4619d998eb4))
+* **client:** deserialization of empty objects ([150aac4](https://github.com/e-invoice-be/e-invoice-java/commit/150aac4ef52107fcd9c72dbc3991065c715b0314))
+* **client:** incorrect `getPackageVersion` impl ([f69123e](https://github.com/e-invoice-be/e-invoice-java/commit/f69123ea07c7d2ca4058294635c9427af10af116))
+
+
+### Chores
+
+* improve formatter performance ([b3afe6a](https://github.com/e-invoice-be/e-invoice-java/commit/b3afe6a338aaea85c6b43f30dc3e1f7b0e86a10f))
+* improve formatter performance ([192f1d4](https://github.com/e-invoice-be/e-invoice-java/commit/192f1d49fe15afe50b234d6703d2d9ffb4a1dc0e))
+* **internal:** codegen related update ([bab5fc0](https://github.com/e-invoice-be/e-invoice-java/commit/bab5fc09d7be9bbca325aae6c5fac992da19d427))
+* **internal:** codegen related update ([1a4b3a6](https://github.com/e-invoice-be/e-invoice-java/commit/1a4b3a651330ec163296a207047216f89d346d67))
+* **internal:** codegen related update ([58c59c5](https://github.com/e-invoice-be/e-invoice-java/commit/58c59c5ab23216eb2df083062088a6fb989e2e16))
+* **internal:** codegen related update ([04ca0d3](https://github.com/e-invoice-be/e-invoice-java/commit/04ca0d31fb1c1f9d128735956e4f44419bb02567))
+
 ## 0.1.0-alpha.11 (2025-08-22)
 
 Full Changelog: [v0.1.0-alpha.10...v0.1.0-alpha.11](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.10...v0.1.0-alpha.11)
