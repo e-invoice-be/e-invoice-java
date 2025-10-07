@@ -23,6 +23,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val amountDue: JsonField<String>,
@@ -1880,6 +1881,7 @@ private constructor(
             (if (vendorTaxId.asKnown().isPresent) 1 else 0)
 
     class Item
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amount: JsonField<String>,
         private val date: JsonField<Void>,
@@ -2351,6 +2353,7 @@ private constructor(
     }
 
     class PaymentDetail
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val bankAccountNumber: JsonField<String>,
         private val iban: JsonField<String>,
@@ -2627,6 +2630,7 @@ private constructor(
     }
 
     class TaxDetail
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amount: JsonField<String>,
         private val rate: JsonField<String>,

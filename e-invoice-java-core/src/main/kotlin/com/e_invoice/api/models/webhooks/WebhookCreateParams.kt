@@ -302,6 +302,7 @@ private constructor(
 
     /** Schema for creating a new webhook. */
     class Body
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val events: JsonField<List<String>>,
         private val url: JsonField<String>,

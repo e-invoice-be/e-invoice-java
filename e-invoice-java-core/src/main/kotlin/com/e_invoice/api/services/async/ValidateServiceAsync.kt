@@ -5,6 +5,7 @@ package com.e_invoice.api.services.async
 import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
+import com.e_invoice.api.models.documents.DocumentCreate
 import com.e_invoice.api.models.validate.UblDocumentValidation
 import com.e_invoice.api.models.validate.ValidateValidateJsonParams
 import com.e_invoice.api.models.validate.ValidateValidatePeppolIdParams
@@ -36,6 +37,20 @@ interface ValidateServiceAsync {
         params: ValidateValidateJsonParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<UblDocumentValidation>
+
+    /** @see validateJson */
+    fun validateJson(
+        documentCreate: DocumentCreate,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<UblDocumentValidation> =
+        validateJson(
+            ValidateValidateJsonParams.builder().documentCreate(documentCreate).build(),
+            requestOptions,
+        )
+
+    /** @see validateJson */
+    fun validateJson(documentCreate: DocumentCreate): CompletableFuture<UblDocumentValidation> =
+        validateJson(documentCreate, RequestOptions.none())
 
     /**
      * Validate if a Peppol ID exists in the Peppol network and retrieve supported document types.
@@ -93,6 +108,22 @@ interface ValidateServiceAsync {
             params: ValidateValidateJsonParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<UblDocumentValidation>>
+
+        /** @see validateJson */
+        fun validateJson(
+            documentCreate: DocumentCreate,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
+            validateJson(
+                ValidateValidateJsonParams.builder().documentCreate(documentCreate).build(),
+                requestOptions,
+            )
+
+        /** @see validateJson */
+        fun validateJson(
+            documentCreate: DocumentCreate
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
+            validateJson(documentCreate, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /api/validate/peppol-id`, but is otherwise the same

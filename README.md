@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.11)
-[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.1.0-alpha.11/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.11)
+[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
+[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
 
 <!-- x-release-please-end -->
 
@@ -11,7 +11,7 @@ The e-invoice.be Peppol SDK provides convenient access to the [e-invoice.be REST
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.11).
+The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12).
 
 <!-- x-release-please-end -->
 
@@ -22,7 +22,7 @@ The REST API documentation can be found on [api.e-invoice.be](https://api.e-invo
 ### Gradle
 
 ```kotlin
-implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.11")
+implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.12")
 ```
 
 ### Maven
@@ -31,7 +31,7 @@ implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.11")
 <dependency>
   <groupId>com.e_invoice.api</groupId>
   <artifactId>e-invoice-java</artifactId>
-  <version>0.1.0-alpha.11</version>
+  <version>0.1.0-alpha.12</version>
 </dependency>
 ```
 
@@ -54,9 +54,7 @@ import com.e_invoice.api.models.documents.DocumentResponse;
 // Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 
-DocumentCreateParams params = DocumentCreateParams.builder()
-    .documentCreate(DocumentCreate.builder().build())
-    .build();
+DocumentCreate params = DocumentCreate.builder().build();
 DocumentResponse documentResponse = client.documents().create(params);
 ```
 
@@ -156,9 +154,7 @@ import java.util.concurrent.CompletableFuture;
 // Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClient client = EInvoiceOkHttpClient.fromEnv();
 
-DocumentCreateParams params = DocumentCreateParams.builder()
-    .documentCreate(DocumentCreate.builder().build())
-    .build();
+DocumentCreate params = DocumentCreate.builder().build();
 CompletableFuture<DocumentResponse> documentResponse = client.async().documents().create(params);
 ```
 
@@ -176,9 +172,7 @@ import java.util.concurrent.CompletableFuture;
 // Or configures using the `E_INVOICE_API_KEY` and `E_INVOICE_BASE_URL` environment variables
 EInvoiceClientAsync client = EInvoiceOkHttpClientAsync.fromEnv();
 
-DocumentCreateParams params = DocumentCreateParams.builder()
-    .documentCreate(DocumentCreate.builder().build())
-    .build();
+DocumentCreate params = DocumentCreate.builder().build();
 CompletableFuture<DocumentResponse> documentResponse = client.documents().create(params);
 ```
 
@@ -261,9 +255,7 @@ import com.e_invoice.api.models.documents.DocumentCreate;
 import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 
-DocumentCreateParams params = DocumentCreateParams.builder()
-    .documentCreate(DocumentCreate.builder().build())
-    .build();
+DocumentCreate params = DocumentCreate.builder().build();
 HttpResponseFor<DocumentResponse> documentResponse = client.documents().withRawResponse().create(params);
 
 int statusCode = documentResponse.statusCode();

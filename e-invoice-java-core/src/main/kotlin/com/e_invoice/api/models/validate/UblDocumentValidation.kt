@@ -21,6 +21,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class UblDocumentValidation
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
     private val fileName: JsonField<String>,
@@ -310,6 +311,7 @@ private constructor(
             (if (ublDocument.asKnown().isPresent) 1 else 0)
 
     class Issue
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val message: JsonField<String>,
         private val schematron: JsonField<String>,

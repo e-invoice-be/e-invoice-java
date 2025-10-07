@@ -13,7 +13,10 @@ import java.util.Objects
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
-/** Retrieve a paginated list of received documents with filtering options. */
+/**
+ * Retrieve a paginated list of sent documents with filtering options including state, type, sender,
+ * date range, and text search.
+ */
 class OutboxListReceivedDocumentsParams
 private constructor(
     private val dateFrom: OffsetDateTime?,

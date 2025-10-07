@@ -5,6 +5,7 @@ package com.e_invoice.api.services.blocking
 import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
+import com.e_invoice.api.models.documents.DocumentCreate
 import com.e_invoice.api.models.documents.DocumentCreateParams
 import com.e_invoice.api.models.documents.DocumentDeleteParams
 import com.e_invoice.api.models.documents.DocumentDeleteResponse
@@ -43,6 +44,20 @@ interface DocumentService {
         params: DocumentCreateParams,
         requestOptions: RequestOptions = RequestOptions.none(),
     ): DocumentResponse
+
+    /** @see create */
+    fun create(
+        documentCreate: DocumentCreate,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): DocumentResponse =
+        create(
+            DocumentCreateParams.builder().documentCreate(documentCreate).build(),
+            requestOptions,
+        )
+
+    /** @see create */
+    fun create(documentCreate: DocumentCreate): DocumentResponse =
+        create(documentCreate, RequestOptions.none())
 
     /** Get an invoice or credit note by ID */
     fun retrieve(documentId: String): DocumentResponse =
@@ -165,6 +180,22 @@ interface DocumentService {
             params: DocumentCreateParams,
             requestOptions: RequestOptions = RequestOptions.none(),
         ): HttpResponseFor<DocumentResponse>
+
+        /** @see create */
+        @MustBeClosed
+        fun create(
+            documentCreate: DocumentCreate,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DocumentResponse> =
+            create(
+                DocumentCreateParams.builder().documentCreate(documentCreate).build(),
+                requestOptions,
+            )
+
+        /** @see create */
+        @MustBeClosed
+        fun create(documentCreate: DocumentCreate): HttpResponseFor<DocumentResponse> =
+            create(documentCreate, RequestOptions.none())
 
         /**
          * Returns a raw HTTP response for `get /api/documents/{document_id}`, but is otherwise the

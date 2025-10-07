@@ -31,6 +31,7 @@ import kotlin.jvm.optionals.getOrNull
  * organization details, and certificate data.
  */
 class LookupRetrieveResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val businessCard: JsonField<BusinessCard>,
     private val certificates: JsonField<List<Certificate>>,
@@ -491,6 +492,7 @@ private constructor(
 
     /** Business card information for the Peppol participant */
     class BusinessCard
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val entities: JsonField<List<Entity>>,
         private val queryTimeMs: JsonField<Double>,
@@ -767,6 +769,7 @@ private constructor(
 
         /** Business entity information in the Peppol network. */
         class Entity
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val additionalInformation: JsonField<List<String>>,
             private val countryCode: JsonField<String>,
@@ -1112,6 +1115,7 @@ private constructor(
 
     /** Information about the DNS lookup performed */
     class DnsInfo
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val dnsRecords: JsonField<List<DnsRecord>>,
         private val smlHostname: JsonField<String>,
@@ -1388,6 +1392,7 @@ private constructor(
 
         /** DNS record information for a Peppol participant. */
         class DnsRecord
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val ip: JsonField<String>,
             private val additionalProperties: MutableMap<String, JsonValue>,
@@ -1571,6 +1576,7 @@ private constructor(
 
     /** Metadata about the query that was performed */
     class QueryMetadata
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val identifierScheme: JsonField<String>,
         private val identifierValue: JsonField<String>,
@@ -1909,6 +1915,7 @@ private constructor(
 
     /** Service metadata information for the Peppol participant */
     class ServiceMetadata
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val endpoints: JsonField<List<Endpoint>>,
         private val queryTimeMs: JsonField<Double>,
@@ -2185,6 +2192,7 @@ private constructor(
 
         /** Information about a Peppol participant's endpoint. */
         class Endpoint
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val documentTypes: JsonField<List<DocumentType>>,
             private val status: JsonField<String>,
@@ -2522,6 +2530,7 @@ private constructor(
 
             /** Document type supported by a Peppol participant. */
             class DocumentType
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val scheme: JsonField<String>,
                 private val value: JsonField<String>,
@@ -2733,6 +2742,7 @@ private constructor(
 
             /** Process information in the Peppol network. */
             class Process
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val endpoints: JsonField<List<InnerEndpoint>>,
                 private val processId: JsonField<ProcessId>,
@@ -2944,6 +2954,7 @@ private constructor(
 
                 /** Endpoint information for a specific Peppol process. */
                 class InnerEndpoint
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val address: JsonField<String>,
                     private val transportProfile: JsonField<String>,
@@ -3493,6 +3504,7 @@ private constructor(
 
                 /** Identifier of the process */
                 class ProcessId
+                @JsonCreator(mode = JsonCreator.Mode.DISABLED)
                 private constructor(
                     private val scheme: JsonField<String>,
                     private val value: JsonField<String>,

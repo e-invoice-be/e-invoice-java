@@ -18,6 +18,7 @@ import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class DocumentAttachmentCreate
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val fileName: JsonField<String>,
     private val fileData: JsonField<String>,
@@ -41,6 +42,8 @@ private constructor(
     fun fileName(): String = fileName.getRequired("file_name")
 
     /**
+     * Base64 encoded file data
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -139,6 +142,7 @@ private constructor(
          */
         fun fileName(fileName: JsonField<String>) = apply { this.fileName = fileName }
 
+        /** Base64 encoded file data */
         fun fileData(fileData: String?) = fileData(JsonField.ofNullable(fileData))
 
         /** Alias for calling [Builder.fileData] with `fileData.orElse(null)`. */

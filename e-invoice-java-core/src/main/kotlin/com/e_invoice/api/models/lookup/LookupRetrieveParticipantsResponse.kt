@@ -21,6 +21,7 @@ import kotlin.jvm.optionals.getOrNull
 
 /** Represents the result of a Peppol directory search */
 class LookupRetrieveParticipantsResponse
+@JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val queryTerms: JsonField<String>,
     private val searchDate: JsonField<String>,
@@ -329,6 +330,7 @@ private constructor(
 
     /** Represents a Peppol participant with their details */
     class Participant
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val peppolId: JsonField<String>,
         private val peppolScheme: JsonField<String>,
@@ -624,6 +626,7 @@ private constructor(
 
         /** Represents a supported document type */
         class DocumentType
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val scheme: JsonField<String>,
             private val value: JsonField<String>,
@@ -829,6 +832,7 @@ private constructor(
 
         /** Represents a business entity */
         class Entity
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
         private constructor(
             private val additionalInfo: JsonField<String>,
             private val countryCode: JsonField<String>,
@@ -1249,6 +1253,7 @@ private constructor(
 
             /** Represents a business identifier */
             class Identifier
+            @JsonCreator(mode = JsonCreator.Mode.DISABLED)
             private constructor(
                 private val scheme: JsonField<String>,
                 private val value: JsonField<String>,
