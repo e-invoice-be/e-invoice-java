@@ -27,10 +27,12 @@ class DocumentResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
+    private val allowances: JsonField<List<Allowance>>,
     private val amountDue: JsonField<String>,
     private val attachments: JsonField<List<DocumentAttachment>>,
     private val billingAddress: JsonField<String>,
     private val billingAddressRecipient: JsonField<String>,
+    private val charges: JsonField<List<Charge>>,
     private val currency: JsonField<CurrencyCode>,
     private val customerAddress: JsonField<String>,
     private val customerAddressRecipient: JsonField<String>,
@@ -77,6 +79,9 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("allowances")
+        @ExcludeMissing
+        allowances: JsonField<List<Allowance>> = JsonMissing.of(),
         @JsonProperty("amount_due") @ExcludeMissing amountDue: JsonField<String> = JsonMissing.of(),
         @JsonProperty("attachments")
         @ExcludeMissing
@@ -87,6 +92,9 @@ private constructor(
         @JsonProperty("billing_address_recipient")
         @ExcludeMissing
         billingAddressRecipient: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("charges")
+        @ExcludeMissing
+        charges: JsonField<List<Charge>> = JsonMissing.of(),
         @JsonProperty("currency")
         @ExcludeMissing
         currency: JsonField<CurrencyCode> = JsonMissing.of(),
@@ -189,10 +197,12 @@ private constructor(
         vendorTaxId: JsonField<String> = JsonMissing.of(),
     ) : this(
         id,
+        allowances,
         amountDue,
         attachments,
         billingAddress,
         billingAddressRecipient,
+        charges,
         currency,
         customerAddress,
         customerAddressRecipient,
@@ -246,6 +256,14 @@ private constructor(
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
+    fun allowances(): Optional<List<Allowance>> = allowances.getOptional("allowances")
+
+    /**
+     * The amount due of the invoice. Must be positive and rounded to maximum 2 decimals
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun amountDue(): Optional<String> = amountDue.getOptional("amount_due")
 
     /**
@@ -266,6 +284,12 @@ private constructor(
      */
     fun billingAddressRecipient(): Optional<String> =
         billingAddressRecipient.getOptional("billing_address_recipient")
+
+    /**
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun charges(): Optional<List<Charge>> = charges.getOptional("charges")
 
     /**
      * Currency of the invoice
@@ -343,6 +367,9 @@ private constructor(
     fun invoiceId(): Optional<String> = invoiceId.getOptional("invoice_id")
 
     /**
+     * The total amount of the invoice (so invoice_total = subtotal + total_tax + total_discount).
+     * Must be positive and rounded to maximum 2 decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -374,6 +401,9 @@ private constructor(
     fun paymentTerm(): Optional<String> = paymentTerm.getOptional("payment_term")
 
     /**
+     * The previous unpaid balance of the invoice, if any. Must be positive and rounded to maximum 2
+     * decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -444,6 +474,10 @@ private constructor(
     fun state(): Optional<DocumentState> = state.getOptional("state")
 
     /**
+     * The taxable base of the invoice. Should be the sum of all line items - allowances (for
+     * example commercial discounts) + charges with impact on VAT. Must be positive and rounded to
+     * maximum 2 decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -464,12 +498,17 @@ private constructor(
     fun taxDetails(): Optional<List<TaxDetail>> = taxDetails.getOptional("tax_details")
 
     /**
+     * The total financial discount of the invoice (so discounts not subject to VAT). Must be
+     * positive and rounded to maximum 2 decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun totalDiscount(): Optional<String> = totalDiscount.getOptional("total_discount")
 
     /**
+     * The total tax of the invoice. Must be positive and rounded to maximum 2 decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -532,6 +571,15 @@ private constructor(
     @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
     /**
+     * Returns the raw JSON value of [allowances].
+     *
+     * Unlike [allowances], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("allowances")
+    @ExcludeMissing
+    fun _allowances(): JsonField<List<Allowance>> = allowances
+
+    /**
      * Returns the raw JSON value of [amountDue].
      *
      * Unlike [amountDue], this method doesn't throw if the JSON field has an unexpected type.
@@ -565,6 +613,13 @@ private constructor(
     @JsonProperty("billing_address_recipient")
     @ExcludeMissing
     fun _billingAddressRecipient(): JsonField<String> = billingAddressRecipient
+
+    /**
+     * Returns the raw JSON value of [charges].
+     *
+     * Unlike [charges], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("charges") @ExcludeMissing fun _charges(): JsonField<List<Charge>> = charges
 
     /**
      * Returns the raw JSON value of [currency].
@@ -937,10 +992,12 @@ private constructor(
     class Builder internal constructor() {
 
         private var id: JsonField<String>? = null
+        private var allowances: JsonField<MutableList<Allowance>>? = null
         private var amountDue: JsonField<String> = JsonMissing.of()
         private var attachments: JsonField<MutableList<DocumentAttachment>>? = null
         private var billingAddress: JsonField<String> = JsonMissing.of()
         private var billingAddressRecipient: JsonField<String> = JsonMissing.of()
+        private var charges: JsonField<MutableList<Charge>>? = null
         private var currency: JsonField<CurrencyCode> = JsonMissing.of()
         private var customerAddress: JsonField<String> = JsonMissing.of()
         private var customerAddressRecipient: JsonField<String> = JsonMissing.of()
@@ -986,10 +1043,12 @@ private constructor(
         @JvmSynthetic
         internal fun from(documentResponse: DocumentResponse) = apply {
             id = documentResponse.id
+            allowances = documentResponse.allowances.map { it.toMutableList() }
             amountDue = documentResponse.amountDue
             attachments = documentResponse.attachments.map { it.toMutableList() }
             billingAddress = documentResponse.billingAddress
             billingAddressRecipient = documentResponse.billingAddressRecipient
+            charges = documentResponse.charges.map { it.toMutableList() }
             currency = documentResponse.currency
             customerAddress = documentResponse.customerAddress
             customerAddressRecipient = documentResponse.customerAddressRecipient
@@ -1043,6 +1102,35 @@ private constructor(
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
 
+        fun allowances(allowances: List<Allowance>?) = allowances(JsonField.ofNullable(allowances))
+
+        /** Alias for calling [Builder.allowances] with `allowances.orElse(null)`. */
+        fun allowances(allowances: Optional<List<Allowance>>) = allowances(allowances.getOrNull())
+
+        /**
+         * Sets [Builder.allowances] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.allowances] with a well-typed `List<Allowance>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun allowances(allowances: JsonField<List<Allowance>>) = apply {
+            this.allowances = allowances.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [Allowance] to [allowances].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addAllowance(allowance: Allowance) = apply {
+            allowances =
+                (allowances ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("allowances", it).add(allowance)
+                }
+        }
+
+        /** The amount due of the invoice. Must be positive and rounded to maximum 2 decimals */
         fun amountDue(amountDue: String?) = amountDue(JsonField.ofNullable(amountDue))
 
         /** Alias for calling [Builder.amountDue] with `amountDue.orElse(null)`. */
@@ -1057,8 +1145,12 @@ private constructor(
          */
         fun amountDue(amountDue: JsonField<String>) = apply { this.amountDue = amountDue }
 
-        fun attachments(attachments: List<DocumentAttachment>) =
-            attachments(JsonField.of(attachments))
+        fun attachments(attachments: List<DocumentAttachment>?) =
+            attachments(JsonField.ofNullable(attachments))
+
+        /** Alias for calling [Builder.attachments] with `attachments.orElse(null)`. */
+        fun attachments(attachments: Optional<List<DocumentAttachment>>) =
+            attachments(attachments.getOrNull())
 
         /**
          * Sets [Builder.attachments] to an arbitrary JSON value.
@@ -1120,6 +1212,34 @@ private constructor(
          */
         fun billingAddressRecipient(billingAddressRecipient: JsonField<String>) = apply {
             this.billingAddressRecipient = billingAddressRecipient
+        }
+
+        fun charges(charges: List<Charge>?) = charges(JsonField.ofNullable(charges))
+
+        /** Alias for calling [Builder.charges] with `charges.orElse(null)`. */
+        fun charges(charges: Optional<List<Charge>>) = charges(charges.getOrNull())
+
+        /**
+         * Sets [Builder.charges] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.charges] with a well-typed `List<Charge>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun charges(charges: JsonField<List<Charge>>) = apply {
+            this.charges = charges.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [Charge] to [charges].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addCharge(charge: Charge) = apply {
+            charges =
+                (charges ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("charges", it).add(charge)
+                }
         }
 
         /** Currency of the invoice */
@@ -1309,6 +1429,10 @@ private constructor(
          */
         fun invoiceId(invoiceId: JsonField<String>) = apply { this.invoiceId = invoiceId }
 
+        /**
+         * The total amount of the invoice (so invoice_total = subtotal + total_tax +
+         * total_discount). Must be positive and rounded to maximum 2 decimals
+         */
         fun invoiceTotal(invoiceTotal: String?) = invoiceTotal(JsonField.ofNullable(invoiceTotal))
 
         /** Alias for calling [Builder.invoiceTotal] with `invoiceTotal.orElse(null)`. */
@@ -1325,7 +1449,10 @@ private constructor(
             this.invoiceTotal = invoiceTotal
         }
 
-        fun items(items: List<Item>) = items(JsonField.of(items))
+        fun items(items: List<Item>?) = items(JsonField.ofNullable(items))
+
+        /** Alias for calling [Builder.items] with `items.orElse(null)`. */
+        fun items(items: Optional<List<Item>>) = items(items.getOrNull())
 
         /**
          * Sets [Builder.items] to an arbitrary JSON value.
@@ -1361,8 +1488,12 @@ private constructor(
          */
         fun note(note: JsonField<String>) = apply { this.note = note }
 
-        fun paymentDetails(paymentDetails: List<PaymentDetail>) =
-            paymentDetails(JsonField.of(paymentDetails))
+        fun paymentDetails(paymentDetails: List<PaymentDetail>?) =
+            paymentDetails(JsonField.ofNullable(paymentDetails))
+
+        /** Alias for calling [Builder.paymentDetails] with `paymentDetails.orElse(null)`. */
+        fun paymentDetails(paymentDetails: Optional<List<PaymentDetail>>) =
+            paymentDetails(paymentDetails.getOrNull())
 
         /**
          * Sets [Builder.paymentDetails] to an arbitrary JSON value.
@@ -1401,6 +1532,10 @@ private constructor(
          */
         fun paymentTerm(paymentTerm: JsonField<String>) = apply { this.paymentTerm = paymentTerm }
 
+        /**
+         * The previous unpaid balance of the invoice, if any. Must be positive and rounded to
+         * maximum 2 decimals
+         */
         fun previousUnpaidBalance(previousUnpaidBalance: String?) =
             previousUnpaidBalance(JsonField.ofNullable(previousUnpaidBalance))
 
@@ -1604,6 +1739,11 @@ private constructor(
          */
         fun state(state: JsonField<DocumentState>) = apply { this.state = state }
 
+        /**
+         * The taxable base of the invoice. Should be the sum of all line items - allowances (for
+         * example commercial discounts) + charges with impact on VAT. Must be positive and rounded
+         * to maximum 2 decimals
+         */
         fun subtotal(subtotal: String?) = subtotal(JsonField.ofNullable(subtotal))
 
         /** Alias for calling [Builder.subtotal] with `subtotal.orElse(null)`. */
@@ -1628,7 +1768,10 @@ private constructor(
          */
         fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
 
-        fun taxDetails(taxDetails: List<TaxDetail>) = taxDetails(JsonField.of(taxDetails))
+        fun taxDetails(taxDetails: List<TaxDetail>?) = taxDetails(JsonField.ofNullable(taxDetails))
+
+        /** Alias for calling [Builder.taxDetails] with `taxDetails.orElse(null)`. */
+        fun taxDetails(taxDetails: Optional<List<TaxDetail>>) = taxDetails(taxDetails.getOrNull())
 
         /**
          * Sets [Builder.taxDetails] to an arbitrary JSON value.
@@ -1653,6 +1796,10 @@ private constructor(
                 }
         }
 
+        /**
+         * The total financial discount of the invoice (so discounts not subject to VAT). Must be
+         * positive and rounded to maximum 2 decimals
+         */
         fun totalDiscount(totalDiscount: String?) =
             totalDiscount(JsonField.ofNullable(totalDiscount))
 
@@ -1671,6 +1818,7 @@ private constructor(
             this.totalDiscount = totalDiscount
         }
 
+        /** The total tax of the invoice. Must be positive and rounded to maximum 2 decimals */
         fun totalTax(totalTax: String?) = totalTax(JsonField.ofNullable(totalTax))
 
         /** Alias for calling [Builder.totalTax] with `totalTax.orElse(null)`. */
@@ -1832,10 +1980,12 @@ private constructor(
         fun build(): DocumentResponse =
             DocumentResponse(
                 checkRequired("id", id),
+                (allowances ?: JsonMissing.of()).map { it.toImmutable() },
                 amountDue,
                 (attachments ?: JsonMissing.of()).map { it.toImmutable() },
                 billingAddress,
                 billingAddressRecipient,
+                (charges ?: JsonMissing.of()).map { it.toImmutable() },
                 currency,
                 customerAddress,
                 customerAddressRecipient,
@@ -1888,10 +2038,12 @@ private constructor(
         }
 
         id()
+        allowances().ifPresent { it.forEach { it.validate() } }
         amountDue()
         attachments().ifPresent { it.forEach { it.validate() } }
         billingAddress()
         billingAddressRecipient()
+        charges().ifPresent { it.forEach { it.validate() } }
         currency().ifPresent { it.validate() }
         customerAddress()
         customerAddressRecipient()
@@ -1951,10 +2103,12 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (id.asKnown().isPresent) 1 else 0) +
+            (allowances.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (amountDue.asKnown().isPresent) 1 else 0) +
             (attachments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (billingAddress.asKnown().isPresent) 1 else 0) +
             (if (billingAddressRecipient.asKnown().isPresent) 1 else 0) +
+            (charges.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (currency.asKnown().getOrNull()?.validity() ?: 0) +
             (if (customerAddress.asKnown().isPresent) 1 else 0) +
             (if (customerAddressRecipient.asKnown().isPresent) 1 else 0) +
@@ -1996,10 +2150,1244 @@ private constructor(
             (if (vendorName.asKnown().isPresent) 1 else 0) +
             (if (vendorTaxId.asKnown().isPresent) 1 else 0)
 
-    class Item
+    class Allowance
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
         private val amount: JsonField<String>,
+        private val baseAmount: JsonField<String>,
+        private val multiplierFactor: JsonField<String>,
+        private val reason: JsonField<String>,
+        private val reasonCode: JsonField<String>,
+        private val taxCode: JsonField<TaxCode>,
+        private val taxRate: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("base_amount")
+            @ExcludeMissing
+            baseAmount: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("multiplier_factor")
+            @ExcludeMissing
+            multiplierFactor: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("reason") @ExcludeMissing reason: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("reason_code")
+            @ExcludeMissing
+            reasonCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("tax_code")
+            @ExcludeMissing
+            taxCode: JsonField<TaxCode> = JsonMissing.of(),
+            @JsonProperty("tax_rate") @ExcludeMissing taxRate: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            amount,
+            baseAmount,
+            multiplierFactor,
+            reason,
+            reasonCode,
+            taxCode,
+            taxRate,
+            mutableMapOf(),
+        )
+
+        /**
+         * The allowance amount, without VAT. Must be rounded to maximum 2 decimals
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun amount(): Optional<String> = amount.getOptional("amount")
+
+        /**
+         * The base amount that may be used, in conjunction with the allowance percentage, to
+         * calculate the allowance amount. Must be rounded to maximum 2 decimals
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun baseAmount(): Optional<String> = baseAmount.getOptional("base_amount")
+
+        /**
+         * The percentage that may be used, in conjunction with the allowance base amount, to
+         * calculate the allowance amount. To state 20%, use value 20
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun multiplierFactor(): Optional<String> = multiplierFactor.getOptional("multiplier_factor")
+
+        /**
+         * The reason for the allowance
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun reason(): Optional<String> = reason.getOptional("reason")
+
+        /**
+         * The code for the allowance reason
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+
+        /**
+         * Duty or tax or fee category codes (Subset of UNCL5305)
+         *
+         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+        /**
+         * The VAT rate, represented as percentage that applies to the allowance
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun taxRate(): Optional<String> = taxRate.getOptional("tax_rate")
+
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<String> = amount
+
+        /**
+         * Returns the raw JSON value of [baseAmount].
+         *
+         * Unlike [baseAmount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("base_amount")
+        @ExcludeMissing
+        fun _baseAmount(): JsonField<String> = baseAmount
+
+        /**
+         * Returns the raw JSON value of [multiplierFactor].
+         *
+         * Unlike [multiplierFactor], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("multiplier_factor")
+        @ExcludeMissing
+        fun _multiplierFactor(): JsonField<String> = multiplierFactor
+
+        /**
+         * Returns the raw JSON value of [reason].
+         *
+         * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+        /**
+         * Returns the raw JSON value of [reasonCode].
+         *
+         * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reason_code")
+        @ExcludeMissing
+        fun _reasonCode(): JsonField<String> = reasonCode
+
+        /**
+         * Returns the raw JSON value of [taxCode].
+         *
+         * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+        /**
+         * Returns the raw JSON value of [taxRate].
+         *
+         * Unlike [taxRate], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tax_rate") @ExcludeMissing fun _taxRate(): JsonField<String> = taxRate
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Allowance]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Allowance]. */
+        class Builder internal constructor() {
+
+            private var amount: JsonField<String> = JsonMissing.of()
+            private var baseAmount: JsonField<String> = JsonMissing.of()
+            private var multiplierFactor: JsonField<String> = JsonMissing.of()
+            private var reason: JsonField<String> = JsonMissing.of()
+            private var reasonCode: JsonField<String> = JsonMissing.of()
+            private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+            private var taxRate: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(allowance: Allowance) = apply {
+                amount = allowance.amount
+                baseAmount = allowance.baseAmount
+                multiplierFactor = allowance.multiplierFactor
+                reason = allowance.reason
+                reasonCode = allowance.reasonCode
+                taxCode = allowance.taxCode
+                taxRate = allowance.taxRate
+                additionalProperties = allowance.additionalProperties.toMutableMap()
+            }
+
+            /** The allowance amount, without VAT. Must be rounded to maximum 2 decimals */
+            fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
+
+            /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+            fun amount(amount: Optional<String>) = amount(amount.getOrNull())
+
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun amount(amount: JsonField<String>) = apply { this.amount = amount }
+
+            /**
+             * The base amount that may be used, in conjunction with the allowance percentage, to
+             * calculate the allowance amount. Must be rounded to maximum 2 decimals
+             */
+            fun baseAmount(baseAmount: String?) = baseAmount(JsonField.ofNullable(baseAmount))
+
+            /** Alias for calling [Builder.baseAmount] with `baseAmount.orElse(null)`. */
+            fun baseAmount(baseAmount: Optional<String>) = baseAmount(baseAmount.getOrNull())
+
+            /**
+             * Sets [Builder.baseAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.baseAmount] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun baseAmount(baseAmount: JsonField<String>) = apply { this.baseAmount = baseAmount }
+
+            /**
+             * The percentage that may be used, in conjunction with the allowance base amount, to
+             * calculate the allowance amount. To state 20%, use value 20
+             */
+            fun multiplierFactor(multiplierFactor: String?) =
+                multiplierFactor(JsonField.ofNullable(multiplierFactor))
+
+            /**
+             * Alias for calling [Builder.multiplierFactor] with `multiplierFactor.orElse(null)`.
+             */
+            fun multiplierFactor(multiplierFactor: Optional<String>) =
+                multiplierFactor(multiplierFactor.getOrNull())
+
+            /**
+             * Sets [Builder.multiplierFactor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.multiplierFactor] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun multiplierFactor(multiplierFactor: JsonField<String>) = apply {
+                this.multiplierFactor = multiplierFactor
+            }
+
+            /** The reason for the allowance */
+            fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+            /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+            fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+            /**
+             * Sets [Builder.reason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reason] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+            /** The code for the allowance reason */
+            fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+
+            /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
+            fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+
+            /**
+             * Sets [Builder.reasonCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reasonCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun reasonCode(reasonCode: JsonField<String>) = apply { this.reasonCode = reasonCode }
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             */
+            fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
+
+            /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
+            fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+
+            /**
+             * Sets [Builder.taxCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
+            /** The VAT rate, represented as percentage that applies to the allowance */
+            fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
+
+            /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
+            fun taxRate(taxRate: Optional<String>) = taxRate(taxRate.getOrNull())
+
+            /**
+             * Sets [Builder.taxRate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.taxRate] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun taxRate(taxRate: JsonField<String>) = apply { this.taxRate = taxRate }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Allowance].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Allowance =
+                Allowance(
+                    amount,
+                    baseAmount,
+                    multiplierFactor,
+                    reason,
+                    reasonCode,
+                    taxCode,
+                    taxRate,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Allowance = apply {
+            if (validated) {
+                return@apply
+            }
+
+            amount()
+            baseAmount()
+            multiplierFactor()
+            reason()
+            reasonCode()
+            taxCode().ifPresent { it.validate() }
+            taxRate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (amount.asKnown().isPresent) 1 else 0) +
+                (if (baseAmount.asKnown().isPresent) 1 else 0) +
+                (if (multiplierFactor.asKnown().isPresent) 1 else 0) +
+                (if (reason.asKnown().isPresent) 1 else 0) +
+                (if (reasonCode.asKnown().isPresent) 1 else 0) +
+                (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (taxRate.asKnown().isPresent) 1 else 0)
+
+        /**
+         * Duty or tax or fee category codes (Subset of UNCL5305)
+         *
+         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+         */
+        class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val AE = of("AE")
+
+                @JvmField val E = of("E")
+
+                @JvmField val S = of("S")
+
+                @JvmField val Z = of("Z")
+
+                @JvmField val G = of("G")
+
+                @JvmField val O = of("O")
+
+                @JvmField val K = of("K")
+
+                @JvmField val L = of("L")
+
+                @JvmField val M = of("M")
+
+                @JvmField val B = of("B")
+
+                @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+            }
+
+            /** An enum containing [TaxCode]'s known values. */
+            enum class Known {
+                AE,
+                E,
+                S,
+                Z,
+                G,
+                O,
+                K,
+                L,
+                M,
+                B,
+            }
+
+            /**
+             * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                AE,
+                E,
+                S,
+                Z,
+                G,
+                O,
+                K,
+                L,
+                M,
+                B,
+                /**
+                 * An enum member indicating that [TaxCode] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    AE -> Value.AE
+                    E -> Value.E
+                    S -> Value.S
+                    Z -> Value.Z
+                    G -> Value.G
+                    O -> Value.O
+                    K -> Value.K
+                    L -> Value.L
+                    M -> Value.M
+                    B -> Value.B
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    AE -> Known.AE
+                    E -> Known.E
+                    S -> Known.S
+                    Z -> Known.Z
+                    G -> Known.G
+                    O -> Known.O
+                    K -> Known.K
+                    L -> Known.L
+                    M -> Known.M
+                    B -> Known.B
+                    else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    EInvoiceInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): TaxCode = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TaxCode && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Allowance &&
+                amount == other.amount &&
+                baseAmount == other.baseAmount &&
+                multiplierFactor == other.multiplierFactor &&
+                reason == other.reason &&
+                reasonCode == other.reasonCode &&
+                taxCode == other.taxCode &&
+                taxRate == other.taxRate &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                amount,
+                baseAmount,
+                multiplierFactor,
+                reason,
+                reasonCode,
+                taxCode,
+                taxRate,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Allowance{amount=$amount, baseAmount=$baseAmount, multiplierFactor=$multiplierFactor, reason=$reason, reasonCode=$reasonCode, taxCode=$taxCode, taxRate=$taxRate, additionalProperties=$additionalProperties}"
+    }
+
+    class Charge
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val amount: JsonField<String>,
+        private val baseAmount: JsonField<String>,
+        private val multiplierFactor: JsonField<String>,
+        private val reason: JsonField<String>,
+        private val reasonCode: JsonField<String>,
+        private val taxCode: JsonField<TaxCode>,
+        private val taxRate: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("base_amount")
+            @ExcludeMissing
+            baseAmount: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("multiplier_factor")
+            @ExcludeMissing
+            multiplierFactor: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("reason") @ExcludeMissing reason: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("reason_code")
+            @ExcludeMissing
+            reasonCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("tax_code")
+            @ExcludeMissing
+            taxCode: JsonField<TaxCode> = JsonMissing.of(),
+            @JsonProperty("tax_rate") @ExcludeMissing taxRate: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            amount,
+            baseAmount,
+            multiplierFactor,
+            reason,
+            reasonCode,
+            taxCode,
+            taxRate,
+            mutableMapOf(),
+        )
+
+        /**
+         * The charge amount, without VAT. Must be rounded to maximum 2 decimals
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun amount(): Optional<String> = amount.getOptional("amount")
+
+        /**
+         * The base amount that may be used, in conjunction with the charge percentage, to calculate
+         * the charge amount. Must be rounded to maximum 2 decimals
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun baseAmount(): Optional<String> = baseAmount.getOptional("base_amount")
+
+        /**
+         * The percentage that may be used, in conjunction with the charge base amount, to calculate
+         * the charge amount. To state 20%, use value 20
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun multiplierFactor(): Optional<String> = multiplierFactor.getOptional("multiplier_factor")
+
+        /**
+         * The reason for the charge
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun reason(): Optional<String> = reason.getOptional("reason")
+
+        /**
+         * The code for the charge reason
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+
+        /**
+         * Duty or tax or fee category codes (Subset of UNCL5305)
+         *
+         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+        /**
+         * The VAT rate, represented as percentage that applies to the charge
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun taxRate(): Optional<String> = taxRate.getOptional("tax_rate")
+
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<String> = amount
+
+        /**
+         * Returns the raw JSON value of [baseAmount].
+         *
+         * Unlike [baseAmount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("base_amount")
+        @ExcludeMissing
+        fun _baseAmount(): JsonField<String> = baseAmount
+
+        /**
+         * Returns the raw JSON value of [multiplierFactor].
+         *
+         * Unlike [multiplierFactor], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("multiplier_factor")
+        @ExcludeMissing
+        fun _multiplierFactor(): JsonField<String> = multiplierFactor
+
+        /**
+         * Returns the raw JSON value of [reason].
+         *
+         * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+        /**
+         * Returns the raw JSON value of [reasonCode].
+         *
+         * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reason_code")
+        @ExcludeMissing
+        fun _reasonCode(): JsonField<String> = reasonCode
+
+        /**
+         * Returns the raw JSON value of [taxCode].
+         *
+         * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+        /**
+         * Returns the raw JSON value of [taxRate].
+         *
+         * Unlike [taxRate], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tax_rate") @ExcludeMissing fun _taxRate(): JsonField<String> = taxRate
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Charge]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Charge]. */
+        class Builder internal constructor() {
+
+            private var amount: JsonField<String> = JsonMissing.of()
+            private var baseAmount: JsonField<String> = JsonMissing.of()
+            private var multiplierFactor: JsonField<String> = JsonMissing.of()
+            private var reason: JsonField<String> = JsonMissing.of()
+            private var reasonCode: JsonField<String> = JsonMissing.of()
+            private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+            private var taxRate: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(charge: Charge) = apply {
+                amount = charge.amount
+                baseAmount = charge.baseAmount
+                multiplierFactor = charge.multiplierFactor
+                reason = charge.reason
+                reasonCode = charge.reasonCode
+                taxCode = charge.taxCode
+                taxRate = charge.taxRate
+                additionalProperties = charge.additionalProperties.toMutableMap()
+            }
+
+            /** The charge amount, without VAT. Must be rounded to maximum 2 decimals */
+            fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
+
+            /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+            fun amount(amount: Optional<String>) = amount(amount.getOrNull())
+
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun amount(amount: JsonField<String>) = apply { this.amount = amount }
+
+            /**
+             * The base amount that may be used, in conjunction with the charge percentage, to
+             * calculate the charge amount. Must be rounded to maximum 2 decimals
+             */
+            fun baseAmount(baseAmount: String?) = baseAmount(JsonField.ofNullable(baseAmount))
+
+            /** Alias for calling [Builder.baseAmount] with `baseAmount.orElse(null)`. */
+            fun baseAmount(baseAmount: Optional<String>) = baseAmount(baseAmount.getOrNull())
+
+            /**
+             * Sets [Builder.baseAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.baseAmount] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun baseAmount(baseAmount: JsonField<String>) = apply { this.baseAmount = baseAmount }
+
+            /**
+             * The percentage that may be used, in conjunction with the charge base amount, to
+             * calculate the charge amount. To state 20%, use value 20
+             */
+            fun multiplierFactor(multiplierFactor: String?) =
+                multiplierFactor(JsonField.ofNullable(multiplierFactor))
+
+            /**
+             * Alias for calling [Builder.multiplierFactor] with `multiplierFactor.orElse(null)`.
+             */
+            fun multiplierFactor(multiplierFactor: Optional<String>) =
+                multiplierFactor(multiplierFactor.getOrNull())
+
+            /**
+             * Sets [Builder.multiplierFactor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.multiplierFactor] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun multiplierFactor(multiplierFactor: JsonField<String>) = apply {
+                this.multiplierFactor = multiplierFactor
+            }
+
+            /** The reason for the charge */
+            fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+            /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+            fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+            /**
+             * Sets [Builder.reason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reason] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+            /** The code for the charge reason */
+            fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+
+            /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
+            fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+
+            /**
+             * Sets [Builder.reasonCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reasonCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun reasonCode(reasonCode: JsonField<String>) = apply { this.reasonCode = reasonCode }
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             */
+            fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
+
+            /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
+            fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+
+            /**
+             * Sets [Builder.taxCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
+            /** The VAT rate, represented as percentage that applies to the charge */
+            fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
+
+            /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
+            fun taxRate(taxRate: Optional<String>) = taxRate(taxRate.getOrNull())
+
+            /**
+             * Sets [Builder.taxRate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.taxRate] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun taxRate(taxRate: JsonField<String>) = apply { this.taxRate = taxRate }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Charge].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Charge =
+                Charge(
+                    amount,
+                    baseAmount,
+                    multiplierFactor,
+                    reason,
+                    reasonCode,
+                    taxCode,
+                    taxRate,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Charge = apply {
+            if (validated) {
+                return@apply
+            }
+
+            amount()
+            baseAmount()
+            multiplierFactor()
+            reason()
+            reasonCode()
+            taxCode().ifPresent { it.validate() }
+            taxRate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (if (amount.asKnown().isPresent) 1 else 0) +
+                (if (baseAmount.asKnown().isPresent) 1 else 0) +
+                (if (multiplierFactor.asKnown().isPresent) 1 else 0) +
+                (if (reason.asKnown().isPresent) 1 else 0) +
+                (if (reasonCode.asKnown().isPresent) 1 else 0) +
+                (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (taxRate.asKnown().isPresent) 1 else 0)
+
+        /**
+         * Duty or tax or fee category codes (Subset of UNCL5305)
+         *
+         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+         */
+        class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val AE = of("AE")
+
+                @JvmField val E = of("E")
+
+                @JvmField val S = of("S")
+
+                @JvmField val Z = of("Z")
+
+                @JvmField val G = of("G")
+
+                @JvmField val O = of("O")
+
+                @JvmField val K = of("K")
+
+                @JvmField val L = of("L")
+
+                @JvmField val M = of("M")
+
+                @JvmField val B = of("B")
+
+                @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+            }
+
+            /** An enum containing [TaxCode]'s known values. */
+            enum class Known {
+                AE,
+                E,
+                S,
+                Z,
+                G,
+                O,
+                K,
+                L,
+                M,
+                B,
+            }
+
+            /**
+             * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                AE,
+                E,
+                S,
+                Z,
+                G,
+                O,
+                K,
+                L,
+                M,
+                B,
+                /**
+                 * An enum member indicating that [TaxCode] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    AE -> Value.AE
+                    E -> Value.E
+                    S -> Value.S
+                    Z -> Value.Z
+                    G -> Value.G
+                    O -> Value.O
+                    K -> Value.K
+                    L -> Value.L
+                    M -> Value.M
+                    B -> Value.B
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    AE -> Known.AE
+                    E -> Known.E
+                    S -> Known.S
+                    Z -> Known.Z
+                    G -> Known.G
+                    O -> Known.O
+                    K -> Known.K
+                    L -> Known.L
+                    M -> Known.M
+                    B -> Known.B
+                    else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    EInvoiceInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): TaxCode = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TaxCode && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Charge &&
+                amount == other.amount &&
+                baseAmount == other.baseAmount &&
+                multiplierFactor == other.multiplierFactor &&
+                reason == other.reason &&
+                reasonCode == other.reasonCode &&
+                taxCode == other.taxCode &&
+                taxRate == other.taxRate &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                amount,
+                baseAmount,
+                multiplierFactor,
+                reason,
+                reasonCode,
+                taxCode,
+                taxRate,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Charge{amount=$amount, baseAmount=$baseAmount, multiplierFactor=$multiplierFactor, reason=$reason, reasonCode=$reasonCode, taxCode=$taxCode, taxRate=$taxRate, additionalProperties=$additionalProperties}"
+    }
+
+    class Item
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val allowances: JsonField<List<Allowance>>,
+        private val amount: JsonField<String>,
+        private val charges: JsonField<List<Charge>>,
         private val date: JsonField<Void>,
         private val description: JsonField<String>,
         private val productCode: JsonField<String>,
@@ -2013,7 +3401,13 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("allowances")
+            @ExcludeMissing
+            allowances: JsonField<List<Allowance>> = JsonMissing.of(),
             @JsonProperty("amount") @ExcludeMissing amount: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("charges")
+            @ExcludeMissing
+            charges: JsonField<List<Charge>> = JsonMissing.of(),
             @JsonProperty("date") @ExcludeMissing date: JsonField<Void> = JsonMissing.of(),
             @JsonProperty("description")
             @ExcludeMissing
@@ -2033,7 +3427,9 @@ private constructor(
             @ExcludeMissing
             unitPrice: JsonField<String> = JsonMissing.of(),
         ) : this(
+            allowances,
             amount,
+            charges,
             date,
             description,
             productCode,
@@ -2046,10 +3442,29 @@ private constructor(
         )
 
         /**
+         * The allowances of the line item.
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun allowances(): Optional<List<Allowance>> = allowances.getOptional("allowances")
+
+        /**
+         * The total amount of the line item, exclusive of VAT, after subtracting line level
+         * allowances and adding line level charges. Must be rounded to maximum 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun amount(): Optional<String> = amount.getOptional("amount")
+
+        /**
+         * The charges of the line item.
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun charges(): Optional<List<Charge>> = charges.getOptional("charges")
 
         /**
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -2058,30 +3473,41 @@ private constructor(
         fun date(): Optional<Void> = date.getOptional("date")
 
         /**
+         * The description of the line item.
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun description(): Optional<String> = description.getOptional("description")
 
         /**
+         * The product code of the line item.
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun productCode(): Optional<String> = productCode.getOptional("product_code")
 
         /**
+         * The quantity of items (goods or services) that is the subject of the line item. Must be
+         * rounded to maximum 4 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun quantity(): Optional<String> = quantity.getOptional("quantity")
 
         /**
+         * The total VAT amount for the line item. Must be rounded to maximum 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun tax(): Optional<String> = tax.getOptional("tax")
 
         /**
+         * The VAT rate of the line item expressed as percentage with 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
@@ -2096,10 +3522,21 @@ private constructor(
         fun unit(): Optional<UnitOfMeasureCode> = unit.getOptional("unit")
 
         /**
+         * The unit price of the line item. Must be rounded to maximum 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun unitPrice(): Optional<String> = unitPrice.getOptional("unit_price")
+
+        /**
+         * Returns the raw JSON value of [allowances].
+         *
+         * Unlike [allowances], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("allowances")
+        @ExcludeMissing
+        fun _allowances(): JsonField<List<Allowance>> = allowances
 
         /**
          * Returns the raw JSON value of [amount].
@@ -2107,6 +3544,13 @@ private constructor(
          * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<String> = amount
+
+        /**
+         * Returns the raw JSON value of [charges].
+         *
+         * Unlike [charges], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("charges") @ExcludeMissing fun _charges(): JsonField<List<Charge>> = charges
 
         /**
          * Returns the raw JSON value of [date].
@@ -2189,7 +3633,9 @@ private constructor(
         /** A builder for [Item]. */
         class Builder internal constructor() {
 
+            private var allowances: JsonField<MutableList<Allowance>>? = null
             private var amount: JsonField<String> = JsonMissing.of()
+            private var charges: JsonField<MutableList<Charge>>? = null
             private var date: JsonField<Void> = JsonMissing.of()
             private var description: JsonField<String> = JsonMissing.of()
             private var productCode: JsonField<String> = JsonMissing.of()
@@ -2202,7 +3648,9 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(item: Item) = apply {
+                allowances = item.allowances.map { it.toMutableList() }
                 amount = item.amount
+                charges = item.charges.map { it.toMutableList() }
                 date = item.date
                 description = item.description
                 productCode = item.productCode
@@ -2214,6 +3662,41 @@ private constructor(
                 additionalProperties = item.additionalProperties.toMutableMap()
             }
 
+            /** The allowances of the line item. */
+            fun allowances(allowances: List<Allowance>?) =
+                allowances(JsonField.ofNullable(allowances))
+
+            /** Alias for calling [Builder.allowances] with `allowances.orElse(null)`. */
+            fun allowances(allowances: Optional<List<Allowance>>) =
+                allowances(allowances.getOrNull())
+
+            /**
+             * Sets [Builder.allowances] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.allowances] with a well-typed `List<Allowance>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun allowances(allowances: JsonField<List<Allowance>>) = apply {
+                this.allowances = allowances.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [Allowance] to [allowances].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addAllowance(allowance: Allowance) = apply {
+                allowances =
+                    (allowances ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("allowances", it).add(allowance)
+                    }
+            }
+
+            /**
+             * The total amount of the line item, exclusive of VAT, after subtracting line level
+             * allowances and adding line level charges. Must be rounded to maximum 2 decimals
+             */
             fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
 
             /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
@@ -2227,6 +3710,35 @@ private constructor(
              * supported value.
              */
             fun amount(amount: JsonField<String>) = apply { this.amount = amount }
+
+            /** The charges of the line item. */
+            fun charges(charges: List<Charge>?) = charges(JsonField.ofNullable(charges))
+
+            /** Alias for calling [Builder.charges] with `charges.orElse(null)`. */
+            fun charges(charges: Optional<List<Charge>>) = charges(charges.getOrNull())
+
+            /**
+             * Sets [Builder.charges] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.charges] with a well-typed `List<Charge>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun charges(charges: JsonField<List<Charge>>) = apply {
+                this.charges = charges.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [Charge] to [charges].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addCharge(charge: Charge) = apply {
+                charges =
+                    (charges ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("charges", it).add(charge)
+                    }
+            }
 
             fun date(date: Void?) = date(JsonField.ofNullable(date))
 
@@ -2242,6 +3754,7 @@ private constructor(
              */
             fun date(date: JsonField<Void>) = apply { this.date = date }
 
+            /** The description of the line item. */
             fun description(description: String?) = description(JsonField.ofNullable(description))
 
             /** Alias for calling [Builder.description] with `description.orElse(null)`. */
@@ -2258,6 +3771,7 @@ private constructor(
                 this.description = description
             }
 
+            /** The product code of the line item. */
             fun productCode(productCode: String?) = productCode(JsonField.ofNullable(productCode))
 
             /** Alias for calling [Builder.productCode] with `productCode.orElse(null)`. */
@@ -2274,6 +3788,10 @@ private constructor(
                 this.productCode = productCode
             }
 
+            /**
+             * The quantity of items (goods or services) that is the subject of the line item. Must
+             * be rounded to maximum 4 decimals
+             */
             fun quantity(quantity: String?) = quantity(JsonField.ofNullable(quantity))
 
             /** Alias for calling [Builder.quantity] with `quantity.orElse(null)`. */
@@ -2288,6 +3806,7 @@ private constructor(
              */
             fun quantity(quantity: JsonField<String>) = apply { this.quantity = quantity }
 
+            /** The total VAT amount for the line item. Must be rounded to maximum 2 decimals */
             fun tax(tax: String?) = tax(JsonField.ofNullable(tax))
 
             /** Alias for calling [Builder.tax] with `tax.orElse(null)`. */
@@ -2302,6 +3821,7 @@ private constructor(
              */
             fun tax(tax: JsonField<String>) = apply { this.tax = tax }
 
+            /** The VAT rate of the line item expressed as percentage with 2 decimals */
             fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
 
             /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
@@ -2331,6 +3851,7 @@ private constructor(
              */
             fun unit(unit: JsonField<UnitOfMeasureCode>) = apply { this.unit = unit }
 
+            /** The unit price of the line item. Must be rounded to maximum 2 decimals */
             fun unitPrice(unitPrice: String?) = unitPrice(JsonField.ofNullable(unitPrice))
 
             /** Alias for calling [Builder.unitPrice] with `unitPrice.orElse(null)`. */
@@ -2371,7 +3892,9 @@ private constructor(
              */
             fun build(): Item =
                 Item(
+                    (allowances ?: JsonMissing.of()).map { it.toImmutable() },
                     amount,
+                    (charges ?: JsonMissing.of()).map { it.toImmutable() },
                     date,
                     description,
                     productCode,
@@ -2391,7 +3914,9 @@ private constructor(
                 return@apply
             }
 
+            allowances().ifPresent { it.forEach { it.validate() } }
             amount()
+            charges().ifPresent { it.forEach { it.validate() } }
             date()
             description()
             productCode()
@@ -2419,7 +3944,9 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (if (amount.asKnown().isPresent) 1 else 0) +
+            (allowances.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (if (amount.asKnown().isPresent) 1 else 0) +
+                (charges.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (date.asKnown().isPresent) 1 else 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
                 (if (productCode.asKnown().isPresent) 1 else 0) +
@@ -2429,13 +3956,1285 @@ private constructor(
                 (unit.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (unitPrice.asKnown().isPresent) 1 else 0)
 
+        /** An allowance is a discount for example for early payment, volume discount, etc. */
+        class Allowance
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val amount: JsonField<String>,
+            private val baseAmount: JsonField<String>,
+            private val multiplierFactor: JsonField<String>,
+            private val reason: JsonField<String>,
+            private val reasonCode: JsonField<String>,
+            private val taxCode: JsonField<TaxCode>,
+            private val taxRate: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("amount")
+                @ExcludeMissing
+                amount: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("base_amount")
+                @ExcludeMissing
+                baseAmount: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("multiplier_factor")
+                @ExcludeMissing
+                multiplierFactor: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("reason")
+                @ExcludeMissing
+                reason: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("reason_code")
+                @ExcludeMissing
+                reasonCode: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tax_code")
+                @ExcludeMissing
+                taxCode: JsonField<TaxCode> = JsonMissing.of(),
+                @JsonProperty("tax_rate")
+                @ExcludeMissing
+                taxRate: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                amount,
+                baseAmount,
+                multiplierFactor,
+                reason,
+                reasonCode,
+                taxCode,
+                taxRate,
+                mutableMapOf(),
+            )
+
+            /**
+             * The allowance amount, without VAT. Must be rounded to maximum 2 decimals
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun amount(): Optional<String> = amount.getOptional("amount")
+
+            /**
+             * The base amount that may be used, in conjunction with the allowance percentage, to
+             * calculate the allowance amount. Must be rounded to maximum 2 decimals
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun baseAmount(): Optional<String> = baseAmount.getOptional("base_amount")
+
+            /**
+             * The percentage that may be used, in conjunction with the allowance base amount, to
+             * calculate the allowance amount. To state 20%, use value 20
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun multiplierFactor(): Optional<String> =
+                multiplierFactor.getOptional("multiplier_factor")
+
+            /**
+             * The reason for the allowance
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun reason(): Optional<String> = reason.getOptional("reason")
+
+            /**
+             * The code for the allowance reason
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+            /**
+             * The VAT rate, represented as percentage that applies to the allowance
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun taxRate(): Optional<String> = taxRate.getOptional("tax_rate")
+
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<String> = amount
+
+            /**
+             * Returns the raw JSON value of [baseAmount].
+             *
+             * Unlike [baseAmount], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("base_amount")
+            @ExcludeMissing
+            fun _baseAmount(): JsonField<String> = baseAmount
+
+            /**
+             * Returns the raw JSON value of [multiplierFactor].
+             *
+             * Unlike [multiplierFactor], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("multiplier_factor")
+            @ExcludeMissing
+            fun _multiplierFactor(): JsonField<String> = multiplierFactor
+
+            /**
+             * Returns the raw JSON value of [reason].
+             *
+             * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+            /**
+             * Returns the raw JSON value of [reasonCode].
+             *
+             * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("reason_code")
+            @ExcludeMissing
+            fun _reasonCode(): JsonField<String> = reasonCode
+
+            /**
+             * Returns the raw JSON value of [taxCode].
+             *
+             * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+            /**
+             * Returns the raw JSON value of [taxRate].
+             *
+             * Unlike [taxRate], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tax_rate") @ExcludeMissing fun _taxRate(): JsonField<String> = taxRate
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Allowance]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Allowance]. */
+            class Builder internal constructor() {
+
+                private var amount: JsonField<String> = JsonMissing.of()
+                private var baseAmount: JsonField<String> = JsonMissing.of()
+                private var multiplierFactor: JsonField<String> = JsonMissing.of()
+                private var reason: JsonField<String> = JsonMissing.of()
+                private var reasonCode: JsonField<String> = JsonMissing.of()
+                private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+                private var taxRate: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(allowance: Allowance) = apply {
+                    amount = allowance.amount
+                    baseAmount = allowance.baseAmount
+                    multiplierFactor = allowance.multiplierFactor
+                    reason = allowance.reason
+                    reasonCode = allowance.reasonCode
+                    taxCode = allowance.taxCode
+                    taxRate = allowance.taxRate
+                    additionalProperties = allowance.additionalProperties.toMutableMap()
+                }
+
+                /** The allowance amount, without VAT. Must be rounded to maximum 2 decimals */
+                fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
+
+                /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+                fun amount(amount: Optional<String>) = amount(amount.getOrNull())
+
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun amount(amount: JsonField<String>) = apply { this.amount = amount }
+
+                /**
+                 * The base amount that may be used, in conjunction with the allowance percentage,
+                 * to calculate the allowance amount. Must be rounded to maximum 2 decimals
+                 */
+                fun baseAmount(baseAmount: String?) = baseAmount(JsonField.ofNullable(baseAmount))
+
+                /** Alias for calling [Builder.baseAmount] with `baseAmount.orElse(null)`. */
+                fun baseAmount(baseAmount: Optional<String>) = baseAmount(baseAmount.getOrNull())
+
+                /**
+                 * Sets [Builder.baseAmount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.baseAmount] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun baseAmount(baseAmount: JsonField<String>) = apply {
+                    this.baseAmount = baseAmount
+                }
+
+                /**
+                 * The percentage that may be used, in conjunction with the allowance base amount,
+                 * to calculate the allowance amount. To state 20%, use value 20
+                 */
+                fun multiplierFactor(multiplierFactor: String?) =
+                    multiplierFactor(JsonField.ofNullable(multiplierFactor))
+
+                /**
+                 * Alias for calling [Builder.multiplierFactor] with
+                 * `multiplierFactor.orElse(null)`.
+                 */
+                fun multiplierFactor(multiplierFactor: Optional<String>) =
+                    multiplierFactor(multiplierFactor.getOrNull())
+
+                /**
+                 * Sets [Builder.multiplierFactor] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.multiplierFactor] with a well-typed [String]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun multiplierFactor(multiplierFactor: JsonField<String>) = apply {
+                    this.multiplierFactor = multiplierFactor
+                }
+
+                /** The reason for the allowance */
+                fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+                /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+                fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+                /**
+                 * Sets [Builder.reason] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.reason] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+                /** The code for the allowance reason */
+                fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+
+                /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
+                fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+
+                /**
+                 * Sets [Builder.reasonCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.reasonCode] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun reasonCode(reasonCode: JsonField<String>) = apply {
+                    this.reasonCode = reasonCode
+                }
+
+                /**
+                 * Duty or tax or fee category codes (Subset of UNCL5305)
+                 *
+                 * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+                 */
+                fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
+
+                /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
+                fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+
+                /**
+                 * Sets [Builder.taxCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
+                /** The VAT rate, represented as percentage that applies to the allowance */
+                fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
+
+                /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
+                fun taxRate(taxRate: Optional<String>) = taxRate(taxRate.getOrNull())
+
+                /**
+                 * Sets [Builder.taxRate] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.taxRate] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun taxRate(taxRate: JsonField<String>) = apply { this.taxRate = taxRate }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Allowance].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Allowance =
+                    Allowance(
+                        amount,
+                        baseAmount,
+                        multiplierFactor,
+                        reason,
+                        reasonCode,
+                        taxCode,
+                        taxRate,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): Allowance = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                amount()
+                baseAmount()
+                multiplierFactor()
+                reason()
+                reasonCode()
+                taxCode().ifPresent { it.validate() }
+                taxRate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (amount.asKnown().isPresent) 1 else 0) +
+                    (if (baseAmount.asKnown().isPresent) 1 else 0) +
+                    (if (multiplierFactor.asKnown().isPresent) 1 else 0) +
+                    (if (reason.asKnown().isPresent) 1 else 0) +
+                    (if (reasonCode.asKnown().isPresent) 1 else 0) +
+                    (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (taxRate.asKnown().isPresent) 1 else 0)
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             */
+            class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val AE = of("AE")
+
+                    @JvmField val E = of("E")
+
+                    @JvmField val S = of("S")
+
+                    @JvmField val Z = of("Z")
+
+                    @JvmField val G = of("G")
+
+                    @JvmField val O = of("O")
+
+                    @JvmField val K = of("K")
+
+                    @JvmField val L = of("L")
+
+                    @JvmField val M = of("M")
+
+                    @JvmField val B = of("B")
+
+                    @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+                }
+
+                /** An enum containing [TaxCode]'s known values. */
+                enum class Known {
+                    AE,
+                    E,
+                    S,
+                    Z,
+                    G,
+                    O,
+                    K,
+                    L,
+                    M,
+                    B,
+                }
+
+                /**
+                 * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    AE,
+                    E,
+                    S,
+                    Z,
+                    G,
+                    O,
+                    K,
+                    L,
+                    M,
+                    B,
+                    /**
+                     * An enum member indicating that [TaxCode] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        AE -> Value.AE
+                        E -> Value.E
+                        S -> Value.S
+                        Z -> Value.Z
+                        G -> Value.G
+                        O -> Value.O
+                        K -> Value.K
+                        L -> Value.L
+                        M -> Value.M
+                        B -> Value.B
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws EInvoiceInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        AE -> Known.AE
+                        E -> Known.E
+                        S -> Known.S
+                        Z -> Known.Z
+                        G -> Known.G
+                        O -> Known.O
+                        K -> Known.K
+                        L -> Known.L
+                        M -> Known.M
+                        B -> Known.B
+                        else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws EInvoiceInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        EInvoiceInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): TaxCode = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is TaxCode && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Allowance &&
+                    amount == other.amount &&
+                    baseAmount == other.baseAmount &&
+                    multiplierFactor == other.multiplierFactor &&
+                    reason == other.reason &&
+                    reasonCode == other.reasonCode &&
+                    taxCode == other.taxCode &&
+                    taxRate == other.taxRate &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    amount,
+                    baseAmount,
+                    multiplierFactor,
+                    reason,
+                    reasonCode,
+                    taxCode,
+                    taxRate,
+                    additionalProperties,
+                )
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Allowance{amount=$amount, baseAmount=$baseAmount, multiplierFactor=$multiplierFactor, reason=$reason, reasonCode=$reasonCode, taxCode=$taxCode, taxRate=$taxRate, additionalProperties=$additionalProperties}"
+        }
+
+        /** A charge is an additional fee for example for late payment, late delivery, etc. */
+        class Charge
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val amount: JsonField<String>,
+            private val baseAmount: JsonField<String>,
+            private val multiplierFactor: JsonField<String>,
+            private val reason: JsonField<String>,
+            private val reasonCode: JsonField<String>,
+            private val taxCode: JsonField<TaxCode>,
+            private val taxRate: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("amount")
+                @ExcludeMissing
+                amount: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("base_amount")
+                @ExcludeMissing
+                baseAmount: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("multiplier_factor")
+                @ExcludeMissing
+                multiplierFactor: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("reason")
+                @ExcludeMissing
+                reason: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("reason_code")
+                @ExcludeMissing
+                reasonCode: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tax_code")
+                @ExcludeMissing
+                taxCode: JsonField<TaxCode> = JsonMissing.of(),
+                @JsonProperty("tax_rate")
+                @ExcludeMissing
+                taxRate: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                amount,
+                baseAmount,
+                multiplierFactor,
+                reason,
+                reasonCode,
+                taxCode,
+                taxRate,
+                mutableMapOf(),
+            )
+
+            /**
+             * The charge amount, without VAT. Must be rounded to maximum 2 decimals
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun amount(): Optional<String> = amount.getOptional("amount")
+
+            /**
+             * The base amount that may be used, in conjunction with the charge percentage, to
+             * calculate the charge amount. Must be rounded to maximum 2 decimals
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun baseAmount(): Optional<String> = baseAmount.getOptional("base_amount")
+
+            /**
+             * The percentage that may be used, in conjunction with the charge base amount, to
+             * calculate the charge amount. To state 20%, use value 20
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun multiplierFactor(): Optional<String> =
+                multiplierFactor.getOptional("multiplier_factor")
+
+            /**
+             * The reason for the charge
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun reason(): Optional<String> = reason.getOptional("reason")
+
+            /**
+             * The code for the charge reason
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+            /**
+             * The VAT rate, represented as percentage that applies to the charge
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun taxRate(): Optional<String> = taxRate.getOptional("tax_rate")
+
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<String> = amount
+
+            /**
+             * Returns the raw JSON value of [baseAmount].
+             *
+             * Unlike [baseAmount], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("base_amount")
+            @ExcludeMissing
+            fun _baseAmount(): JsonField<String> = baseAmount
+
+            /**
+             * Returns the raw JSON value of [multiplierFactor].
+             *
+             * Unlike [multiplierFactor], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("multiplier_factor")
+            @ExcludeMissing
+            fun _multiplierFactor(): JsonField<String> = multiplierFactor
+
+            /**
+             * Returns the raw JSON value of [reason].
+             *
+             * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+            /**
+             * Returns the raw JSON value of [reasonCode].
+             *
+             * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("reason_code")
+            @ExcludeMissing
+            fun _reasonCode(): JsonField<String> = reasonCode
+
+            /**
+             * Returns the raw JSON value of [taxCode].
+             *
+             * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+            /**
+             * Returns the raw JSON value of [taxRate].
+             *
+             * Unlike [taxRate], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tax_rate") @ExcludeMissing fun _taxRate(): JsonField<String> = taxRate
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Charge]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Charge]. */
+            class Builder internal constructor() {
+
+                private var amount: JsonField<String> = JsonMissing.of()
+                private var baseAmount: JsonField<String> = JsonMissing.of()
+                private var multiplierFactor: JsonField<String> = JsonMissing.of()
+                private var reason: JsonField<String> = JsonMissing.of()
+                private var reasonCode: JsonField<String> = JsonMissing.of()
+                private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+                private var taxRate: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(charge: Charge) = apply {
+                    amount = charge.amount
+                    baseAmount = charge.baseAmount
+                    multiplierFactor = charge.multiplierFactor
+                    reason = charge.reason
+                    reasonCode = charge.reasonCode
+                    taxCode = charge.taxCode
+                    taxRate = charge.taxRate
+                    additionalProperties = charge.additionalProperties.toMutableMap()
+                }
+
+                /** The charge amount, without VAT. Must be rounded to maximum 2 decimals */
+                fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
+
+                /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+                fun amount(amount: Optional<String>) = amount(amount.getOrNull())
+
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun amount(amount: JsonField<String>) = apply { this.amount = amount }
+
+                /**
+                 * The base amount that may be used, in conjunction with the charge percentage, to
+                 * calculate the charge amount. Must be rounded to maximum 2 decimals
+                 */
+                fun baseAmount(baseAmount: String?) = baseAmount(JsonField.ofNullable(baseAmount))
+
+                /** Alias for calling [Builder.baseAmount] with `baseAmount.orElse(null)`. */
+                fun baseAmount(baseAmount: Optional<String>) = baseAmount(baseAmount.getOrNull())
+
+                /**
+                 * Sets [Builder.baseAmount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.baseAmount] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun baseAmount(baseAmount: JsonField<String>) = apply {
+                    this.baseAmount = baseAmount
+                }
+
+                /**
+                 * The percentage that may be used, in conjunction with the charge base amount, to
+                 * calculate the charge amount. To state 20%, use value 20
+                 */
+                fun multiplierFactor(multiplierFactor: String?) =
+                    multiplierFactor(JsonField.ofNullable(multiplierFactor))
+
+                /**
+                 * Alias for calling [Builder.multiplierFactor] with
+                 * `multiplierFactor.orElse(null)`.
+                 */
+                fun multiplierFactor(multiplierFactor: Optional<String>) =
+                    multiplierFactor(multiplierFactor.getOrNull())
+
+                /**
+                 * Sets [Builder.multiplierFactor] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.multiplierFactor] with a well-typed [String]
+                 * value instead. This method is primarily for setting the field to an undocumented
+                 * or not yet supported value.
+                 */
+                fun multiplierFactor(multiplierFactor: JsonField<String>) = apply {
+                    this.multiplierFactor = multiplierFactor
+                }
+
+                /** The reason for the charge */
+                fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+                /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+                fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+                /**
+                 * Sets [Builder.reason] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.reason] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+                /** The code for the charge reason */
+                fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+
+                /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
+                fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+
+                /**
+                 * Sets [Builder.reasonCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.reasonCode] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun reasonCode(reasonCode: JsonField<String>) = apply {
+                    this.reasonCode = reasonCode
+                }
+
+                /**
+                 * Duty or tax or fee category codes (Subset of UNCL5305)
+                 *
+                 * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+                 */
+                fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
+
+                /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
+                fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+
+                /**
+                 * Sets [Builder.taxCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
+                /** The VAT rate, represented as percentage that applies to the charge */
+                fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
+
+                /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
+                fun taxRate(taxRate: Optional<String>) = taxRate(taxRate.getOrNull())
+
+                /**
+                 * Sets [Builder.taxRate] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.taxRate] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun taxRate(taxRate: JsonField<String>) = apply { this.taxRate = taxRate }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Charge].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Charge =
+                    Charge(
+                        amount,
+                        baseAmount,
+                        multiplierFactor,
+                        reason,
+                        reasonCode,
+                        taxCode,
+                        taxRate,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): Charge = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                amount()
+                baseAmount()
+                multiplierFactor()
+                reason()
+                reasonCode()
+                taxCode().ifPresent { it.validate() }
+                taxRate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (amount.asKnown().isPresent) 1 else 0) +
+                    (if (baseAmount.asKnown().isPresent) 1 else 0) +
+                    (if (multiplierFactor.asKnown().isPresent) 1 else 0) +
+                    (if (reason.asKnown().isPresent) 1 else 0) +
+                    (if (reasonCode.asKnown().isPresent) 1 else 0) +
+                    (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (taxRate.asKnown().isPresent) 1 else 0)
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             */
+            class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val AE = of("AE")
+
+                    @JvmField val E = of("E")
+
+                    @JvmField val S = of("S")
+
+                    @JvmField val Z = of("Z")
+
+                    @JvmField val G = of("G")
+
+                    @JvmField val O = of("O")
+
+                    @JvmField val K = of("K")
+
+                    @JvmField val L = of("L")
+
+                    @JvmField val M = of("M")
+
+                    @JvmField val B = of("B")
+
+                    @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+                }
+
+                /** An enum containing [TaxCode]'s known values. */
+                enum class Known {
+                    AE,
+                    E,
+                    S,
+                    Z,
+                    G,
+                    O,
+                    K,
+                    L,
+                    M,
+                    B,
+                }
+
+                /**
+                 * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    AE,
+                    E,
+                    S,
+                    Z,
+                    G,
+                    O,
+                    K,
+                    L,
+                    M,
+                    B,
+                    /**
+                     * An enum member indicating that [TaxCode] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        AE -> Value.AE
+                        E -> Value.E
+                        S -> Value.S
+                        Z -> Value.Z
+                        G -> Value.G
+                        O -> Value.O
+                        K -> Value.K
+                        L -> Value.L
+                        M -> Value.M
+                        B -> Value.B
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws EInvoiceInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        AE -> Known.AE
+                        E -> Known.E
+                        S -> Known.S
+                        Z -> Known.Z
+                        G -> Known.G
+                        O -> Known.O
+                        K -> Known.K
+                        L -> Known.L
+                        M -> Known.M
+                        B -> Known.B
+                        else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws EInvoiceInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        EInvoiceInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): TaxCode = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is TaxCode && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Charge &&
+                    amount == other.amount &&
+                    baseAmount == other.baseAmount &&
+                    multiplierFactor == other.multiplierFactor &&
+                    reason == other.reason &&
+                    reasonCode == other.reasonCode &&
+                    taxCode == other.taxCode &&
+                    taxRate == other.taxRate &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    amount,
+                    baseAmount,
+                    multiplierFactor,
+                    reason,
+                    reasonCode,
+                    taxCode,
+                    taxRate,
+                    additionalProperties,
+                )
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Charge{amount=$amount, baseAmount=$baseAmount, multiplierFactor=$multiplierFactor, reason=$reason, reasonCode=$reasonCode, taxCode=$taxCode, taxRate=$taxRate, additionalProperties=$additionalProperties}"
+        }
+
         override fun equals(other: Any?): Boolean {
             if (this === other) {
                 return true
             }
 
             return other is Item &&
+                allowances == other.allowances &&
                 amount == other.amount &&
+                charges == other.charges &&
                 date == other.date &&
                 description == other.description &&
                 productCode == other.productCode &&
@@ -2449,7 +5248,9 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
+                allowances,
                 amount,
+                charges,
                 date,
                 description,
                 productCode,
@@ -2465,7 +5266,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Item{amount=$amount, date=$date, description=$description, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
+            "Item{allowances=$allowances, amount=$amount, charges=$charges, date=$date, description=$description, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
     }
 
     class PaymentDetail
@@ -3596,10 +6397,12 @@ private constructor(
 
         return other is DocumentResponse &&
             id == other.id &&
+            allowances == other.allowances &&
             amountDue == other.amountDue &&
             attachments == other.attachments &&
             billingAddress == other.billingAddress &&
             billingAddressRecipient == other.billingAddressRecipient &&
+            charges == other.charges &&
             currency == other.currency &&
             customerAddress == other.customerAddress &&
             customerAddressRecipient == other.customerAddressRecipient &&
@@ -3646,10 +6449,12 @@ private constructor(
     private val hashCode: Int by lazy {
         Objects.hash(
             id,
+            allowances,
             amountDue,
             attachments,
             billingAddress,
             billingAddressRecipient,
+            charges,
             currency,
             customerAddress,
             customerAddressRecipient,
@@ -3697,5 +6502,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentResponse{id=$id, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentResponse{id=$id, allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }

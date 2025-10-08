@@ -35,10 +35,12 @@ import kotlin.jvm.optionals.getOrNull
 class DocumentCreate
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
+    private val allowances: JsonField<List<Allowance>>,
     private val amountDue: JsonField<AmountDue>,
     private val attachments: JsonField<List<DocumentAttachmentCreate>>,
     private val billingAddress: JsonField<String>,
     private val billingAddressRecipient: JsonField<String>,
+    private val charges: JsonField<List<Charge>>,
     private val currency: JsonField<CurrencyCode>,
     private val customerAddress: JsonField<String>,
     private val customerAddressRecipient: JsonField<String>,
@@ -84,6 +86,9 @@ private constructor(
 
     @JsonCreator
     private constructor(
+        @JsonProperty("allowances")
+        @ExcludeMissing
+        allowances: JsonField<List<Allowance>> = JsonMissing.of(),
         @JsonProperty("amount_due")
         @ExcludeMissing
         amountDue: JsonField<AmountDue> = JsonMissing.of(),
@@ -96,6 +101,9 @@ private constructor(
         @JsonProperty("billing_address_recipient")
         @ExcludeMissing
         billingAddressRecipient: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("charges")
+        @ExcludeMissing
+        charges: JsonField<List<Charge>> = JsonMissing.of(),
         @JsonProperty("currency")
         @ExcludeMissing
         currency: JsonField<CurrencyCode> = JsonMissing.of(),
@@ -197,10 +205,12 @@ private constructor(
         @ExcludeMissing
         vendorTaxId: JsonField<String> = JsonMissing.of(),
     ) : this(
+        allowances,
         amountDue,
         attachments,
         billingAddress,
         billingAddressRecipient,
+        charges,
         currency,
         customerAddress,
         customerAddressRecipient,
@@ -248,6 +258,14 @@ private constructor(
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
+    fun allowances(): Optional<List<Allowance>> = allowances.getOptional("allowances")
+
+    /**
+     * The amount due of the invoice. Must be positive and rounded to maximum 2 decimals
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
     fun amountDue(): Optional<AmountDue> = amountDue.getOptional("amount_due")
 
     /**
@@ -269,6 +287,12 @@ private constructor(
      */
     fun billingAddressRecipient(): Optional<String> =
         billingAddressRecipient.getOptional("billing_address_recipient")
+
+    /**
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun charges(): Optional<List<Charge>> = charges.getOptional("charges")
 
     /**
      * Currency of the invoice
@@ -346,12 +370,17 @@ private constructor(
     fun invoiceId(): Optional<String> = invoiceId.getOptional("invoice_id")
 
     /**
+     * The total amount of the invoice (so invoice_total = subtotal + total_tax + total_discount).
+     * Must be positive and rounded to maximum 2 decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun invoiceTotal(): Optional<InvoiceTotal> = invoiceTotal.getOptional("invoice_total")
 
     /**
+     * At least one line item is required
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -377,6 +406,9 @@ private constructor(
     fun paymentTerm(): Optional<String> = paymentTerm.getOptional("payment_term")
 
     /**
+     * The previous unpaid balance of the invoice, if any. Must be positive and rounded to maximum 2
+     * decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -447,6 +479,10 @@ private constructor(
     fun state(): Optional<DocumentState> = state.getOptional("state")
 
     /**
+     * The taxable base of the invoice. Should be the sum of all line items - allowances (for
+     * example commercial discounts) + charges with impact on VAT. Must be positive and rounded to
+     * maximum 2 decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -467,12 +503,17 @@ private constructor(
     fun taxDetails(): Optional<List<TaxDetail>> = taxDetails.getOptional("tax_details")
 
     /**
+     * The total financial discount of the invoice (so discounts not subject to VAT). Must be
+     * positive and rounded to maximum 2 decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun totalDiscount(): Optional<TotalDiscount> = totalDiscount.getOptional("total_discount")
 
     /**
+     * The total tax of the invoice. Must be positive and rounded to maximum 2 decimals
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -528,6 +569,15 @@ private constructor(
     fun vendorTaxId(): Optional<String> = vendorTaxId.getOptional("vendor_tax_id")
 
     /**
+     * Returns the raw JSON value of [allowances].
+     *
+     * Unlike [allowances], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("allowances")
+    @ExcludeMissing
+    fun _allowances(): JsonField<List<Allowance>> = allowances
+
+    /**
      * Returns the raw JSON value of [amountDue].
      *
      * Unlike [amountDue], this method doesn't throw if the JSON field has an unexpected type.
@@ -561,6 +611,13 @@ private constructor(
     @JsonProperty("billing_address_recipient")
     @ExcludeMissing
     fun _billingAddressRecipient(): JsonField<String> = billingAddressRecipient
+
+    /**
+     * Returns the raw JSON value of [charges].
+     *
+     * Unlike [charges], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("charges") @ExcludeMissing fun _charges(): JsonField<List<Charge>> = charges
 
     /**
      * Returns the raw JSON value of [currency].
@@ -925,10 +982,12 @@ private constructor(
     /** A builder for [DocumentCreate]. */
     class Builder internal constructor() {
 
+        private var allowances: JsonField<MutableList<Allowance>>? = null
         private var amountDue: JsonField<AmountDue> = JsonMissing.of()
         private var attachments: JsonField<MutableList<DocumentAttachmentCreate>>? = null
         private var billingAddress: JsonField<String> = JsonMissing.of()
         private var billingAddressRecipient: JsonField<String> = JsonMissing.of()
+        private var charges: JsonField<MutableList<Charge>>? = null
         private var currency: JsonField<CurrencyCode> = JsonMissing.of()
         private var customerAddress: JsonField<String> = JsonMissing.of()
         private var customerAddressRecipient: JsonField<String> = JsonMissing.of()
@@ -973,10 +1032,12 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(documentCreate: DocumentCreate) = apply {
+            allowances = documentCreate.allowances.map { it.toMutableList() }
             amountDue = documentCreate.amountDue
             attachments = documentCreate.attachments.map { it.toMutableList() }
             billingAddress = documentCreate.billingAddress
             billingAddressRecipient = documentCreate.billingAddressRecipient
+            charges = documentCreate.charges.map { it.toMutableList() }
             currency = documentCreate.currency
             customerAddress = documentCreate.customerAddress
             customerAddressRecipient = documentCreate.customerAddressRecipient
@@ -1020,6 +1081,35 @@ private constructor(
             additionalProperties = documentCreate.additionalProperties.toMutableMap()
         }
 
+        fun allowances(allowances: List<Allowance>?) = allowances(JsonField.ofNullable(allowances))
+
+        /** Alias for calling [Builder.allowances] with `allowances.orElse(null)`. */
+        fun allowances(allowances: Optional<List<Allowance>>) = allowances(allowances.getOrNull())
+
+        /**
+         * Sets [Builder.allowances] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.allowances] with a well-typed `List<Allowance>` value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun allowances(allowances: JsonField<List<Allowance>>) = apply {
+            this.allowances = allowances.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [Allowance] to [allowances].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addAllowance(allowance: Allowance) = apply {
+            allowances =
+                (allowances ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("allowances", it).add(allowance)
+                }
+        }
+
+        /** The amount due of the invoice. Must be positive and rounded to maximum 2 decimals */
         fun amountDue(amountDue: AmountDue?) = amountDue(JsonField.ofNullable(amountDue))
 
         /** Alias for calling [Builder.amountDue] with `amountDue.orElse(null)`. */
@@ -1107,6 +1197,34 @@ private constructor(
          */
         fun billingAddressRecipient(billingAddressRecipient: JsonField<String>) = apply {
             this.billingAddressRecipient = billingAddressRecipient
+        }
+
+        fun charges(charges: List<Charge>?) = charges(JsonField.ofNullable(charges))
+
+        /** Alias for calling [Builder.charges] with `charges.orElse(null)`. */
+        fun charges(charges: Optional<List<Charge>>) = charges(charges.getOrNull())
+
+        /**
+         * Sets [Builder.charges] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.charges] with a well-typed `List<Charge>` value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun charges(charges: JsonField<List<Charge>>) = apply {
+            this.charges = charges.map { it.toMutableList() }
+        }
+
+        /**
+         * Adds a single [Charge] to [charges].
+         *
+         * @throws IllegalStateException if the field was previously set to a non-list.
+         */
+        fun addCharge(charge: Charge) = apply {
+            charges =
+                (charges ?: JsonField.of(mutableListOf())).also {
+                    checkKnown("charges", it).add(charge)
+                }
         }
 
         /** Currency of the invoice */
@@ -1296,6 +1414,10 @@ private constructor(
          */
         fun invoiceId(invoiceId: JsonField<String>) = apply { this.invoiceId = invoiceId }
 
+        /**
+         * The total amount of the invoice (so invoice_total = subtotal + total_tax +
+         * total_discount). Must be positive and rounded to maximum 2 decimals
+         */
         fun invoiceTotal(invoiceTotal: InvoiceTotal?) =
             invoiceTotal(JsonField.ofNullable(invoiceTotal))
 
@@ -1320,10 +1442,8 @@ private constructor(
         /** Alias for calling [invoiceTotal] with `InvoiceTotal.ofString(string)`. */
         fun invoiceTotal(string: String) = invoiceTotal(InvoiceTotal.ofString(string))
 
-        fun items(items: List<Item>?) = items(JsonField.ofNullable(items))
-
-        /** Alias for calling [Builder.items] with `items.orElse(null)`. */
-        fun items(items: Optional<List<Item>>) = items(items.getOrNull())
+        /** At least one line item is required */
+        fun items(items: List<Item>) = items(JsonField.of(items))
 
         /**
          * Sets [Builder.items] to an arbitrary JSON value.
@@ -1403,6 +1523,10 @@ private constructor(
          */
         fun paymentTerm(paymentTerm: JsonField<String>) = apply { this.paymentTerm = paymentTerm }
 
+        /**
+         * The previous unpaid balance of the invoice, if any. Must be positive and rounded to
+         * maximum 2 decimals
+         */
         fun previousUnpaidBalance(previousUnpaidBalance: PreviousUnpaidBalance?) =
             previousUnpaidBalance(JsonField.ofNullable(previousUnpaidBalance))
 
@@ -1618,6 +1742,11 @@ private constructor(
          */
         fun state(state: JsonField<DocumentState>) = apply { this.state = state }
 
+        /**
+         * The taxable base of the invoice. Should be the sum of all line items - allowances (for
+         * example commercial discounts) + charges with impact on VAT. Must be positive and rounded
+         * to maximum 2 decimals
+         */
         fun subtotal(subtotal: Subtotal?) = subtotal(JsonField.ofNullable(subtotal))
 
         /** Alias for calling [Builder.subtotal] with `subtotal.orElse(null)`. */
@@ -1677,6 +1806,10 @@ private constructor(
                 }
         }
 
+        /**
+         * The total financial discount of the invoice (so discounts not subject to VAT). Must be
+         * positive and rounded to maximum 2 decimals
+         */
         fun totalDiscount(totalDiscount: TotalDiscount?) =
             totalDiscount(JsonField.ofNullable(totalDiscount))
 
@@ -1701,6 +1834,7 @@ private constructor(
         /** Alias for calling [totalDiscount] with `TotalDiscount.ofString(string)`. */
         fun totalDiscount(string: String) = totalDiscount(TotalDiscount.ofString(string))
 
+        /** The total tax of the invoice. Must be positive and rounded to maximum 2 decimals */
         fun totalTax(totalTax: TotalTax?) = totalTax(JsonField.ofNullable(totalTax))
 
         /** Alias for calling [Builder.totalTax] with `totalTax.orElse(null)`. */
@@ -1861,10 +1995,12 @@ private constructor(
          */
         fun build(): DocumentCreate =
             DocumentCreate(
+                (allowances ?: JsonMissing.of()).map { it.toImmutable() },
                 amountDue,
                 (attachments ?: JsonMissing.of()).map { it.toImmutable() },
                 billingAddress,
                 billingAddressRecipient,
+                (charges ?: JsonMissing.of()).map { it.toImmutable() },
                 currency,
                 customerAddress,
                 customerAddressRecipient,
@@ -1916,10 +2052,12 @@ private constructor(
             return@apply
         }
 
+        allowances().ifPresent { it.forEach { it.validate() } }
         amountDue().ifPresent { it.validate() }
         attachments().ifPresent { it.forEach { it.validate() } }
         billingAddress()
         billingAddressRecipient()
+        charges().ifPresent { it.forEach { it.validate() } }
         currency().ifPresent { it.validate() }
         customerAddress()
         customerAddressRecipient()
@@ -1978,10 +2116,12 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (amountDue.asKnown().getOrNull()?.validity() ?: 0) +
+        (allowances.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+            (amountDue.asKnown().getOrNull()?.validity() ?: 0) +
             (attachments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (billingAddress.asKnown().isPresent) 1 else 0) +
             (if (billingAddressRecipient.asKnown().isPresent) 1 else 0) +
+            (charges.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (currency.asKnown().getOrNull()?.validity() ?: 0) +
             (if (customerAddress.asKnown().isPresent) 1 else 0) +
             (if (customerAddressRecipient.asKnown().isPresent) 1 else 0) +
@@ -2023,6 +2163,1166 @@ private constructor(
             (if (vendorName.asKnown().isPresent) 1 else 0) +
             (if (vendorTaxId.asKnown().isPresent) 1 else 0)
 
+    /** An allowance is a discount for example for early payment, volume discount, etc. */
+    class Allowance
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val amount: JsonField<Amount>,
+        private val baseAmount: JsonField<BaseAmount>,
+        private val multiplierFactor: JsonField<MultiplierFactor>,
+        private val reason: JsonField<String>,
+        private val reasonCode: JsonField<String>,
+        private val taxCode: JsonField<TaxCode>,
+        private val taxRate: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<Amount> = JsonMissing.of(),
+            @JsonProperty("base_amount")
+            @ExcludeMissing
+            baseAmount: JsonField<BaseAmount> = JsonMissing.of(),
+            @JsonProperty("multiplier_factor")
+            @ExcludeMissing
+            multiplierFactor: JsonField<MultiplierFactor> = JsonMissing.of(),
+            @JsonProperty("reason") @ExcludeMissing reason: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("reason_code")
+            @ExcludeMissing
+            reasonCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("tax_code")
+            @ExcludeMissing
+            taxCode: JsonField<TaxCode> = JsonMissing.of(),
+            @JsonProperty("tax_rate") @ExcludeMissing taxRate: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            amount,
+            baseAmount,
+            multiplierFactor,
+            reason,
+            reasonCode,
+            taxCode,
+            taxRate,
+            mutableMapOf(),
+        )
+
+        /**
+         * The allowance amount, without VAT. Must be rounded to maximum 2 decimals
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun amount(): Optional<Amount> = amount.getOptional("amount")
+
+        /**
+         * The base amount that may be used, in conjunction with the allowance percentage, to
+         * calculate the allowance amount. Must be rounded to maximum 2 decimals
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun baseAmount(): Optional<BaseAmount> = baseAmount.getOptional("base_amount")
+
+        /**
+         * The percentage that may be used, in conjunction with the allowance base amount, to
+         * calculate the allowance amount. To state 20%, use value 20
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun multiplierFactor(): Optional<MultiplierFactor> =
+            multiplierFactor.getOptional("multiplier_factor")
+
+        /**
+         * The reason for the allowance
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun reason(): Optional<String> = reason.getOptional("reason")
+
+        /**
+         * The code for the allowance reason
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+
+        /**
+         * Duty or tax or fee category codes (Subset of UNCL5305)
+         *
+         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+        /**
+         * The VAT rate, represented as percentage that applies to the allowance
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun taxRate(): Optional<String> = taxRate.getOptional("tax_rate")
+
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Amount> = amount
+
+        /**
+         * Returns the raw JSON value of [baseAmount].
+         *
+         * Unlike [baseAmount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("base_amount")
+        @ExcludeMissing
+        fun _baseAmount(): JsonField<BaseAmount> = baseAmount
+
+        /**
+         * Returns the raw JSON value of [multiplierFactor].
+         *
+         * Unlike [multiplierFactor], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("multiplier_factor")
+        @ExcludeMissing
+        fun _multiplierFactor(): JsonField<MultiplierFactor> = multiplierFactor
+
+        /**
+         * Returns the raw JSON value of [reason].
+         *
+         * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+        /**
+         * Returns the raw JSON value of [reasonCode].
+         *
+         * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reason_code")
+        @ExcludeMissing
+        fun _reasonCode(): JsonField<String> = reasonCode
+
+        /**
+         * Returns the raw JSON value of [taxCode].
+         *
+         * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+        /**
+         * Returns the raw JSON value of [taxRate].
+         *
+         * Unlike [taxRate], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tax_rate") @ExcludeMissing fun _taxRate(): JsonField<String> = taxRate
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Allowance]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Allowance]. */
+        class Builder internal constructor() {
+
+            private var amount: JsonField<Amount> = JsonMissing.of()
+            private var baseAmount: JsonField<BaseAmount> = JsonMissing.of()
+            private var multiplierFactor: JsonField<MultiplierFactor> = JsonMissing.of()
+            private var reason: JsonField<String> = JsonMissing.of()
+            private var reasonCode: JsonField<String> = JsonMissing.of()
+            private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+            private var taxRate: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(allowance: Allowance) = apply {
+                amount = allowance.amount
+                baseAmount = allowance.baseAmount
+                multiplierFactor = allowance.multiplierFactor
+                reason = allowance.reason
+                reasonCode = allowance.reasonCode
+                taxCode = allowance.taxCode
+                taxRate = allowance.taxRate
+                additionalProperties = allowance.additionalProperties.toMutableMap()
+            }
+
+            /** The allowance amount, without VAT. Must be rounded to maximum 2 decimals */
+            fun amount(amount: Amount?) = amount(JsonField.ofNullable(amount))
+
+            /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+            fun amount(amount: Optional<Amount>) = amount(amount.getOrNull())
+
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Amount] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun amount(amount: JsonField<Amount>) = apply { this.amount = amount }
+
+            /** Alias for calling [amount] with `Amount.ofNumber(number)`. */
+            fun amount(number: Double) = amount(Amount.ofNumber(number))
+
+            /** Alias for calling [amount] with `Amount.ofString(string)`. */
+            fun amount(string: String) = amount(Amount.ofString(string))
+
+            /**
+             * The base amount that may be used, in conjunction with the allowance percentage, to
+             * calculate the allowance amount. Must be rounded to maximum 2 decimals
+             */
+            fun baseAmount(baseAmount: BaseAmount?) = baseAmount(JsonField.ofNullable(baseAmount))
+
+            /** Alias for calling [Builder.baseAmount] with `baseAmount.orElse(null)`. */
+            fun baseAmount(baseAmount: Optional<BaseAmount>) = baseAmount(baseAmount.getOrNull())
+
+            /**
+             * Sets [Builder.baseAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.baseAmount] with a well-typed [BaseAmount] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun baseAmount(baseAmount: JsonField<BaseAmount>) = apply {
+                this.baseAmount = baseAmount
+            }
+
+            /** Alias for calling [baseAmount] with `BaseAmount.ofNumber(number)`. */
+            fun baseAmount(number: Double) = baseAmount(BaseAmount.ofNumber(number))
+
+            /** Alias for calling [baseAmount] with `BaseAmount.ofString(string)`. */
+            fun baseAmount(string: String) = baseAmount(BaseAmount.ofString(string))
+
+            /**
+             * The percentage that may be used, in conjunction with the allowance base amount, to
+             * calculate the allowance amount. To state 20%, use value 20
+             */
+            fun multiplierFactor(multiplierFactor: MultiplierFactor?) =
+                multiplierFactor(JsonField.ofNullable(multiplierFactor))
+
+            /**
+             * Alias for calling [Builder.multiplierFactor] with `multiplierFactor.orElse(null)`.
+             */
+            fun multiplierFactor(multiplierFactor: Optional<MultiplierFactor>) =
+                multiplierFactor(multiplierFactor.getOrNull())
+
+            /**
+             * Sets [Builder.multiplierFactor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.multiplierFactor] with a well-typed
+             * [MultiplierFactor] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun multiplierFactor(multiplierFactor: JsonField<MultiplierFactor>) = apply {
+                this.multiplierFactor = multiplierFactor
+            }
+
+            /** Alias for calling [multiplierFactor] with `MultiplierFactor.ofNumber(number)`. */
+            fun multiplierFactor(number: Double) =
+                multiplierFactor(MultiplierFactor.ofNumber(number))
+
+            /** Alias for calling [multiplierFactor] with `MultiplierFactor.ofString(string)`. */
+            fun multiplierFactor(string: String) =
+                multiplierFactor(MultiplierFactor.ofString(string))
+
+            /** The reason for the allowance */
+            fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+            /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+            fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+            /**
+             * Sets [Builder.reason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reason] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+            /** The code for the allowance reason */
+            fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+
+            /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
+            fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+
+            /**
+             * Sets [Builder.reasonCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reasonCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun reasonCode(reasonCode: JsonField<String>) = apply { this.reasonCode = reasonCode }
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             */
+            fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
+
+            /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
+            fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+
+            /**
+             * Sets [Builder.taxCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
+            /** The VAT rate, represented as percentage that applies to the allowance */
+            fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
+
+            /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
+            fun taxRate(taxRate: Optional<String>) = taxRate(taxRate.getOrNull())
+
+            /**
+             * Sets [Builder.taxRate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.taxRate] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun taxRate(taxRate: JsonField<String>) = apply { this.taxRate = taxRate }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Allowance].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Allowance =
+                Allowance(
+                    amount,
+                    baseAmount,
+                    multiplierFactor,
+                    reason,
+                    reasonCode,
+                    taxCode,
+                    taxRate,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Allowance = apply {
+            if (validated) {
+                return@apply
+            }
+
+            amount().ifPresent { it.validate() }
+            baseAmount().ifPresent { it.validate() }
+            multiplierFactor().ifPresent { it.validate() }
+            reason()
+            reasonCode()
+            taxCode().ifPresent { it.validate() }
+            taxRate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (amount.asKnown().getOrNull()?.validity() ?: 0) +
+                (baseAmount.asKnown().getOrNull()?.validity() ?: 0) +
+                (multiplierFactor.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (reason.asKnown().isPresent) 1 else 0) +
+                (if (reasonCode.asKnown().isPresent) 1 else 0) +
+                (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (taxRate.asKnown().isPresent) 1 else 0)
+
+        /** The allowance amount, without VAT. Must be rounded to maximum 2 decimals */
+        @JsonDeserialize(using = Amount.Deserializer::class)
+        @JsonSerialize(using = Amount.Serializer::class)
+        class Amount
+        private constructor(
+            private val number: Double? = null,
+            private val string: String? = null,
+            private val _json: JsonValue? = null,
+        ) {
+
+            fun number(): Optional<Double> = Optional.ofNullable(number)
+
+            fun string(): Optional<String> = Optional.ofNullable(string)
+
+            fun isNumber(): Boolean = number != null
+
+            fun isString(): Boolean = string != null
+
+            fun asNumber(): Double = number.getOrThrow("number")
+
+            fun asString(): String = string.getOrThrow("string")
+
+            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
+                    number != null -> visitor.visitNumber(number)
+                    string != null -> visitor.visitString(string)
+                    else -> visitor.unknown(_json)
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Amount = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitNumber(number: Double) {}
+
+                        override fun visitString(string: String) {}
+                    }
+                )
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitNumber(number: Double) = 1
+
+                        override fun visitString(string: String) = 1
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Amount && number == other.number && string == other.string
+            }
+
+            override fun hashCode(): Int = Objects.hash(number, string)
+
+            override fun toString(): String =
+                when {
+                    number != null -> "Amount{number=$number}"
+                    string != null -> "Amount{string=$string}"
+                    _json != null -> "Amount{_unknown=$_json}"
+                    else -> throw IllegalStateException("Invalid Amount")
+                }
+
+            companion object {
+
+                @JvmStatic fun ofNumber(number: Double) = Amount(number = number)
+
+                @JvmStatic fun ofString(string: String) = Amount(string = string)
+            }
+
+            /**
+             * An interface that defines how to map each variant of [Amount] to a value of type [T].
+             */
+            interface Visitor<out T> {
+
+                fun visitNumber(number: Double): T
+
+                fun visitString(string: String): T
+
+                /**
+                 * Maps an unknown variant of [Amount] to a value of type [T].
+                 *
+                 * An instance of [Amount] can contain an unknown variant if it was deserialized
+                 * from data that doesn't match any known variant. For example, if the SDK is on an
+                 * older version than the API, then the API may respond with new variants that the
+                 * SDK is unaware of.
+                 *
+                 * @throws EInvoiceInvalidDataException in the default implementation.
+                 */
+                fun unknown(json: JsonValue?): T {
+                    throw EInvoiceInvalidDataException("Unknown Amount: $json")
+                }
+            }
+
+            internal class Deserializer : BaseDeserializer<Amount>(Amount::class) {
+
+                override fun ObjectCodec.deserialize(node: JsonNode): Amount {
+                    val json = JsonValue.fromJsonNode(node)
+
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    Amount(number = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                    Amount(string = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from object).
+                        0 -> Amount(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
+                }
+            }
+
+            internal class Serializer : BaseSerializer<Amount>(Amount::class) {
+
+                override fun serialize(
+                    value: Amount,
+                    generator: JsonGenerator,
+                    provider: SerializerProvider,
+                ) {
+                    when {
+                        value.number != null -> generator.writeObject(value.number)
+                        value.string != null -> generator.writeObject(value.string)
+                        value._json != null -> generator.writeObject(value._json)
+                        else -> throw IllegalStateException("Invalid Amount")
+                    }
+                }
+            }
+        }
+
+        /**
+         * The base amount that may be used, in conjunction with the allowance percentage, to
+         * calculate the allowance amount. Must be rounded to maximum 2 decimals
+         */
+        @JsonDeserialize(using = BaseAmount.Deserializer::class)
+        @JsonSerialize(using = BaseAmount.Serializer::class)
+        class BaseAmount
+        private constructor(
+            private val number: Double? = null,
+            private val string: String? = null,
+            private val _json: JsonValue? = null,
+        ) {
+
+            fun number(): Optional<Double> = Optional.ofNullable(number)
+
+            fun string(): Optional<String> = Optional.ofNullable(string)
+
+            fun isNumber(): Boolean = number != null
+
+            fun isString(): Boolean = string != null
+
+            fun asNumber(): Double = number.getOrThrow("number")
+
+            fun asString(): String = string.getOrThrow("string")
+
+            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
+                    number != null -> visitor.visitNumber(number)
+                    string != null -> visitor.visitString(string)
+                    else -> visitor.unknown(_json)
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): BaseAmount = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitNumber(number: Double) {}
+
+                        override fun visitString(string: String) {}
+                    }
+                )
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitNumber(number: Double) = 1
+
+                        override fun visitString(string: String) = 1
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is BaseAmount && number == other.number && string == other.string
+            }
+
+            override fun hashCode(): Int = Objects.hash(number, string)
+
+            override fun toString(): String =
+                when {
+                    number != null -> "BaseAmount{number=$number}"
+                    string != null -> "BaseAmount{string=$string}"
+                    _json != null -> "BaseAmount{_unknown=$_json}"
+                    else -> throw IllegalStateException("Invalid BaseAmount")
+                }
+
+            companion object {
+
+                @JvmStatic fun ofNumber(number: Double) = BaseAmount(number = number)
+
+                @JvmStatic fun ofString(string: String) = BaseAmount(string = string)
+            }
+
+            /**
+             * An interface that defines how to map each variant of [BaseAmount] to a value of type
+             * [T].
+             */
+            interface Visitor<out T> {
+
+                fun visitNumber(number: Double): T
+
+                fun visitString(string: String): T
+
+                /**
+                 * Maps an unknown variant of [BaseAmount] to a value of type [T].
+                 *
+                 * An instance of [BaseAmount] can contain an unknown variant if it was deserialized
+                 * from data that doesn't match any known variant. For example, if the SDK is on an
+                 * older version than the API, then the API may respond with new variants that the
+                 * SDK is unaware of.
+                 *
+                 * @throws EInvoiceInvalidDataException in the default implementation.
+                 */
+                fun unknown(json: JsonValue?): T {
+                    throw EInvoiceInvalidDataException("Unknown BaseAmount: $json")
+                }
+            }
+
+            internal class Deserializer : BaseDeserializer<BaseAmount>(BaseAmount::class) {
+
+                override fun ObjectCodec.deserialize(node: JsonNode): BaseAmount {
+                    val json = JsonValue.fromJsonNode(node)
+
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    BaseAmount(number = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                    BaseAmount(string = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from object).
+                        0 -> BaseAmount(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
+                }
+            }
+
+            internal class Serializer : BaseSerializer<BaseAmount>(BaseAmount::class) {
+
+                override fun serialize(
+                    value: BaseAmount,
+                    generator: JsonGenerator,
+                    provider: SerializerProvider,
+                ) {
+                    when {
+                        value.number != null -> generator.writeObject(value.number)
+                        value.string != null -> generator.writeObject(value.string)
+                        value._json != null -> generator.writeObject(value._json)
+                        else -> throw IllegalStateException("Invalid BaseAmount")
+                    }
+                }
+            }
+        }
+
+        /**
+         * The percentage that may be used, in conjunction with the allowance base amount, to
+         * calculate the allowance amount. To state 20%, use value 20
+         */
+        @JsonDeserialize(using = MultiplierFactor.Deserializer::class)
+        @JsonSerialize(using = MultiplierFactor.Serializer::class)
+        class MultiplierFactor
+        private constructor(
+            private val number: Double? = null,
+            private val string: String? = null,
+            private val _json: JsonValue? = null,
+        ) {
+
+            fun number(): Optional<Double> = Optional.ofNullable(number)
+
+            fun string(): Optional<String> = Optional.ofNullable(string)
+
+            fun isNumber(): Boolean = number != null
+
+            fun isString(): Boolean = string != null
+
+            fun asNumber(): Double = number.getOrThrow("number")
+
+            fun asString(): String = string.getOrThrow("string")
+
+            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
+                    number != null -> visitor.visitNumber(number)
+                    string != null -> visitor.visitString(string)
+                    else -> visitor.unknown(_json)
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): MultiplierFactor = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitNumber(number: Double) {}
+
+                        override fun visitString(string: String) {}
+                    }
+                )
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitNumber(number: Double) = 1
+
+                        override fun visitString(string: String) = 1
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is MultiplierFactor && number == other.number && string == other.string
+            }
+
+            override fun hashCode(): Int = Objects.hash(number, string)
+
+            override fun toString(): String =
+                when {
+                    number != null -> "MultiplierFactor{number=$number}"
+                    string != null -> "MultiplierFactor{string=$string}"
+                    _json != null -> "MultiplierFactor{_unknown=$_json}"
+                    else -> throw IllegalStateException("Invalid MultiplierFactor")
+                }
+
+            companion object {
+
+                @JvmStatic fun ofNumber(number: Double) = MultiplierFactor(number = number)
+
+                @JvmStatic fun ofString(string: String) = MultiplierFactor(string = string)
+            }
+
+            /**
+             * An interface that defines how to map each variant of [MultiplierFactor] to a value of
+             * type [T].
+             */
+            interface Visitor<out T> {
+
+                fun visitNumber(number: Double): T
+
+                fun visitString(string: String): T
+
+                /**
+                 * Maps an unknown variant of [MultiplierFactor] to a value of type [T].
+                 *
+                 * An instance of [MultiplierFactor] can contain an unknown variant if it was
+                 * deserialized from data that doesn't match any known variant. For example, if the
+                 * SDK is on an older version than the API, then the API may respond with new
+                 * variants that the SDK is unaware of.
+                 *
+                 * @throws EInvoiceInvalidDataException in the default implementation.
+                 */
+                fun unknown(json: JsonValue?): T {
+                    throw EInvoiceInvalidDataException("Unknown MultiplierFactor: $json")
+                }
+            }
+
+            internal class Deserializer :
+                BaseDeserializer<MultiplierFactor>(MultiplierFactor::class) {
+
+                override fun ObjectCodec.deserialize(node: JsonNode): MultiplierFactor {
+                    val json = JsonValue.fromJsonNode(node)
+
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    MultiplierFactor(number = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                    MultiplierFactor(string = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from object).
+                        0 -> MultiplierFactor(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
+                }
+            }
+
+            internal class Serializer : BaseSerializer<MultiplierFactor>(MultiplierFactor::class) {
+
+                override fun serialize(
+                    value: MultiplierFactor,
+                    generator: JsonGenerator,
+                    provider: SerializerProvider,
+                ) {
+                    when {
+                        value.number != null -> generator.writeObject(value.number)
+                        value.string != null -> generator.writeObject(value.string)
+                        value._json != null -> generator.writeObject(value._json)
+                        else -> throw IllegalStateException("Invalid MultiplierFactor")
+                    }
+                }
+            }
+        }
+
+        /**
+         * Duty or tax or fee category codes (Subset of UNCL5305)
+         *
+         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+         */
+        class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val AE = of("AE")
+
+                @JvmField val E = of("E")
+
+                @JvmField val S = of("S")
+
+                @JvmField val Z = of("Z")
+
+                @JvmField val G = of("G")
+
+                @JvmField val O = of("O")
+
+                @JvmField val K = of("K")
+
+                @JvmField val L = of("L")
+
+                @JvmField val M = of("M")
+
+                @JvmField val B = of("B")
+
+                @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+            }
+
+            /** An enum containing [TaxCode]'s known values. */
+            enum class Known {
+                AE,
+                E,
+                S,
+                Z,
+                G,
+                O,
+                K,
+                L,
+                M,
+                B,
+            }
+
+            /**
+             * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                AE,
+                E,
+                S,
+                Z,
+                G,
+                O,
+                K,
+                L,
+                M,
+                B,
+                /**
+                 * An enum member indicating that [TaxCode] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    AE -> Value.AE
+                    E -> Value.E
+                    S -> Value.S
+                    Z -> Value.Z
+                    G -> Value.G
+                    O -> Value.O
+                    K -> Value.K
+                    L -> Value.L
+                    M -> Value.M
+                    B -> Value.B
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    AE -> Known.AE
+                    E -> Known.E
+                    S -> Known.S
+                    Z -> Known.Z
+                    G -> Known.G
+                    O -> Known.O
+                    K -> Known.K
+                    L -> Known.L
+                    M -> Known.M
+                    B -> Known.B
+                    else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    EInvoiceInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): TaxCode = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TaxCode && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Allowance &&
+                amount == other.amount &&
+                baseAmount == other.baseAmount &&
+                multiplierFactor == other.multiplierFactor &&
+                reason == other.reason &&
+                reasonCode == other.reasonCode &&
+                taxCode == other.taxCode &&
+                taxRate == other.taxRate &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                amount,
+                baseAmount,
+                multiplierFactor,
+                reason,
+                reasonCode,
+                taxCode,
+                taxRate,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Allowance{amount=$amount, baseAmount=$baseAmount, multiplierFactor=$multiplierFactor, reason=$reason, reasonCode=$reasonCode, taxCode=$taxCode, taxRate=$taxRate, additionalProperties=$additionalProperties}"
+    }
+
+    /** The amount due of the invoice. Must be positive and rounded to maximum 2 decimals */
     @JsonDeserialize(using = AmountDue.Deserializer::class)
     @JsonSerialize(using = AmountDue.Serializer::class)
     class AmountDue
@@ -2192,6 +3492,1169 @@ private constructor(
         }
     }
 
+    /** A charge is an additional fee for example for late payment, late delivery, etc. */
+    class Charge
+    @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+    private constructor(
+        private val amount: JsonField<Amount>,
+        private val baseAmount: JsonField<BaseAmount>,
+        private val multiplierFactor: JsonField<MultiplierFactor>,
+        private val reason: JsonField<String>,
+        private val reasonCode: JsonField<String>,
+        private val taxCode: JsonField<TaxCode>,
+        private val taxRate: JsonField<String>,
+        private val additionalProperties: MutableMap<String, JsonValue>,
+    ) {
+
+        @JsonCreator
+        private constructor(
+            @JsonProperty("amount") @ExcludeMissing amount: JsonField<Amount> = JsonMissing.of(),
+            @JsonProperty("base_amount")
+            @ExcludeMissing
+            baseAmount: JsonField<BaseAmount> = JsonMissing.of(),
+            @JsonProperty("multiplier_factor")
+            @ExcludeMissing
+            multiplierFactor: JsonField<MultiplierFactor> = JsonMissing.of(),
+            @JsonProperty("reason") @ExcludeMissing reason: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("reason_code")
+            @ExcludeMissing
+            reasonCode: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("tax_code")
+            @ExcludeMissing
+            taxCode: JsonField<TaxCode> = JsonMissing.of(),
+            @JsonProperty("tax_rate") @ExcludeMissing taxRate: JsonField<String> = JsonMissing.of(),
+        ) : this(
+            amount,
+            baseAmount,
+            multiplierFactor,
+            reason,
+            reasonCode,
+            taxCode,
+            taxRate,
+            mutableMapOf(),
+        )
+
+        /**
+         * The charge amount, without VAT. Must be rounded to maximum 2 decimals
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun amount(): Optional<Amount> = amount.getOptional("amount")
+
+        /**
+         * The base amount that may be used, in conjunction with the charge percentage, to calculate
+         * the charge amount. Must be rounded to maximum 2 decimals
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun baseAmount(): Optional<BaseAmount> = baseAmount.getOptional("base_amount")
+
+        /**
+         * The percentage that may be used, in conjunction with the charge base amount, to calculate
+         * the charge amount. To state 20%, use value 20
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun multiplierFactor(): Optional<MultiplierFactor> =
+            multiplierFactor.getOptional("multiplier_factor")
+
+        /**
+         * The reason for the charge
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun reason(): Optional<String> = reason.getOptional("reason")
+
+        /**
+         * The code for the charge reason
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+
+        /**
+         * Duty or tax or fee category codes (Subset of UNCL5305)
+         *
+         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+        /**
+         * The VAT rate, represented as percentage that applies to the charge
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun taxRate(): Optional<String> = taxRate.getOptional("tax_rate")
+
+        /**
+         * Returns the raw JSON value of [amount].
+         *
+         * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Amount> = amount
+
+        /**
+         * Returns the raw JSON value of [baseAmount].
+         *
+         * Unlike [baseAmount], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("base_amount")
+        @ExcludeMissing
+        fun _baseAmount(): JsonField<BaseAmount> = baseAmount
+
+        /**
+         * Returns the raw JSON value of [multiplierFactor].
+         *
+         * Unlike [multiplierFactor], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("multiplier_factor")
+        @ExcludeMissing
+        fun _multiplierFactor(): JsonField<MultiplierFactor> = multiplierFactor
+
+        /**
+         * Returns the raw JSON value of [reason].
+         *
+         * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+        /**
+         * Returns the raw JSON value of [reasonCode].
+         *
+         * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("reason_code")
+        @ExcludeMissing
+        fun _reasonCode(): JsonField<String> = reasonCode
+
+        /**
+         * Returns the raw JSON value of [taxCode].
+         *
+         * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+        /**
+         * Returns the raw JSON value of [taxRate].
+         *
+         * Unlike [taxRate], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("tax_rate") @ExcludeMissing fun _taxRate(): JsonField<String> = taxRate
+
+        @JsonAnySetter
+        private fun putAdditionalProperty(key: String, value: JsonValue) {
+            additionalProperties.put(key, value)
+        }
+
+        @JsonAnyGetter
+        @ExcludeMissing
+        fun _additionalProperties(): Map<String, JsonValue> =
+            Collections.unmodifiableMap(additionalProperties)
+
+        fun toBuilder() = Builder().from(this)
+
+        companion object {
+
+            /** Returns a mutable builder for constructing an instance of [Charge]. */
+            @JvmStatic fun builder() = Builder()
+        }
+
+        /** A builder for [Charge]. */
+        class Builder internal constructor() {
+
+            private var amount: JsonField<Amount> = JsonMissing.of()
+            private var baseAmount: JsonField<BaseAmount> = JsonMissing.of()
+            private var multiplierFactor: JsonField<MultiplierFactor> = JsonMissing.of()
+            private var reason: JsonField<String> = JsonMissing.of()
+            private var reasonCode: JsonField<String> = JsonMissing.of()
+            private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+            private var taxRate: JsonField<String> = JsonMissing.of()
+            private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+            @JvmSynthetic
+            internal fun from(charge: Charge) = apply {
+                amount = charge.amount
+                baseAmount = charge.baseAmount
+                multiplierFactor = charge.multiplierFactor
+                reason = charge.reason
+                reasonCode = charge.reasonCode
+                taxCode = charge.taxCode
+                taxRate = charge.taxRate
+                additionalProperties = charge.additionalProperties.toMutableMap()
+            }
+
+            /** The charge amount, without VAT. Must be rounded to maximum 2 decimals */
+            fun amount(amount: Amount?) = amount(JsonField.ofNullable(amount))
+
+            /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+            fun amount(amount: Optional<Amount>) = amount(amount.getOrNull())
+
+            /**
+             * Sets [Builder.amount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.amount] with a well-typed [Amount] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun amount(amount: JsonField<Amount>) = apply { this.amount = amount }
+
+            /** Alias for calling [amount] with `Amount.ofNumber(number)`. */
+            fun amount(number: Double) = amount(Amount.ofNumber(number))
+
+            /** Alias for calling [amount] with `Amount.ofString(string)`. */
+            fun amount(string: String) = amount(Amount.ofString(string))
+
+            /**
+             * The base amount that may be used, in conjunction with the charge percentage, to
+             * calculate the charge amount. Must be rounded to maximum 2 decimals
+             */
+            fun baseAmount(baseAmount: BaseAmount?) = baseAmount(JsonField.ofNullable(baseAmount))
+
+            /** Alias for calling [Builder.baseAmount] with `baseAmount.orElse(null)`. */
+            fun baseAmount(baseAmount: Optional<BaseAmount>) = baseAmount(baseAmount.getOrNull())
+
+            /**
+             * Sets [Builder.baseAmount] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.baseAmount] with a well-typed [BaseAmount] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun baseAmount(baseAmount: JsonField<BaseAmount>) = apply {
+                this.baseAmount = baseAmount
+            }
+
+            /** Alias for calling [baseAmount] with `BaseAmount.ofNumber(number)`. */
+            fun baseAmount(number: Double) = baseAmount(BaseAmount.ofNumber(number))
+
+            /** Alias for calling [baseAmount] with `BaseAmount.ofString(string)`. */
+            fun baseAmount(string: String) = baseAmount(BaseAmount.ofString(string))
+
+            /**
+             * The percentage that may be used, in conjunction with the charge base amount, to
+             * calculate the charge amount. To state 20%, use value 20
+             */
+            fun multiplierFactor(multiplierFactor: MultiplierFactor?) =
+                multiplierFactor(JsonField.ofNullable(multiplierFactor))
+
+            /**
+             * Alias for calling [Builder.multiplierFactor] with `multiplierFactor.orElse(null)`.
+             */
+            fun multiplierFactor(multiplierFactor: Optional<MultiplierFactor>) =
+                multiplierFactor(multiplierFactor.getOrNull())
+
+            /**
+             * Sets [Builder.multiplierFactor] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.multiplierFactor] with a well-typed
+             * [MultiplierFactor] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun multiplierFactor(multiplierFactor: JsonField<MultiplierFactor>) = apply {
+                this.multiplierFactor = multiplierFactor
+            }
+
+            /** Alias for calling [multiplierFactor] with `MultiplierFactor.ofNumber(number)`. */
+            fun multiplierFactor(number: Double) =
+                multiplierFactor(MultiplierFactor.ofNumber(number))
+
+            /** Alias for calling [multiplierFactor] with `MultiplierFactor.ofString(string)`. */
+            fun multiplierFactor(string: String) =
+                multiplierFactor(MultiplierFactor.ofString(string))
+
+            /** The reason for the charge */
+            fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+            /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+            fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+            /**
+             * Sets [Builder.reason] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reason] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+            /** The code for the charge reason */
+            fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+
+            /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
+            fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+
+            /**
+             * Sets [Builder.reasonCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.reasonCode] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun reasonCode(reasonCode: JsonField<String>) = apply { this.reasonCode = reasonCode }
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             */
+            fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
+
+            /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
+            fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+
+            /**
+             * Sets [Builder.taxCode] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
+            /** The VAT rate, represented as percentage that applies to the charge */
+            fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
+
+            /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
+            fun taxRate(taxRate: Optional<String>) = taxRate(taxRate.getOrNull())
+
+            /**
+             * Sets [Builder.taxRate] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.taxRate] with a well-typed [String] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun taxRate(taxRate: JsonField<String>) = apply { this.taxRate = taxRate }
+
+            fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.clear()
+                putAllAdditionalProperties(additionalProperties)
+            }
+
+            fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                additionalProperties.put(key, value)
+            }
+
+            fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                this.additionalProperties.putAll(additionalProperties)
+            }
+
+            fun removeAdditionalProperty(key: String) = apply { additionalProperties.remove(key) }
+
+            fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                keys.forEach(::removeAdditionalProperty)
+            }
+
+            /**
+             * Returns an immutable instance of [Charge].
+             *
+             * Further updates to this [Builder] will not mutate the returned instance.
+             */
+            fun build(): Charge =
+                Charge(
+                    amount,
+                    baseAmount,
+                    multiplierFactor,
+                    reason,
+                    reasonCode,
+                    taxCode,
+                    taxRate,
+                    additionalProperties.toMutableMap(),
+                )
+        }
+
+        private var validated: Boolean = false
+
+        fun validate(): Charge = apply {
+            if (validated) {
+                return@apply
+            }
+
+            amount().ifPresent { it.validate() }
+            baseAmount().ifPresent { it.validate() }
+            multiplierFactor().ifPresent { it.validate() }
+            reason()
+            reasonCode()
+            taxCode().ifPresent { it.validate() }
+            taxRate()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            (amount.asKnown().getOrNull()?.validity() ?: 0) +
+                (baseAmount.asKnown().getOrNull()?.validity() ?: 0) +
+                (multiplierFactor.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (reason.asKnown().isPresent) 1 else 0) +
+                (if (reasonCode.asKnown().isPresent) 1 else 0) +
+                (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+                (if (taxRate.asKnown().isPresent) 1 else 0)
+
+        /** The charge amount, without VAT. Must be rounded to maximum 2 decimals */
+        @JsonDeserialize(using = Amount.Deserializer::class)
+        @JsonSerialize(using = Amount.Serializer::class)
+        class Amount
+        private constructor(
+            private val number: Double? = null,
+            private val string: String? = null,
+            private val _json: JsonValue? = null,
+        ) {
+
+            fun number(): Optional<Double> = Optional.ofNullable(number)
+
+            fun string(): Optional<String> = Optional.ofNullable(string)
+
+            fun isNumber(): Boolean = number != null
+
+            fun isString(): Boolean = string != null
+
+            fun asNumber(): Double = number.getOrThrow("number")
+
+            fun asString(): String = string.getOrThrow("string")
+
+            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
+                    number != null -> visitor.visitNumber(number)
+                    string != null -> visitor.visitString(string)
+                    else -> visitor.unknown(_json)
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): Amount = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitNumber(number: Double) {}
+
+                        override fun visitString(string: String) {}
+                    }
+                )
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitNumber(number: Double) = 1
+
+                        override fun visitString(string: String) = 1
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Amount && number == other.number && string == other.string
+            }
+
+            override fun hashCode(): Int = Objects.hash(number, string)
+
+            override fun toString(): String =
+                when {
+                    number != null -> "Amount{number=$number}"
+                    string != null -> "Amount{string=$string}"
+                    _json != null -> "Amount{_unknown=$_json}"
+                    else -> throw IllegalStateException("Invalid Amount")
+                }
+
+            companion object {
+
+                @JvmStatic fun ofNumber(number: Double) = Amount(number = number)
+
+                @JvmStatic fun ofString(string: String) = Amount(string = string)
+            }
+
+            /**
+             * An interface that defines how to map each variant of [Amount] to a value of type [T].
+             */
+            interface Visitor<out T> {
+
+                fun visitNumber(number: Double): T
+
+                fun visitString(string: String): T
+
+                /**
+                 * Maps an unknown variant of [Amount] to a value of type [T].
+                 *
+                 * An instance of [Amount] can contain an unknown variant if it was deserialized
+                 * from data that doesn't match any known variant. For example, if the SDK is on an
+                 * older version than the API, then the API may respond with new variants that the
+                 * SDK is unaware of.
+                 *
+                 * @throws EInvoiceInvalidDataException in the default implementation.
+                 */
+                fun unknown(json: JsonValue?): T {
+                    throw EInvoiceInvalidDataException("Unknown Amount: $json")
+                }
+            }
+
+            internal class Deserializer : BaseDeserializer<Amount>(Amount::class) {
+
+                override fun ObjectCodec.deserialize(node: JsonNode): Amount {
+                    val json = JsonValue.fromJsonNode(node)
+
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    Amount(number = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                    Amount(string = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from object).
+                        0 -> Amount(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
+                }
+            }
+
+            internal class Serializer : BaseSerializer<Amount>(Amount::class) {
+
+                override fun serialize(
+                    value: Amount,
+                    generator: JsonGenerator,
+                    provider: SerializerProvider,
+                ) {
+                    when {
+                        value.number != null -> generator.writeObject(value.number)
+                        value.string != null -> generator.writeObject(value.string)
+                        value._json != null -> generator.writeObject(value._json)
+                        else -> throw IllegalStateException("Invalid Amount")
+                    }
+                }
+            }
+        }
+
+        /**
+         * The base amount that may be used, in conjunction with the charge percentage, to calculate
+         * the charge amount. Must be rounded to maximum 2 decimals
+         */
+        @JsonDeserialize(using = BaseAmount.Deserializer::class)
+        @JsonSerialize(using = BaseAmount.Serializer::class)
+        class BaseAmount
+        private constructor(
+            private val number: Double? = null,
+            private val string: String? = null,
+            private val _json: JsonValue? = null,
+        ) {
+
+            fun number(): Optional<Double> = Optional.ofNullable(number)
+
+            fun string(): Optional<String> = Optional.ofNullable(string)
+
+            fun isNumber(): Boolean = number != null
+
+            fun isString(): Boolean = string != null
+
+            fun asNumber(): Double = number.getOrThrow("number")
+
+            fun asString(): String = string.getOrThrow("string")
+
+            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
+                    number != null -> visitor.visitNumber(number)
+                    string != null -> visitor.visitString(string)
+                    else -> visitor.unknown(_json)
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): BaseAmount = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitNumber(number: Double) {}
+
+                        override fun visitString(string: String) {}
+                    }
+                )
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitNumber(number: Double) = 1
+
+                        override fun visitString(string: String) = 1
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is BaseAmount && number == other.number && string == other.string
+            }
+
+            override fun hashCode(): Int = Objects.hash(number, string)
+
+            override fun toString(): String =
+                when {
+                    number != null -> "BaseAmount{number=$number}"
+                    string != null -> "BaseAmount{string=$string}"
+                    _json != null -> "BaseAmount{_unknown=$_json}"
+                    else -> throw IllegalStateException("Invalid BaseAmount")
+                }
+
+            companion object {
+
+                @JvmStatic fun ofNumber(number: Double) = BaseAmount(number = number)
+
+                @JvmStatic fun ofString(string: String) = BaseAmount(string = string)
+            }
+
+            /**
+             * An interface that defines how to map each variant of [BaseAmount] to a value of type
+             * [T].
+             */
+            interface Visitor<out T> {
+
+                fun visitNumber(number: Double): T
+
+                fun visitString(string: String): T
+
+                /**
+                 * Maps an unknown variant of [BaseAmount] to a value of type [T].
+                 *
+                 * An instance of [BaseAmount] can contain an unknown variant if it was deserialized
+                 * from data that doesn't match any known variant. For example, if the SDK is on an
+                 * older version than the API, then the API may respond with new variants that the
+                 * SDK is unaware of.
+                 *
+                 * @throws EInvoiceInvalidDataException in the default implementation.
+                 */
+                fun unknown(json: JsonValue?): T {
+                    throw EInvoiceInvalidDataException("Unknown BaseAmount: $json")
+                }
+            }
+
+            internal class Deserializer : BaseDeserializer<BaseAmount>(BaseAmount::class) {
+
+                override fun ObjectCodec.deserialize(node: JsonNode): BaseAmount {
+                    val json = JsonValue.fromJsonNode(node)
+
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    BaseAmount(number = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                    BaseAmount(string = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from object).
+                        0 -> BaseAmount(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
+                }
+            }
+
+            internal class Serializer : BaseSerializer<BaseAmount>(BaseAmount::class) {
+
+                override fun serialize(
+                    value: BaseAmount,
+                    generator: JsonGenerator,
+                    provider: SerializerProvider,
+                ) {
+                    when {
+                        value.number != null -> generator.writeObject(value.number)
+                        value.string != null -> generator.writeObject(value.string)
+                        value._json != null -> generator.writeObject(value._json)
+                        else -> throw IllegalStateException("Invalid BaseAmount")
+                    }
+                }
+            }
+        }
+
+        /**
+         * The percentage that may be used, in conjunction with the charge base amount, to calculate
+         * the charge amount. To state 20%, use value 20
+         */
+        @JsonDeserialize(using = MultiplierFactor.Deserializer::class)
+        @JsonSerialize(using = MultiplierFactor.Serializer::class)
+        class MultiplierFactor
+        private constructor(
+            private val number: Double? = null,
+            private val string: String? = null,
+            private val _json: JsonValue? = null,
+        ) {
+
+            fun number(): Optional<Double> = Optional.ofNullable(number)
+
+            fun string(): Optional<String> = Optional.ofNullable(string)
+
+            fun isNumber(): Boolean = number != null
+
+            fun isString(): Boolean = string != null
+
+            fun asNumber(): Double = number.getOrThrow("number")
+
+            fun asString(): String = string.getOrThrow("string")
+
+            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
+                    number != null -> visitor.visitNumber(number)
+                    string != null -> visitor.visitString(string)
+                    else -> visitor.unknown(_json)
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): MultiplierFactor = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitNumber(number: Double) {}
+
+                        override fun visitString(string: String) {}
+                    }
+                )
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitNumber(number: Double) = 1
+
+                        override fun visitString(string: String) = 1
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is MultiplierFactor && number == other.number && string == other.string
+            }
+
+            override fun hashCode(): Int = Objects.hash(number, string)
+
+            override fun toString(): String =
+                when {
+                    number != null -> "MultiplierFactor{number=$number}"
+                    string != null -> "MultiplierFactor{string=$string}"
+                    _json != null -> "MultiplierFactor{_unknown=$_json}"
+                    else -> throw IllegalStateException("Invalid MultiplierFactor")
+                }
+
+            companion object {
+
+                @JvmStatic fun ofNumber(number: Double) = MultiplierFactor(number = number)
+
+                @JvmStatic fun ofString(string: String) = MultiplierFactor(string = string)
+            }
+
+            /**
+             * An interface that defines how to map each variant of [MultiplierFactor] to a value of
+             * type [T].
+             */
+            interface Visitor<out T> {
+
+                fun visitNumber(number: Double): T
+
+                fun visitString(string: String): T
+
+                /**
+                 * Maps an unknown variant of [MultiplierFactor] to a value of type [T].
+                 *
+                 * An instance of [MultiplierFactor] can contain an unknown variant if it was
+                 * deserialized from data that doesn't match any known variant. For example, if the
+                 * SDK is on an older version than the API, then the API may respond with new
+                 * variants that the SDK is unaware of.
+                 *
+                 * @throws EInvoiceInvalidDataException in the default implementation.
+                 */
+                fun unknown(json: JsonValue?): T {
+                    throw EInvoiceInvalidDataException("Unknown MultiplierFactor: $json")
+                }
+            }
+
+            internal class Deserializer :
+                BaseDeserializer<MultiplierFactor>(MultiplierFactor::class) {
+
+                override fun ObjectCodec.deserialize(node: JsonNode): MultiplierFactor {
+                    val json = JsonValue.fromJsonNode(node)
+
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    MultiplierFactor(number = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                    MultiplierFactor(string = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from object).
+                        0 -> MultiplierFactor(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
+                }
+            }
+
+            internal class Serializer : BaseSerializer<MultiplierFactor>(MultiplierFactor::class) {
+
+                override fun serialize(
+                    value: MultiplierFactor,
+                    generator: JsonGenerator,
+                    provider: SerializerProvider,
+                ) {
+                    when {
+                        value.number != null -> generator.writeObject(value.number)
+                        value.string != null -> generator.writeObject(value.string)
+                        value._json != null -> generator.writeObject(value._json)
+                        else -> throw IllegalStateException("Invalid MultiplierFactor")
+                    }
+                }
+            }
+        }
+
+        /**
+         * Duty or tax or fee category codes (Subset of UNCL5305)
+         *
+         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+         */
+        class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) :
+            Enum {
+
+            /**
+             * Returns this class instance's raw value.
+             *
+             * This is usually only useful if this instance was deserialized from data that doesn't
+             * match any known member, and you want to know that value. For example, if the SDK is
+             * on an older version than the API, then the API may respond with new members that the
+             * SDK is unaware of.
+             */
+            @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+            companion object {
+
+                @JvmField val AE = of("AE")
+
+                @JvmField val E = of("E")
+
+                @JvmField val S = of("S")
+
+                @JvmField val Z = of("Z")
+
+                @JvmField val G = of("G")
+
+                @JvmField val O = of("O")
+
+                @JvmField val K = of("K")
+
+                @JvmField val L = of("L")
+
+                @JvmField val M = of("M")
+
+                @JvmField val B = of("B")
+
+                @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+            }
+
+            /** An enum containing [TaxCode]'s known values. */
+            enum class Known {
+                AE,
+                E,
+                S,
+                Z,
+                G,
+                O,
+                K,
+                L,
+                M,
+                B,
+            }
+
+            /**
+             * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+             *
+             * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+             * - It was deserialized from data that doesn't match any known member. For example, if
+             *   the SDK is on an older version than the API, then the API may respond with new
+             *   members that the SDK is unaware of.
+             * - It was constructed with an arbitrary value using the [of] method.
+             */
+            enum class Value {
+                AE,
+                E,
+                S,
+                Z,
+                G,
+                O,
+                K,
+                L,
+                M,
+                B,
+                /**
+                 * An enum member indicating that [TaxCode] was instantiated with an unknown value.
+                 */
+                _UNKNOWN,
+            }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value, or
+             * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+             *
+             * Use the [known] method instead if you're certain the value is always known or if you
+             * want to throw for the unknown case.
+             */
+            fun value(): Value =
+                when (this) {
+                    AE -> Value.AE
+                    E -> Value.E
+                    S -> Value.S
+                    Z -> Value.Z
+                    G -> Value.G
+                    O -> Value.O
+                    K -> Value.K
+                    L -> Value.L
+                    M -> Value.M
+                    B -> Value.B
+                    else -> Value._UNKNOWN
+                }
+
+            /**
+             * Returns an enum member corresponding to this class instance's value.
+             *
+             * Use the [value] method instead if you're uncertain the value is always known and
+             * don't want to throw for the unknown case.
+             *
+             * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+             *   member.
+             */
+            fun known(): Known =
+                when (this) {
+                    AE -> Known.AE
+                    E -> Known.E
+                    S -> Known.S
+                    Z -> Known.Z
+                    G -> Known.G
+                    O -> Known.O
+                    K -> Known.K
+                    L -> Known.L
+                    M -> Known.M
+                    B -> Known.B
+                    else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+                }
+
+            /**
+             * Returns this class instance's primitive wire representation.
+             *
+             * This differs from the [toString] method because that method is primarily for
+             * debugging and generally doesn't throw.
+             *
+             * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+             *   expected primitive type.
+             */
+            fun asString(): String =
+                _value().asString().orElseThrow {
+                    EInvoiceInvalidDataException("Value is not a String")
+                }
+
+            private var validated: Boolean = false
+
+            fun validate(): TaxCode = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                known()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is TaxCode && value == other.value
+            }
+
+            override fun hashCode() = value.hashCode()
+
+            override fun toString() = value.toString()
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Charge &&
+                amount == other.amount &&
+                baseAmount == other.baseAmount &&
+                multiplierFactor == other.multiplierFactor &&
+                reason == other.reason &&
+                reasonCode == other.reasonCode &&
+                taxCode == other.taxCode &&
+                taxRate == other.taxRate &&
+                additionalProperties == other.additionalProperties
+        }
+
+        private val hashCode: Int by lazy {
+            Objects.hash(
+                amount,
+                baseAmount,
+                multiplierFactor,
+                reason,
+                reasonCode,
+                taxCode,
+                taxRate,
+                additionalProperties,
+            )
+        }
+
+        override fun hashCode(): Int = hashCode
+
+        override fun toString() =
+            "Charge{amount=$amount, baseAmount=$baseAmount, multiplierFactor=$multiplierFactor, reason=$reason, reasonCode=$reasonCode, taxCode=$taxCode, taxRate=$taxRate, additionalProperties=$additionalProperties}"
+    }
+
+    /**
+     * The total amount of the invoice (so invoice_total = subtotal + total_tax + total_discount).
+     * Must be positive and rounded to maximum 2 decimals
+     */
     @JsonDeserialize(using = InvoiceTotal.Deserializer::class)
     @JsonSerialize(using = InvoiceTotal.Serializer::class)
     class InvoiceTotal
@@ -2365,7 +4828,9 @@ private constructor(
     class Item
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
+        private val allowances: JsonField<List<Allowance>>,
         private val amount: JsonField<Amount>,
+        private val charges: JsonField<List<Charge>>,
         private val date: JsonField<Void>,
         private val description: JsonField<String>,
         private val productCode: JsonField<String>,
@@ -2379,7 +4844,13 @@ private constructor(
 
         @JsonCreator
         private constructor(
+            @JsonProperty("allowances")
+            @ExcludeMissing
+            allowances: JsonField<List<Allowance>> = JsonMissing.of(),
             @JsonProperty("amount") @ExcludeMissing amount: JsonField<Amount> = JsonMissing.of(),
+            @JsonProperty("charges")
+            @ExcludeMissing
+            charges: JsonField<List<Charge>> = JsonMissing.of(),
             @JsonProperty("date") @ExcludeMissing date: JsonField<Void> = JsonMissing.of(),
             @JsonProperty("description")
             @ExcludeMissing
@@ -2399,7 +4870,9 @@ private constructor(
             @ExcludeMissing
             unitPrice: JsonField<UnitPrice> = JsonMissing.of(),
         ) : this(
+            allowances,
             amount,
+            charges,
             date,
             description,
             productCode,
@@ -2412,10 +4885,29 @@ private constructor(
         )
 
         /**
+         * The allowances of the line item.
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun allowances(): Optional<List<Allowance>> = allowances.getOptional("allowances")
+
+        /**
+         * The total amount of the line item, exclusive of VAT, after subtracting line level
+         * allowances and adding line level charges. Must be rounded to maximum 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun amount(): Optional<Amount> = amount.getOptional("amount")
+
+        /**
+         * The charges of the line item.
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun charges(): Optional<List<Charge>> = charges.getOptional("charges")
 
         /**
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -2424,30 +4916,41 @@ private constructor(
         fun date(): Optional<Void> = date.getOptional("date")
 
         /**
+         * The description of the line item.
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun description(): Optional<String> = description.getOptional("description")
 
         /**
+         * The product code of the line item.
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun productCode(): Optional<String> = productCode.getOptional("product_code")
 
         /**
+         * The quantity of items (goods or services) that is the subject of the line item. Must be
+         * rounded to maximum 4 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun quantity(): Optional<Quantity> = quantity.getOptional("quantity")
 
         /**
+         * The total VAT amount for the line item. Must be rounded to maximum 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun tax(): Optional<Tax> = tax.getOptional("tax")
 
         /**
+         * The VAT rate of the line item expressed as percentage with 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
@@ -2462,10 +4965,21 @@ private constructor(
         fun unit(): Optional<UnitOfMeasureCode> = unit.getOptional("unit")
 
         /**
+         * The unit price of the line item. Must be rounded to maximum 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun unitPrice(): Optional<UnitPrice> = unitPrice.getOptional("unit_price")
+
+        /**
+         * Returns the raw JSON value of [allowances].
+         *
+         * Unlike [allowances], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("allowances")
+        @ExcludeMissing
+        fun _allowances(): JsonField<List<Allowance>> = allowances
 
         /**
          * Returns the raw JSON value of [amount].
@@ -2473,6 +4987,13 @@ private constructor(
          * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Amount> = amount
+
+        /**
+         * Returns the raw JSON value of [charges].
+         *
+         * Unlike [charges], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("charges") @ExcludeMissing fun _charges(): JsonField<List<Charge>> = charges
 
         /**
          * Returns the raw JSON value of [date].
@@ -2557,7 +5078,9 @@ private constructor(
         /** A builder for [Item]. */
         class Builder internal constructor() {
 
+            private var allowances: JsonField<MutableList<Allowance>>? = null
             private var amount: JsonField<Amount> = JsonMissing.of()
+            private var charges: JsonField<MutableList<Charge>>? = null
             private var date: JsonField<Void> = JsonMissing.of()
             private var description: JsonField<String> = JsonMissing.of()
             private var productCode: JsonField<String> = JsonMissing.of()
@@ -2570,7 +5093,9 @@ private constructor(
 
             @JvmSynthetic
             internal fun from(item: Item) = apply {
+                allowances = item.allowances.map { it.toMutableList() }
                 amount = item.amount
+                charges = item.charges.map { it.toMutableList() }
                 date = item.date
                 description = item.description
                 productCode = item.productCode
@@ -2582,6 +5107,41 @@ private constructor(
                 additionalProperties = item.additionalProperties.toMutableMap()
             }
 
+            /** The allowances of the line item. */
+            fun allowances(allowances: List<Allowance>?) =
+                allowances(JsonField.ofNullable(allowances))
+
+            /** Alias for calling [Builder.allowances] with `allowances.orElse(null)`. */
+            fun allowances(allowances: Optional<List<Allowance>>) =
+                allowances(allowances.getOrNull())
+
+            /**
+             * Sets [Builder.allowances] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.allowances] with a well-typed `List<Allowance>`
+             * value instead. This method is primarily for setting the field to an undocumented or
+             * not yet supported value.
+             */
+            fun allowances(allowances: JsonField<List<Allowance>>) = apply {
+                this.allowances = allowances.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [Allowance] to [allowances].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addAllowance(allowance: Allowance) = apply {
+                allowances =
+                    (allowances ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("allowances", it).add(allowance)
+                    }
+            }
+
+            /**
+             * The total amount of the line item, exclusive of VAT, after subtracting line level
+             * allowances and adding line level charges. Must be rounded to maximum 2 decimals
+             */
             fun amount(amount: Amount?) = amount(JsonField.ofNullable(amount))
 
             /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
@@ -2602,6 +5162,35 @@ private constructor(
             /** Alias for calling [amount] with `Amount.ofString(string)`. */
             fun amount(string: String) = amount(Amount.ofString(string))
 
+            /** The charges of the line item. */
+            fun charges(charges: List<Charge>?) = charges(JsonField.ofNullable(charges))
+
+            /** Alias for calling [Builder.charges] with `charges.orElse(null)`. */
+            fun charges(charges: Optional<List<Charge>>) = charges(charges.getOrNull())
+
+            /**
+             * Sets [Builder.charges] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.charges] with a well-typed `List<Charge>` value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun charges(charges: JsonField<List<Charge>>) = apply {
+                this.charges = charges.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [Charge] to [charges].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addCharge(charge: Charge) = apply {
+                charges =
+                    (charges ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("charges", it).add(charge)
+                    }
+            }
+
             fun date(date: Void?) = date(JsonField.ofNullable(date))
 
             /** Alias for calling [Builder.date] with `date.orElse(null)`. */
@@ -2616,6 +5205,7 @@ private constructor(
              */
             fun date(date: JsonField<Void>) = apply { this.date = date }
 
+            /** The description of the line item. */
             fun description(description: String?) = description(JsonField.ofNullable(description))
 
             /** Alias for calling [Builder.description] with `description.orElse(null)`. */
@@ -2632,6 +5222,7 @@ private constructor(
                 this.description = description
             }
 
+            /** The product code of the line item. */
             fun productCode(productCode: String?) = productCode(JsonField.ofNullable(productCode))
 
             /** Alias for calling [Builder.productCode] with `productCode.orElse(null)`. */
@@ -2648,6 +5239,10 @@ private constructor(
                 this.productCode = productCode
             }
 
+            /**
+             * The quantity of items (goods or services) that is the subject of the line item. Must
+             * be rounded to maximum 4 decimals
+             */
             fun quantity(quantity: Quantity?) = quantity(JsonField.ofNullable(quantity))
 
             /** Alias for calling [Builder.quantity] with `quantity.orElse(null)`. */
@@ -2668,6 +5263,7 @@ private constructor(
             /** Alias for calling [quantity] with `Quantity.ofString(string)`. */
             fun quantity(string: String) = quantity(Quantity.ofString(string))
 
+            /** The total VAT amount for the line item. Must be rounded to maximum 2 decimals */
             fun tax(tax: Tax?) = tax(JsonField.ofNullable(tax))
 
             /** Alias for calling [Builder.tax] with `tax.orElse(null)`. */
@@ -2688,6 +5284,7 @@ private constructor(
             /** Alias for calling [tax] with `Tax.ofString(string)`. */
             fun tax(string: String) = tax(Tax.ofString(string))
 
+            /** The VAT rate of the line item expressed as percentage with 2 decimals */
             fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
 
             /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
@@ -2717,6 +5314,7 @@ private constructor(
              */
             fun unit(unit: JsonField<UnitOfMeasureCode>) = apply { this.unit = unit }
 
+            /** The unit price of the line item. Must be rounded to maximum 2 decimals */
             fun unitPrice(unitPrice: UnitPrice?) = unitPrice(JsonField.ofNullable(unitPrice))
 
             /** Alias for calling [Builder.unitPrice] with `unitPrice.orElse(null)`. */
@@ -2763,7 +5361,9 @@ private constructor(
              */
             fun build(): Item =
                 Item(
+                    (allowances ?: JsonMissing.of()).map { it.toImmutable() },
                     amount,
+                    (charges ?: JsonMissing.of()).map { it.toImmutable() },
                     date,
                     description,
                     productCode,
@@ -2783,7 +5383,9 @@ private constructor(
                 return@apply
             }
 
+            allowances().ifPresent { it.forEach { it.validate() } }
             amount().ifPresent { it.validate() }
+            charges().ifPresent { it.forEach { it.validate() } }
             date()
             description()
             productCode()
@@ -2811,7 +5413,9 @@ private constructor(
          */
         @JvmSynthetic
         internal fun validity(): Int =
-            (amount.asKnown().getOrNull()?.validity() ?: 0) +
+            (allowances.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+                (amount.asKnown().getOrNull()?.validity() ?: 0) +
+                (charges.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (date.asKnown().isPresent) 1 else 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
                 (if (productCode.asKnown().isPresent) 1 else 0) +
@@ -2821,6 +5425,1197 @@ private constructor(
                 (unit.asKnown().getOrNull()?.validity() ?: 0) +
                 (unitPrice.asKnown().getOrNull()?.validity() ?: 0)
 
+        /** An allowance is a discount for example for early payment, volume discount, etc. */
+        class Allowance
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val amount: JsonField<Amount>,
+            private val baseAmount: JsonField<BaseAmount>,
+            private val multiplierFactor: JsonField<MultiplierFactor>,
+            private val reason: JsonField<String>,
+            private val reasonCode: JsonField<String>,
+            private val taxCode: JsonField<TaxCode>,
+            private val taxRate: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("amount")
+                @ExcludeMissing
+                amount: JsonField<Amount> = JsonMissing.of(),
+                @JsonProperty("base_amount")
+                @ExcludeMissing
+                baseAmount: JsonField<BaseAmount> = JsonMissing.of(),
+                @JsonProperty("multiplier_factor")
+                @ExcludeMissing
+                multiplierFactor: JsonField<MultiplierFactor> = JsonMissing.of(),
+                @JsonProperty("reason")
+                @ExcludeMissing
+                reason: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("reason_code")
+                @ExcludeMissing
+                reasonCode: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tax_code")
+                @ExcludeMissing
+                taxCode: JsonField<TaxCode> = JsonMissing.of(),
+                @JsonProperty("tax_rate")
+                @ExcludeMissing
+                taxRate: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                amount,
+                baseAmount,
+                multiplierFactor,
+                reason,
+                reasonCode,
+                taxCode,
+                taxRate,
+                mutableMapOf(),
+            )
+
+            /**
+             * The allowance amount, without VAT. Must be rounded to maximum 2 decimals
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun amount(): Optional<Amount> = amount.getOptional("amount")
+
+            /**
+             * The base amount that may be used, in conjunction with the allowance percentage, to
+             * calculate the allowance amount. Must be rounded to maximum 2 decimals
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun baseAmount(): Optional<BaseAmount> = baseAmount.getOptional("base_amount")
+
+            /**
+             * The percentage that may be used, in conjunction with the allowance base amount, to
+             * calculate the allowance amount. To state 20%, use value 20
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun multiplierFactor(): Optional<MultiplierFactor> =
+                multiplierFactor.getOptional("multiplier_factor")
+
+            /**
+             * The reason for the allowance
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun reason(): Optional<String> = reason.getOptional("reason")
+
+            /**
+             * The code for the allowance reason
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+            /**
+             * The VAT rate, represented as percentage that applies to the allowance
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun taxRate(): Optional<String> = taxRate.getOptional("tax_rate")
+
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Amount> = amount
+
+            /**
+             * Returns the raw JSON value of [baseAmount].
+             *
+             * Unlike [baseAmount], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("base_amount")
+            @ExcludeMissing
+            fun _baseAmount(): JsonField<BaseAmount> = baseAmount
+
+            /**
+             * Returns the raw JSON value of [multiplierFactor].
+             *
+             * Unlike [multiplierFactor], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("multiplier_factor")
+            @ExcludeMissing
+            fun _multiplierFactor(): JsonField<MultiplierFactor> = multiplierFactor
+
+            /**
+             * Returns the raw JSON value of [reason].
+             *
+             * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+            /**
+             * Returns the raw JSON value of [reasonCode].
+             *
+             * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("reason_code")
+            @ExcludeMissing
+            fun _reasonCode(): JsonField<String> = reasonCode
+
+            /**
+             * Returns the raw JSON value of [taxCode].
+             *
+             * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+            /**
+             * Returns the raw JSON value of [taxRate].
+             *
+             * Unlike [taxRate], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tax_rate") @ExcludeMissing fun _taxRate(): JsonField<String> = taxRate
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Allowance]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Allowance]. */
+            class Builder internal constructor() {
+
+                private var amount: JsonField<Amount> = JsonMissing.of()
+                private var baseAmount: JsonField<BaseAmount> = JsonMissing.of()
+                private var multiplierFactor: JsonField<MultiplierFactor> = JsonMissing.of()
+                private var reason: JsonField<String> = JsonMissing.of()
+                private var reasonCode: JsonField<String> = JsonMissing.of()
+                private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+                private var taxRate: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(allowance: Allowance) = apply {
+                    amount = allowance.amount
+                    baseAmount = allowance.baseAmount
+                    multiplierFactor = allowance.multiplierFactor
+                    reason = allowance.reason
+                    reasonCode = allowance.reasonCode
+                    taxCode = allowance.taxCode
+                    taxRate = allowance.taxRate
+                    additionalProperties = allowance.additionalProperties.toMutableMap()
+                }
+
+                /** The allowance amount, without VAT. Must be rounded to maximum 2 decimals */
+                fun amount(amount: Amount?) = amount(JsonField.ofNullable(amount))
+
+                /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+                fun amount(amount: Optional<Amount>) = amount(amount.getOrNull())
+
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [Amount] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun amount(amount: JsonField<Amount>) = apply { this.amount = amount }
+
+                /** Alias for calling [amount] with `Amount.ofNumber(number)`. */
+                fun amount(number: Double) = amount(Amount.ofNumber(number))
+
+                /** Alias for calling [amount] with `Amount.ofString(string)`. */
+                fun amount(string: String) = amount(Amount.ofString(string))
+
+                /**
+                 * The base amount that may be used, in conjunction with the allowance percentage,
+                 * to calculate the allowance amount. Must be rounded to maximum 2 decimals
+                 */
+                fun baseAmount(baseAmount: BaseAmount?) =
+                    baseAmount(JsonField.ofNullable(baseAmount))
+
+                /** Alias for calling [Builder.baseAmount] with `baseAmount.orElse(null)`. */
+                fun baseAmount(baseAmount: Optional<BaseAmount>) =
+                    baseAmount(baseAmount.getOrNull())
+
+                /**
+                 * Sets [Builder.baseAmount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.baseAmount] with a well-typed [BaseAmount] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun baseAmount(baseAmount: JsonField<BaseAmount>) = apply {
+                    this.baseAmount = baseAmount
+                }
+
+                /** Alias for calling [baseAmount] with `BaseAmount.ofNumber(number)`. */
+                fun baseAmount(number: Double) = baseAmount(BaseAmount.ofNumber(number))
+
+                /** Alias for calling [baseAmount] with `BaseAmount.ofString(string)`. */
+                fun baseAmount(string: String) = baseAmount(BaseAmount.ofString(string))
+
+                /**
+                 * The percentage that may be used, in conjunction with the allowance base amount,
+                 * to calculate the allowance amount. To state 20%, use value 20
+                 */
+                fun multiplierFactor(multiplierFactor: MultiplierFactor?) =
+                    multiplierFactor(JsonField.ofNullable(multiplierFactor))
+
+                /**
+                 * Alias for calling [Builder.multiplierFactor] with
+                 * `multiplierFactor.orElse(null)`.
+                 */
+                fun multiplierFactor(multiplierFactor: Optional<MultiplierFactor>) =
+                    multiplierFactor(multiplierFactor.getOrNull())
+
+                /**
+                 * Sets [Builder.multiplierFactor] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.multiplierFactor] with a well-typed
+                 * [MultiplierFactor] value instead. This method is primarily for setting the field
+                 * to an undocumented or not yet supported value.
+                 */
+                fun multiplierFactor(multiplierFactor: JsonField<MultiplierFactor>) = apply {
+                    this.multiplierFactor = multiplierFactor
+                }
+
+                /**
+                 * Alias for calling [multiplierFactor] with `MultiplierFactor.ofNumber(number)`.
+                 */
+                fun multiplierFactor(number: Double) =
+                    multiplierFactor(MultiplierFactor.ofNumber(number))
+
+                /**
+                 * Alias for calling [multiplierFactor] with `MultiplierFactor.ofString(string)`.
+                 */
+                fun multiplierFactor(string: String) =
+                    multiplierFactor(MultiplierFactor.ofString(string))
+
+                /** The reason for the allowance */
+                fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+                /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+                fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+                /**
+                 * Sets [Builder.reason] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.reason] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+                /** The code for the allowance reason */
+                fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+
+                /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
+                fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+
+                /**
+                 * Sets [Builder.reasonCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.reasonCode] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun reasonCode(reasonCode: JsonField<String>) = apply {
+                    this.reasonCode = reasonCode
+                }
+
+                /**
+                 * Duty or tax or fee category codes (Subset of UNCL5305)
+                 *
+                 * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+                 */
+                fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
+
+                /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
+                fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+
+                /**
+                 * Sets [Builder.taxCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
+                /** The VAT rate, represented as percentage that applies to the allowance */
+                fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
+
+                /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
+                fun taxRate(taxRate: Optional<String>) = taxRate(taxRate.getOrNull())
+
+                /**
+                 * Sets [Builder.taxRate] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.taxRate] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun taxRate(taxRate: JsonField<String>) = apply { this.taxRate = taxRate }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Allowance].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Allowance =
+                    Allowance(
+                        amount,
+                        baseAmount,
+                        multiplierFactor,
+                        reason,
+                        reasonCode,
+                        taxCode,
+                        taxRate,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): Allowance = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                amount().ifPresent { it.validate() }
+                baseAmount().ifPresent { it.validate() }
+                multiplierFactor().ifPresent { it.validate() }
+                reason()
+                reasonCode()
+                taxCode().ifPresent { it.validate() }
+                taxRate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (amount.asKnown().getOrNull()?.validity() ?: 0) +
+                    (baseAmount.asKnown().getOrNull()?.validity() ?: 0) +
+                    (multiplierFactor.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (reason.asKnown().isPresent) 1 else 0) +
+                    (if (reasonCode.asKnown().isPresent) 1 else 0) +
+                    (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (taxRate.asKnown().isPresent) 1 else 0)
+
+            /** The allowance amount, without VAT. Must be rounded to maximum 2 decimals */
+            @JsonDeserialize(using = Amount.Deserializer::class)
+            @JsonSerialize(using = Amount.Serializer::class)
+            class Amount
+            private constructor(
+                private val number: Double? = null,
+                private val string: String? = null,
+                private val _json: JsonValue? = null,
+            ) {
+
+                fun number(): Optional<Double> = Optional.ofNullable(number)
+
+                fun string(): Optional<String> = Optional.ofNullable(string)
+
+                fun isNumber(): Boolean = number != null
+
+                fun isString(): Boolean = string != null
+
+                fun asNumber(): Double = number.getOrThrow("number")
+
+                fun asString(): String = string.getOrThrow("string")
+
+                fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+                fun <T> accept(visitor: Visitor<T>): T =
+                    when {
+                        number != null -> visitor.visitNumber(number)
+                        string != null -> visitor.visitString(string)
+                        else -> visitor.unknown(_json)
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Amount = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    accept(
+                        object : Visitor<Unit> {
+                            override fun visitNumber(number: Double) {}
+
+                            override fun visitString(string: String) {}
+                        }
+                    )
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    accept(
+                        object : Visitor<Int> {
+                            override fun visitNumber(number: Double) = 1
+
+                            override fun visitString(string: String) = 1
+
+                            override fun unknown(json: JsonValue?) = 0
+                        }
+                    )
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Amount && number == other.number && string == other.string
+                }
+
+                override fun hashCode(): Int = Objects.hash(number, string)
+
+                override fun toString(): String =
+                    when {
+                        number != null -> "Amount{number=$number}"
+                        string != null -> "Amount{string=$string}"
+                        _json != null -> "Amount{_unknown=$_json}"
+                        else -> throw IllegalStateException("Invalid Amount")
+                    }
+
+                companion object {
+
+                    @JvmStatic fun ofNumber(number: Double) = Amount(number = number)
+
+                    @JvmStatic fun ofString(string: String) = Amount(string = string)
+                }
+
+                /**
+                 * An interface that defines how to map each variant of [Amount] to a value of type
+                 * [T].
+                 */
+                interface Visitor<out T> {
+
+                    fun visitNumber(number: Double): T
+
+                    fun visitString(string: String): T
+
+                    /**
+                     * Maps an unknown variant of [Amount] to a value of type [T].
+                     *
+                     * An instance of [Amount] can contain an unknown variant if it was deserialized
+                     * from data that doesn't match any known variant. For example, if the SDK is on
+                     * an older version than the API, then the API may respond with new variants
+                     * that the SDK is unaware of.
+                     *
+                     * @throws EInvoiceInvalidDataException in the default implementation.
+                     */
+                    fun unknown(json: JsonValue?): T {
+                        throw EInvoiceInvalidDataException("Unknown Amount: $json")
+                    }
+                }
+
+                internal class Deserializer : BaseDeserializer<Amount>(Amount::class) {
+
+                    override fun ObjectCodec.deserialize(node: JsonNode): Amount {
+                        val json = JsonValue.fromJsonNode(node)
+
+                        val bestMatches =
+                            sequenceOf(
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        Amount(number = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                        Amount(string = it, _json = json)
+                                    },
+                                )
+                                .filterNotNull()
+                                .allMaxBy { it.validity() }
+                                .toList()
+                        return when (bestMatches.size) {
+                            // This can happen if what we're deserializing is completely
+                            // incompatible with all the possible variants (e.g. deserializing from
+                            // object).
+                            0 -> Amount(_json = json)
+                            1 -> bestMatches.single()
+                            // If there's more than one match with the highest validity, then use
+                            // the first completely valid match, or simply the first match if none
+                            // are completely valid.
+                            else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                        }
+                    }
+                }
+
+                internal class Serializer : BaseSerializer<Amount>(Amount::class) {
+
+                    override fun serialize(
+                        value: Amount,
+                        generator: JsonGenerator,
+                        provider: SerializerProvider,
+                    ) {
+                        when {
+                            value.number != null -> generator.writeObject(value.number)
+                            value.string != null -> generator.writeObject(value.string)
+                            value._json != null -> generator.writeObject(value._json)
+                            else -> throw IllegalStateException("Invalid Amount")
+                        }
+                    }
+                }
+            }
+
+            /**
+             * The base amount that may be used, in conjunction with the allowance percentage, to
+             * calculate the allowance amount. Must be rounded to maximum 2 decimals
+             */
+            @JsonDeserialize(using = BaseAmount.Deserializer::class)
+            @JsonSerialize(using = BaseAmount.Serializer::class)
+            class BaseAmount
+            private constructor(
+                private val number: Double? = null,
+                private val string: String? = null,
+                private val _json: JsonValue? = null,
+            ) {
+
+                fun number(): Optional<Double> = Optional.ofNullable(number)
+
+                fun string(): Optional<String> = Optional.ofNullable(string)
+
+                fun isNumber(): Boolean = number != null
+
+                fun isString(): Boolean = string != null
+
+                fun asNumber(): Double = number.getOrThrow("number")
+
+                fun asString(): String = string.getOrThrow("string")
+
+                fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+                fun <T> accept(visitor: Visitor<T>): T =
+                    when {
+                        number != null -> visitor.visitNumber(number)
+                        string != null -> visitor.visitString(string)
+                        else -> visitor.unknown(_json)
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): BaseAmount = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    accept(
+                        object : Visitor<Unit> {
+                            override fun visitNumber(number: Double) {}
+
+                            override fun visitString(string: String) {}
+                        }
+                    )
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    accept(
+                        object : Visitor<Int> {
+                            override fun visitNumber(number: Double) = 1
+
+                            override fun visitString(string: String) = 1
+
+                            override fun unknown(json: JsonValue?) = 0
+                        }
+                    )
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is BaseAmount && number == other.number && string == other.string
+                }
+
+                override fun hashCode(): Int = Objects.hash(number, string)
+
+                override fun toString(): String =
+                    when {
+                        number != null -> "BaseAmount{number=$number}"
+                        string != null -> "BaseAmount{string=$string}"
+                        _json != null -> "BaseAmount{_unknown=$_json}"
+                        else -> throw IllegalStateException("Invalid BaseAmount")
+                    }
+
+                companion object {
+
+                    @JvmStatic fun ofNumber(number: Double) = BaseAmount(number = number)
+
+                    @JvmStatic fun ofString(string: String) = BaseAmount(string = string)
+                }
+
+                /**
+                 * An interface that defines how to map each variant of [BaseAmount] to a value of
+                 * type [T].
+                 */
+                interface Visitor<out T> {
+
+                    fun visitNumber(number: Double): T
+
+                    fun visitString(string: String): T
+
+                    /**
+                     * Maps an unknown variant of [BaseAmount] to a value of type [T].
+                     *
+                     * An instance of [BaseAmount] can contain an unknown variant if it was
+                     * deserialized from data that doesn't match any known variant. For example, if
+                     * the SDK is on an older version than the API, then the API may respond with
+                     * new variants that the SDK is unaware of.
+                     *
+                     * @throws EInvoiceInvalidDataException in the default implementation.
+                     */
+                    fun unknown(json: JsonValue?): T {
+                        throw EInvoiceInvalidDataException("Unknown BaseAmount: $json")
+                    }
+                }
+
+                internal class Deserializer : BaseDeserializer<BaseAmount>(BaseAmount::class) {
+
+                    override fun ObjectCodec.deserialize(node: JsonNode): BaseAmount {
+                        val json = JsonValue.fromJsonNode(node)
+
+                        val bestMatches =
+                            sequenceOf(
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        BaseAmount(number = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                        BaseAmount(string = it, _json = json)
+                                    },
+                                )
+                                .filterNotNull()
+                                .allMaxBy { it.validity() }
+                                .toList()
+                        return when (bestMatches.size) {
+                            // This can happen if what we're deserializing is completely
+                            // incompatible with all the possible variants (e.g. deserializing from
+                            // object).
+                            0 -> BaseAmount(_json = json)
+                            1 -> bestMatches.single()
+                            // If there's more than one match with the highest validity, then use
+                            // the first completely valid match, or simply the first match if none
+                            // are completely valid.
+                            else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                        }
+                    }
+                }
+
+                internal class Serializer : BaseSerializer<BaseAmount>(BaseAmount::class) {
+
+                    override fun serialize(
+                        value: BaseAmount,
+                        generator: JsonGenerator,
+                        provider: SerializerProvider,
+                    ) {
+                        when {
+                            value.number != null -> generator.writeObject(value.number)
+                            value.string != null -> generator.writeObject(value.string)
+                            value._json != null -> generator.writeObject(value._json)
+                            else -> throw IllegalStateException("Invalid BaseAmount")
+                        }
+                    }
+                }
+            }
+
+            /**
+             * The percentage that may be used, in conjunction with the allowance base amount, to
+             * calculate the allowance amount. To state 20%, use value 20
+             */
+            @JsonDeserialize(using = MultiplierFactor.Deserializer::class)
+            @JsonSerialize(using = MultiplierFactor.Serializer::class)
+            class MultiplierFactor
+            private constructor(
+                private val number: Double? = null,
+                private val string: String? = null,
+                private val _json: JsonValue? = null,
+            ) {
+
+                fun number(): Optional<Double> = Optional.ofNullable(number)
+
+                fun string(): Optional<String> = Optional.ofNullable(string)
+
+                fun isNumber(): Boolean = number != null
+
+                fun isString(): Boolean = string != null
+
+                fun asNumber(): Double = number.getOrThrow("number")
+
+                fun asString(): String = string.getOrThrow("string")
+
+                fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+                fun <T> accept(visitor: Visitor<T>): T =
+                    when {
+                        number != null -> visitor.visitNumber(number)
+                        string != null -> visitor.visitString(string)
+                        else -> visitor.unknown(_json)
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): MultiplierFactor = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    accept(
+                        object : Visitor<Unit> {
+                            override fun visitNumber(number: Double) {}
+
+                            override fun visitString(string: String) {}
+                        }
+                    )
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    accept(
+                        object : Visitor<Int> {
+                            override fun visitNumber(number: Double) = 1
+
+                            override fun visitString(string: String) = 1
+
+                            override fun unknown(json: JsonValue?) = 0
+                        }
+                    )
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is MultiplierFactor &&
+                        number == other.number &&
+                        string == other.string
+                }
+
+                override fun hashCode(): Int = Objects.hash(number, string)
+
+                override fun toString(): String =
+                    when {
+                        number != null -> "MultiplierFactor{number=$number}"
+                        string != null -> "MultiplierFactor{string=$string}"
+                        _json != null -> "MultiplierFactor{_unknown=$_json}"
+                        else -> throw IllegalStateException("Invalid MultiplierFactor")
+                    }
+
+                companion object {
+
+                    @JvmStatic fun ofNumber(number: Double) = MultiplierFactor(number = number)
+
+                    @JvmStatic fun ofString(string: String) = MultiplierFactor(string = string)
+                }
+
+                /**
+                 * An interface that defines how to map each variant of [MultiplierFactor] to a
+                 * value of type [T].
+                 */
+                interface Visitor<out T> {
+
+                    fun visitNumber(number: Double): T
+
+                    fun visitString(string: String): T
+
+                    /**
+                     * Maps an unknown variant of [MultiplierFactor] to a value of type [T].
+                     *
+                     * An instance of [MultiplierFactor] can contain an unknown variant if it was
+                     * deserialized from data that doesn't match any known variant. For example, if
+                     * the SDK is on an older version than the API, then the API may respond with
+                     * new variants that the SDK is unaware of.
+                     *
+                     * @throws EInvoiceInvalidDataException in the default implementation.
+                     */
+                    fun unknown(json: JsonValue?): T {
+                        throw EInvoiceInvalidDataException("Unknown MultiplierFactor: $json")
+                    }
+                }
+
+                internal class Deserializer :
+                    BaseDeserializer<MultiplierFactor>(MultiplierFactor::class) {
+
+                    override fun ObjectCodec.deserialize(node: JsonNode): MultiplierFactor {
+                        val json = JsonValue.fromJsonNode(node)
+
+                        val bestMatches =
+                            sequenceOf(
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        MultiplierFactor(number = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                        MultiplierFactor(string = it, _json = json)
+                                    },
+                                )
+                                .filterNotNull()
+                                .allMaxBy { it.validity() }
+                                .toList()
+                        return when (bestMatches.size) {
+                            // This can happen if what we're deserializing is completely
+                            // incompatible with all the possible variants (e.g. deserializing from
+                            // object).
+                            0 -> MultiplierFactor(_json = json)
+                            1 -> bestMatches.single()
+                            // If there's more than one match with the highest validity, then use
+                            // the first completely valid match, or simply the first match if none
+                            // are completely valid.
+                            else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                        }
+                    }
+                }
+
+                internal class Serializer :
+                    BaseSerializer<MultiplierFactor>(MultiplierFactor::class) {
+
+                    override fun serialize(
+                        value: MultiplierFactor,
+                        generator: JsonGenerator,
+                        provider: SerializerProvider,
+                    ) {
+                        when {
+                            value.number != null -> generator.writeObject(value.number)
+                            value.string != null -> generator.writeObject(value.string)
+                            value._json != null -> generator.writeObject(value._json)
+                            else -> throw IllegalStateException("Invalid MultiplierFactor")
+                        }
+                    }
+                }
+            }
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             */
+            class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val AE = of("AE")
+
+                    @JvmField val E = of("E")
+
+                    @JvmField val S = of("S")
+
+                    @JvmField val Z = of("Z")
+
+                    @JvmField val G = of("G")
+
+                    @JvmField val O = of("O")
+
+                    @JvmField val K = of("K")
+
+                    @JvmField val L = of("L")
+
+                    @JvmField val M = of("M")
+
+                    @JvmField val B = of("B")
+
+                    @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+                }
+
+                /** An enum containing [TaxCode]'s known values. */
+                enum class Known {
+                    AE,
+                    E,
+                    S,
+                    Z,
+                    G,
+                    O,
+                    K,
+                    L,
+                    M,
+                    B,
+                }
+
+                /**
+                 * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    AE,
+                    E,
+                    S,
+                    Z,
+                    G,
+                    O,
+                    K,
+                    L,
+                    M,
+                    B,
+                    /**
+                     * An enum member indicating that [TaxCode] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        AE -> Value.AE
+                        E -> Value.E
+                        S -> Value.S
+                        Z -> Value.Z
+                        G -> Value.G
+                        O -> Value.O
+                        K -> Value.K
+                        L -> Value.L
+                        M -> Value.M
+                        B -> Value.B
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws EInvoiceInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        AE -> Known.AE
+                        E -> Known.E
+                        S -> Known.S
+                        Z -> Known.Z
+                        G -> Known.G
+                        O -> Known.O
+                        K -> Known.K
+                        L -> Known.L
+                        M -> Known.M
+                        B -> Known.B
+                        else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws EInvoiceInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        EInvoiceInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): TaxCode = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is TaxCode && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Allowance &&
+                    amount == other.amount &&
+                    baseAmount == other.baseAmount &&
+                    multiplierFactor == other.multiplierFactor &&
+                    reason == other.reason &&
+                    reasonCode == other.reasonCode &&
+                    taxCode == other.taxCode &&
+                    taxRate == other.taxRate &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    amount,
+                    baseAmount,
+                    multiplierFactor,
+                    reason,
+                    reasonCode,
+                    taxCode,
+                    taxRate,
+                    additionalProperties,
+                )
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Allowance{amount=$amount, baseAmount=$baseAmount, multiplierFactor=$multiplierFactor, reason=$reason, reasonCode=$reasonCode, taxCode=$taxCode, taxRate=$taxRate, additionalProperties=$additionalProperties}"
+        }
+
+        /**
+         * The total amount of the line item, exclusive of VAT, after subtracting line level
+         * allowances and adding line level charges. Must be rounded to maximum 2 decimals
+         */
         @JsonDeserialize(using = Amount.Deserializer::class)
         @JsonSerialize(using = Amount.Serializer::class)
         class Amount
@@ -2990,6 +6785,1197 @@ private constructor(
             }
         }
 
+        /** A charge is an additional fee for example for late payment, late delivery, etc. */
+        class Charge
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val amount: JsonField<Amount>,
+            private val baseAmount: JsonField<BaseAmount>,
+            private val multiplierFactor: JsonField<MultiplierFactor>,
+            private val reason: JsonField<String>,
+            private val reasonCode: JsonField<String>,
+            private val taxCode: JsonField<TaxCode>,
+            private val taxRate: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("amount")
+                @ExcludeMissing
+                amount: JsonField<Amount> = JsonMissing.of(),
+                @JsonProperty("base_amount")
+                @ExcludeMissing
+                baseAmount: JsonField<BaseAmount> = JsonMissing.of(),
+                @JsonProperty("multiplier_factor")
+                @ExcludeMissing
+                multiplierFactor: JsonField<MultiplierFactor> = JsonMissing.of(),
+                @JsonProperty("reason")
+                @ExcludeMissing
+                reason: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("reason_code")
+                @ExcludeMissing
+                reasonCode: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("tax_code")
+                @ExcludeMissing
+                taxCode: JsonField<TaxCode> = JsonMissing.of(),
+                @JsonProperty("tax_rate")
+                @ExcludeMissing
+                taxRate: JsonField<String> = JsonMissing.of(),
+            ) : this(
+                amount,
+                baseAmount,
+                multiplierFactor,
+                reason,
+                reasonCode,
+                taxCode,
+                taxRate,
+                mutableMapOf(),
+            )
+
+            /**
+             * The charge amount, without VAT. Must be rounded to maximum 2 decimals
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun amount(): Optional<Amount> = amount.getOptional("amount")
+
+            /**
+             * The base amount that may be used, in conjunction with the charge percentage, to
+             * calculate the charge amount. Must be rounded to maximum 2 decimals
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun baseAmount(): Optional<BaseAmount> = baseAmount.getOptional("base_amount")
+
+            /**
+             * The percentage that may be used, in conjunction with the charge base amount, to
+             * calculate the charge amount. To state 20%, use value 20
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun multiplierFactor(): Optional<MultiplierFactor> =
+                multiplierFactor.getOptional("multiplier_factor")
+
+            /**
+             * The reason for the charge
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun reason(): Optional<String> = reason.getOptional("reason")
+
+            /**
+             * The code for the charge reason
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+            /**
+             * The VAT rate, represented as percentage that applies to the charge
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun taxRate(): Optional<String> = taxRate.getOptional("tax_rate")
+
+            /**
+             * Returns the raw JSON value of [amount].
+             *
+             * Unlike [amount], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("amount") @ExcludeMissing fun _amount(): JsonField<Amount> = amount
+
+            /**
+             * Returns the raw JSON value of [baseAmount].
+             *
+             * Unlike [baseAmount], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("base_amount")
+            @ExcludeMissing
+            fun _baseAmount(): JsonField<BaseAmount> = baseAmount
+
+            /**
+             * Returns the raw JSON value of [multiplierFactor].
+             *
+             * Unlike [multiplierFactor], this method doesn't throw if the JSON field has an
+             * unexpected type.
+             */
+            @JsonProperty("multiplier_factor")
+            @ExcludeMissing
+            fun _multiplierFactor(): JsonField<MultiplierFactor> = multiplierFactor
+
+            /**
+             * Returns the raw JSON value of [reason].
+             *
+             * Unlike [reason], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("reason") @ExcludeMissing fun _reason(): JsonField<String> = reason
+
+            /**
+             * Returns the raw JSON value of [reasonCode].
+             *
+             * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected
+             * type.
+             */
+            @JsonProperty("reason_code")
+            @ExcludeMissing
+            fun _reasonCode(): JsonField<String> = reasonCode
+
+            /**
+             * Returns the raw JSON value of [taxCode].
+             *
+             * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+            /**
+             * Returns the raw JSON value of [taxRate].
+             *
+             * Unlike [taxRate], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("tax_rate") @ExcludeMissing fun _taxRate(): JsonField<String> = taxRate
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /** Returns a mutable builder for constructing an instance of [Charge]. */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [Charge]. */
+            class Builder internal constructor() {
+
+                private var amount: JsonField<Amount> = JsonMissing.of()
+                private var baseAmount: JsonField<BaseAmount> = JsonMissing.of()
+                private var multiplierFactor: JsonField<MultiplierFactor> = JsonMissing.of()
+                private var reason: JsonField<String> = JsonMissing.of()
+                private var reasonCode: JsonField<String> = JsonMissing.of()
+                private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+                private var taxRate: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(charge: Charge) = apply {
+                    amount = charge.amount
+                    baseAmount = charge.baseAmount
+                    multiplierFactor = charge.multiplierFactor
+                    reason = charge.reason
+                    reasonCode = charge.reasonCode
+                    taxCode = charge.taxCode
+                    taxRate = charge.taxRate
+                    additionalProperties = charge.additionalProperties.toMutableMap()
+                }
+
+                /** The charge amount, without VAT. Must be rounded to maximum 2 decimals */
+                fun amount(amount: Amount?) = amount(JsonField.ofNullable(amount))
+
+                /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
+                fun amount(amount: Optional<Amount>) = amount(amount.getOrNull())
+
+                /**
+                 * Sets [Builder.amount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.amount] with a well-typed [Amount] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun amount(amount: JsonField<Amount>) = apply { this.amount = amount }
+
+                /** Alias for calling [amount] with `Amount.ofNumber(number)`. */
+                fun amount(number: Double) = amount(Amount.ofNumber(number))
+
+                /** Alias for calling [amount] with `Amount.ofString(string)`. */
+                fun amount(string: String) = amount(Amount.ofString(string))
+
+                /**
+                 * The base amount that may be used, in conjunction with the charge percentage, to
+                 * calculate the charge amount. Must be rounded to maximum 2 decimals
+                 */
+                fun baseAmount(baseAmount: BaseAmount?) =
+                    baseAmount(JsonField.ofNullable(baseAmount))
+
+                /** Alias for calling [Builder.baseAmount] with `baseAmount.orElse(null)`. */
+                fun baseAmount(baseAmount: Optional<BaseAmount>) =
+                    baseAmount(baseAmount.getOrNull())
+
+                /**
+                 * Sets [Builder.baseAmount] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.baseAmount] with a well-typed [BaseAmount] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun baseAmount(baseAmount: JsonField<BaseAmount>) = apply {
+                    this.baseAmount = baseAmount
+                }
+
+                /** Alias for calling [baseAmount] with `BaseAmount.ofNumber(number)`. */
+                fun baseAmount(number: Double) = baseAmount(BaseAmount.ofNumber(number))
+
+                /** Alias for calling [baseAmount] with `BaseAmount.ofString(string)`. */
+                fun baseAmount(string: String) = baseAmount(BaseAmount.ofString(string))
+
+                /**
+                 * The percentage that may be used, in conjunction with the charge base amount, to
+                 * calculate the charge amount. To state 20%, use value 20
+                 */
+                fun multiplierFactor(multiplierFactor: MultiplierFactor?) =
+                    multiplierFactor(JsonField.ofNullable(multiplierFactor))
+
+                /**
+                 * Alias for calling [Builder.multiplierFactor] with
+                 * `multiplierFactor.orElse(null)`.
+                 */
+                fun multiplierFactor(multiplierFactor: Optional<MultiplierFactor>) =
+                    multiplierFactor(multiplierFactor.getOrNull())
+
+                /**
+                 * Sets [Builder.multiplierFactor] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.multiplierFactor] with a well-typed
+                 * [MultiplierFactor] value instead. This method is primarily for setting the field
+                 * to an undocumented or not yet supported value.
+                 */
+                fun multiplierFactor(multiplierFactor: JsonField<MultiplierFactor>) = apply {
+                    this.multiplierFactor = multiplierFactor
+                }
+
+                /**
+                 * Alias for calling [multiplierFactor] with `MultiplierFactor.ofNumber(number)`.
+                 */
+                fun multiplierFactor(number: Double) =
+                    multiplierFactor(MultiplierFactor.ofNumber(number))
+
+                /**
+                 * Alias for calling [multiplierFactor] with `MultiplierFactor.ofString(string)`.
+                 */
+                fun multiplierFactor(string: String) =
+                    multiplierFactor(MultiplierFactor.ofString(string))
+
+                /** The reason for the charge */
+                fun reason(reason: String?) = reason(JsonField.ofNullable(reason))
+
+                /** Alias for calling [Builder.reason] with `reason.orElse(null)`. */
+                fun reason(reason: Optional<String>) = reason(reason.getOrNull())
+
+                /**
+                 * Sets [Builder.reason] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.reason] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun reason(reason: JsonField<String>) = apply { this.reason = reason }
+
+                /** The code for the charge reason */
+                fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+
+                /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
+                fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+
+                /**
+                 * Sets [Builder.reasonCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.reasonCode] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun reasonCode(reasonCode: JsonField<String>) = apply {
+                    this.reasonCode = reasonCode
+                }
+
+                /**
+                 * Duty or tax or fee category codes (Subset of UNCL5305)
+                 *
+                 * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+                 */
+                fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
+
+                /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
+                fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+
+                /**
+                 * Sets [Builder.taxCode] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
+                /** The VAT rate, represented as percentage that applies to the charge */
+                fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
+
+                /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
+                fun taxRate(taxRate: Optional<String>) = taxRate(taxRate.getOrNull())
+
+                /**
+                 * Sets [Builder.taxRate] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.taxRate] with a well-typed [String] value
+                 * instead. This method is primarily for setting the field to an undocumented or not
+                 * yet supported value.
+                 */
+                fun taxRate(taxRate: JsonField<String>) = apply { this.taxRate = taxRate }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [Charge].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 */
+                fun build(): Charge =
+                    Charge(
+                        amount,
+                        baseAmount,
+                        multiplierFactor,
+                        reason,
+                        reasonCode,
+                        taxCode,
+                        taxRate,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            fun validate(): Charge = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                amount().ifPresent { it.validate() }
+                baseAmount().ifPresent { it.validate() }
+                multiplierFactor().ifPresent { it.validate() }
+                reason()
+                reasonCode()
+                taxCode().ifPresent { it.validate() }
+                taxRate()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (amount.asKnown().getOrNull()?.validity() ?: 0) +
+                    (baseAmount.asKnown().getOrNull()?.validity() ?: 0) +
+                    (multiplierFactor.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (reason.asKnown().isPresent) 1 else 0) +
+                    (if (reasonCode.asKnown().isPresent) 1 else 0) +
+                    (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+                    (if (taxRate.asKnown().isPresent) 1 else 0)
+
+            /** The charge amount, without VAT. Must be rounded to maximum 2 decimals */
+            @JsonDeserialize(using = Amount.Deserializer::class)
+            @JsonSerialize(using = Amount.Serializer::class)
+            class Amount
+            private constructor(
+                private val number: Double? = null,
+                private val string: String? = null,
+                private val _json: JsonValue? = null,
+            ) {
+
+                fun number(): Optional<Double> = Optional.ofNullable(number)
+
+                fun string(): Optional<String> = Optional.ofNullable(string)
+
+                fun isNumber(): Boolean = number != null
+
+                fun isString(): Boolean = string != null
+
+                fun asNumber(): Double = number.getOrThrow("number")
+
+                fun asString(): String = string.getOrThrow("string")
+
+                fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+                fun <T> accept(visitor: Visitor<T>): T =
+                    when {
+                        number != null -> visitor.visitNumber(number)
+                        string != null -> visitor.visitString(string)
+                        else -> visitor.unknown(_json)
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): Amount = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    accept(
+                        object : Visitor<Unit> {
+                            override fun visitNumber(number: Double) {}
+
+                            override fun visitString(string: String) {}
+                        }
+                    )
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    accept(
+                        object : Visitor<Int> {
+                            override fun visitNumber(number: Double) = 1
+
+                            override fun visitString(string: String) = 1
+
+                            override fun unknown(json: JsonValue?) = 0
+                        }
+                    )
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is Amount && number == other.number && string == other.string
+                }
+
+                override fun hashCode(): Int = Objects.hash(number, string)
+
+                override fun toString(): String =
+                    when {
+                        number != null -> "Amount{number=$number}"
+                        string != null -> "Amount{string=$string}"
+                        _json != null -> "Amount{_unknown=$_json}"
+                        else -> throw IllegalStateException("Invalid Amount")
+                    }
+
+                companion object {
+
+                    @JvmStatic fun ofNumber(number: Double) = Amount(number = number)
+
+                    @JvmStatic fun ofString(string: String) = Amount(string = string)
+                }
+
+                /**
+                 * An interface that defines how to map each variant of [Amount] to a value of type
+                 * [T].
+                 */
+                interface Visitor<out T> {
+
+                    fun visitNumber(number: Double): T
+
+                    fun visitString(string: String): T
+
+                    /**
+                     * Maps an unknown variant of [Amount] to a value of type [T].
+                     *
+                     * An instance of [Amount] can contain an unknown variant if it was deserialized
+                     * from data that doesn't match any known variant. For example, if the SDK is on
+                     * an older version than the API, then the API may respond with new variants
+                     * that the SDK is unaware of.
+                     *
+                     * @throws EInvoiceInvalidDataException in the default implementation.
+                     */
+                    fun unknown(json: JsonValue?): T {
+                        throw EInvoiceInvalidDataException("Unknown Amount: $json")
+                    }
+                }
+
+                internal class Deserializer : BaseDeserializer<Amount>(Amount::class) {
+
+                    override fun ObjectCodec.deserialize(node: JsonNode): Amount {
+                        val json = JsonValue.fromJsonNode(node)
+
+                        val bestMatches =
+                            sequenceOf(
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        Amount(number = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                        Amount(string = it, _json = json)
+                                    },
+                                )
+                                .filterNotNull()
+                                .allMaxBy { it.validity() }
+                                .toList()
+                        return when (bestMatches.size) {
+                            // This can happen if what we're deserializing is completely
+                            // incompatible with all the possible variants (e.g. deserializing from
+                            // object).
+                            0 -> Amount(_json = json)
+                            1 -> bestMatches.single()
+                            // If there's more than one match with the highest validity, then use
+                            // the first completely valid match, or simply the first match if none
+                            // are completely valid.
+                            else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                        }
+                    }
+                }
+
+                internal class Serializer : BaseSerializer<Amount>(Amount::class) {
+
+                    override fun serialize(
+                        value: Amount,
+                        generator: JsonGenerator,
+                        provider: SerializerProvider,
+                    ) {
+                        when {
+                            value.number != null -> generator.writeObject(value.number)
+                            value.string != null -> generator.writeObject(value.string)
+                            value._json != null -> generator.writeObject(value._json)
+                            else -> throw IllegalStateException("Invalid Amount")
+                        }
+                    }
+                }
+            }
+
+            /**
+             * The base amount that may be used, in conjunction with the charge percentage, to
+             * calculate the charge amount. Must be rounded to maximum 2 decimals
+             */
+            @JsonDeserialize(using = BaseAmount.Deserializer::class)
+            @JsonSerialize(using = BaseAmount.Serializer::class)
+            class BaseAmount
+            private constructor(
+                private val number: Double? = null,
+                private val string: String? = null,
+                private val _json: JsonValue? = null,
+            ) {
+
+                fun number(): Optional<Double> = Optional.ofNullable(number)
+
+                fun string(): Optional<String> = Optional.ofNullable(string)
+
+                fun isNumber(): Boolean = number != null
+
+                fun isString(): Boolean = string != null
+
+                fun asNumber(): Double = number.getOrThrow("number")
+
+                fun asString(): String = string.getOrThrow("string")
+
+                fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+                fun <T> accept(visitor: Visitor<T>): T =
+                    when {
+                        number != null -> visitor.visitNumber(number)
+                        string != null -> visitor.visitString(string)
+                        else -> visitor.unknown(_json)
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): BaseAmount = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    accept(
+                        object : Visitor<Unit> {
+                            override fun visitNumber(number: Double) {}
+
+                            override fun visitString(string: String) {}
+                        }
+                    )
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    accept(
+                        object : Visitor<Int> {
+                            override fun visitNumber(number: Double) = 1
+
+                            override fun visitString(string: String) = 1
+
+                            override fun unknown(json: JsonValue?) = 0
+                        }
+                    )
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is BaseAmount && number == other.number && string == other.string
+                }
+
+                override fun hashCode(): Int = Objects.hash(number, string)
+
+                override fun toString(): String =
+                    when {
+                        number != null -> "BaseAmount{number=$number}"
+                        string != null -> "BaseAmount{string=$string}"
+                        _json != null -> "BaseAmount{_unknown=$_json}"
+                        else -> throw IllegalStateException("Invalid BaseAmount")
+                    }
+
+                companion object {
+
+                    @JvmStatic fun ofNumber(number: Double) = BaseAmount(number = number)
+
+                    @JvmStatic fun ofString(string: String) = BaseAmount(string = string)
+                }
+
+                /**
+                 * An interface that defines how to map each variant of [BaseAmount] to a value of
+                 * type [T].
+                 */
+                interface Visitor<out T> {
+
+                    fun visitNumber(number: Double): T
+
+                    fun visitString(string: String): T
+
+                    /**
+                     * Maps an unknown variant of [BaseAmount] to a value of type [T].
+                     *
+                     * An instance of [BaseAmount] can contain an unknown variant if it was
+                     * deserialized from data that doesn't match any known variant. For example, if
+                     * the SDK is on an older version than the API, then the API may respond with
+                     * new variants that the SDK is unaware of.
+                     *
+                     * @throws EInvoiceInvalidDataException in the default implementation.
+                     */
+                    fun unknown(json: JsonValue?): T {
+                        throw EInvoiceInvalidDataException("Unknown BaseAmount: $json")
+                    }
+                }
+
+                internal class Deserializer : BaseDeserializer<BaseAmount>(BaseAmount::class) {
+
+                    override fun ObjectCodec.deserialize(node: JsonNode): BaseAmount {
+                        val json = JsonValue.fromJsonNode(node)
+
+                        val bestMatches =
+                            sequenceOf(
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        BaseAmount(number = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                        BaseAmount(string = it, _json = json)
+                                    },
+                                )
+                                .filterNotNull()
+                                .allMaxBy { it.validity() }
+                                .toList()
+                        return when (bestMatches.size) {
+                            // This can happen if what we're deserializing is completely
+                            // incompatible with all the possible variants (e.g. deserializing from
+                            // object).
+                            0 -> BaseAmount(_json = json)
+                            1 -> bestMatches.single()
+                            // If there's more than one match with the highest validity, then use
+                            // the first completely valid match, or simply the first match if none
+                            // are completely valid.
+                            else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                        }
+                    }
+                }
+
+                internal class Serializer : BaseSerializer<BaseAmount>(BaseAmount::class) {
+
+                    override fun serialize(
+                        value: BaseAmount,
+                        generator: JsonGenerator,
+                        provider: SerializerProvider,
+                    ) {
+                        when {
+                            value.number != null -> generator.writeObject(value.number)
+                            value.string != null -> generator.writeObject(value.string)
+                            value._json != null -> generator.writeObject(value._json)
+                            else -> throw IllegalStateException("Invalid BaseAmount")
+                        }
+                    }
+                }
+            }
+
+            /**
+             * The percentage that may be used, in conjunction with the charge base amount, to
+             * calculate the charge amount. To state 20%, use value 20
+             */
+            @JsonDeserialize(using = MultiplierFactor.Deserializer::class)
+            @JsonSerialize(using = MultiplierFactor.Serializer::class)
+            class MultiplierFactor
+            private constructor(
+                private val number: Double? = null,
+                private val string: String? = null,
+                private val _json: JsonValue? = null,
+            ) {
+
+                fun number(): Optional<Double> = Optional.ofNullable(number)
+
+                fun string(): Optional<String> = Optional.ofNullable(string)
+
+                fun isNumber(): Boolean = number != null
+
+                fun isString(): Boolean = string != null
+
+                fun asNumber(): Double = number.getOrThrow("number")
+
+                fun asString(): String = string.getOrThrow("string")
+
+                fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+                fun <T> accept(visitor: Visitor<T>): T =
+                    when {
+                        number != null -> visitor.visitNumber(number)
+                        string != null -> visitor.visitString(string)
+                        else -> visitor.unknown(_json)
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): MultiplierFactor = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    accept(
+                        object : Visitor<Unit> {
+                            override fun visitNumber(number: Double) {}
+
+                            override fun visitString(string: String) {}
+                        }
+                    )
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic
+                internal fun validity(): Int =
+                    accept(
+                        object : Visitor<Int> {
+                            override fun visitNumber(number: Double) = 1
+
+                            override fun visitString(string: String) = 1
+
+                            override fun unknown(json: JsonValue?) = 0
+                        }
+                    )
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is MultiplierFactor &&
+                        number == other.number &&
+                        string == other.string
+                }
+
+                override fun hashCode(): Int = Objects.hash(number, string)
+
+                override fun toString(): String =
+                    when {
+                        number != null -> "MultiplierFactor{number=$number}"
+                        string != null -> "MultiplierFactor{string=$string}"
+                        _json != null -> "MultiplierFactor{_unknown=$_json}"
+                        else -> throw IllegalStateException("Invalid MultiplierFactor")
+                    }
+
+                companion object {
+
+                    @JvmStatic fun ofNumber(number: Double) = MultiplierFactor(number = number)
+
+                    @JvmStatic fun ofString(string: String) = MultiplierFactor(string = string)
+                }
+
+                /**
+                 * An interface that defines how to map each variant of [MultiplierFactor] to a
+                 * value of type [T].
+                 */
+                interface Visitor<out T> {
+
+                    fun visitNumber(number: Double): T
+
+                    fun visitString(string: String): T
+
+                    /**
+                     * Maps an unknown variant of [MultiplierFactor] to a value of type [T].
+                     *
+                     * An instance of [MultiplierFactor] can contain an unknown variant if it was
+                     * deserialized from data that doesn't match any known variant. For example, if
+                     * the SDK is on an older version than the API, then the API may respond with
+                     * new variants that the SDK is unaware of.
+                     *
+                     * @throws EInvoiceInvalidDataException in the default implementation.
+                     */
+                    fun unknown(json: JsonValue?): T {
+                        throw EInvoiceInvalidDataException("Unknown MultiplierFactor: $json")
+                    }
+                }
+
+                internal class Deserializer :
+                    BaseDeserializer<MultiplierFactor>(MultiplierFactor::class) {
+
+                    override fun ObjectCodec.deserialize(node: JsonNode): MultiplierFactor {
+                        val json = JsonValue.fromJsonNode(node)
+
+                        val bestMatches =
+                            sequenceOf(
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        MultiplierFactor(number = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                        MultiplierFactor(string = it, _json = json)
+                                    },
+                                )
+                                .filterNotNull()
+                                .allMaxBy { it.validity() }
+                                .toList()
+                        return when (bestMatches.size) {
+                            // This can happen if what we're deserializing is completely
+                            // incompatible with all the possible variants (e.g. deserializing from
+                            // object).
+                            0 -> MultiplierFactor(_json = json)
+                            1 -> bestMatches.single()
+                            // If there's more than one match with the highest validity, then use
+                            // the first completely valid match, or simply the first match if none
+                            // are completely valid.
+                            else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                        }
+                    }
+                }
+
+                internal class Serializer :
+                    BaseSerializer<MultiplierFactor>(MultiplierFactor::class) {
+
+                    override fun serialize(
+                        value: MultiplierFactor,
+                        generator: JsonGenerator,
+                        provider: SerializerProvider,
+                    ) {
+                        when {
+                            value.number != null -> generator.writeObject(value.number)
+                            value.string != null -> generator.writeObject(value.string)
+                            value._json != null -> generator.writeObject(value._json)
+                            else -> throw IllegalStateException("Invalid MultiplierFactor")
+                        }
+                    }
+                }
+            }
+
+            /**
+             * Duty or tax or fee category codes (Subset of UNCL5305)
+             *
+             * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+             */
+            class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) :
+                Enum {
+
+                /**
+                 * Returns this class instance's raw value.
+                 *
+                 * This is usually only useful if this instance was deserialized from data that
+                 * doesn't match any known member, and you want to know that value. For example, if
+                 * the SDK is on an older version than the API, then the API may respond with new
+                 * members that the SDK is unaware of.
+                 */
+                @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+                companion object {
+
+                    @JvmField val AE = of("AE")
+
+                    @JvmField val E = of("E")
+
+                    @JvmField val S = of("S")
+
+                    @JvmField val Z = of("Z")
+
+                    @JvmField val G = of("G")
+
+                    @JvmField val O = of("O")
+
+                    @JvmField val K = of("K")
+
+                    @JvmField val L = of("L")
+
+                    @JvmField val M = of("M")
+
+                    @JvmField val B = of("B")
+
+                    @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+                }
+
+                /** An enum containing [TaxCode]'s known values. */
+                enum class Known {
+                    AE,
+                    E,
+                    S,
+                    Z,
+                    G,
+                    O,
+                    K,
+                    L,
+                    M,
+                    B,
+                }
+
+                /**
+                 * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+                 *
+                 * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+                 * - It was deserialized from data that doesn't match any known member. For example,
+                 *   if the SDK is on an older version than the API, then the API may respond with
+                 *   new members that the SDK is unaware of.
+                 * - It was constructed with an arbitrary value using the [of] method.
+                 */
+                enum class Value {
+                    AE,
+                    E,
+                    S,
+                    Z,
+                    G,
+                    O,
+                    K,
+                    L,
+                    M,
+                    B,
+                    /**
+                     * An enum member indicating that [TaxCode] was instantiated with an unknown
+                     * value.
+                     */
+                    _UNKNOWN,
+                }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value, or
+                 * [Value._UNKNOWN] if the class was instantiated with an unknown value.
+                 *
+                 * Use the [known] method instead if you're certain the value is always known or if
+                 * you want to throw for the unknown case.
+                 */
+                fun value(): Value =
+                    when (this) {
+                        AE -> Value.AE
+                        E -> Value.E
+                        S -> Value.S
+                        Z -> Value.Z
+                        G -> Value.G
+                        O -> Value.O
+                        K -> Value.K
+                        L -> Value.L
+                        M -> Value.M
+                        B -> Value.B
+                        else -> Value._UNKNOWN
+                    }
+
+                /**
+                 * Returns an enum member corresponding to this class instance's value.
+                 *
+                 * Use the [value] method instead if you're uncertain the value is always known and
+                 * don't want to throw for the unknown case.
+                 *
+                 * @throws EInvoiceInvalidDataException if this class instance's value is a not a
+                 *   known member.
+                 */
+                fun known(): Known =
+                    when (this) {
+                        AE -> Known.AE
+                        E -> Known.E
+                        S -> Known.S
+                        Z -> Known.Z
+                        G -> Known.G
+                        O -> Known.O
+                        K -> Known.K
+                        L -> Known.L
+                        M -> Known.M
+                        B -> Known.B
+                        else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+                    }
+
+                /**
+                 * Returns this class instance's primitive wire representation.
+                 *
+                 * This differs from the [toString] method because that method is primarily for
+                 * debugging and generally doesn't throw.
+                 *
+                 * @throws EInvoiceInvalidDataException if this class instance's value does not have
+                 *   the expected primitive type.
+                 */
+                fun asString(): String =
+                    _value().asString().orElseThrow {
+                        EInvoiceInvalidDataException("Value is not a String")
+                    }
+
+                private var validated: Boolean = false
+
+                fun validate(): TaxCode = apply {
+                    if (validated) {
+                        return@apply
+                    }
+
+                    known()
+                    validated = true
+                }
+
+                fun isValid(): Boolean =
+                    try {
+                        validate()
+                        true
+                    } catch (e: EInvoiceInvalidDataException) {
+                        false
+                    }
+
+                /**
+                 * Returns a score indicating how many valid values are contained in this object
+                 * recursively.
+                 *
+                 * Used for best match union deserialization.
+                 */
+                @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+                override fun equals(other: Any?): Boolean {
+                    if (this === other) {
+                        return true
+                    }
+
+                    return other is TaxCode && value == other.value
+                }
+
+                override fun hashCode() = value.hashCode()
+
+                override fun toString() = value.toString()
+            }
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is Charge &&
+                    amount == other.amount &&
+                    baseAmount == other.baseAmount &&
+                    multiplierFactor == other.multiplierFactor &&
+                    reason == other.reason &&
+                    reasonCode == other.reasonCode &&
+                    taxCode == other.taxCode &&
+                    taxRate == other.taxRate &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy {
+                Objects.hash(
+                    amount,
+                    baseAmount,
+                    multiplierFactor,
+                    reason,
+                    reasonCode,
+                    taxCode,
+                    taxRate,
+                    additionalProperties,
+                )
+            }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "Charge{amount=$amount, baseAmount=$baseAmount, multiplierFactor=$multiplierFactor, reason=$reason, reasonCode=$reasonCode, taxCode=$taxCode, taxRate=$taxRate, additionalProperties=$additionalProperties}"
+        }
+
+        /**
+         * The quantity of items (goods or services) that is the subject of the line item. Must be
+         * rounded to maximum 4 decimals
+         */
         @JsonDeserialize(using = Quantity.Deserializer::class)
         @JsonSerialize(using = Quantity.Serializer::class)
         class Quantity
@@ -3160,6 +8146,7 @@ private constructor(
             }
         }
 
+        /** The total VAT amount for the line item. Must be rounded to maximum 2 decimals */
         @JsonDeserialize(using = Tax.Deserializer::class)
         @JsonSerialize(using = Tax.Serializer::class)
         class Tax
@@ -3329,6 +8316,7 @@ private constructor(
             }
         }
 
+        /** The unit price of the line item. Must be rounded to maximum 2 decimals */
         @JsonDeserialize(using = UnitPrice.Deserializer::class)
         @JsonSerialize(using = UnitPrice.Serializer::class)
         class UnitPrice
@@ -3505,7 +8493,9 @@ private constructor(
             }
 
             return other is Item &&
+                allowances == other.allowances &&
                 amount == other.amount &&
+                charges == other.charges &&
                 date == other.date &&
                 description == other.description &&
                 productCode == other.productCode &&
@@ -3519,7 +8509,9 @@ private constructor(
 
         private val hashCode: Int by lazy {
             Objects.hash(
+                allowances,
                 amount,
+                charges,
                 date,
                 description,
                 productCode,
@@ -3535,9 +8527,13 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Item{amount=$amount, date=$date, description=$description, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
+            "Item{allowances=$allowances, amount=$amount, charges=$charges, date=$date, description=$description, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * The previous unpaid balance of the invoice, if any. Must be positive and rounded to maximum 2
+     * decimals
+     */
     @JsonDeserialize(using = PreviousUnpaidBalance.Deserializer::class)
     @JsonSerialize(using = PreviousUnpaidBalance.Serializer::class)
     class PreviousUnpaidBalance
@@ -3712,6 +8708,11 @@ private constructor(
         }
     }
 
+    /**
+     * The taxable base of the invoice. Should be the sum of all line items - allowances (for
+     * example commercial discounts) + charges with impact on VAT. Must be positive and rounded to
+     * maximum 2 decimals
+     */
     @JsonDeserialize(using = Subtotal.Deserializer::class)
     @JsonSerialize(using = Subtotal.Serializer::class)
     class Subtotal
@@ -4409,6 +9410,10 @@ private constructor(
             "TaxDetail{amount=$amount, rate=$rate, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * The total financial discount of the invoice (so discounts not subject to VAT). Must be
+     * positive and rounded to maximum 2 decimals
+     */
     @JsonDeserialize(using = TotalDiscount.Deserializer::class)
     @JsonSerialize(using = TotalDiscount.Serializer::class)
     class TotalDiscount
@@ -4579,6 +9584,7 @@ private constructor(
         }
     }
 
+    /** The total tax of the invoice. Must be positive and rounded to maximum 2 decimals */
     @JsonDeserialize(using = TotalTax.Deserializer::class)
     @JsonSerialize(using = TotalTax.Serializer::class)
     class TotalTax
@@ -5246,10 +10252,12 @@ private constructor(
         }
 
         return other is DocumentCreate &&
+            allowances == other.allowances &&
             amountDue == other.amountDue &&
             attachments == other.attachments &&
             billingAddress == other.billingAddress &&
             billingAddressRecipient == other.billingAddressRecipient &&
+            charges == other.charges &&
             currency == other.currency &&
             customerAddress == other.customerAddress &&
             customerAddressRecipient == other.customerAddressRecipient &&
@@ -5295,10 +10303,12 @@ private constructor(
 
     private val hashCode: Int by lazy {
         Objects.hash(
+            allowances,
             amountDue,
             attachments,
             billingAddress,
             billingAddressRecipient,
+            charges,
             currency,
             customerAddress,
             customerAddressRecipient,
@@ -5346,5 +10356,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentCreate{amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentCreate{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }
