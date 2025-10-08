@@ -2,6 +2,7 @@
 
 package com.e_invoice.api.models.documents
 
+import com.e_invoice.api.core.Enum
 import com.e_invoice.api.core.ExcludeMissing
 import com.e_invoice.api.core.JsonField
 import com.e_invoice.api.core.JsonMissing
@@ -59,9 +60,12 @@ private constructor(
     private val shippingAddressRecipient: JsonField<String>,
     private val state: JsonField<DocumentState>,
     private val subtotal: JsonField<String>,
+    private val taxCode: JsonField<TaxCode>,
     private val taxDetails: JsonField<List<TaxDetail>>,
     private val totalDiscount: JsonField<String>,
     private val totalTax: JsonField<String>,
+    private val vatex: JsonField<Vatex>,
+    private val vatexNote: JsonField<String>,
     private val vendorAddress: JsonField<String>,
     private val vendorAddressRecipient: JsonField<String>,
     private val vendorEmail: JsonField<String>,
@@ -158,6 +162,7 @@ private constructor(
         shippingAddressRecipient: JsonField<String> = JsonMissing.of(),
         @JsonProperty("state") @ExcludeMissing state: JsonField<DocumentState> = JsonMissing.of(),
         @JsonProperty("subtotal") @ExcludeMissing subtotal: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("tax_code") @ExcludeMissing taxCode: JsonField<TaxCode> = JsonMissing.of(),
         @JsonProperty("tax_details")
         @ExcludeMissing
         taxDetails: JsonField<List<TaxDetail>> = JsonMissing.of(),
@@ -165,6 +170,8 @@ private constructor(
         @ExcludeMissing
         totalDiscount: JsonField<String> = JsonMissing.of(),
         @JsonProperty("total_tax") @ExcludeMissing totalTax: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("vatex") @ExcludeMissing vatex: JsonField<Vatex> = JsonMissing.of(),
+        @JsonProperty("vatex_note") @ExcludeMissing vatexNote: JsonField<String> = JsonMissing.of(),
         @JsonProperty("vendor_address")
         @ExcludeMissing
         vendorAddress: JsonField<String> = JsonMissing.of(),
@@ -215,9 +222,12 @@ private constructor(
         shippingAddressRecipient,
         state,
         subtotal,
+        taxCode,
         taxDetails,
         totalDiscount,
         totalTax,
+        vatex,
+        vatexNote,
         vendorAddress,
         vendorAddressRecipient,
         vendorEmail,
@@ -440,6 +450,14 @@ private constructor(
     fun subtotal(): Optional<String> = subtotal.getOptional("subtotal")
 
     /**
+     * Tax category code of the invoice
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
+
+    /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -456,6 +474,24 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun totalTax(): Optional<String> = totalTax.getOptional("total_tax")
+
+    /**
+     * VATEX code list for VAT exemption reasons
+     *
+     * Agency: CEF Identifier: vatex
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun vatex(): Optional<Vatex> = vatex.getOptional("vatex")
+
+    /**
+     * VAT exemption note of the invoice
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun vatexNote(): Optional<String> = vatexNote.getOptional("vatex_note")
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -783,6 +819,13 @@ private constructor(
     @JsonProperty("subtotal") @ExcludeMissing fun _subtotal(): JsonField<String> = subtotal
 
     /**
+     * Returns the raw JSON value of [taxCode].
+     *
+     * Unlike [taxCode], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
+
+    /**
      * Returns the raw JSON value of [taxDetails].
      *
      * Unlike [taxDetails], this method doesn't throw if the JSON field has an unexpected type.
@@ -806,6 +849,20 @@ private constructor(
      * Unlike [totalTax], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("total_tax") @ExcludeMissing fun _totalTax(): JsonField<String> = totalTax
+
+    /**
+     * Returns the raw JSON value of [vatex].
+     *
+     * Unlike [vatex], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("vatex") @ExcludeMissing fun _vatex(): JsonField<Vatex> = vatex
+
+    /**
+     * Returns the raw JSON value of [vatexNote].
+     *
+     * Unlike [vatexNote], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("vatex_note") @ExcludeMissing fun _vatexNote(): JsonField<String> = vatexNote
 
     /**
      * Returns the raw JSON value of [vendorAddress].
@@ -913,9 +970,12 @@ private constructor(
         private var shippingAddressRecipient: JsonField<String> = JsonMissing.of()
         private var state: JsonField<DocumentState> = JsonMissing.of()
         private var subtotal: JsonField<String> = JsonMissing.of()
+        private var taxCode: JsonField<TaxCode> = JsonMissing.of()
         private var taxDetails: JsonField<MutableList<TaxDetail>>? = null
         private var totalDiscount: JsonField<String> = JsonMissing.of()
         private var totalTax: JsonField<String> = JsonMissing.of()
+        private var vatex: JsonField<Vatex> = JsonMissing.of()
+        private var vatexNote: JsonField<String> = JsonMissing.of()
         private var vendorAddress: JsonField<String> = JsonMissing.of()
         private var vendorAddressRecipient: JsonField<String> = JsonMissing.of()
         private var vendorEmail: JsonField<String> = JsonMissing.of()
@@ -959,9 +1019,12 @@ private constructor(
             shippingAddressRecipient = documentResponse.shippingAddressRecipient
             state = documentResponse.state
             subtotal = documentResponse.subtotal
+            taxCode = documentResponse.taxCode
             taxDetails = documentResponse.taxDetails.map { it.toMutableList() }
             totalDiscount = documentResponse.totalDiscount
             totalTax = documentResponse.totalTax
+            vatex = documentResponse.vatex
+            vatexNote = documentResponse.vatexNote
             vendorAddress = documentResponse.vendorAddress
             vendorAddressRecipient = documentResponse.vendorAddressRecipient
             vendorEmail = documentResponse.vendorEmail
@@ -1554,6 +1617,17 @@ private constructor(
          */
         fun subtotal(subtotal: JsonField<String>) = apply { this.subtotal = subtotal }
 
+        /** Tax category code of the invoice */
+        fun taxCode(taxCode: TaxCode) = taxCode(JsonField.of(taxCode))
+
+        /**
+         * Sets [Builder.taxCode] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.taxCode] with a well-typed [TaxCode] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
+
         fun taxDetails(taxDetails: List<TaxDetail>) = taxDetails(JsonField.of(taxDetails))
 
         /**
@@ -1609,6 +1683,39 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun totalTax(totalTax: JsonField<String>) = apply { this.totalTax = totalTax }
+
+        /**
+         * VATEX code list for VAT exemption reasons
+         *
+         * Agency: CEF Identifier: vatex
+         */
+        fun vatex(vatex: Vatex?) = vatex(JsonField.ofNullable(vatex))
+
+        /** Alias for calling [Builder.vatex] with `vatex.orElse(null)`. */
+        fun vatex(vatex: Optional<Vatex>) = vatex(vatex.getOrNull())
+
+        /**
+         * Sets [Builder.vatex] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.vatex] with a well-typed [Vatex] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun vatex(vatex: JsonField<Vatex>) = apply { this.vatex = vatex }
+
+        /** VAT exemption note of the invoice */
+        fun vatexNote(vatexNote: String?) = vatexNote(JsonField.ofNullable(vatexNote))
+
+        /** Alias for calling [Builder.vatexNote] with `vatexNote.orElse(null)`. */
+        fun vatexNote(vatexNote: Optional<String>) = vatexNote(vatexNote.getOrNull())
+
+        /**
+         * Sets [Builder.vatexNote] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.vatexNote] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun vatexNote(vatexNote: JsonField<String>) = apply { this.vatexNote = vatexNote }
 
         fun vendorAddress(vendorAddress: String?) =
             vendorAddress(JsonField.ofNullable(vendorAddress))
@@ -1758,9 +1865,12 @@ private constructor(
                 shippingAddressRecipient,
                 state,
                 subtotal,
+                taxCode,
                 (taxDetails ?: JsonMissing.of()).map { it.toImmutable() },
                 totalDiscount,
                 totalTax,
+                vatex,
+                vatexNote,
                 vendorAddress,
                 vendorAddressRecipient,
                 vendorEmail,
@@ -1811,9 +1921,12 @@ private constructor(
         shippingAddressRecipient()
         state().ifPresent { it.validate() }
         subtotal()
+        taxCode().ifPresent { it.validate() }
         taxDetails().ifPresent { it.forEach { it.validate() } }
         totalDiscount()
         totalTax()
+        vatex().ifPresent { it.validate() }
+        vatexNote()
         vendorAddress()
         vendorAddressRecipient()
         vendorEmail()
@@ -1871,9 +1984,12 @@ private constructor(
             (if (shippingAddressRecipient.asKnown().isPresent) 1 else 0) +
             (state.asKnown().getOrNull()?.validity() ?: 0) +
             (if (subtotal.asKnown().isPresent) 1 else 0) +
+            (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
             (taxDetails.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (totalDiscount.asKnown().isPresent) 1 else 0) +
             (if (totalTax.asKnown().isPresent) 1 else 0) +
+            (vatex.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (vatexNote.asKnown().isPresent) 1 else 0) +
             (if (vendorAddress.asKnown().isPresent) 1 else 0) +
             (if (vendorAddressRecipient.asKnown().isPresent) 1 else 0) +
             (if (vendorEmail.asKnown().isPresent) 1 else 0) +
@@ -2629,6 +2745,182 @@ private constructor(
             "PaymentDetail{bankAccountNumber=$bankAccountNumber, iban=$iban, paymentReference=$paymentReference, swift=$swift, additionalProperties=$additionalProperties}"
     }
 
+    /** Tax category code of the invoice */
+    class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val AE = of("AE")
+
+            @JvmField val E = of("E")
+
+            @JvmField val S = of("S")
+
+            @JvmField val Z = of("Z")
+
+            @JvmField val G = of("G")
+
+            @JvmField val O = of("O")
+
+            @JvmField val K = of("K")
+
+            @JvmField val L = of("L")
+
+            @JvmField val M = of("M")
+
+            @JvmField val B = of("B")
+
+            @JvmStatic fun of(value: String) = TaxCode(JsonField.of(value))
+        }
+
+        /** An enum containing [TaxCode]'s known values. */
+        enum class Known {
+            AE,
+            E,
+            S,
+            Z,
+            G,
+            O,
+            K,
+            L,
+            M,
+            B,
+        }
+
+        /**
+         * An enum containing [TaxCode]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [TaxCode] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            AE,
+            E,
+            S,
+            Z,
+            G,
+            O,
+            K,
+            L,
+            M,
+            B,
+            /** An enum member indicating that [TaxCode] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                AE -> Value.AE
+                E -> Value.E
+                S -> Value.S
+                Z -> Value.Z
+                G -> Value.G
+                O -> Value.O
+                K -> Value.K
+                L -> Value.L
+                M -> Value.M
+                B -> Value.B
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                AE -> Known.AE
+                E -> Known.E
+                S -> Known.S
+                Z -> Known.Z
+                G -> Known.G
+                O -> Known.O
+                K -> Known.K
+                L -> Known.L
+                M -> Known.M
+                B -> Known.B
+                else -> throw EInvoiceInvalidDataException("Unknown TaxCode: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                EInvoiceInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        fun validate(): TaxCode = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TaxCode && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     class TaxDetail
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
@@ -2805,6 +3097,498 @@ private constructor(
             "TaxDetail{amount=$amount, rate=$rate, additionalProperties=$additionalProperties}"
     }
 
+    /**
+     * VATEX code list for VAT exemption reasons
+     *
+     * Agency: CEF Identifier: vatex
+     */
+    class Vatex @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val VATEX_EU_79_C = of("VATEX-EU-79-C")
+
+            @JvmField val VATEX_EU_132 = of("VATEX-EU-132")
+
+            @JvmField val VATEX_EU_132_1_A = of("VATEX-EU-132-1A")
+
+            @JvmField val VATEX_EU_132_1_B = of("VATEX-EU-132-1B")
+
+            @JvmField val VATEX_EU_132_1_C = of("VATEX-EU-132-1C")
+
+            @JvmField val VATEX_EU_132_1_D = of("VATEX-EU-132-1D")
+
+            @JvmField val VATEX_EU_132_1_E = of("VATEX-EU-132-1E")
+
+            @JvmField val VATEX_EU_132_1_F = of("VATEX-EU-132-1F")
+
+            @JvmField val VATEX_EU_132_1_G = of("VATEX-EU-132-1G")
+
+            @JvmField val VATEX_EU_132_1_H = of("VATEX-EU-132-1H")
+
+            @JvmField val VATEX_EU_132_1_I = of("VATEX-EU-132-1I")
+
+            @JvmField val VATEX_EU_132_1_J = of("VATEX-EU-132-1J")
+
+            @JvmField val VATEX_EU_132_1_K = of("VATEX-EU-132-1K")
+
+            @JvmField val VATEX_EU_132_1_L = of("VATEX-EU-132-1L")
+
+            @JvmField val VATEX_EU_132_1_M = of("VATEX-EU-132-1M")
+
+            @JvmField val VATEX_EU_132_1_N = of("VATEX-EU-132-1N")
+
+            @JvmField val VATEX_EU_132_1_O = of("VATEX-EU-132-1O")
+
+            @JvmField val VATEX_EU_132_1_P = of("VATEX-EU-132-1P")
+
+            @JvmField val VATEX_EU_132_1_Q = of("VATEX-EU-132-1Q")
+
+            @JvmField val VATEX_EU_143 = of("VATEX-EU-143")
+
+            @JvmField val VATEX_EU_143_1_A = of("VATEX-EU-143-1A")
+
+            @JvmField val VATEX_EU_143_1_B = of("VATEX-EU-143-1B")
+
+            @JvmField val VATEX_EU_143_1_C = of("VATEX-EU-143-1C")
+
+            @JvmField val VATEX_EU_143_1_D = of("VATEX-EU-143-1D")
+
+            @JvmField val VATEX_EU_143_1_E = of("VATEX-EU-143-1E")
+
+            @JvmField val VATEX_EU_143_1_F = of("VATEX-EU-143-1F")
+
+            @JvmField val VATEX_EU_143_1_FA = of("VATEX-EU-143-1FA")
+
+            @JvmField val VATEX_EU_143_1_G = of("VATEX-EU-143-1G")
+
+            @JvmField val VATEX_EU_143_1_H = of("VATEX-EU-143-1H")
+
+            @JvmField val VATEX_EU_143_1_I = of("VATEX-EU-143-1I")
+
+            @JvmField val VATEX_EU_143_1_J = of("VATEX-EU-143-1J")
+
+            @JvmField val VATEX_EU_143_1_K = of("VATEX-EU-143-1K")
+
+            @JvmField val VATEX_EU_143_1_L = of("VATEX-EU-143-1L")
+
+            @JvmField val VATEX_EU_144 = of("VATEX-EU-144")
+
+            @JvmField val VATEX_EU_146_1_E = of("VATEX-EU-146-1E")
+
+            @JvmField val VATEX_EU_148 = of("VATEX-EU-148")
+
+            @JvmField val VATEX_EU_148_A = of("VATEX-EU-148-A")
+
+            @JvmField val VATEX_EU_148_B = of("VATEX-EU-148-B")
+
+            @JvmField val VATEX_EU_148_C = of("VATEX-EU-148-C")
+
+            @JvmField val VATEX_EU_148_D = of("VATEX-EU-148-D")
+
+            @JvmField val VATEX_EU_148_E = of("VATEX-EU-148-E")
+
+            @JvmField val VATEX_EU_148_F = of("VATEX-EU-148-F")
+
+            @JvmField val VATEX_EU_148_G = of("VATEX-EU-148-G")
+
+            @JvmField val VATEX_EU_151 = of("VATEX-EU-151")
+
+            @JvmField val VATEX_EU_151_1_A = of("VATEX-EU-151-1A")
+
+            @JvmField val VATEX_EU_151_1_AA = of("VATEX-EU-151-1AA")
+
+            @JvmField val VATEX_EU_151_1_B = of("VATEX-EU-151-1B")
+
+            @JvmField val VATEX_EU_151_1_C = of("VATEX-EU-151-1C")
+
+            @JvmField val VATEX_EU_151_1_D = of("VATEX-EU-151-1D")
+
+            @JvmField val VATEX_EU_151_1_E = of("VATEX-EU-151-1E")
+
+            @JvmField val VATEX_EU_159 = of("VATEX-EU-159")
+
+            @JvmField val VATEX_EU_309 = of("VATEX-EU-309")
+
+            @JvmField val VATEX_EU_AE = of("VATEX-EU-AE")
+
+            @JvmField val VATEX_EU_D = of("VATEX-EU-D")
+
+            @JvmField val VATEX_EU_F = of("VATEX-EU-F")
+
+            @JvmField val VATEX_EU_G = of("VATEX-EU-G")
+
+            @JvmField val VATEX_EU_I = of("VATEX-EU-I")
+
+            @JvmField val VATEX_EU_IC = of("VATEX-EU-IC")
+
+            @JvmField val VATEX_EU_O = of("VATEX-EU-O")
+
+            @JvmField val VATEX_EU_J = of("VATEX-EU-J")
+
+            @JvmField val VATEX_FR_FRANCHISE = of("VATEX-FR-FRANCHISE")
+
+            @JvmField val VATEX_FR_CNWVAT = of("VATEX-FR-CNWVAT")
+
+            @JvmStatic fun of(value: String) = Vatex(JsonField.of(value))
+        }
+
+        /** An enum containing [Vatex]'s known values. */
+        enum class Known {
+            VATEX_EU_79_C,
+            VATEX_EU_132,
+            VATEX_EU_132_1_A,
+            VATEX_EU_132_1_B,
+            VATEX_EU_132_1_C,
+            VATEX_EU_132_1_D,
+            VATEX_EU_132_1_E,
+            VATEX_EU_132_1_F,
+            VATEX_EU_132_1_G,
+            VATEX_EU_132_1_H,
+            VATEX_EU_132_1_I,
+            VATEX_EU_132_1_J,
+            VATEX_EU_132_1_K,
+            VATEX_EU_132_1_L,
+            VATEX_EU_132_1_M,
+            VATEX_EU_132_1_N,
+            VATEX_EU_132_1_O,
+            VATEX_EU_132_1_P,
+            VATEX_EU_132_1_Q,
+            VATEX_EU_143,
+            VATEX_EU_143_1_A,
+            VATEX_EU_143_1_B,
+            VATEX_EU_143_1_C,
+            VATEX_EU_143_1_D,
+            VATEX_EU_143_1_E,
+            VATEX_EU_143_1_F,
+            VATEX_EU_143_1_FA,
+            VATEX_EU_143_1_G,
+            VATEX_EU_143_1_H,
+            VATEX_EU_143_1_I,
+            VATEX_EU_143_1_J,
+            VATEX_EU_143_1_K,
+            VATEX_EU_143_1_L,
+            VATEX_EU_144,
+            VATEX_EU_146_1_E,
+            VATEX_EU_148,
+            VATEX_EU_148_A,
+            VATEX_EU_148_B,
+            VATEX_EU_148_C,
+            VATEX_EU_148_D,
+            VATEX_EU_148_E,
+            VATEX_EU_148_F,
+            VATEX_EU_148_G,
+            VATEX_EU_151,
+            VATEX_EU_151_1_A,
+            VATEX_EU_151_1_AA,
+            VATEX_EU_151_1_B,
+            VATEX_EU_151_1_C,
+            VATEX_EU_151_1_D,
+            VATEX_EU_151_1_E,
+            VATEX_EU_159,
+            VATEX_EU_309,
+            VATEX_EU_AE,
+            VATEX_EU_D,
+            VATEX_EU_F,
+            VATEX_EU_G,
+            VATEX_EU_I,
+            VATEX_EU_IC,
+            VATEX_EU_O,
+            VATEX_EU_J,
+            VATEX_FR_FRANCHISE,
+            VATEX_FR_CNWVAT,
+        }
+
+        /**
+         * An enum containing [Vatex]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [Vatex] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            VATEX_EU_79_C,
+            VATEX_EU_132,
+            VATEX_EU_132_1_A,
+            VATEX_EU_132_1_B,
+            VATEX_EU_132_1_C,
+            VATEX_EU_132_1_D,
+            VATEX_EU_132_1_E,
+            VATEX_EU_132_1_F,
+            VATEX_EU_132_1_G,
+            VATEX_EU_132_1_H,
+            VATEX_EU_132_1_I,
+            VATEX_EU_132_1_J,
+            VATEX_EU_132_1_K,
+            VATEX_EU_132_1_L,
+            VATEX_EU_132_1_M,
+            VATEX_EU_132_1_N,
+            VATEX_EU_132_1_O,
+            VATEX_EU_132_1_P,
+            VATEX_EU_132_1_Q,
+            VATEX_EU_143,
+            VATEX_EU_143_1_A,
+            VATEX_EU_143_1_B,
+            VATEX_EU_143_1_C,
+            VATEX_EU_143_1_D,
+            VATEX_EU_143_1_E,
+            VATEX_EU_143_1_F,
+            VATEX_EU_143_1_FA,
+            VATEX_EU_143_1_G,
+            VATEX_EU_143_1_H,
+            VATEX_EU_143_1_I,
+            VATEX_EU_143_1_J,
+            VATEX_EU_143_1_K,
+            VATEX_EU_143_1_L,
+            VATEX_EU_144,
+            VATEX_EU_146_1_E,
+            VATEX_EU_148,
+            VATEX_EU_148_A,
+            VATEX_EU_148_B,
+            VATEX_EU_148_C,
+            VATEX_EU_148_D,
+            VATEX_EU_148_E,
+            VATEX_EU_148_F,
+            VATEX_EU_148_G,
+            VATEX_EU_151,
+            VATEX_EU_151_1_A,
+            VATEX_EU_151_1_AA,
+            VATEX_EU_151_1_B,
+            VATEX_EU_151_1_C,
+            VATEX_EU_151_1_D,
+            VATEX_EU_151_1_E,
+            VATEX_EU_159,
+            VATEX_EU_309,
+            VATEX_EU_AE,
+            VATEX_EU_D,
+            VATEX_EU_F,
+            VATEX_EU_G,
+            VATEX_EU_I,
+            VATEX_EU_IC,
+            VATEX_EU_O,
+            VATEX_EU_J,
+            VATEX_FR_FRANCHISE,
+            VATEX_FR_CNWVAT,
+            /** An enum member indicating that [Vatex] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                VATEX_EU_79_C -> Value.VATEX_EU_79_C
+                VATEX_EU_132 -> Value.VATEX_EU_132
+                VATEX_EU_132_1_A -> Value.VATEX_EU_132_1_A
+                VATEX_EU_132_1_B -> Value.VATEX_EU_132_1_B
+                VATEX_EU_132_1_C -> Value.VATEX_EU_132_1_C
+                VATEX_EU_132_1_D -> Value.VATEX_EU_132_1_D
+                VATEX_EU_132_1_E -> Value.VATEX_EU_132_1_E
+                VATEX_EU_132_1_F -> Value.VATEX_EU_132_1_F
+                VATEX_EU_132_1_G -> Value.VATEX_EU_132_1_G
+                VATEX_EU_132_1_H -> Value.VATEX_EU_132_1_H
+                VATEX_EU_132_1_I -> Value.VATEX_EU_132_1_I
+                VATEX_EU_132_1_J -> Value.VATEX_EU_132_1_J
+                VATEX_EU_132_1_K -> Value.VATEX_EU_132_1_K
+                VATEX_EU_132_1_L -> Value.VATEX_EU_132_1_L
+                VATEX_EU_132_1_M -> Value.VATEX_EU_132_1_M
+                VATEX_EU_132_1_N -> Value.VATEX_EU_132_1_N
+                VATEX_EU_132_1_O -> Value.VATEX_EU_132_1_O
+                VATEX_EU_132_1_P -> Value.VATEX_EU_132_1_P
+                VATEX_EU_132_1_Q -> Value.VATEX_EU_132_1_Q
+                VATEX_EU_143 -> Value.VATEX_EU_143
+                VATEX_EU_143_1_A -> Value.VATEX_EU_143_1_A
+                VATEX_EU_143_1_B -> Value.VATEX_EU_143_1_B
+                VATEX_EU_143_1_C -> Value.VATEX_EU_143_1_C
+                VATEX_EU_143_1_D -> Value.VATEX_EU_143_1_D
+                VATEX_EU_143_1_E -> Value.VATEX_EU_143_1_E
+                VATEX_EU_143_1_F -> Value.VATEX_EU_143_1_F
+                VATEX_EU_143_1_FA -> Value.VATEX_EU_143_1_FA
+                VATEX_EU_143_1_G -> Value.VATEX_EU_143_1_G
+                VATEX_EU_143_1_H -> Value.VATEX_EU_143_1_H
+                VATEX_EU_143_1_I -> Value.VATEX_EU_143_1_I
+                VATEX_EU_143_1_J -> Value.VATEX_EU_143_1_J
+                VATEX_EU_143_1_K -> Value.VATEX_EU_143_1_K
+                VATEX_EU_143_1_L -> Value.VATEX_EU_143_1_L
+                VATEX_EU_144 -> Value.VATEX_EU_144
+                VATEX_EU_146_1_E -> Value.VATEX_EU_146_1_E
+                VATEX_EU_148 -> Value.VATEX_EU_148
+                VATEX_EU_148_A -> Value.VATEX_EU_148_A
+                VATEX_EU_148_B -> Value.VATEX_EU_148_B
+                VATEX_EU_148_C -> Value.VATEX_EU_148_C
+                VATEX_EU_148_D -> Value.VATEX_EU_148_D
+                VATEX_EU_148_E -> Value.VATEX_EU_148_E
+                VATEX_EU_148_F -> Value.VATEX_EU_148_F
+                VATEX_EU_148_G -> Value.VATEX_EU_148_G
+                VATEX_EU_151 -> Value.VATEX_EU_151
+                VATEX_EU_151_1_A -> Value.VATEX_EU_151_1_A
+                VATEX_EU_151_1_AA -> Value.VATEX_EU_151_1_AA
+                VATEX_EU_151_1_B -> Value.VATEX_EU_151_1_B
+                VATEX_EU_151_1_C -> Value.VATEX_EU_151_1_C
+                VATEX_EU_151_1_D -> Value.VATEX_EU_151_1_D
+                VATEX_EU_151_1_E -> Value.VATEX_EU_151_1_E
+                VATEX_EU_159 -> Value.VATEX_EU_159
+                VATEX_EU_309 -> Value.VATEX_EU_309
+                VATEX_EU_AE -> Value.VATEX_EU_AE
+                VATEX_EU_D -> Value.VATEX_EU_D
+                VATEX_EU_F -> Value.VATEX_EU_F
+                VATEX_EU_G -> Value.VATEX_EU_G
+                VATEX_EU_I -> Value.VATEX_EU_I
+                VATEX_EU_IC -> Value.VATEX_EU_IC
+                VATEX_EU_O -> Value.VATEX_EU_O
+                VATEX_EU_J -> Value.VATEX_EU_J
+                VATEX_FR_FRANCHISE -> Value.VATEX_FR_FRANCHISE
+                VATEX_FR_CNWVAT -> Value.VATEX_FR_CNWVAT
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                VATEX_EU_79_C -> Known.VATEX_EU_79_C
+                VATEX_EU_132 -> Known.VATEX_EU_132
+                VATEX_EU_132_1_A -> Known.VATEX_EU_132_1_A
+                VATEX_EU_132_1_B -> Known.VATEX_EU_132_1_B
+                VATEX_EU_132_1_C -> Known.VATEX_EU_132_1_C
+                VATEX_EU_132_1_D -> Known.VATEX_EU_132_1_D
+                VATEX_EU_132_1_E -> Known.VATEX_EU_132_1_E
+                VATEX_EU_132_1_F -> Known.VATEX_EU_132_1_F
+                VATEX_EU_132_1_G -> Known.VATEX_EU_132_1_G
+                VATEX_EU_132_1_H -> Known.VATEX_EU_132_1_H
+                VATEX_EU_132_1_I -> Known.VATEX_EU_132_1_I
+                VATEX_EU_132_1_J -> Known.VATEX_EU_132_1_J
+                VATEX_EU_132_1_K -> Known.VATEX_EU_132_1_K
+                VATEX_EU_132_1_L -> Known.VATEX_EU_132_1_L
+                VATEX_EU_132_1_M -> Known.VATEX_EU_132_1_M
+                VATEX_EU_132_1_N -> Known.VATEX_EU_132_1_N
+                VATEX_EU_132_1_O -> Known.VATEX_EU_132_1_O
+                VATEX_EU_132_1_P -> Known.VATEX_EU_132_1_P
+                VATEX_EU_132_1_Q -> Known.VATEX_EU_132_1_Q
+                VATEX_EU_143 -> Known.VATEX_EU_143
+                VATEX_EU_143_1_A -> Known.VATEX_EU_143_1_A
+                VATEX_EU_143_1_B -> Known.VATEX_EU_143_1_B
+                VATEX_EU_143_1_C -> Known.VATEX_EU_143_1_C
+                VATEX_EU_143_1_D -> Known.VATEX_EU_143_1_D
+                VATEX_EU_143_1_E -> Known.VATEX_EU_143_1_E
+                VATEX_EU_143_1_F -> Known.VATEX_EU_143_1_F
+                VATEX_EU_143_1_FA -> Known.VATEX_EU_143_1_FA
+                VATEX_EU_143_1_G -> Known.VATEX_EU_143_1_G
+                VATEX_EU_143_1_H -> Known.VATEX_EU_143_1_H
+                VATEX_EU_143_1_I -> Known.VATEX_EU_143_1_I
+                VATEX_EU_143_1_J -> Known.VATEX_EU_143_1_J
+                VATEX_EU_143_1_K -> Known.VATEX_EU_143_1_K
+                VATEX_EU_143_1_L -> Known.VATEX_EU_143_1_L
+                VATEX_EU_144 -> Known.VATEX_EU_144
+                VATEX_EU_146_1_E -> Known.VATEX_EU_146_1_E
+                VATEX_EU_148 -> Known.VATEX_EU_148
+                VATEX_EU_148_A -> Known.VATEX_EU_148_A
+                VATEX_EU_148_B -> Known.VATEX_EU_148_B
+                VATEX_EU_148_C -> Known.VATEX_EU_148_C
+                VATEX_EU_148_D -> Known.VATEX_EU_148_D
+                VATEX_EU_148_E -> Known.VATEX_EU_148_E
+                VATEX_EU_148_F -> Known.VATEX_EU_148_F
+                VATEX_EU_148_G -> Known.VATEX_EU_148_G
+                VATEX_EU_151 -> Known.VATEX_EU_151
+                VATEX_EU_151_1_A -> Known.VATEX_EU_151_1_A
+                VATEX_EU_151_1_AA -> Known.VATEX_EU_151_1_AA
+                VATEX_EU_151_1_B -> Known.VATEX_EU_151_1_B
+                VATEX_EU_151_1_C -> Known.VATEX_EU_151_1_C
+                VATEX_EU_151_1_D -> Known.VATEX_EU_151_1_D
+                VATEX_EU_151_1_E -> Known.VATEX_EU_151_1_E
+                VATEX_EU_159 -> Known.VATEX_EU_159
+                VATEX_EU_309 -> Known.VATEX_EU_309
+                VATEX_EU_AE -> Known.VATEX_EU_AE
+                VATEX_EU_D -> Known.VATEX_EU_D
+                VATEX_EU_F -> Known.VATEX_EU_F
+                VATEX_EU_G -> Known.VATEX_EU_G
+                VATEX_EU_I -> Known.VATEX_EU_I
+                VATEX_EU_IC -> Known.VATEX_EU_IC
+                VATEX_EU_O -> Known.VATEX_EU_O
+                VATEX_EU_J -> Known.VATEX_EU_J
+                VATEX_FR_FRANCHISE -> Known.VATEX_FR_FRANCHISE
+                VATEX_FR_CNWVAT -> Known.VATEX_FR_CNWVAT
+                else -> throw EInvoiceInvalidDataException("Unknown Vatex: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                EInvoiceInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        fun validate(): Vatex = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is Vatex && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) {
             return true
@@ -2845,9 +3629,12 @@ private constructor(
             shippingAddressRecipient == other.shippingAddressRecipient &&
             state == other.state &&
             subtotal == other.subtotal &&
+            taxCode == other.taxCode &&
             taxDetails == other.taxDetails &&
             totalDiscount == other.totalDiscount &&
             totalTax == other.totalTax &&
+            vatex == other.vatex &&
+            vatexNote == other.vatexNote &&
             vendorAddress == other.vendorAddress &&
             vendorAddressRecipient == other.vendorAddressRecipient &&
             vendorEmail == other.vendorEmail &&
@@ -2892,9 +3679,12 @@ private constructor(
             shippingAddressRecipient,
             state,
             subtotal,
+            taxCode,
             taxDetails,
             totalDiscount,
             totalTax,
+            vatex,
+            vatexNote,
             vendorAddress,
             vendorAddressRecipient,
             vendorEmail,
@@ -2907,5 +3697,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentResponse{id=$id, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentResponse{id=$id, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }
