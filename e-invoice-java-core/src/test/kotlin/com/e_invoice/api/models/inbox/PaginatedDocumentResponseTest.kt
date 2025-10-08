@@ -3,6 +3,8 @@
 package com.e_invoice.api.models.inbox
 
 import com.e_invoice.api.core.jsonMapper
+import com.e_invoice.api.models.documents.Allowance
+import com.e_invoice.api.models.documents.Charge
 import com.e_invoice.api.models.documents.CurrencyCode
 import com.e_invoice.api.models.documents.DocumentDirection
 import com.e_invoice.api.models.documents.DocumentResponse
@@ -73,25 +75,25 @@ internal class PaginatedDocumentResponseTest {
                         .addItem(
                             DocumentResponse.Item.builder()
                                 .addAllowance(
-                                    DocumentResponse.Item.Allowance.builder()
+                                    Allowance.builder()
                                         .amount("amount")
                                         .baseAmount("base_amount")
                                         .multiplierFactor("multiplier_factor")
                                         .reason("reason")
                                         .reasonCode("reason_code")
-                                        .taxCode(DocumentResponse.Item.Allowance.TaxCode.AE)
+                                        .taxCode(Allowance.TaxCode.AE)
                                         .taxRate("tax_rate")
                                         .build()
                                 )
                                 .amount("amount")
                                 .addCharge(
-                                    DocumentResponse.Item.Charge.builder()
+                                    Charge.builder()
                                         .amount("amount")
                                         .baseAmount("base_amount")
                                         .multiplierFactor("multiplier_factor")
                                         .reason("reason")
                                         .reasonCode("reason_code")
-                                        .taxCode(DocumentResponse.Item.Charge.TaxCode.AE)
+                                        .taxCode(Charge.TaxCode.AE)
                                         .taxRate("tax_rate")
                                         .build()
                                 )
@@ -205,25 +207,25 @@ internal class PaginatedDocumentResponseTest {
                     .addItem(
                         DocumentResponse.Item.builder()
                             .addAllowance(
-                                DocumentResponse.Item.Allowance.builder()
+                                Allowance.builder()
                                     .amount("amount")
                                     .baseAmount("base_amount")
                                     .multiplierFactor("multiplier_factor")
                                     .reason("reason")
                                     .reasonCode("reason_code")
-                                    .taxCode(DocumentResponse.Item.Allowance.TaxCode.AE)
+                                    .taxCode(Allowance.TaxCode.AE)
                                     .taxRate("tax_rate")
                                     .build()
                             )
                             .amount("amount")
                             .addCharge(
-                                DocumentResponse.Item.Charge.builder()
+                                Charge.builder()
                                     .amount("amount")
                                     .baseAmount("base_amount")
                                     .multiplierFactor("multiplier_factor")
                                     .reason("reason")
                                     .reasonCode("reason_code")
-                                    .taxCode(DocumentResponse.Item.Charge.TaxCode.AE)
+                                    .taxCode(Charge.TaxCode.AE)
                                     .taxRate("tax_rate")
                                     .build()
                             )
@@ -338,25 +340,25 @@ internal class PaginatedDocumentResponseTest {
                         .addItem(
                             DocumentResponse.Item.builder()
                                 .addAllowance(
-                                    DocumentResponse.Item.Allowance.builder()
+                                    Allowance.builder()
                                         .amount("amount")
                                         .baseAmount("base_amount")
                                         .multiplierFactor("multiplier_factor")
                                         .reason("reason")
                                         .reasonCode("reason_code")
-                                        .taxCode(DocumentResponse.Item.Allowance.TaxCode.AE)
+                                        .taxCode(Allowance.TaxCode.AE)
                                         .taxRate("tax_rate")
                                         .build()
                                 )
                                 .amount("amount")
                                 .addCharge(
-                                    DocumentResponse.Item.Charge.builder()
+                                    Charge.builder()
                                         .amount("amount")
                                         .baseAmount("base_amount")
                                         .multiplierFactor("multiplier_factor")
                                         .reason("reason")
                                         .reasonCode("reason_code")
-                                        .taxCode(DocumentResponse.Item.Charge.TaxCode.AE)
+                                        .taxCode(Charge.TaxCode.AE)
                                         .taxRate("tax_rate")
                                         .build()
                                 )

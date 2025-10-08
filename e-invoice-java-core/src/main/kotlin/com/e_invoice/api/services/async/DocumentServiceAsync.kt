@@ -6,12 +6,16 @@ import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.models.documents.DocumentCreate
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse
 import com.e_invoice.api.models.documents.DocumentCreateParams
 import com.e_invoice.api.models.documents.DocumentDeleteParams
 import com.e_invoice.api.models.documents.DocumentDeleteResponse
 import com.e_invoice.api.models.documents.DocumentResponse
 import com.e_invoice.api.models.documents.DocumentRetrieveParams
 import com.e_invoice.api.models.documents.DocumentSendParams
+import com.e_invoice.api.models.documents.DocumentValidateParams
+import com.e_invoice.api.models.validate.UblDocumentValidation
 import com.e_invoice.api.services.async.documents.AttachmentServiceAsync
 import com.e_invoice.api.services.async.documents.UblServiceAsync
 import java.util.concurrent.CompletableFuture
@@ -129,6 +133,23 @@ interface DocumentServiceAsync {
     ): CompletableFuture<DocumentDeleteResponse> =
         delete(documentId, DocumentDeleteParams.none(), requestOptions)
 
+    /**
+     * Create a new invoice or credit note from a PDF file. If the 'ubl_document' field is set in
+     * the response, it indicates that sufficient details were extracted from the PDF to
+     * automatically generate a valid UBL document ready for sending. If 'ubl_document' is not set,
+     * human intervention may be required to ensure compliance.
+     */
+    fun createFromPdf(
+        params: DocumentCreateFromPdfParams
+    ): CompletableFuture<DocumentCreateFromPdfResponse> =
+        createFromPdf(params, RequestOptions.none())
+
+    /** @see createFromPdf */
+    fun createFromPdf(
+        params: DocumentCreateFromPdfParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentCreateFromPdfResponse>
+
     /** Send an invoice or credit note via Peppol */
     fun send(documentId: String): CompletableFuture<DocumentResponse> =
         send(documentId, DocumentSendParams.none())
@@ -163,6 +184,42 @@ interface DocumentServiceAsync {
         requestOptions: RequestOptions,
     ): CompletableFuture<DocumentResponse> =
         send(documentId, DocumentSendParams.none(), requestOptions)
+
+    /** Validate a UBL document according to Peppol BIS Billing 3.0 */
+    fun validate(documentId: String): CompletableFuture<UblDocumentValidation> =
+        validate(documentId, DocumentValidateParams.none())
+
+    /** @see validate */
+    fun validate(
+        documentId: String,
+        params: DocumentValidateParams = DocumentValidateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<UblDocumentValidation> =
+        validate(params.toBuilder().documentId(documentId).build(), requestOptions)
+
+    /** @see validate */
+    fun validate(
+        documentId: String,
+        params: DocumentValidateParams = DocumentValidateParams.none(),
+    ): CompletableFuture<UblDocumentValidation> =
+        validate(documentId, params, RequestOptions.none())
+
+    /** @see validate */
+    fun validate(
+        params: DocumentValidateParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<UblDocumentValidation>
+
+    /** @see validate */
+    fun validate(params: DocumentValidateParams): CompletableFuture<UblDocumentValidation> =
+        validate(params, RequestOptions.none())
+
+    /** @see validate */
+    fun validate(
+        documentId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<UblDocumentValidation> =
+        validate(documentId, DocumentValidateParams.none(), requestOptions)
 
     /**
      * A view of [DocumentServiceAsync] that provides access to raw HTTP responses for each method.
@@ -296,6 +353,21 @@ interface DocumentServiceAsync {
             delete(documentId, DocumentDeleteParams.none(), requestOptions)
 
         /**
+         * Returns a raw HTTP response for `post /api/documents/pdf`, but is otherwise the same as
+         * [DocumentServiceAsync.createFromPdf].
+         */
+        fun createFromPdf(
+            params: DocumentCreateFromPdfParams
+        ): CompletableFuture<HttpResponseFor<DocumentCreateFromPdfResponse>> =
+            createFromPdf(params, RequestOptions.none())
+
+        /** @see createFromPdf */
+        fun createFromPdf(
+            params: DocumentCreateFromPdfParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentCreateFromPdfResponse>>
+
+        /**
          * Returns a raw HTTP response for `post /api/documents/{document_id}/send`, but is
          * otherwise the same as [DocumentServiceAsync.send].
          */
@@ -333,5 +405,48 @@ interface DocumentServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             send(documentId, DocumentSendParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/documents/{document_id}/validate`, but is
+         * otherwise the same as [DocumentServiceAsync.validate].
+         */
+        fun validate(
+            documentId: String
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
+            validate(documentId, DocumentValidateParams.none())
+
+        /** @see validate */
+        fun validate(
+            documentId: String,
+            params: DocumentValidateParams = DocumentValidateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
+            validate(params.toBuilder().documentId(documentId).build(), requestOptions)
+
+        /** @see validate */
+        fun validate(
+            documentId: String,
+            params: DocumentValidateParams = DocumentValidateParams.none(),
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
+            validate(documentId, params, RequestOptions.none())
+
+        /** @see validate */
+        fun validate(
+            params: DocumentValidateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>>
+
+        /** @see validate */
+        fun validate(
+            params: DocumentValidateParams
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
+            validate(params, RequestOptions.none())
+
+        /** @see validate */
+        fun validate(
+            documentId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> =
+            validate(documentId, DocumentValidateParams.none(), requestOptions)
     }
 }

@@ -5,6 +5,8 @@ package com.e_invoice.api.services.blocking.documents
 import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
+import com.e_invoice.api.models.documents.DocumentResponse
+import com.e_invoice.api.models.documents.ubl.UblCreateFromUblParams
 import com.e_invoice.api.models.documents.ubl.UblGetParams
 import com.e_invoice.api.models.documents.ubl.UblGetResponse
 import com.google.errorprone.annotations.MustBeClosed
@@ -23,6 +25,16 @@ interface UblService {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblService
+
+    /** Create a new invoice or credit note from a UBL file */
+    fun createFromUbl(params: UblCreateFromUblParams): DocumentResponse =
+        createFromUbl(params, RequestOptions.none())
+
+    /** @see createFromUbl */
+    fun createFromUbl(
+        params: UblCreateFromUblParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): DocumentResponse
 
     /** Get the UBL for an invoice or credit note */
     fun get(documentId: String): UblGetResponse = get(documentId, UblGetParams.none())
@@ -60,6 +72,21 @@ interface UblService {
          * The original service is not modified.
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblService.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `post /api/documents/ubl`, but is otherwise the same as
+         * [UblService.createFromUbl].
+         */
+        @MustBeClosed
+        fun createFromUbl(params: UblCreateFromUblParams): HttpResponseFor<DocumentResponse> =
+            createFromUbl(params, RequestOptions.none())
+
+        /** @see createFromUbl */
+        @MustBeClosed
+        fun createFromUbl(
+            params: UblCreateFromUblParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DocumentResponse>
 
         /**
          * Returns a raw HTTP response for `get /api/documents/{document_id}/ubl`, but is otherwise

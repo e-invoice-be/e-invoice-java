@@ -7,6 +7,7 @@ import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient
 import com.e_invoice.api.models.documents.CurrencyCode
 import com.e_invoice.api.models.documents.DocumentAttachmentCreate
 import com.e_invoice.api.models.documents.DocumentCreate
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams
 import com.e_invoice.api.models.documents.DocumentDirection
 import com.e_invoice.api.models.documents.DocumentSendParams
 import com.e_invoice.api.models.documents.DocumentType
@@ -188,6 +189,28 @@ internal class DocumentServiceTest {
 
     @Disabled("Prism tests are disabled")
     @Test
+    fun createFromPdf() {
+        val client =
+            EInvoiceOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val documentService = client.documents()
+
+        val response =
+            documentService.createFromPdf(
+                DocumentCreateFromPdfParams.builder()
+                    .customerTaxId("customer_tax_id")
+                    .vendorTaxId("vendor_tax_id")
+                    .file("some content".byteInputStream())
+                    .build()
+            )
+
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
     fun send() {
         val client =
             EInvoiceOkHttpClient.builder()
@@ -209,5 +232,20 @@ internal class DocumentServiceTest {
             )
 
         documentResponse.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun validate() {
+        val client =
+            EInvoiceOkHttpClient.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val documentService = client.documents()
+
+        val ublDocumentValidation = documentService.validate("document_id")
+
+        ublDocumentValidation.validate()
     }
 }

@@ -6,6 +6,7 @@ import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.services.blocking.DocumentService
 import com.e_invoice.api.services.blocking.InboxService
 import com.e_invoice.api.services.blocking.LookupService
+import com.e_invoice.api.services.blocking.MeService
 import com.e_invoice.api.services.blocking.OutboxService
 import com.e_invoice.api.services.blocking.ValidateService
 import com.e_invoice.api.services.blocking.WebhookService
@@ -57,6 +58,8 @@ interface EInvoiceClient {
 
     fun lookup(): LookupService
 
+    fun me(): MeService
+
     fun webhooks(): WebhookService
 
     /**
@@ -91,6 +94,8 @@ interface EInvoiceClient {
         fun validate(): ValidateService.WithRawResponse
 
         fun lookup(): LookupService.WithRawResponse
+
+        fun me(): MeService.WithRawResponse
 
         fun webhooks(): WebhookService.WithRawResponse
     }
