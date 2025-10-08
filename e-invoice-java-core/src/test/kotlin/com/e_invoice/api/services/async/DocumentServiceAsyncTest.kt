@@ -7,6 +7,7 @@ import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClientAsync
 import com.e_invoice.api.models.documents.CurrencyCode
 import com.e_invoice.api.models.documents.DocumentAttachmentCreate
 import com.e_invoice.api.models.documents.DocumentCreate
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams
 import com.e_invoice.api.models.documents.DocumentDirection
 import com.e_invoice.api.models.documents.DocumentSendParams
 import com.e_invoice.api.models.documents.DocumentType
@@ -191,6 +192,29 @@ internal class DocumentServiceAsyncTest {
 
     @Disabled("Prism tests are disabled")
     @Test
+    fun createFromPdf() {
+        val client =
+            EInvoiceOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val documentServiceAsync = client.documents()
+
+        val responseFuture =
+            documentServiceAsync.createFromPdf(
+                DocumentCreateFromPdfParams.builder()
+                    .customerTaxId("customer_tax_id")
+                    .vendorTaxId("vendor_tax_id")
+                    .file("some content".byteInputStream())
+                    .build()
+            )
+
+        val response = responseFuture.get()
+        response.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
     fun send() {
         val client =
             EInvoiceOkHttpClientAsync.builder()
@@ -213,5 +237,21 @@ internal class DocumentServiceAsyncTest {
 
         val documentResponse = documentResponseFuture.get()
         documentResponse.validate()
+    }
+
+    @Disabled("Prism tests are disabled")
+    @Test
+    fun validate() {
+        val client =
+            EInvoiceOkHttpClientAsync.builder()
+                .baseUrl(TestServerExtension.BASE_URL)
+                .apiKey("My API Key")
+                .build()
+        val documentServiceAsync = client.documents()
+
+        val ublDocumentValidationFuture = documentServiceAsync.validate("document_id")
+
+        val ublDocumentValidation = ublDocumentValidationFuture.get()
+        ublDocumentValidation.validate()
     }
 }

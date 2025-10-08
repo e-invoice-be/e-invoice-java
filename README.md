@@ -187,61 +187,57 @@ The SDK defines methods that accept files.
 To upload a file, pass a [`Path`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html):
 
 ```java
-import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse;
 import java.nio.file.Paths;
 
-AttachmentAddParams params = AttachmentAddParams.builder()
-    .documentId("document_id")
+DocumentCreateFromPdfParams params = DocumentCreateFromPdfParams.builder()
     .file(Paths.get("/path/to/file"))
     .build();
-DocumentAttachment documentAttachment = client.documents().attachments().add(params);
+DocumentCreateFromPdfResponse response = client.documents().createFromPdf(params);
 ```
 
 Or an arbitrary [`InputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
-import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse;
 import java.net.URL;
 
-AttachmentAddParams params = AttachmentAddParams.builder()
-    .documentId("document_id")
+DocumentCreateFromPdfParams params = DocumentCreateFromPdfParams.builder()
     .file(new URL("https://example.com//path/to/file").openStream())
     .build();
-DocumentAttachment documentAttachment = client.documents().attachments().add(params);
+DocumentCreateFromPdfResponse response = client.documents().createFromPdf(params);
 ```
 
 Or a `byte[]` array:
 
 ```java
-import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse;
 
-AttachmentAddParams params = AttachmentAddParams.builder()
-    .documentId("document_id")
+DocumentCreateFromPdfParams params = DocumentCreateFromPdfParams.builder()
     .file("content".getBytes())
     .build();
-DocumentAttachment documentAttachment = client.documents().attachments().add(params);
+DocumentCreateFromPdfResponse response = client.documents().createFromPdf(params);
 ```
 
 Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/core/Values.kt):
 
 ```java
 import com.e_invoice.api.core.MultipartField;
-import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse;
 import java.io.InputStream;
 import java.net.URL;
 
-AttachmentAddParams params = AttachmentAddParams.builder()
-    .documentId("document_id")
+DocumentCreateFromPdfParams params = DocumentCreateFromPdfParams.builder()
     .file(MultipartField.<InputStream>builder()
         .value(new URL("https://example.com//path/to/file").openStream())
         .filename("/path/to/file")
         .build())
     .build();
-DocumentAttachment documentAttachment = client.documents().attachments().add(params);
+DocumentCreateFromPdfResponse response = client.documents().createFromPdf(params);
 ```
 
 ## Raw responses
