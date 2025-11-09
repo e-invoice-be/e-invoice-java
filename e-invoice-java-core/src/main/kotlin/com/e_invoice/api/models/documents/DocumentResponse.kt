@@ -36,6 +36,7 @@ private constructor(
     private val currency: JsonField<CurrencyCode>,
     private val customerAddress: JsonField<String>,
     private val customerAddressRecipient: JsonField<String>,
+    private val customerCompanyId: JsonField<String>,
     private val customerEmail: JsonField<String>,
     private val customerId: JsonField<String>,
     private val customerName: JsonField<String>,
@@ -70,6 +71,7 @@ private constructor(
     private val vatexNote: JsonField<String>,
     private val vendorAddress: JsonField<String>,
     private val vendorAddressRecipient: JsonField<String>,
+    private val vendorCompanyId: JsonField<String>,
     private val vendorEmail: JsonField<String>,
     private val vendorName: JsonField<String>,
     private val vendorTaxId: JsonField<String>,
@@ -104,6 +106,9 @@ private constructor(
         @JsonProperty("customer_address_recipient")
         @ExcludeMissing
         customerAddressRecipient: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("customer_company_id")
+        @ExcludeMissing
+        customerCompanyId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("customer_email")
         @ExcludeMissing
         customerEmail: JsonField<String> = JsonMissing.of(),
@@ -186,6 +191,9 @@ private constructor(
         @JsonProperty("vendor_address_recipient")
         @ExcludeMissing
         vendorAddressRecipient: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("vendor_company_id")
+        @ExcludeMissing
+        vendorCompanyId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("vendor_email")
         @ExcludeMissing
         vendorEmail: JsonField<String> = JsonMissing.of(),
@@ -206,6 +214,7 @@ private constructor(
         currency,
         customerAddress,
         customerAddressRecipient,
+        customerCompanyId,
         customerEmail,
         customerId,
         customerName,
@@ -240,6 +249,7 @@ private constructor(
         vatexNote,
         vendorAddress,
         vendorAddressRecipient,
+        vendorCompanyId,
         vendorEmail,
         vendorName,
         vendorTaxId,
@@ -259,7 +269,7 @@ private constructor(
     fun allowances(): Optional<List<Allowance>> = allowances.getOptional("allowances")
 
     /**
-     * The amount due of the invoice. Must be positive and rounded to maximum 2 decimals
+     * The amount due for payment. Must be positive and rounded to maximum 2 decimals
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -273,12 +283,16 @@ private constructor(
     fun attachments(): Optional<List<DocumentAttachment>> = attachments.getOptional("attachments")
 
     /**
+     * The billing address (if different from customer address)
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun billingAddress(): Optional<String> = billingAddress.getOptional("billing_address")
 
     /**
+     * The recipient name at the billing address
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -292,7 +306,7 @@ private constructor(
     fun charges(): Optional<List<Charge>> = charges.getOptional("charges")
 
     /**
-     * Currency of the invoice
+     * Currency of the invoice (ISO 4217 currency code)
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -300,12 +314,16 @@ private constructor(
     fun currency(): Optional<CurrencyCode> = currency.getOptional("currency")
 
     /**
+     * The address of the customer/buyer
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun customerAddress(): Optional<String> = customerAddress.getOptional("customer_address")
 
     /**
+     * The recipient name at the customer address
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -313,62 +331,89 @@ private constructor(
         customerAddressRecipient.getOptional("customer_address_recipient")
 
     /**
+     * Customer company ID. For Belgium this is the CBE number or their EUID (European Unique
+     * Identifier) number. In the Netherlands this is the KVK number.
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun customerCompanyId(): Optional<String> = customerCompanyId.getOptional("customer_company_id")
+
+    /**
+     * The email address of the customer
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun customerEmail(): Optional<String> = customerEmail.getOptional("customer_email")
 
     /**
+     * The unique identifier for the customer in your system
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun customerId(): Optional<String> = customerId.getOptional("customer_id")
 
     /**
+     * The company name of the customer/buyer
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun customerName(): Optional<String> = customerName.getOptional("customer_name")
 
     /**
+     * Customer tax ID. For Belgium this is the VAT number. Must include the country prefix
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun customerTaxId(): Optional<String> = customerTaxId.getOptional("customer_tax_id")
 
     /**
+     * The direction of the document: INBOUND (purchases) or OUTBOUND (sales)
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun direction(): Optional<DocumentDirection> = direction.getOptional("direction")
 
     /**
+     * The type of document: INVOICE, CREDIT_NOTE, or DEBIT_NOTE
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun documentType(): Optional<DocumentType> = documentType.getOptional("document_type")
 
     /**
+     * The date when payment is due
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun dueDate(): Optional<LocalDate> = dueDate.getOptional("due_date")
 
     /**
+     * The date when the invoice was issued
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun invoiceDate(): Optional<LocalDate> = invoiceDate.getOptional("invoice_date")
 
     /**
+     * The unique invoice identifier/number
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun invoiceId(): Optional<String> = invoiceId.getOptional("invoice_id")
 
     /**
-     * The total amount of the invoice (so invoice_total = subtotal + total_tax + total_discount).
-     * Must be positive and rounded to maximum 2 decimals
+     * The total amount of the invoice including tax (invoice_total = subtotal + total_tax +
+     * total_discount). Must be positive and rounded to maximum 2 decimals
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -382,6 +427,8 @@ private constructor(
     fun items(): Optional<List<Item>> = items.getOptional("items")
 
     /**
+     * Additional notes or comments for the invoice
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -395,14 +442,16 @@ private constructor(
         paymentDetails.getOptional("payment_details")
 
     /**
+     * The payment terms (e.g., 'Net 30', 'Due on receipt', '2/10 Net 30')
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun paymentTerm(): Optional<String> = paymentTerm.getOptional("payment_term")
 
     /**
-     * The previous unpaid balance of the invoice, if any. Must be positive and rounded to maximum 2
-     * decimals
+     * The previous unpaid balance from prior invoices, if any. Must be positive and rounded to
+     * maximum 2 decimals
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -411,18 +460,24 @@ private constructor(
         previousUnpaidBalance.getOptional("previous_unpaid_balance")
 
     /**
+     * The purchase order reference number
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun purchaseOrder(): Optional<String> = purchaseOrder.getOptional("purchase_order")
 
     /**
+     * The address where payment should be sent or remitted to
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun remittanceAddress(): Optional<String> = remittanceAddress.getOptional("remittance_address")
 
     /**
+     * The recipient name at the remittance address
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -430,12 +485,16 @@ private constructor(
         remittanceAddressRecipient.getOptional("remittance_address_recipient")
 
     /**
+     * The address where services were performed or goods were delivered
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun serviceAddress(): Optional<String> = serviceAddress.getOptional("service_address")
 
     /**
+     * The recipient name at the service address
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -443,24 +502,32 @@ private constructor(
         serviceAddressRecipient.getOptional("service_address_recipient")
 
     /**
+     * The end date of the service period or delivery period
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun serviceEndDate(): Optional<LocalDate> = serviceEndDate.getOptional("service_end_date")
 
     /**
+     * The start date of the service period or delivery period
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun serviceStartDate(): Optional<LocalDate> = serviceStartDate.getOptional("service_start_date")
 
     /**
+     * The shipping/delivery address
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun shippingAddress(): Optional<String> = shippingAddress.getOptional("shipping_address")
 
     /**
+     * The recipient name at the shipping address
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -468,6 +535,8 @@ private constructor(
         shippingAddressRecipient.getOptional("shipping_address_recipient")
 
     /**
+     * The current state of the document: DRAFT, TRANSIT, FAILED, SENT, or RECEIVED
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -484,7 +553,7 @@ private constructor(
     fun subtotal(): Optional<String> = subtotal.getOptional("subtotal")
 
     /**
-     * Tax category code of the invoice
+     * Tax category code of the invoice (e.g., S for standard rate, Z for zero rate, E for exempt)
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -508,7 +577,7 @@ private constructor(
     fun totalDiscount(): Optional<String> = totalDiscount.getOptional("total_discount")
 
     /**
-     * The total tax of the invoice. Must be positive and rounded to maximum 2 decimals
+     * The total tax amount of the invoice. Must be positive and rounded to maximum 2 decimals
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -526,7 +595,7 @@ private constructor(
     fun vatex(): Optional<Vatex> = vatex.getOptional("vatex")
 
     /**
-     * VAT exemption note of the invoice
+     * Textual explanation for VAT exemption
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -534,12 +603,16 @@ private constructor(
     fun vatexNote(): Optional<String> = vatexNote.getOptional("vatex_note")
 
     /**
+     * The address of the vendor/seller
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun vendorAddress(): Optional<String> = vendorAddress.getOptional("vendor_address")
 
     /**
+     * The recipient name at the vendor address
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -547,18 +620,33 @@ private constructor(
         vendorAddressRecipient.getOptional("vendor_address_recipient")
 
     /**
+     * Vendor company ID. For Belgium this is the CBE number or their EUID (European Unique
+     * Identifier) number. In the Netherlands this is the KVK number.
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun vendorCompanyId(): Optional<String> = vendorCompanyId.getOptional("vendor_company_id")
+
+    /**
+     * The email address of the vendor
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun vendorEmail(): Optional<String> = vendorEmail.getOptional("vendor_email")
 
     /**
+     * The name of the vendor/seller/supplier
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun vendorName(): Optional<String> = vendorName.getOptional("vendor_name")
 
     /**
+     * Vendor tax ID. For Belgium this is the VAT number. Must include the country prefix
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -647,6 +735,16 @@ private constructor(
     @JsonProperty("customer_address_recipient")
     @ExcludeMissing
     fun _customerAddressRecipient(): JsonField<String> = customerAddressRecipient
+
+    /**
+     * Returns the raw JSON value of [customerCompanyId].
+     *
+     * Unlike [customerCompanyId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("customer_company_id")
+    @ExcludeMissing
+    fun _customerCompanyId(): JsonField<String> = customerCompanyId
 
     /**
      * Returns the raw JSON value of [customerEmail].
@@ -940,6 +1038,15 @@ private constructor(
     fun _vendorAddressRecipient(): JsonField<String> = vendorAddressRecipient
 
     /**
+     * Returns the raw JSON value of [vendorCompanyId].
+     *
+     * Unlike [vendorCompanyId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("vendor_company_id")
+    @ExcludeMissing
+    fun _vendorCompanyId(): JsonField<String> = vendorCompanyId
+
+    /**
      * Returns the raw JSON value of [vendorEmail].
      *
      * Unlike [vendorEmail], this method doesn't throw if the JSON field has an unexpected type.
@@ -1002,6 +1109,7 @@ private constructor(
         private var currency: JsonField<CurrencyCode> = JsonMissing.of()
         private var customerAddress: JsonField<String> = JsonMissing.of()
         private var customerAddressRecipient: JsonField<String> = JsonMissing.of()
+        private var customerCompanyId: JsonField<String> = JsonMissing.of()
         private var customerEmail: JsonField<String> = JsonMissing.of()
         private var customerId: JsonField<String> = JsonMissing.of()
         private var customerName: JsonField<String> = JsonMissing.of()
@@ -1036,6 +1144,7 @@ private constructor(
         private var vatexNote: JsonField<String> = JsonMissing.of()
         private var vendorAddress: JsonField<String> = JsonMissing.of()
         private var vendorAddressRecipient: JsonField<String> = JsonMissing.of()
+        private var vendorCompanyId: JsonField<String> = JsonMissing.of()
         private var vendorEmail: JsonField<String> = JsonMissing.of()
         private var vendorName: JsonField<String> = JsonMissing.of()
         private var vendorTaxId: JsonField<String> = JsonMissing.of()
@@ -1053,6 +1162,7 @@ private constructor(
             currency = documentResponse.currency
             customerAddress = documentResponse.customerAddress
             customerAddressRecipient = documentResponse.customerAddressRecipient
+            customerCompanyId = documentResponse.customerCompanyId
             customerEmail = documentResponse.customerEmail
             customerId = documentResponse.customerId
             customerName = documentResponse.customerName
@@ -1087,6 +1197,7 @@ private constructor(
             vatexNote = documentResponse.vatexNote
             vendorAddress = documentResponse.vendorAddress
             vendorAddressRecipient = documentResponse.vendorAddressRecipient
+            vendorCompanyId = documentResponse.vendorCompanyId
             vendorEmail = documentResponse.vendorEmail
             vendorName = documentResponse.vendorName
             vendorTaxId = documentResponse.vendorTaxId
@@ -1131,7 +1242,7 @@ private constructor(
                 }
         }
 
-        /** The amount due of the invoice. Must be positive and rounded to maximum 2 decimals */
+        /** The amount due for payment. Must be positive and rounded to maximum 2 decimals */
         fun amountDue(amountDue: String?) = amountDue(JsonField.ofNullable(amountDue))
 
         /** Alias for calling [Builder.amountDue] with `amountDue.orElse(null)`. */
@@ -1176,6 +1287,7 @@ private constructor(
                 }
         }
 
+        /** The billing address (if different from customer address) */
         fun billingAddress(billingAddress: String?) =
             billingAddress(JsonField.ofNullable(billingAddress))
 
@@ -1194,6 +1306,7 @@ private constructor(
             this.billingAddress = billingAddress
         }
 
+        /** The recipient name at the billing address */
         fun billingAddressRecipient(billingAddressRecipient: String?) =
             billingAddressRecipient(JsonField.ofNullable(billingAddressRecipient))
 
@@ -1243,7 +1356,7 @@ private constructor(
                 }
         }
 
-        /** Currency of the invoice */
+        /** Currency of the invoice (ISO 4217 currency code) */
         fun currency(currency: CurrencyCode) = currency(JsonField.of(currency))
 
         /**
@@ -1255,6 +1368,7 @@ private constructor(
          */
         fun currency(currency: JsonField<CurrencyCode>) = apply { this.currency = currency }
 
+        /** The address of the customer/buyer */
         fun customerAddress(customerAddress: String?) =
             customerAddress(JsonField.ofNullable(customerAddress))
 
@@ -1273,6 +1387,7 @@ private constructor(
             this.customerAddress = customerAddress
         }
 
+        /** The recipient name at the customer address */
         fun customerAddressRecipient(customerAddressRecipient: String?) =
             customerAddressRecipient(JsonField.ofNullable(customerAddressRecipient))
 
@@ -1294,6 +1409,29 @@ private constructor(
             this.customerAddressRecipient = customerAddressRecipient
         }
 
+        /**
+         * Customer company ID. For Belgium this is the CBE number or their EUID (European Unique
+         * Identifier) number. In the Netherlands this is the KVK number.
+         */
+        fun customerCompanyId(customerCompanyId: String?) =
+            customerCompanyId(JsonField.ofNullable(customerCompanyId))
+
+        /** Alias for calling [Builder.customerCompanyId] with `customerCompanyId.orElse(null)`. */
+        fun customerCompanyId(customerCompanyId: Optional<String>) =
+            customerCompanyId(customerCompanyId.getOrNull())
+
+        /**
+         * Sets [Builder.customerCompanyId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.customerCompanyId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun customerCompanyId(customerCompanyId: JsonField<String>) = apply {
+            this.customerCompanyId = customerCompanyId
+        }
+
+        /** The email address of the customer */
         fun customerEmail(customerEmail: String?) =
             customerEmail(JsonField.ofNullable(customerEmail))
 
@@ -1312,6 +1450,7 @@ private constructor(
             this.customerEmail = customerEmail
         }
 
+        /** The unique identifier for the customer in your system */
         fun customerId(customerId: String?) = customerId(JsonField.ofNullable(customerId))
 
         /** Alias for calling [Builder.customerId] with `customerId.orElse(null)`. */
@@ -1326,6 +1465,7 @@ private constructor(
          */
         fun customerId(customerId: JsonField<String>) = apply { this.customerId = customerId }
 
+        /** The company name of the customer/buyer */
         fun customerName(customerName: String?) = customerName(JsonField.ofNullable(customerName))
 
         /** Alias for calling [Builder.customerName] with `customerName.orElse(null)`. */
@@ -1342,6 +1482,7 @@ private constructor(
             this.customerName = customerName
         }
 
+        /** Customer tax ID. For Belgium this is the VAT number. Must include the country prefix */
         fun customerTaxId(customerTaxId: String?) =
             customerTaxId(JsonField.ofNullable(customerTaxId))
 
@@ -1360,6 +1501,7 @@ private constructor(
             this.customerTaxId = customerTaxId
         }
 
+        /** The direction of the document: INBOUND (purchases) or OUTBOUND (sales) */
         fun direction(direction: DocumentDirection) = direction(JsonField.of(direction))
 
         /**
@@ -1373,6 +1515,7 @@ private constructor(
             this.direction = direction
         }
 
+        /** The type of document: INVOICE, CREDIT_NOTE, or DEBIT_NOTE */
         fun documentType(documentType: DocumentType) = documentType(JsonField.of(documentType))
 
         /**
@@ -1386,6 +1529,7 @@ private constructor(
             this.documentType = documentType
         }
 
+        /** The date when payment is due */
         fun dueDate(dueDate: LocalDate?) = dueDate(JsonField.ofNullable(dueDate))
 
         /** Alias for calling [Builder.dueDate] with `dueDate.orElse(null)`. */
@@ -1400,6 +1544,7 @@ private constructor(
          */
         fun dueDate(dueDate: JsonField<LocalDate>) = apply { this.dueDate = dueDate }
 
+        /** The date when the invoice was issued */
         fun invoiceDate(invoiceDate: LocalDate?) = invoiceDate(JsonField.ofNullable(invoiceDate))
 
         /** Alias for calling [Builder.invoiceDate] with `invoiceDate.orElse(null)`. */
@@ -1416,6 +1561,7 @@ private constructor(
             this.invoiceDate = invoiceDate
         }
 
+        /** The unique invoice identifier/number */
         fun invoiceId(invoiceId: String?) = invoiceId(JsonField.ofNullable(invoiceId))
 
         /** Alias for calling [Builder.invoiceId] with `invoiceId.orElse(null)`. */
@@ -1431,7 +1577,7 @@ private constructor(
         fun invoiceId(invoiceId: JsonField<String>) = apply { this.invoiceId = invoiceId }
 
         /**
-         * The total amount of the invoice (so invoice_total = subtotal + total_tax +
+         * The total amount of the invoice including tax (invoice_total = subtotal + total_tax +
          * total_discount). Must be positive and rounded to maximum 2 decimals
          */
         fun invoiceTotal(invoiceTotal: String?) = invoiceTotal(JsonField.ofNullable(invoiceTotal))
@@ -1476,6 +1622,7 @@ private constructor(
                 (items ?: JsonField.of(mutableListOf())).also { checkKnown("items", it).add(item) }
         }
 
+        /** Additional notes or comments for the invoice */
         fun note(note: String?) = note(JsonField.ofNullable(note))
 
         /** Alias for calling [Builder.note] with `note.orElse(null)`. */
@@ -1519,6 +1666,7 @@ private constructor(
                 }
         }
 
+        /** The payment terms (e.g., 'Net 30', 'Due on receipt', '2/10 Net 30') */
         fun paymentTerm(paymentTerm: String?) = paymentTerm(JsonField.ofNullable(paymentTerm))
 
         /** Alias for calling [Builder.paymentTerm] with `paymentTerm.orElse(null)`. */
@@ -1534,7 +1682,7 @@ private constructor(
         fun paymentTerm(paymentTerm: JsonField<String>) = apply { this.paymentTerm = paymentTerm }
 
         /**
-         * The previous unpaid balance of the invoice, if any. Must be positive and rounded to
+         * The previous unpaid balance from prior invoices, if any. Must be positive and rounded to
          * maximum 2 decimals
          */
         fun previousUnpaidBalance(previousUnpaidBalance: String?) =
@@ -1558,6 +1706,7 @@ private constructor(
             this.previousUnpaidBalance = previousUnpaidBalance
         }
 
+        /** The purchase order reference number */
         fun purchaseOrder(purchaseOrder: String?) =
             purchaseOrder(JsonField.ofNullable(purchaseOrder))
 
@@ -1576,6 +1725,7 @@ private constructor(
             this.purchaseOrder = purchaseOrder
         }
 
+        /** The address where payment should be sent or remitted to */
         fun remittanceAddress(remittanceAddress: String?) =
             remittanceAddress(JsonField.ofNullable(remittanceAddress))
 
@@ -1594,6 +1744,7 @@ private constructor(
             this.remittanceAddress = remittanceAddress
         }
 
+        /** The recipient name at the remittance address */
         fun remittanceAddressRecipient(remittanceAddressRecipient: String?) =
             remittanceAddressRecipient(JsonField.ofNullable(remittanceAddressRecipient))
 
@@ -1615,6 +1766,7 @@ private constructor(
             this.remittanceAddressRecipient = remittanceAddressRecipient
         }
 
+        /** The address where services were performed or goods were delivered */
         fun serviceAddress(serviceAddress: String?) =
             serviceAddress(JsonField.ofNullable(serviceAddress))
 
@@ -1633,6 +1785,7 @@ private constructor(
             this.serviceAddress = serviceAddress
         }
 
+        /** The recipient name at the service address */
         fun serviceAddressRecipient(serviceAddressRecipient: String?) =
             serviceAddressRecipient(JsonField.ofNullable(serviceAddressRecipient))
 
@@ -1654,6 +1807,7 @@ private constructor(
             this.serviceAddressRecipient = serviceAddressRecipient
         }
 
+        /** The end date of the service period or delivery period */
         fun serviceEndDate(serviceEndDate: LocalDate?) =
             serviceEndDate(JsonField.ofNullable(serviceEndDate))
 
@@ -1672,6 +1826,7 @@ private constructor(
             this.serviceEndDate = serviceEndDate
         }
 
+        /** The start date of the service period or delivery period */
         fun serviceStartDate(serviceStartDate: LocalDate?) =
             serviceStartDate(JsonField.ofNullable(serviceStartDate))
 
@@ -1690,6 +1845,7 @@ private constructor(
             this.serviceStartDate = serviceStartDate
         }
 
+        /** The shipping/delivery address */
         fun shippingAddress(shippingAddress: String?) =
             shippingAddress(JsonField.ofNullable(shippingAddress))
 
@@ -1708,6 +1864,7 @@ private constructor(
             this.shippingAddress = shippingAddress
         }
 
+        /** The recipient name at the shipping address */
         fun shippingAddressRecipient(shippingAddressRecipient: String?) =
             shippingAddressRecipient(JsonField.ofNullable(shippingAddressRecipient))
 
@@ -1729,6 +1886,7 @@ private constructor(
             this.shippingAddressRecipient = shippingAddressRecipient
         }
 
+        /** The current state of the document: DRAFT, TRANSIT, FAILED, SENT, or RECEIVED */
         fun state(state: DocumentState) = state(JsonField.of(state))
 
         /**
@@ -1758,7 +1916,10 @@ private constructor(
          */
         fun subtotal(subtotal: JsonField<String>) = apply { this.subtotal = subtotal }
 
-        /** Tax category code of the invoice */
+        /**
+         * Tax category code of the invoice (e.g., S for standard rate, Z for zero rate, E for
+         * exempt)
+         */
         fun taxCode(taxCode: TaxCode) = taxCode(JsonField.of(taxCode))
 
         /**
@@ -1820,7 +1981,9 @@ private constructor(
             this.totalDiscount = totalDiscount
         }
 
-        /** The total tax of the invoice. Must be positive and rounded to maximum 2 decimals */
+        /**
+         * The total tax amount of the invoice. Must be positive and rounded to maximum 2 decimals
+         */
         fun totalTax(totalTax: String?) = totalTax(JsonField.ofNullable(totalTax))
 
         /** Alias for calling [Builder.totalTax] with `totalTax.orElse(null)`. */
@@ -1852,7 +2015,7 @@ private constructor(
          */
         fun vatex(vatex: JsonField<Vatex>) = apply { this.vatex = vatex }
 
-        /** VAT exemption note of the invoice */
+        /** Textual explanation for VAT exemption */
         fun vatexNote(vatexNote: String?) = vatexNote(JsonField.ofNullable(vatexNote))
 
         /** Alias for calling [Builder.vatexNote] with `vatexNote.orElse(null)`. */
@@ -1867,6 +2030,7 @@ private constructor(
          */
         fun vatexNote(vatexNote: JsonField<String>) = apply { this.vatexNote = vatexNote }
 
+        /** The address of the vendor/seller */
         fun vendorAddress(vendorAddress: String?) =
             vendorAddress(JsonField.ofNullable(vendorAddress))
 
@@ -1885,6 +2049,7 @@ private constructor(
             this.vendorAddress = vendorAddress
         }
 
+        /** The recipient name at the vendor address */
         fun vendorAddressRecipient(vendorAddressRecipient: String?) =
             vendorAddressRecipient(JsonField.ofNullable(vendorAddressRecipient))
 
@@ -1906,6 +2071,29 @@ private constructor(
             this.vendorAddressRecipient = vendorAddressRecipient
         }
 
+        /**
+         * Vendor company ID. For Belgium this is the CBE number or their EUID (European Unique
+         * Identifier) number. In the Netherlands this is the KVK number.
+         */
+        fun vendorCompanyId(vendorCompanyId: String?) =
+            vendorCompanyId(JsonField.ofNullable(vendorCompanyId))
+
+        /** Alias for calling [Builder.vendorCompanyId] with `vendorCompanyId.orElse(null)`. */
+        fun vendorCompanyId(vendorCompanyId: Optional<String>) =
+            vendorCompanyId(vendorCompanyId.getOrNull())
+
+        /**
+         * Sets [Builder.vendorCompanyId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.vendorCompanyId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun vendorCompanyId(vendorCompanyId: JsonField<String>) = apply {
+            this.vendorCompanyId = vendorCompanyId
+        }
+
+        /** The email address of the vendor */
         fun vendorEmail(vendorEmail: String?) = vendorEmail(JsonField.ofNullable(vendorEmail))
 
         /** Alias for calling [Builder.vendorEmail] with `vendorEmail.orElse(null)`. */
@@ -1920,6 +2108,7 @@ private constructor(
          */
         fun vendorEmail(vendorEmail: JsonField<String>) = apply { this.vendorEmail = vendorEmail }
 
+        /** The name of the vendor/seller/supplier */
         fun vendorName(vendorName: String?) = vendorName(JsonField.ofNullable(vendorName))
 
         /** Alias for calling [Builder.vendorName] with `vendorName.orElse(null)`. */
@@ -1934,6 +2123,7 @@ private constructor(
          */
         fun vendorName(vendorName: JsonField<String>) = apply { this.vendorName = vendorName }
 
+        /** Vendor tax ID. For Belgium this is the VAT number. Must include the country prefix */
         fun vendorTaxId(vendorTaxId: String?) = vendorTaxId(JsonField.ofNullable(vendorTaxId))
 
         /** Alias for calling [Builder.vendorTaxId] with `vendorTaxId.orElse(null)`. */
@@ -1991,6 +2181,7 @@ private constructor(
                 currency,
                 customerAddress,
                 customerAddressRecipient,
+                customerCompanyId,
                 customerEmail,
                 customerId,
                 customerName,
@@ -2025,6 +2216,7 @@ private constructor(
                 vatexNote,
                 vendorAddress,
                 vendorAddressRecipient,
+                vendorCompanyId,
                 vendorEmail,
                 vendorName,
                 vendorTaxId,
@@ -2049,6 +2241,7 @@ private constructor(
         currency().ifPresent { it.validate() }
         customerAddress()
         customerAddressRecipient()
+        customerCompanyId()
         customerEmail()
         customerId()
         customerName()
@@ -2083,6 +2276,7 @@ private constructor(
         vatexNote()
         vendorAddress()
         vendorAddressRecipient()
+        vendorCompanyId()
         vendorEmail()
         vendorName()
         vendorTaxId()
@@ -2114,6 +2308,7 @@ private constructor(
             (currency.asKnown().getOrNull()?.validity() ?: 0) +
             (if (customerAddress.asKnown().isPresent) 1 else 0) +
             (if (customerAddressRecipient.asKnown().isPresent) 1 else 0) +
+            (if (customerCompanyId.asKnown().isPresent) 1 else 0) +
             (if (customerEmail.asKnown().isPresent) 1 else 0) +
             (if (customerId.asKnown().isPresent) 1 else 0) +
             (if (customerName.asKnown().isPresent) 1 else 0) +
@@ -2148,6 +2343,7 @@ private constructor(
             (if (vatexNote.asKnown().isPresent) 1 else 0) +
             (if (vendorAddress.asKnown().isPresent) 1 else 0) +
             (if (vendorAddressRecipient.asKnown().isPresent) 1 else 0) +
+            (if (vendorCompanyId.asKnown().isPresent) 1 else 0) +
             (if (vendorEmail.asKnown().isPresent) 1 else 0) +
             (if (vendorName.asKnown().isPresent) 1 else 0) +
             (if (vendorTaxId.asKnown().isPresent) 1 else 0)
@@ -4024,6 +4220,8 @@ private constructor(
         ) : this(bankAccountNumber, iban, paymentReference, swift, mutableMapOf())
 
         /**
+         * Bank account number (for non-IBAN accounts)
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
@@ -4031,18 +4229,25 @@ private constructor(
             bankAccountNumber.getOptional("bank_account_number")
 
         /**
+         * International Bank Account Number for payment transfers
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun iban(): Optional<String> = iban.getOptional("iban")
 
         /**
+         * Structured payment reference or communication (e.g., structured communication for Belgian
+         * bank transfers)
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun paymentReference(): Optional<String> = paymentReference.getOptional("payment_reference")
 
         /**
+         * SWIFT/BIC code of the bank
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
@@ -4118,6 +4323,7 @@ private constructor(
                 additionalProperties = paymentDetail.additionalProperties.toMutableMap()
             }
 
+            /** Bank account number (for non-IBAN accounts) */
             fun bankAccountNumber(bankAccountNumber: String?) =
                 bankAccountNumber(JsonField.ofNullable(bankAccountNumber))
 
@@ -4138,6 +4344,7 @@ private constructor(
                 this.bankAccountNumber = bankAccountNumber
             }
 
+            /** International Bank Account Number for payment transfers */
             fun iban(iban: String?) = iban(JsonField.ofNullable(iban))
 
             /** Alias for calling [Builder.iban] with `iban.orElse(null)`. */
@@ -4152,6 +4359,10 @@ private constructor(
              */
             fun iban(iban: JsonField<String>) = apply { this.iban = iban }
 
+            /**
+             * Structured payment reference or communication (e.g., structured communication for
+             * Belgian bank transfers)
+             */
             fun paymentReference(paymentReference: String?) =
                 paymentReference(JsonField.ofNullable(paymentReference))
 
@@ -4172,6 +4383,7 @@ private constructor(
                 this.paymentReference = paymentReference
             }
 
+            /** SWIFT/BIC code of the bank */
             fun swift(swift: String?) = swift(JsonField.ofNullable(swift))
 
             /** Alias for calling [Builder.swift] with `swift.orElse(null)`. */
@@ -4278,7 +4490,9 @@ private constructor(
             "PaymentDetail{bankAccountNumber=$bankAccountNumber, iban=$iban, paymentReference=$paymentReference, swift=$swift, additionalProperties=$additionalProperties}"
     }
 
-    /** Tax category code of the invoice */
+    /**
+     * Tax category code of the invoice (e.g., S for standard rate, Z for zero rate, E for exempt)
+     */
     class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
@@ -4469,12 +4683,16 @@ private constructor(
         ) : this(amount, rate, mutableMapOf())
 
         /**
+         * The tax amount for this tax category. Must be rounded to maximum 2 decimals
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
         fun amount(): Optional<String> = amount.getOptional("amount")
 
         /**
+         * The tax rate as a percentage (e.g., '21.00', '6.00', '0.00')
+         *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
@@ -4526,6 +4744,7 @@ private constructor(
                 additionalProperties = taxDetail.additionalProperties.toMutableMap()
             }
 
+            /** The tax amount for this tax category. Must be rounded to maximum 2 decimals */
             fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
 
             /** Alias for calling [Builder.amount] with `amount.orElse(null)`. */
@@ -4540,6 +4759,7 @@ private constructor(
              */
             fun amount(amount: JsonField<String>) = apply { this.amount = amount }
 
+            /** The tax rate as a percentage (e.g., '21.00', '6.00', '0.00') */
             fun rate(rate: String?) = rate(JsonField.ofNullable(rate))
 
             /** Alias for calling [Builder.rate] with `rate.orElse(null)`. */
@@ -5138,6 +5358,7 @@ private constructor(
             currency == other.currency &&
             customerAddress == other.customerAddress &&
             customerAddressRecipient == other.customerAddressRecipient &&
+            customerCompanyId == other.customerCompanyId &&
             customerEmail == other.customerEmail &&
             customerId == other.customerId &&
             customerName == other.customerName &&
@@ -5172,6 +5393,7 @@ private constructor(
             vatexNote == other.vatexNote &&
             vendorAddress == other.vendorAddress &&
             vendorAddressRecipient == other.vendorAddressRecipient &&
+            vendorCompanyId == other.vendorCompanyId &&
             vendorEmail == other.vendorEmail &&
             vendorName == other.vendorName &&
             vendorTaxId == other.vendorTaxId &&
@@ -5190,6 +5412,7 @@ private constructor(
             currency,
             customerAddress,
             customerAddressRecipient,
+            customerCompanyId,
             customerEmail,
             customerId,
             customerName,
@@ -5224,6 +5447,7 @@ private constructor(
             vatexNote,
             vendorAddress,
             vendorAddressRecipient,
+            vendorCompanyId,
             vendorEmail,
             vendorName,
             vendorTaxId,
@@ -5234,5 +5458,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentResponse{id=$id, allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentResponse{id=$id, allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }

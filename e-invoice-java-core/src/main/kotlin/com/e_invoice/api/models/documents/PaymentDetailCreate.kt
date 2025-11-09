@@ -39,24 +39,33 @@ private constructor(
     ) : this(bankAccountNumber, iban, paymentReference, swift, mutableMapOf())
 
     /**
+     * Bank account number (for non-IBAN accounts)
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun bankAccountNumber(): Optional<String> = bankAccountNumber.getOptional("bank_account_number")
 
     /**
+     * International Bank Account Number for payment transfers
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun iban(): Optional<String> = iban.getOptional("iban")
 
     /**
+     * Structured payment reference or communication (e.g., structured communication for Belgian
+     * bank transfers)
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun paymentReference(): Optional<String> = paymentReference.getOptional("payment_reference")
 
     /**
+     * SWIFT/BIC code of the bank
+     *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -132,6 +141,7 @@ private constructor(
             additionalProperties = paymentDetailCreate.additionalProperties.toMutableMap()
         }
 
+        /** Bank account number (for non-IBAN accounts) */
         fun bankAccountNumber(bankAccountNumber: String?) =
             bankAccountNumber(JsonField.ofNullable(bankAccountNumber))
 
@@ -150,6 +160,7 @@ private constructor(
             this.bankAccountNumber = bankAccountNumber
         }
 
+        /** International Bank Account Number for payment transfers */
         fun iban(iban: String?) = iban(JsonField.ofNullable(iban))
 
         /** Alias for calling [Builder.iban] with `iban.orElse(null)`. */
@@ -163,6 +174,10 @@ private constructor(
          */
         fun iban(iban: JsonField<String>) = apply { this.iban = iban }
 
+        /**
+         * Structured payment reference or communication (e.g., structured communication for Belgian
+         * bank transfers)
+         */
         fun paymentReference(paymentReference: String?) =
             paymentReference(JsonField.ofNullable(paymentReference))
 
@@ -181,6 +196,7 @@ private constructor(
             this.paymentReference = paymentReference
         }
 
+        /** SWIFT/BIC code of the bank */
         fun swift(swift: String?) = swift(JsonField.ofNullable(swift))
 
         /** Alias for calling [Builder.swift] with `swift.orElse(null)`. */
