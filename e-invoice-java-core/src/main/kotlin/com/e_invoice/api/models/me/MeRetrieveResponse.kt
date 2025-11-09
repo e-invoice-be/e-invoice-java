@@ -34,6 +34,7 @@ private constructor(
     private val companyEmail: JsonField<String>,
     private val companyName: JsonField<String>,
     private val companyNumber: JsonField<String>,
+    private val companyTaxId: JsonField<String>,
     private val companyZip: JsonField<String>,
     private val description: JsonField<String>,
     private val ibans: JsonField<List<String>>,
@@ -71,6 +72,9 @@ private constructor(
         @JsonProperty("company_number")
         @ExcludeMissing
         companyNumber: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("company_tax_id")
+        @ExcludeMissing
+        companyTaxId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("company_zip")
         @ExcludeMissing
         companyZip: JsonField<String> = JsonMissing.of(),
@@ -98,6 +102,7 @@ private constructor(
         companyEmail,
         companyName,
         companyNumber,
+        companyTaxId,
         companyZip,
         description,
         ibans,
@@ -138,7 +143,7 @@ private constructor(
     fun bccRecipientEmail(): Optional<String> = bccRecipientEmail.getOptional("bcc_recipient_email")
 
     /**
-     * Address of the company
+     * Address of the company. Must be in the form of `Street Name Street Number`
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -170,7 +175,7 @@ private constructor(
     fun companyEmail(): Optional<String> = companyEmail.getOptional("company_email")
 
     /**
-     * Name of the company
+     * Name of the company. Must include the company type. For example: `BV`, `NV`, `CVBA`, `VOF`
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -178,12 +183,21 @@ private constructor(
     fun companyName(): Optional<String> = companyName.getOptional("company_name")
 
     /**
-     * Company number
+     * Company number. For Belgium this is the CBE number or their EUID (European Unique Identifier)
+     * number
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
     fun companyNumber(): Optional<String> = companyNumber.getOptional("company_number")
+
+    /**
+     * Company tax ID. For Belgium this is the VAT number. Must include the country prefix
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun companyTaxId(): Optional<String> = companyTaxId.getOptional("company_tax_id")
 
     /**
      * Zip code of the company
@@ -320,6 +334,15 @@ private constructor(
     fun _companyNumber(): JsonField<String> = companyNumber
 
     /**
+     * Returns the raw JSON value of [companyTaxId].
+     *
+     * Unlike [companyTaxId], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("company_tax_id")
+    @ExcludeMissing
+    fun _companyTaxId(): JsonField<String> = companyTaxId
+
+    /**
      * Returns the raw JSON value of [companyZip].
      *
      * Unlike [companyZip], this method doesn't throw if the JSON field has an unexpected type.
@@ -408,6 +431,7 @@ private constructor(
         private var companyEmail: JsonField<String> = JsonMissing.of()
         private var companyName: JsonField<String> = JsonMissing.of()
         private var companyNumber: JsonField<String> = JsonMissing.of()
+        private var companyTaxId: JsonField<String> = JsonMissing.of()
         private var companyZip: JsonField<String> = JsonMissing.of()
         private var description: JsonField<String> = JsonMissing.of()
         private var ibans: JsonField<MutableList<String>>? = null
@@ -428,6 +452,7 @@ private constructor(
             companyEmail = meRetrieveResponse.companyEmail
             companyName = meRetrieveResponse.companyName
             companyNumber = meRetrieveResponse.companyNumber
+            companyTaxId = meRetrieveResponse.companyTaxId
             companyZip = meRetrieveResponse.companyZip
             description = meRetrieveResponse.description
             ibans = meRetrieveResponse.ibans.map { it.toMutableList() }
@@ -491,7 +516,7 @@ private constructor(
             this.bccRecipientEmail = bccRecipientEmail
         }
 
-        /** Address of the company */
+        /** Address of the company. Must be in the form of `Street Name Street Number` */
         fun companyAddress(companyAddress: String?) =
             companyAddress(JsonField.ofNullable(companyAddress))
 
@@ -561,7 +586,10 @@ private constructor(
             this.companyEmail = companyEmail
         }
 
-        /** Name of the company */
+        /**
+         * Name of the company. Must include the company type. For example: `BV`, `NV`, `CVBA`,
+         * `VOF`
+         */
         fun companyName(companyName: String?) = companyName(JsonField.ofNullable(companyName))
 
         /** Alias for calling [Builder.companyName] with `companyName.orElse(null)`. */
@@ -576,7 +604,10 @@ private constructor(
          */
         fun companyName(companyName: JsonField<String>) = apply { this.companyName = companyName }
 
-        /** Company number */
+        /**
+         * Company number. For Belgium this is the CBE number or their EUID (European Unique
+         * Identifier) number
+         */
         fun companyNumber(companyNumber: String?) =
             companyNumber(JsonField.ofNullable(companyNumber))
 
@@ -593,6 +624,23 @@ private constructor(
          */
         fun companyNumber(companyNumber: JsonField<String>) = apply {
             this.companyNumber = companyNumber
+        }
+
+        /** Company tax ID. For Belgium this is the VAT number. Must include the country prefix */
+        fun companyTaxId(companyTaxId: String?) = companyTaxId(JsonField.ofNullable(companyTaxId))
+
+        /** Alias for calling [Builder.companyTaxId] with `companyTaxId.orElse(null)`. */
+        fun companyTaxId(companyTaxId: Optional<String>) = companyTaxId(companyTaxId.getOrNull())
+
+        /**
+         * Sets [Builder.companyTaxId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.companyTaxId] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun companyTaxId(companyTaxId: JsonField<String>) = apply {
+            this.companyTaxId = companyTaxId
         }
 
         /** Zip code of the company */
@@ -772,6 +820,7 @@ private constructor(
                 companyEmail,
                 companyName,
                 companyNumber,
+                companyTaxId,
                 companyZip,
                 description,
                 (ibans ?: JsonMissing.of()).map { it.toImmutable() },
@@ -799,6 +848,7 @@ private constructor(
         companyEmail()
         companyName()
         companyNumber()
+        companyTaxId()
         companyZip()
         description()
         ibans()
@@ -833,6 +883,7 @@ private constructor(
             (if (companyEmail.asKnown().isPresent) 1 else 0) +
             (if (companyName.asKnown().isPresent) 1 else 0) +
             (if (companyNumber.asKnown().isPresent) 1 else 0) +
+            (if (companyTaxId.asKnown().isPresent) 1 else 0) +
             (if (companyZip.asKnown().isPresent) 1 else 0) +
             (if (description.asKnown().isPresent) 1 else 0) +
             (ibans.asKnown().getOrNull()?.size ?: 0) +
@@ -990,6 +1041,7 @@ private constructor(
             companyEmail == other.companyEmail &&
             companyName == other.companyName &&
             companyNumber == other.companyNumber &&
+            companyTaxId == other.companyTaxId &&
             companyZip == other.companyZip &&
             description == other.description &&
             ibans == other.ibans &&
@@ -1011,6 +1063,7 @@ private constructor(
             companyEmail,
             companyName,
             companyNumber,
+            companyTaxId,
             companyZip,
             description,
             ibans,
@@ -1024,5 +1077,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "MeRetrieveResponse{creditBalance=$creditBalance, name=$name, plan=$plan, bccRecipientEmail=$bccRecipientEmail, companyAddress=$companyAddress, companyCity=$companyCity, companyCountry=$companyCountry, companyEmail=$companyEmail, companyName=$companyName, companyNumber=$companyNumber, companyZip=$companyZip, description=$description, ibans=$ibans, peppolIds=$peppolIds, smpRegistration=$smpRegistration, smpRegistrationDate=$smpRegistrationDate, additionalProperties=$additionalProperties}"
+        "MeRetrieveResponse{creditBalance=$creditBalance, name=$name, plan=$plan, bccRecipientEmail=$bccRecipientEmail, companyAddress=$companyAddress, companyCity=$companyCity, companyCountry=$companyCountry, companyEmail=$companyEmail, companyName=$companyName, companyNumber=$companyNumber, companyTaxId=$companyTaxId, companyZip=$companyZip, description=$description, ibans=$ibans, peppolIds=$peppolIds, smpRegistration=$smpRegistration, smpRegistrationDate=$smpRegistrationDate, additionalProperties=$additionalProperties}"
 }
