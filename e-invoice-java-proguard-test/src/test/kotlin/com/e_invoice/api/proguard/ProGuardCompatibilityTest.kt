@@ -66,7 +66,7 @@ internal class ProGuardCompatibilityTest {
                 .baseAmount("base_amount")
                 .multiplierFactor("multiplier_factor")
                 .reason("reason")
-                .reasonCode("reason_code")
+                .reasonCode(Allowance.ReasonCode._41)
                 .taxCode(Allowance.TaxCode.AE)
                 .taxRate("tax_rate")
                 .build()
