@@ -2084,6 +2084,8 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
 
         @JvmField val LTR = of("LTR")
 
+        @JvmField val H87 = of("H87")
+
         @JvmStatic fun of(value: String) = UnitOfMeasureCode(JsonField.of(value))
     }
 
@@ -3120,6 +3122,7 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         NAR,
         C62,
         LTR,
+        H87,
     }
 
     /**
@@ -4163,6 +4166,7 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         NAR,
         C62,
         LTR,
+        H87,
         /**
          * An enum member indicating that [UnitOfMeasureCode] was instantiated with an unknown
          * value.
@@ -5210,6 +5214,7 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             NAR -> Value.NAR
             C62 -> Value.C62
             LTR -> Value.LTR
+            H87 -> Value.H87
             else -> Value._UNKNOWN
         }
 
@@ -6254,6 +6259,7 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             NAR -> Known.NAR
             C62 -> Known.C62
             LTR -> Known.LTR
+            H87 -> Known.H87
             else -> throw EInvoiceInvalidDataException("Unknown UnitOfMeasureCode: $value")
         }
 

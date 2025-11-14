@@ -48,7 +48,6 @@ private constructor(
     private val note: JsonField<String>,
     private val paymentDetails: JsonField<List<PaymentDetailCreate>>,
     private val paymentTerm: JsonField<String>,
-    private val previousUnpaidBalance: JsonField<String>,
     private val purchaseOrder: JsonField<String>,
     private val remittanceAddress: JsonField<String>,
     private val remittanceAddressRecipient: JsonField<String>,
@@ -141,9 +140,6 @@ private constructor(
         @JsonProperty("payment_term")
         @ExcludeMissing
         paymentTerm: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("previous_unpaid_balance")
-        @ExcludeMissing
-        previousUnpaidBalance: JsonField<String> = JsonMissing.of(),
         @JsonProperty("purchase_order")
         @ExcludeMissing
         purchaseOrder: JsonField<String> = JsonMissing.of(),
@@ -230,7 +226,6 @@ private constructor(
         note,
         paymentDetails,
         paymentTerm,
-        previousUnpaidBalance,
         purchaseOrder,
         remittanceAddress,
         remittanceAddressRecipient,
@@ -448,16 +443,6 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun paymentTerm(): Optional<String> = paymentTerm.getOptional("payment_term")
-
-    /**
-     * The previous unpaid balance from prior invoices, if any. Must be positive and rounded to
-     * maximum 2 decimals
-     *
-     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
-     *   server responded with an unexpected value).
-     */
-    fun previousUnpaidBalance(): Optional<String> =
-        previousUnpaidBalance.getOptional("previous_unpaid_balance")
 
     /**
      * The purchase order reference number
@@ -872,16 +857,6 @@ private constructor(
     fun _paymentTerm(): JsonField<String> = paymentTerm
 
     /**
-     * Returns the raw JSON value of [previousUnpaidBalance].
-     *
-     * Unlike [previousUnpaidBalance], this method doesn't throw if the JSON field has an unexpected
-     * type.
-     */
-    @JsonProperty("previous_unpaid_balance")
-    @ExcludeMissing
-    fun _previousUnpaidBalance(): JsonField<String> = previousUnpaidBalance
-
-    /**
      * Returns the raw JSON value of [purchaseOrder].
      *
      * Unlike [purchaseOrder], this method doesn't throw if the JSON field has an unexpected type.
@@ -1144,7 +1119,6 @@ private constructor(
         private var note: JsonField<String> = JsonMissing.of()
         private var paymentDetails: JsonField<MutableList<PaymentDetailCreate>>? = null
         private var paymentTerm: JsonField<String> = JsonMissing.of()
-        private var previousUnpaidBalance: JsonField<String> = JsonMissing.of()
         private var purchaseOrder: JsonField<String> = JsonMissing.of()
         private var remittanceAddress: JsonField<String> = JsonMissing.of()
         private var remittanceAddressRecipient: JsonField<String> = JsonMissing.of()
@@ -1198,7 +1172,6 @@ private constructor(
             note = documentCreateFromPdfResponse.note
             paymentDetails = documentCreateFromPdfResponse.paymentDetails.map { it.toMutableList() }
             paymentTerm = documentCreateFromPdfResponse.paymentTerm
-            previousUnpaidBalance = documentCreateFromPdfResponse.previousUnpaidBalance
             purchaseOrder = documentCreateFromPdfResponse.purchaseOrder
             remittanceAddress = documentCreateFromPdfResponse.remittanceAddress
             remittanceAddressRecipient = documentCreateFromPdfResponse.remittanceAddressRecipient
@@ -1691,31 +1664,6 @@ private constructor(
          * value.
          */
         fun paymentTerm(paymentTerm: JsonField<String>) = apply { this.paymentTerm = paymentTerm }
-
-        /**
-         * The previous unpaid balance from prior invoices, if any. Must be positive and rounded to
-         * maximum 2 decimals
-         */
-        fun previousUnpaidBalance(previousUnpaidBalance: String?) =
-            previousUnpaidBalance(JsonField.ofNullable(previousUnpaidBalance))
-
-        /**
-         * Alias for calling [Builder.previousUnpaidBalance] with
-         * `previousUnpaidBalance.orElse(null)`.
-         */
-        fun previousUnpaidBalance(previousUnpaidBalance: Optional<String>) =
-            previousUnpaidBalance(previousUnpaidBalance.getOrNull())
-
-        /**
-         * Sets [Builder.previousUnpaidBalance] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.previousUnpaidBalance] with a well-typed [String] value
-         * instead. This method is primarily for setting the field to an undocumented or not yet
-         * supported value.
-         */
-        fun previousUnpaidBalance(previousUnpaidBalance: JsonField<String>) = apply {
-            this.previousUnpaidBalance = previousUnpaidBalance
-        }
 
         /** The purchase order reference number */
         fun purchaseOrder(purchaseOrder: String?) =
@@ -2225,7 +2173,6 @@ private constructor(
                 note,
                 (paymentDetails ?: JsonMissing.of()).map { it.toImmutable() },
                 paymentTerm,
-                previousUnpaidBalance,
                 purchaseOrder,
                 remittanceAddress,
                 remittanceAddressRecipient,
@@ -2286,7 +2233,6 @@ private constructor(
         note()
         paymentDetails().ifPresent { it.forEach { it.validate() } }
         paymentTerm()
-        previousUnpaidBalance()
         purchaseOrder()
         remittanceAddress()
         remittanceAddressRecipient()
@@ -2354,7 +2300,6 @@ private constructor(
             (if (note.asKnown().isPresent) 1 else 0) +
             (paymentDetails.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (paymentTerm.asKnown().isPresent) 1 else 0) +
-            (if (previousUnpaidBalance.asKnown().isPresent) 1 else 0) +
             (if (purchaseOrder.asKnown().isPresent) 1 else 0) +
             (if (remittanceAddress.asKnown().isPresent) 1 else 0) +
             (if (remittanceAddressRecipient.asKnown().isPresent) 1 else 0) +
@@ -2449,8 +2394,10 @@ private constructor(
         fun allowances(): Optional<List<Allowance>> = allowances.getOptional("allowances")
 
         /**
-         * The total amount of the line item, exclusive of VAT, after subtracting line level
-         * allowances and adding line level charges. Must be rounded to maximum 2 decimals
+         * The invoice line net amount (BT-131), exclusive of VAT, inclusive of line level
+         * allowances and charges. Calculated as: ((unit_price / price_base_quantity) * quantity) -
+         * allowances + charges. Must be rounded to maximum 2 decimals. Can be negative for credit
+         * notes or corrections.
          *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -2489,7 +2436,7 @@ private constructor(
 
         /**
          * The quantity of items (goods or services) that is the subject of the line item. Must be
-         * rounded to maximum 4 decimals
+         * rounded to maximum 4 decimals. Can be negative for credit notes or corrections.
          *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -2497,7 +2444,8 @@ private constructor(
         fun quantity(): Optional<String> = quantity.getOptional("quantity")
 
         /**
-         * The total VAT amount for the line item. Must be rounded to maximum 2 decimals
+         * The total VAT amount for the line item. Must be rounded to maximum 2 decimals. Can be
+         * negative for credit notes or corrections.
          *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -2521,7 +2469,8 @@ private constructor(
         fun unit(): Optional<UnitOfMeasureCode> = unit.getOptional("unit")
 
         /**
-         * The unit price of the line item. Must be rounded to maximum 2 decimals
+         * The item net price (BT-146). The price of an item, exclusive of VAT, after subtracting
+         * item price discount. Must be rounded to maximum 4 decimals
          *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -2693,8 +2642,10 @@ private constructor(
             }
 
             /**
-             * The total amount of the line item, exclusive of VAT, after subtracting line level
-             * allowances and adding line level charges. Must be rounded to maximum 2 decimals
+             * The invoice line net amount (BT-131), exclusive of VAT, inclusive of line level
+             * allowances and charges. Calculated as: ((unit_price / price_base_quantity) *
+             * quantity) - allowances + charges. Must be rounded to maximum 2 decimals. Can be
+             * negative for credit notes or corrections.
              */
             fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
 
@@ -2789,7 +2740,7 @@ private constructor(
 
             /**
              * The quantity of items (goods or services) that is the subject of the line item. Must
-             * be rounded to maximum 4 decimals
+             * be rounded to maximum 4 decimals. Can be negative for credit notes or corrections.
              */
             fun quantity(quantity: String?) = quantity(JsonField.ofNullable(quantity))
 
@@ -2805,7 +2756,10 @@ private constructor(
              */
             fun quantity(quantity: JsonField<String>) = apply { this.quantity = quantity }
 
-            /** The total VAT amount for the line item. Must be rounded to maximum 2 decimals */
+            /**
+             * The total VAT amount for the line item. Must be rounded to maximum 2 decimals. Can be
+             * negative for credit notes or corrections.
+             */
             fun tax(tax: String?) = tax(JsonField.ofNullable(tax))
 
             /** Alias for calling [Builder.tax] with `tax.orElse(null)`. */
@@ -2850,7 +2804,10 @@ private constructor(
              */
             fun unit(unit: JsonField<UnitOfMeasureCode>) = apply { this.unit = unit }
 
-            /** The unit price of the line item. Must be rounded to maximum 2 decimals */
+            /**
+             * The item net price (BT-146). The price of an item, exclusive of VAT, after
+             * subtracting item price discount. Must be rounded to maximum 4 decimals
+             */
             fun unitPrice(unitPrice: String?) = unitPrice(JsonField.ofNullable(unitPrice))
 
             /** Alias for calling [Builder.unitPrice] with `unitPrice.orElse(null)`. */
@@ -3880,7 +3837,6 @@ private constructor(
             note == other.note &&
             paymentDetails == other.paymentDetails &&
             paymentTerm == other.paymentTerm &&
-            previousUnpaidBalance == other.previousUnpaidBalance &&
             purchaseOrder == other.purchaseOrder &&
             remittanceAddress == other.remittanceAddress &&
             remittanceAddressRecipient == other.remittanceAddressRecipient &&
@@ -3935,7 +3891,6 @@ private constructor(
             note,
             paymentDetails,
             paymentTerm,
-            previousUnpaidBalance,
             purchaseOrder,
             remittanceAddress,
             remittanceAddressRecipient,
@@ -3968,5 +3923,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentCreateFromPdfResponse{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, success=$success, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, ublDocument=$ublDocument, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentCreateFromPdfResponse{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, success=$success, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, ublDocument=$ublDocument, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }
