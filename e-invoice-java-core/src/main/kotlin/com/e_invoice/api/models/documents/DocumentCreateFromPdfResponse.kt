@@ -2389,7 +2389,6 @@ private constructor(
         private val charges: JsonField<List<Charge>>,
         private val date: JsonField<Void>,
         private val description: JsonField<String>,
-        private val priceBaseQuantity: JsonField<String>,
         private val productCode: JsonField<String>,
         private val quantity: JsonField<String>,
         private val tax: JsonField<String>,
@@ -2412,9 +2411,6 @@ private constructor(
             @JsonProperty("description")
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
-            @JsonProperty("price_base_quantity")
-            @ExcludeMissing
-            priceBaseQuantity: JsonField<String> = JsonMissing.of(),
             @JsonProperty("product_code")
             @ExcludeMissing
             productCode: JsonField<String> = JsonMissing.of(),
@@ -2435,7 +2431,6 @@ private constructor(
             charges,
             date,
             description,
-            priceBaseQuantity,
             productCode,
             quantity,
             tax,
@@ -2454,9 +2449,8 @@ private constructor(
         fun allowances(): Optional<List<Allowance>> = allowances.getOptional("allowances")
 
         /**
-         * The invoice line net amount (BT-131), exclusive of VAT, inclusive of line level
-         * allowances and charges. Calculated as: ((unit_price / price_base_quantity) * quantity) -
-         * allowances + charges. Must be rounded to maximum 2 decimals
+         * The total amount of the line item, exclusive of VAT, after subtracting line level
+         * allowances and adding line level charges. Must be rounded to maximum 2 decimals
          *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -2484,16 +2478,6 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun description(): Optional<String> = description.getOptional("description")
-
-        /**
-         * The item price base quantity (BT-149). The number of item units to which the price
-         * applies. Defaults to 1. Must be rounded to maximum 4 decimals
-         *
-         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
-         *   the server responded with an unexpected value).
-         */
-        fun priceBaseQuantity(): Optional<String> =
-            priceBaseQuantity.getOptional("price_base_quantity")
 
         /**
          * The product code of the line item.
@@ -2537,8 +2521,7 @@ private constructor(
         fun unit(): Optional<UnitOfMeasureCode> = unit.getOptional("unit")
 
         /**
-         * The item net price (BT-146). The price of an item, exclusive of VAT, after subtracting
-         * item price discount. Must be rounded to maximum 4 decimals
+         * The unit price of the line item. Must be rounded to maximum 2 decimals
          *
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
@@ -2583,16 +2566,6 @@ private constructor(
         @JsonProperty("description")
         @ExcludeMissing
         fun _description(): JsonField<String> = description
-
-        /**
-         * Returns the raw JSON value of [priceBaseQuantity].
-         *
-         * Unlike [priceBaseQuantity], this method doesn't throw if the JSON field has an unexpected
-         * type.
-         */
-        @JsonProperty("price_base_quantity")
-        @ExcludeMissing
-        fun _priceBaseQuantity(): JsonField<String> = priceBaseQuantity
 
         /**
          * Returns the raw JSON value of [productCode].
@@ -2664,7 +2637,6 @@ private constructor(
             private var charges: JsonField<MutableList<Charge>>? = null
             private var date: JsonField<Void> = JsonMissing.of()
             private var description: JsonField<String> = JsonMissing.of()
-            private var priceBaseQuantity: JsonField<String> = JsonMissing.of()
             private var productCode: JsonField<String> = JsonMissing.of()
             private var quantity: JsonField<String> = JsonMissing.of()
             private var tax: JsonField<String> = JsonMissing.of()
@@ -2680,7 +2652,6 @@ private constructor(
                 charges = item.charges.map { it.toMutableList() }
                 date = item.date
                 description = item.description
-                priceBaseQuantity = item.priceBaseQuantity
                 productCode = item.productCode
                 quantity = item.quantity
                 tax = item.tax
@@ -2722,9 +2693,8 @@ private constructor(
             }
 
             /**
-             * The invoice line net amount (BT-131), exclusive of VAT, inclusive of line level
-             * allowances and charges. Calculated as: ((unit_price / price_base_quantity) *
-             * quantity) - allowances + charges. Must be rounded to maximum 2 decimals
+             * The total amount of the line item, exclusive of VAT, after subtracting line level
+             * allowances and adding line level charges. Must be rounded to maximum 2 decimals
              */
             fun amount(amount: String?) = amount(JsonField.ofNullable(amount))
 
@@ -2798,30 +2768,6 @@ private constructor(
              */
             fun description(description: JsonField<String>) = apply {
                 this.description = description
-            }
-
-            /**
-             * The item price base quantity (BT-149). The number of item units to which the price
-             * applies. Defaults to 1. Must be rounded to maximum 4 decimals
-             */
-            fun priceBaseQuantity(priceBaseQuantity: String?) =
-                priceBaseQuantity(JsonField.ofNullable(priceBaseQuantity))
-
-            /**
-             * Alias for calling [Builder.priceBaseQuantity] with `priceBaseQuantity.orElse(null)`.
-             */
-            fun priceBaseQuantity(priceBaseQuantity: Optional<String>) =
-                priceBaseQuantity(priceBaseQuantity.getOrNull())
-
-            /**
-             * Sets [Builder.priceBaseQuantity] to an arbitrary JSON value.
-             *
-             * You should usually call [Builder.priceBaseQuantity] with a well-typed [String] value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
-             */
-            fun priceBaseQuantity(priceBaseQuantity: JsonField<String>) = apply {
-                this.priceBaseQuantity = priceBaseQuantity
             }
 
             /** The product code of the line item. */
@@ -2904,10 +2850,7 @@ private constructor(
              */
             fun unit(unit: JsonField<UnitOfMeasureCode>) = apply { this.unit = unit }
 
-            /**
-             * The item net price (BT-146). The price of an item, exclusive of VAT, after
-             * subtracting item price discount. Must be rounded to maximum 4 decimals
-             */
+            /** The unit price of the line item. Must be rounded to maximum 2 decimals */
             fun unitPrice(unitPrice: String?) = unitPrice(JsonField.ofNullable(unitPrice))
 
             /** Alias for calling [Builder.unitPrice] with `unitPrice.orElse(null)`. */
@@ -2953,7 +2896,6 @@ private constructor(
                     (charges ?: JsonMissing.of()).map { it.toImmutable() },
                     date,
                     description,
-                    priceBaseQuantity,
                     productCode,
                     quantity,
                     tax,
@@ -2976,7 +2918,6 @@ private constructor(
             charges().ifPresent { it.forEach { it.validate() } }
             date()
             description()
-            priceBaseQuantity()
             productCode()
             quantity()
             tax()
@@ -3007,7 +2948,6 @@ private constructor(
                 (charges.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (date.asKnown().isPresent) 1 else 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
-                (if (priceBaseQuantity.asKnown().isPresent) 1 else 0) +
                 (if (productCode.asKnown().isPresent) 1 else 0) +
                 (if (quantity.asKnown().isPresent) 1 else 0) +
                 (if (tax.asKnown().isPresent) 1 else 0) +
@@ -3026,7 +2966,6 @@ private constructor(
                 charges == other.charges &&
                 date == other.date &&
                 description == other.description &&
-                priceBaseQuantity == other.priceBaseQuantity &&
                 productCode == other.productCode &&
                 quantity == other.quantity &&
                 tax == other.tax &&
@@ -3043,7 +2982,6 @@ private constructor(
                 charges,
                 date,
                 description,
-                priceBaseQuantity,
                 productCode,
                 quantity,
                 tax,
@@ -3057,7 +2995,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Item{allowances=$allowances, amount=$amount, charges=$charges, date=$date, description=$description, priceBaseQuantity=$priceBaseQuantity, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
+            "Item{allowances=$allowances, amount=$amount, charges=$charges, date=$date, description=$description, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
     }
 
     /**
