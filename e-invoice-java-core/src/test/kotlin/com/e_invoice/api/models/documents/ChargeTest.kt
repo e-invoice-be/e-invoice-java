@@ -17,18 +17,18 @@ internal class ChargeTest {
                 .baseAmount("base_amount")
                 .multiplierFactor("multiplier_factor")
                 .reason("reason")
-                .reasonCode("reason_code")
+                .reasonCode(Charge.ReasonCode.AA)
                 .taxCode(Charge.TaxCode.AE)
-                .taxRate("tax_rate")
+                .taxRate("21.00")
                 .build()
 
         assertThat(charge.amount()).contains("amount")
         assertThat(charge.baseAmount()).contains("base_amount")
         assertThat(charge.multiplierFactor()).contains("multiplier_factor")
         assertThat(charge.reason()).contains("reason")
-        assertThat(charge.reasonCode()).contains("reason_code")
+        assertThat(charge.reasonCode()).contains(Charge.ReasonCode.AA)
         assertThat(charge.taxCode()).contains(Charge.TaxCode.AE)
-        assertThat(charge.taxRate()).contains("tax_rate")
+        assertThat(charge.taxRate()).contains("21.00")
     }
 
     @Test
@@ -40,9 +40,9 @@ internal class ChargeTest {
                 .baseAmount("base_amount")
                 .multiplierFactor("multiplier_factor")
                 .reason("reason")
-                .reasonCode("reason_code")
+                .reasonCode(Charge.ReasonCode.AA)
                 .taxCode(Charge.TaxCode.AE)
-                .taxRate("tax_rate")
+                .taxRate("21.00")
                 .build()
 
         val roundtrippedCharge =

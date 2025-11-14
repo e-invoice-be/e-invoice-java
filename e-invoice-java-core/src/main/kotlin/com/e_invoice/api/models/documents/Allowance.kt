@@ -25,7 +25,7 @@ private constructor(
     private val baseAmount: JsonField<String>,
     private val multiplierFactor: JsonField<String>,
     private val reason: JsonField<String>,
-    private val reasonCode: JsonField<String>,
+    private val reasonCode: JsonField<ReasonCode>,
     private val taxCode: JsonField<TaxCode>,
     private val taxRate: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -43,7 +43,7 @@ private constructor(
         @JsonProperty("reason") @ExcludeMissing reason: JsonField<String> = JsonMissing.of(),
         @JsonProperty("reason_code")
         @ExcludeMissing
-        reasonCode: JsonField<String> = JsonMissing.of(),
+        reasonCode: JsonField<ReasonCode> = JsonMissing.of(),
         @JsonProperty("tax_code") @ExcludeMissing taxCode: JsonField<TaxCode> = JsonMissing.of(),
         @JsonProperty("tax_rate") @ExcludeMissing taxRate: JsonField<String> = JsonMissing.of(),
     ) : this(
@@ -76,7 +76,7 @@ private constructor(
 
     /**
      * The percentage that may be used, in conjunction with the allowance base amount, to calculate
-     * the allowance amount. To state 20%, use value 20
+     * the allowance amount. To state 20%, use value 20. Must be rounded to maximum 2 decimals
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -92,17 +92,15 @@ private constructor(
     fun reason(): Optional<String> = reason.getOptional("reason")
 
     /**
-     * The code for the allowance reason
+     * Allowance reason codes for invoice discounts and charges
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
-    fun reasonCode(): Optional<String> = reasonCode.getOptional("reason_code")
+    fun reasonCode(): Optional<ReasonCode> = reasonCode.getOptional("reason_code")
 
     /**
-     * Duty or tax or fee category codes (Subset of UNCL5305)
-     *
-     * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
+     * The VAT category code that applies to the allowance
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -110,7 +108,8 @@ private constructor(
     fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
 
     /**
-     * The VAT rate, represented as percentage that applies to the allowance
+     * The VAT rate, represented as percentage that applies to the allowance. Must be rounded to
+     * maximum 2 decimals
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -153,7 +152,9 @@ private constructor(
      *
      * Unlike [reasonCode], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("reason_code") @ExcludeMissing fun _reasonCode(): JsonField<String> = reasonCode
+    @JsonProperty("reason_code")
+    @ExcludeMissing
+    fun _reasonCode(): JsonField<ReasonCode> = reasonCode
 
     /**
      * Returns the raw JSON value of [taxCode].
@@ -194,7 +195,7 @@ private constructor(
         private var baseAmount: JsonField<String> = JsonMissing.of()
         private var multiplierFactor: JsonField<String> = JsonMissing.of()
         private var reason: JsonField<String> = JsonMissing.of()
-        private var reasonCode: JsonField<String> = JsonMissing.of()
+        private var reasonCode: JsonField<ReasonCode> = JsonMissing.of()
         private var taxCode: JsonField<TaxCode> = JsonMissing.of()
         private var taxRate: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -245,7 +246,8 @@ private constructor(
 
         /**
          * The percentage that may be used, in conjunction with the allowance base amount, to
-         * calculate the allowance amount. To state 20%, use value 20
+         * calculate the allowance amount. To state 20%, use value 20. Must be rounded to maximum 2
+         * decimals
          */
         fun multiplierFactor(multiplierFactor: String?) =
             multiplierFactor(JsonField.ofNullable(multiplierFactor))
@@ -279,30 +281,23 @@ private constructor(
          */
         fun reason(reason: JsonField<String>) = apply { this.reason = reason }
 
-        /** The code for the allowance reason */
-        fun reasonCode(reasonCode: String?) = reasonCode(JsonField.ofNullable(reasonCode))
+        /** Allowance reason codes for invoice discounts and charges */
+        fun reasonCode(reasonCode: ReasonCode?) = reasonCode(JsonField.ofNullable(reasonCode))
 
         /** Alias for calling [Builder.reasonCode] with `reasonCode.orElse(null)`. */
-        fun reasonCode(reasonCode: Optional<String>) = reasonCode(reasonCode.getOrNull())
+        fun reasonCode(reasonCode: Optional<ReasonCode>) = reasonCode(reasonCode.getOrNull())
 
         /**
          * Sets [Builder.reasonCode] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.reasonCode] with a well-typed [String] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
+         * You should usually call [Builder.reasonCode] with a well-typed [ReasonCode] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
          */
-        fun reasonCode(reasonCode: JsonField<String>) = apply { this.reasonCode = reasonCode }
+        fun reasonCode(reasonCode: JsonField<ReasonCode>) = apply { this.reasonCode = reasonCode }
 
-        /**
-         * Duty or tax or fee category codes (Subset of UNCL5305)
-         *
-         * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
-         */
-        fun taxCode(taxCode: TaxCode?) = taxCode(JsonField.ofNullable(taxCode))
-
-        /** Alias for calling [Builder.taxCode] with `taxCode.orElse(null)`. */
-        fun taxCode(taxCode: Optional<TaxCode>) = taxCode(taxCode.getOrNull())
+        /** The VAT category code that applies to the allowance */
+        fun taxCode(taxCode: TaxCode) = taxCode(JsonField.of(taxCode))
 
         /**
          * Sets [Builder.taxCode] to an arbitrary JSON value.
@@ -312,7 +307,10 @@ private constructor(
          */
         fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
 
-        /** The VAT rate, represented as percentage that applies to the allowance */
+        /**
+         * The VAT rate, represented as percentage that applies to the allowance. Must be rounded to
+         * maximum 2 decimals
+         */
         fun taxRate(taxRate: String?) = taxRate(JsonField.ofNullable(taxRate))
 
         /** Alias for calling [Builder.taxRate] with `taxRate.orElse(null)`. */
@@ -374,7 +372,7 @@ private constructor(
         baseAmount()
         multiplierFactor()
         reason()
-        reasonCode()
+        reasonCode().ifPresent { it.validate() }
         taxCode().ifPresent { it.validate() }
         taxRate()
         validated = true
@@ -399,15 +397,243 @@ private constructor(
             (if (baseAmount.asKnown().isPresent) 1 else 0) +
             (if (multiplierFactor.asKnown().isPresent) 1 else 0) +
             (if (reason.asKnown().isPresent) 1 else 0) +
-            (if (reasonCode.asKnown().isPresent) 1 else 0) +
+            (reasonCode.asKnown().getOrNull()?.validity() ?: 0) +
             (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
             (if (taxRate.asKnown().isPresent) 1 else 0)
 
-    /**
-     * Duty or tax or fee category codes (Subset of UNCL5305)
-     *
-     * Agency: UN/CEFACT Version: D.16B Subset: OpenPEPPOL
-     */
+    /** Allowance reason codes for invoice discounts and charges */
+    class ReasonCode @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val _41 = of("41")
+
+            @JvmField val _42 = of("42")
+
+            @JvmField val _60 = of("60")
+
+            @JvmField val _62 = of("62")
+
+            @JvmField val _63 = of("63")
+
+            @JvmField val _64 = of("64")
+
+            @JvmField val _65 = of("65")
+
+            @JvmField val _66 = of("66")
+
+            @JvmField val _67 = of("67")
+
+            @JvmField val _68 = of("68")
+
+            @JvmField val _70 = of("70")
+
+            @JvmField val _71 = of("71")
+
+            @JvmField val _88 = of("88")
+
+            @JvmField val _95 = of("95")
+
+            @JvmField val _100 = of("100")
+
+            @JvmField val _102 = of("102")
+
+            @JvmField val _103 = of("103")
+
+            @JvmField val _104 = of("104")
+
+            @JvmField val _105 = of("105")
+
+            @JvmStatic fun of(value: String) = ReasonCode(JsonField.of(value))
+        }
+
+        /** An enum containing [ReasonCode]'s known values. */
+        enum class Known {
+            _41,
+            _42,
+            _60,
+            _62,
+            _63,
+            _64,
+            _65,
+            _66,
+            _67,
+            _68,
+            _70,
+            _71,
+            _88,
+            _95,
+            _100,
+            _102,
+            _103,
+            _104,
+            _105,
+        }
+
+        /**
+         * An enum containing [ReasonCode]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [ReasonCode] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            _41,
+            _42,
+            _60,
+            _62,
+            _63,
+            _64,
+            _65,
+            _66,
+            _67,
+            _68,
+            _70,
+            _71,
+            _88,
+            _95,
+            _100,
+            _102,
+            _103,
+            _104,
+            _105,
+            /**
+             * An enum member indicating that [ReasonCode] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                _41 -> Value._41
+                _42 -> Value._42
+                _60 -> Value._60
+                _62 -> Value._62
+                _63 -> Value._63
+                _64 -> Value._64
+                _65 -> Value._65
+                _66 -> Value._66
+                _67 -> Value._67
+                _68 -> Value._68
+                _70 -> Value._70
+                _71 -> Value._71
+                _88 -> Value._88
+                _95 -> Value._95
+                _100 -> Value._100
+                _102 -> Value._102
+                _103 -> Value._103
+                _104 -> Value._104
+                _105 -> Value._105
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                _41 -> Known._41
+                _42 -> Known._42
+                _60 -> Known._60
+                _62 -> Known._62
+                _63 -> Known._63
+                _64 -> Known._64
+                _65 -> Known._65
+                _66 -> Known._66
+                _67 -> Known._67
+                _68 -> Known._68
+                _70 -> Known._70
+                _71 -> Known._71
+                _88 -> Known._88
+                _95 -> Known._95
+                _100 -> Known._100
+                _102 -> Known._102
+                _103 -> Known._103
+                _104 -> Known._104
+                _105 -> Known._105
+                else -> throw EInvoiceInvalidDataException("Unknown ReasonCode: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                EInvoiceInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        fun validate(): ReasonCode = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is ReasonCode && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /** The VAT category code that applies to the allowance */
     class TaxCode @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
 
         /**
