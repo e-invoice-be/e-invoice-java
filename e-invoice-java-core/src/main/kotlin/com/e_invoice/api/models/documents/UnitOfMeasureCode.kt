@@ -958,8 +958,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
 
         @JvmField val ONZ = of("ONZ")
 
-        @JvmField val PCE = of("PCE")
-
         @JvmField val LBR = of("LBR")
 
         @JvmField val QT = of("QT")
@@ -2559,7 +2557,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         MIN,
         MON,
         ONZ,
-        PCE,
         LBR,
         QT,
         SEC,
@@ -3603,7 +3600,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         MIN,
         MON,
         ONZ,
-        PCE,
         LBR,
         QT,
         SEC,
@@ -4651,7 +4647,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             MIN -> Value.MIN
             MON -> Value.MON
             ONZ -> Value.ONZ
-            PCE -> Value.PCE
             LBR -> Value.LBR
             QT -> Value.QT
             SEC -> Value.SEC
@@ -5696,7 +5691,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             MIN -> Known.MIN
             MON -> Known.MON
             ONZ -> Known.ONZ
-            PCE -> Known.PCE
             LBR -> Known.LBR
             QT -> Known.QT
             SEC -> Known.SEC
