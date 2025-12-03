@@ -400,13 +400,13 @@ The SDK uses the standard [OkHttp logging interceptor](https://github.com/square
 Enable logging by setting the `E_INVOICE_LOG` environment variable to `info`:
 
 ```sh
-$ export E_INVOICE_LOG=info
+export E_INVOICE_LOG=info
 ```
 
 Or to `debug` for more verbose logging:
 
 ```sh
-$ export E_INVOICE_LOG=debug
+export E_INVOICE_LOG=debug
 ```
 
 ## ProGuard and R8
