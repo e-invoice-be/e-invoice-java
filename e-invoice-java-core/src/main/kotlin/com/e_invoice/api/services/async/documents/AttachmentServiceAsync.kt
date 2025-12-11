@@ -115,13 +115,18 @@ interface AttachmentServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<AttachmentDeleteResponse>
 
-    /** Add a new attachment to an invoice or credit note */
+    /**
+     * Add one or more attachments when creating a new invoice or credit note via POST
+     * /api/documents/
+     */
+    @Deprecated("deprecated")
     fun add(
         documentId: String,
         params: AttachmentAddParams,
     ): CompletableFuture<DocumentAttachment> = add(documentId, params, RequestOptions.none())
 
     /** @see add */
+    @Deprecated("deprecated")
     fun add(
         documentId: String,
         params: AttachmentAddParams,
@@ -130,10 +135,12 @@ interface AttachmentServiceAsync {
         add(params.toBuilder().documentId(documentId).build(), requestOptions)
 
     /** @see add */
+    @Deprecated("deprecated")
     fun add(params: AttachmentAddParams): CompletableFuture<DocumentAttachment> =
         add(params, RequestOptions.none())
 
     /** @see add */
+    @Deprecated("deprecated")
     fun add(
         params: AttachmentAddParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -261,6 +268,7 @@ interface AttachmentServiceAsync {
          * Returns a raw HTTP response for `post /api/documents/{document_id}/attachments`, but is
          * otherwise the same as [AttachmentServiceAsync.add].
          */
+        @Deprecated("deprecated")
         fun add(
             documentId: String,
             params: AttachmentAddParams,
@@ -268,6 +276,7 @@ interface AttachmentServiceAsync {
             add(documentId, params, RequestOptions.none())
 
         /** @see add */
+        @Deprecated("deprecated")
         fun add(
             documentId: String,
             params: AttachmentAddParams,
@@ -276,12 +285,14 @@ interface AttachmentServiceAsync {
             add(params.toBuilder().documentId(documentId).build(), requestOptions)
 
         /** @see add */
+        @Deprecated("deprecated")
         fun add(
             params: AttachmentAddParams
         ): CompletableFuture<HttpResponseFor<DocumentAttachment>> =
             add(params, RequestOptions.none())
 
         /** @see add */
+        @Deprecated("deprecated")
         fun add(
             params: AttachmentAddParams,
             requestOptions: RequestOptions = RequestOptions.none(),
