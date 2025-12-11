@@ -23,7 +23,10 @@ import kotlin.io.path.inputStream
 import kotlin.io.path.name
 import kotlin.jvm.optionals.getOrNull
 
-/** Add a new attachment to an invoice or credit note */
+/**
+ * Add one or more attachments when creating a new invoice or credit note via POST /api/documents/
+ */
+@Deprecated("deprecated")
 class AttachmentAddParams
 private constructor(
     private val documentId: String?,
