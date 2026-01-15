@@ -26,7 +26,10 @@ interface OutboxServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxServiceAsync
 
-    /** Retrieve a paginated list of draft documents with filtering options. */
+    /**
+     * Retrieve a paginated list of draft documents with filtering options including state and text
+     * search.
+     */
     fun listDraftDocuments(): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
         listDraftDocuments(OutboxListDraftDocumentsParams.none())
 

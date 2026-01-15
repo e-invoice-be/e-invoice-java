@@ -22,6 +22,7 @@ internal class PaginatedDocumentResponseTest {
     fun create() {
         val paginatedDocumentResponse =
             PaginatedDocumentResponse.builder()
+                .hasNextPage(true)
                 .addItem(
                     DocumentResponse.builder()
                         .id("id")
@@ -154,6 +155,7 @@ internal class PaginatedDocumentResponseTest {
                 .total(0L)
                 .build()
 
+        assertThat(paginatedDocumentResponse.hasNextPage()).isEqualTo(true)
         assertThat(paginatedDocumentResponse.items())
             .containsExactly(
                 DocumentResponse.builder()
@@ -289,6 +291,7 @@ internal class PaginatedDocumentResponseTest {
         val jsonMapper = jsonMapper()
         val paginatedDocumentResponse =
             PaginatedDocumentResponse.builder()
+                .hasNextPage(true)
                 .addItem(
                     DocumentResponse.builder()
                         .id("id")
