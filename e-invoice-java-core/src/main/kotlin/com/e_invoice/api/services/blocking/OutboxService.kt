@@ -26,7 +26,10 @@ interface OutboxService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxService
 
-    /** Retrieve a paginated list of draft documents with filtering options. */
+    /**
+     * Retrieve a paginated list of draft documents with filtering options including state and text
+     * search.
+     */
     fun listDraftDocuments(): OutboxListDraftDocumentsPage =
         listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
