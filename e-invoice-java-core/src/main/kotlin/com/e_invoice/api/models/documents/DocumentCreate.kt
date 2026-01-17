@@ -2918,11 +2918,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    Amount(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     Amount(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    Amount(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -2930,7 +2930,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> Amount(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -3092,11 +3092,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    BaseAmount(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     BaseAmount(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    BaseAmount(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -3104,7 +3104,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> BaseAmount(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -3268,11 +3268,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    MultiplierFactor(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     MultiplierFactor(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    MultiplierFactor(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -3280,7 +3280,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> MultiplierFactor(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -3855,11 +3855,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    TaxRate(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     TaxRate(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    TaxRate(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -3867,7 +3867,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> TaxRate(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -4060,11 +4060,11 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                AmountDue(number = it, _json = json)
-                            },
                             tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                 AmountDue(string = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                AmountDue(number = it, _json = json)
                             },
                         )
                         .filterNotNull()
@@ -4072,7 +4072,7 @@ private constructor(
                         .toList()
                 return when (bestMatches.size) {
                     // This can happen if what we're deserializing is completely incompatible with
-                    // all the possible variants (e.g. deserializing from object).
+                    // all the possible variants (e.g. deserializing from boolean).
                     0 -> AmountDue(_json = json)
                     1 -> bestMatches.single()
                     // If there's more than one match with the highest validity, then use the first
@@ -4660,11 +4660,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    Amount(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     Amount(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    Amount(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -4672,7 +4672,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> Amount(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -4834,11 +4834,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    BaseAmount(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     BaseAmount(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    BaseAmount(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -4846,7 +4846,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> BaseAmount(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -5009,11 +5009,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    MultiplierFactor(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     MultiplierFactor(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    MultiplierFactor(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -5021,7 +5021,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> MultiplierFactor(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -6551,11 +6551,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    TaxRate(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     TaxRate(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    TaxRate(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -6563,7 +6563,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> TaxRate(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -6760,11 +6760,11 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                InvoiceTotal(number = it, _json = json)
-                            },
                             tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                 InvoiceTotal(string = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                InvoiceTotal(number = it, _json = json)
                             },
                         )
                         .filterNotNull()
@@ -6772,7 +6772,7 @@ private constructor(
                         .toList()
                 return when (bestMatches.size) {
                     // This can happen if what we're deserializing is completely incompatible with
-                    // all the possible variants (e.g. deserializing from object).
+                    // all the possible variants (e.g. deserializing from boolean).
                     0 -> InvoiceTotal(_json = json)
                     1 -> bestMatches.single()
                     // If there's more than one match with the highest validity, then use the first
@@ -7998,11 +7998,11 @@ private constructor(
 
                         val bestMatches =
                             sequenceOf(
-                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                        Amount(number = it, _json = json)
-                                    },
                                     tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                         Amount(string = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        Amount(number = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -8011,7 +8011,7 @@ private constructor(
                         return when (bestMatches.size) {
                             // This can happen if what we're deserializing is completely
                             // incompatible with all the possible variants (e.g. deserializing from
-                            // object).
+                            // boolean).
                             0 -> Amount(_json = json)
                             1 -> bestMatches.single()
                             // If there's more than one match with the highest validity, then use
@@ -8173,11 +8173,11 @@ private constructor(
 
                         val bestMatches =
                             sequenceOf(
-                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                        BaseAmount(number = it, _json = json)
-                                    },
                                     tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                         BaseAmount(string = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        BaseAmount(number = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -8186,7 +8186,7 @@ private constructor(
                         return when (bestMatches.size) {
                             // This can happen if what we're deserializing is completely
                             // incompatible with all the possible variants (e.g. deserializing from
-                            // object).
+                            // boolean).
                             0 -> BaseAmount(_json = json)
                             1 -> bestMatches.single()
                             // If there's more than one match with the highest validity, then use
@@ -8352,11 +8352,11 @@ private constructor(
 
                         val bestMatches =
                             sequenceOf(
-                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                        MultiplierFactor(number = it, _json = json)
-                                    },
                                     tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                         MultiplierFactor(string = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        MultiplierFactor(number = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -8365,7 +8365,7 @@ private constructor(
                         return when (bestMatches.size) {
                             // This can happen if what we're deserializing is completely
                             // incompatible with all the possible variants (e.g. deserializing from
-                            // object).
+                            // boolean).
                             0 -> MultiplierFactor(_json = json)
                             1 -> bestMatches.single()
                             // If there's more than one match with the highest validity, then use
@@ -8943,11 +8943,11 @@ private constructor(
 
                         val bestMatches =
                             sequenceOf(
-                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                        TaxRate(number = it, _json = json)
-                                    },
                                     tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                         TaxRate(string = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        TaxRate(number = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -8956,7 +8956,7 @@ private constructor(
                         return when (bestMatches.size) {
                             // This can happen if what we're deserializing is completely
                             // incompatible with all the possible variants (e.g. deserializing from
-                            // object).
+                            // boolean).
                             0 -> TaxRate(_json = json)
                             1 -> bestMatches.single()
                             // If there's more than one match with the highest validity, then use
@@ -9154,11 +9154,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    Amount(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     Amount(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    Amount(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -9166,7 +9166,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> Amount(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -9775,11 +9775,11 @@ private constructor(
 
                         val bestMatches =
                             sequenceOf(
-                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                        Amount(number = it, _json = json)
-                                    },
                                     tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                         Amount(string = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        Amount(number = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -9788,7 +9788,7 @@ private constructor(
                         return when (bestMatches.size) {
                             // This can happen if what we're deserializing is completely
                             // incompatible with all the possible variants (e.g. deserializing from
-                            // object).
+                            // boolean).
                             0 -> Amount(_json = json)
                             1 -> bestMatches.single()
                             // If there's more than one match with the highest validity, then use
@@ -9950,11 +9950,11 @@ private constructor(
 
                         val bestMatches =
                             sequenceOf(
-                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                        BaseAmount(number = it, _json = json)
-                                    },
                                     tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                         BaseAmount(string = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        BaseAmount(number = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -9963,7 +9963,7 @@ private constructor(
                         return when (bestMatches.size) {
                             // This can happen if what we're deserializing is completely
                             // incompatible with all the possible variants (e.g. deserializing from
-                            // object).
+                            // boolean).
                             0 -> BaseAmount(_json = json)
                             1 -> bestMatches.single()
                             // If there's more than one match with the highest validity, then use
@@ -10128,11 +10128,11 @@ private constructor(
 
                         val bestMatches =
                             sequenceOf(
-                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                        MultiplierFactor(number = it, _json = json)
-                                    },
                                     tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                         MultiplierFactor(string = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        MultiplierFactor(number = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -10141,7 +10141,7 @@ private constructor(
                         return when (bestMatches.size) {
                             // This can happen if what we're deserializing is completely
                             // incompatible with all the possible variants (e.g. deserializing from
-                            // object).
+                            // boolean).
                             0 -> MultiplierFactor(_json = json)
                             1 -> bestMatches.single()
                             // If there's more than one match with the highest validity, then use
@@ -11674,11 +11674,11 @@ private constructor(
 
                         val bestMatches =
                             sequenceOf(
-                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                        TaxRate(number = it, _json = json)
-                                    },
                                     tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                         TaxRate(string = it, _json = json)
+                                    },
+                                    tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                        TaxRate(number = it, _json = json)
                                     },
                                 )
                                 .filterNotNull()
@@ -11687,7 +11687,7 @@ private constructor(
                         return when (bestMatches.size) {
                             // This can happen if what we're deserializing is completely
                             // incompatible with all the possible variants (e.g. deserializing from
-                            // object).
+                            // boolean).
                             0 -> TaxRate(_json = json)
                             1 -> bestMatches.single()
                             // If there's more than one match with the highest validity, then use
@@ -11884,11 +11884,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    Quantity(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     Quantity(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    Quantity(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -11896,7 +11896,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> Quantity(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -12057,11 +12057,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    Tax(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     Tax(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    Tax(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -12069,7 +12069,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> Tax(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -12228,11 +12228,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    TaxRate(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     TaxRate(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    TaxRate(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -12240,7 +12240,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> TaxRate(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -12402,11 +12402,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    UnitPrice(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     UnitPrice(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    UnitPrice(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -12414,7 +12414,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> UnitPrice(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -12622,11 +12622,11 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                PreviousUnpaidBalance(number = it, _json = json)
-                            },
                             tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                 PreviousUnpaidBalance(string = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                PreviousUnpaidBalance(number = it, _json = json)
                             },
                         )
                         .filterNotNull()
@@ -12634,7 +12634,7 @@ private constructor(
                         .toList()
                 return when (bestMatches.size) {
                     // This can happen if what we're deserializing is completely incompatible with
-                    // all the possible variants (e.g. deserializing from object).
+                    // all the possible variants (e.g. deserializing from boolean).
                     0 -> PreviousUnpaidBalance(_json = json)
                     1 -> bestMatches.single()
                     // If there's more than one match with the highest validity, then use the first
@@ -12797,11 +12797,11 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                Subtotal(number = it, _json = json)
-                            },
                             tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                 Subtotal(string = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                Subtotal(number = it, _json = json)
                             },
                         )
                         .filterNotNull()
@@ -12809,7 +12809,7 @@ private constructor(
                         .toList()
                 return when (bestMatches.size) {
                     // This can happen if what we're deserializing is completely incompatible with
-                    // all the possible variants (e.g. deserializing from object).
+                    // all the possible variants (e.g. deserializing from boolean).
                     0 -> Subtotal(_json = json)
                     1 -> bestMatches.single()
                     // If there's more than one match with the highest validity, then use the first
@@ -13315,11 +13315,11 @@ private constructor(
 
                     val bestMatches =
                         sequenceOf(
-                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                    Amount(number = it, _json = json)
-                                },
                                 tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                     Amount(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    Amount(number = it, _json = json)
                                 },
                             )
                             .filterNotNull()
@@ -13327,7 +13327,7 @@ private constructor(
                             .toList()
                     return when (bestMatches.size) {
                         // This can happen if what we're deserializing is completely incompatible
-                        // with all the possible variants (e.g. deserializing from object).
+                        // with all the possible variants (e.g. deserializing from boolean).
                         0 -> Amount(_json = json)
                         1 -> bestMatches.single()
                         // If there's more than one match with the highest validity, then use the
@@ -13509,11 +13509,11 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                TotalDiscount(number = it, _json = json)
-                            },
                             tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                 TotalDiscount(string = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                TotalDiscount(number = it, _json = json)
                             },
                         )
                         .filterNotNull()
@@ -13521,7 +13521,7 @@ private constructor(
                         .toList()
                 return when (bestMatches.size) {
                     // This can happen if what we're deserializing is completely incompatible with
-                    // all the possible variants (e.g. deserializing from object).
+                    // all the possible variants (e.g. deserializing from boolean).
                     0 -> TotalDiscount(_json = json)
                     1 -> bestMatches.single()
                     // If there's more than one match with the highest validity, then use the first
@@ -13679,11 +13679,11 @@ private constructor(
 
                 val bestMatches =
                     sequenceOf(
-                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
-                                TotalTax(number = it, _json = json)
-                            },
                             tryDeserialize(node, jacksonTypeRef<String>())?.let {
                                 TotalTax(string = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                TotalTax(number = it, _json = json)
                             },
                         )
                         .filterNotNull()
@@ -13691,7 +13691,7 @@ private constructor(
                         .toList()
                 return when (bestMatches.size) {
                     // This can happen if what we're deserializing is completely incompatible with
-                    // all the possible variants (e.g. deserializing from object).
+                    // all the possible variants (e.g. deserializing from boolean).
                     0 -> TotalTax(_json = json)
                     1 -> bestMatches.single()
                     // If there's more than one match with the highest validity, then use the first
