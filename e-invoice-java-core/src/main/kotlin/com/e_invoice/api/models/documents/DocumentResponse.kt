@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
@@ -27,6 +28,7 @@ class DocumentResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
+    private val createdAt: JsonField<OffsetDateTime>,
     private val allowances: JsonField<List<Allowance>>,
     private val amountDue: JsonField<String>,
     private val attachments: JsonField<List<DocumentAttachment>>,
@@ -80,6 +82,9 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created_at")
+        @ExcludeMissing
+        createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("allowances")
         @ExcludeMissing
         allowances: JsonField<List<Allowance>> = JsonMissing.of(),
@@ -201,6 +206,7 @@ private constructor(
         vendorTaxId: JsonField<String> = JsonMissing.of(),
     ) : this(
         id,
+        createdAt,
         allowances,
         amountDue,
         attachments,
@@ -256,6 +262,12 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun id(): String = id.getRequired("id")
+
+    /**
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun createdAt(): OffsetDateTime = createdAt.getRequired("created_at")
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -643,6 +655,15 @@ private constructor(
      * Unlike [id], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
+
+    /**
+     * Returns the raw JSON value of [createdAt].
+     *
+     * Unlike [createdAt], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("created_at")
+    @ExcludeMissing
+    fun _createdAt(): JsonField<OffsetDateTime> = createdAt
 
     /**
      * Returns the raw JSON value of [allowances].
@@ -1066,6 +1087,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .id()
+         * .createdAt()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -1075,6 +1097,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var id: JsonField<String>? = null
+        private var createdAt: JsonField<OffsetDateTime>? = null
         private var allowances: JsonField<MutableList<Allowance>>? = null
         private var amountDue: JsonField<String> = JsonMissing.of()
         private var attachments: JsonField<MutableList<DocumentAttachment>>? = null
@@ -1127,6 +1150,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(documentResponse: DocumentResponse) = apply {
             id = documentResponse.id
+            createdAt = documentResponse.createdAt
             allowances = documentResponse.allowances.map { it.toMutableList() }
             amountDue = documentResponse.amountDue
             attachments = documentResponse.attachments.map { it.toMutableList() }
@@ -1186,6 +1210,17 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
+
+        fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
+
+        /**
+         * Sets [Builder.createdAt] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.createdAt] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
 
         fun allowances(allowances: List<Allowance>?) = allowances(JsonField.ofNullable(allowances))
 
@@ -2113,6 +2148,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .id()
+         * .createdAt()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -2120,6 +2156,7 @@ private constructor(
         fun build(): DocumentResponse =
             DocumentResponse(
                 checkRequired("id", id),
+                checkRequired("createdAt", createdAt),
                 (allowances ?: JsonMissing.of()).map { it.toImmutable() },
                 amountDue,
                 (attachments ?: JsonMissing.of()).map { it.toImmutable() },
@@ -2179,6 +2216,7 @@ private constructor(
         }
 
         id()
+        createdAt()
         allowances().ifPresent { it.forEach { it.validate() } }
         amountDue()
         attachments().ifPresent { it.forEach { it.validate() } }
@@ -2245,6 +2283,7 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (id.asKnown().isPresent) 1 else 0) +
+            (if (createdAt.asKnown().isPresent) 1 else 0) +
             (allowances.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (amountDue.asKnown().isPresent) 1 else 0) +
             (attachments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
@@ -6725,6 +6764,7 @@ private constructor(
 
         return other is DocumentResponse &&
             id == other.id &&
+            createdAt == other.createdAt &&
             allowances == other.allowances &&
             amountDue == other.amountDue &&
             attachments == other.attachments &&
@@ -6778,6 +6818,7 @@ private constructor(
     private val hashCode: Int by lazy {
         Objects.hash(
             id,
+            createdAt,
             allowances,
             amountDue,
             attachments,
@@ -6832,5 +6873,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentResponse{id=$id, allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentResponse{id=$id, createdAt=$createdAt, allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }
