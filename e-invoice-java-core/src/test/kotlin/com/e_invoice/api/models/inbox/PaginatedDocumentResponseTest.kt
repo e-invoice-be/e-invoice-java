@@ -13,6 +13,7 @@ import com.e_invoice.api.models.documents.UnitOfMeasureCode
 import com.e_invoice.api.models.documents.attachments.DocumentAttachment
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -26,6 +27,7 @@ internal class PaginatedDocumentResponseTest {
                 .addItem(
                     DocumentResponse.builder()
                         .id("id")
+                        .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .addAllowance(
                             DocumentResponse.Allowance.builder()
                                 .amount("amount")
@@ -160,6 +162,7 @@ internal class PaginatedDocumentResponseTest {
             .containsExactly(
                 DocumentResponse.builder()
                     .id("id")
+                    .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .addAllowance(
                         DocumentResponse.Allowance.builder()
                             .amount("amount")
@@ -295,6 +298,7 @@ internal class PaginatedDocumentResponseTest {
                 .addItem(
                     DocumentResponse.builder()
                         .id("id")
+                        .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .addAllowance(
                             DocumentResponse.Allowance.builder()
                                 .amount("amount")

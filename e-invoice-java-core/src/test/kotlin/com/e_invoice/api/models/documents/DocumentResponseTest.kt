@@ -7,6 +7,7 @@ import com.e_invoice.api.models.documents.attachments.DocumentAttachment
 import com.e_invoice.api.models.inbox.DocumentState
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -18,6 +19,7 @@ internal class DocumentResponseTest {
         val documentResponse =
             DocumentResponse.builder()
                 .id("id")
+                .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addAllowance(
                     DocumentResponse.Allowance.builder()
                         .amount("amount")
@@ -139,6 +141,8 @@ internal class DocumentResponseTest {
                 .build()
 
         assertThat(documentResponse.id()).isEqualTo("id")
+        assertThat(documentResponse.createdAt())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(documentResponse.allowances().getOrNull())
             .containsExactly(
                 DocumentResponse.Allowance.builder()
@@ -274,6 +278,7 @@ internal class DocumentResponseTest {
         val documentResponse =
             DocumentResponse.builder()
                 .id("id")
+                .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addAllowance(
                     DocumentResponse.Allowance.builder()
                         .amount("amount")
