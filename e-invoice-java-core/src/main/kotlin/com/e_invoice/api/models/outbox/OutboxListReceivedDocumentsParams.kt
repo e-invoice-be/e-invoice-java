@@ -68,10 +68,10 @@ private constructor(
     /** Sort direction (asc/desc) */
     fun sortOrder(): Optional<SortOrder> = Optional.ofNullable(sortOrder)
 
-    /** Filter by document state */
+    /** Filter by document state. If not provided, returns all states. */
     fun state(): Optional<DocumentState> = Optional.ofNullable(state)
 
-    /** Filter by document type */
+    /** Filter by document type. If not provided, returns all types. */
     fun type(): Optional<DocumentType> = Optional.ofNullable(type)
 
     /** Additional headers to send with the request. */
@@ -200,13 +200,13 @@ private constructor(
         /** Alias for calling [Builder.sortOrder] with `sortOrder.orElse(null)`. */
         fun sortOrder(sortOrder: Optional<SortOrder>) = sortOrder(sortOrder.getOrNull())
 
-        /** Filter by document state */
+        /** Filter by document state. If not provided, returns all states. */
         fun state(state: DocumentState?) = apply { this.state = state }
 
         /** Alias for calling [Builder.state] with `state.orElse(null)`. */
         fun state(state: Optional<DocumentState>) = state(state.getOrNull())
 
-        /** Filter by document type */
+        /** Filter by document type. If not provided, returns all types. */
         fun type(type: DocumentType?) = apply { this.type = type }
 
         /** Alias for calling [Builder.type] with `type.orElse(null)`. */
