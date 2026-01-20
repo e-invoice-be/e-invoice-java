@@ -21,7 +21,6 @@ internal class InboxListParamsTest {
             .sender("sender")
             .sortBy(InboxListParams.SortBy.CREATED_AT)
             .sortOrder(InboxListParams.SortOrder.ASC)
-            .state(DocumentState.DRAFT)
             .type(DocumentType.INVOICE)
             .build()
     }
@@ -38,7 +37,6 @@ internal class InboxListParamsTest {
                 .sender("sender")
                 .sortBy(InboxListParams.SortBy.CREATED_AT)
                 .sortOrder(InboxListParams.SortOrder.ASC)
-                .state(DocumentState.DRAFT)
                 .type(DocumentType.INVOICE)
                 .build()
 
@@ -55,7 +53,6 @@ internal class InboxListParamsTest {
                     .put("sender", "sender")
                     .put("sort_by", "created_at")
                     .put("sort_order", "asc")
-                    .put("state", "DRAFT")
                     .put("type", "INVOICE")
                     .build()
             )
