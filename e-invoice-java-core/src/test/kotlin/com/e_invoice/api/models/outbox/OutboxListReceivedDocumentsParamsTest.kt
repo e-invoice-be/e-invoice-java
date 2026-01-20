@@ -4,7 +4,6 @@ package com.e_invoice.api.models.outbox
 
 import com.e_invoice.api.core.http.QueryParams
 import com.e_invoice.api.models.documents.DocumentType
-import com.e_invoice.api.models.inbox.DocumentState
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -23,7 +22,6 @@ internal class OutboxListReceivedDocumentsParamsTest {
             .sender("sender")
             .sortBy(OutboxListReceivedDocumentsParams.SortBy.CREATED_AT)
             .sortOrder(OutboxListReceivedDocumentsParams.SortOrder.ASC)
-            .state(DocumentState.DRAFT)
             .type(DocumentType.INVOICE)
             .build()
     }
@@ -41,7 +39,6 @@ internal class OutboxListReceivedDocumentsParamsTest {
                 .sender("sender")
                 .sortBy(OutboxListReceivedDocumentsParams.SortBy.CREATED_AT)
                 .sortOrder(OutboxListReceivedDocumentsParams.SortOrder.ASC)
-                .state(DocumentState.DRAFT)
                 .type(DocumentType.INVOICE)
                 .build()
 
@@ -59,7 +56,6 @@ internal class OutboxListReceivedDocumentsParamsTest {
                     .put("sender", "sender")
                     .put("sort_by", "created_at")
                     .put("sort_order", "asc")
-                    .put("state", "DRAFT")
                     .put("type", "INVOICE")
                     .build()
             )

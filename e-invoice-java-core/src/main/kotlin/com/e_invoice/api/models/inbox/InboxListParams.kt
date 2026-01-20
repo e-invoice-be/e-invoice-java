@@ -30,7 +30,6 @@ private constructor(
     private val sender: String?,
     private val sortBy: SortBy?,
     private val sortOrder: SortOrder?,
-    private val state: DocumentState?,
     private val type: DocumentType?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -59,9 +58,6 @@ private constructor(
 
     /** Sort direction (asc/desc) */
     fun sortOrder(): Optional<SortOrder> = Optional.ofNullable(sortOrder)
-
-    /** Filter by document state. If not provided, returns all states. */
-    fun state(): Optional<DocumentState> = Optional.ofNullable(state)
 
     /** Filter by document type. If not provided, returns all types. */
     fun type(): Optional<DocumentType> = Optional.ofNullable(type)
@@ -93,7 +89,6 @@ private constructor(
         private var sender: String? = null
         private var sortBy: SortBy? = null
         private var sortOrder: SortOrder? = null
-        private var state: DocumentState? = null
         private var type: DocumentType? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -108,7 +103,6 @@ private constructor(
             sender = inboxListParams.sender
             sortBy = inboxListParams.sortBy
             sortOrder = inboxListParams.sortOrder
-            state = inboxListParams.state
             type = inboxListParams.type
             additionalHeaders = inboxListParams.additionalHeaders.toBuilder()
             additionalQueryParams = inboxListParams.additionalQueryParams.toBuilder()
@@ -175,12 +169,6 @@ private constructor(
 
         /** Alias for calling [Builder.sortOrder] with `sortOrder.orElse(null)`. */
         fun sortOrder(sortOrder: Optional<SortOrder>) = sortOrder(sortOrder.getOrNull())
-
-        /** Filter by document state. If not provided, returns all states. */
-        fun state(state: DocumentState?) = apply { this.state = state }
-
-        /** Alias for calling [Builder.state] with `state.orElse(null)`. */
-        fun state(state: Optional<DocumentState>) = state(state.getOrNull())
 
         /** Filter by document type. If not provided, returns all types. */
         fun type(type: DocumentType?) = apply { this.type = type }
@@ -301,7 +289,6 @@ private constructor(
                 sender,
                 sortBy,
                 sortOrder,
-                state,
                 type,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -323,7 +310,6 @@ private constructor(
                 sender?.let { put("sender", it) }
                 sortBy?.let { put("sort_by", it.toString()) }
                 sortOrder?.let { put("sort_order", it.toString()) }
-                state?.let { put("state", it.toString()) }
                 type?.let { put("type", it.toString()) }
                 putAll(additionalQueryParams)
             }
@@ -631,7 +617,6 @@ private constructor(
             sender == other.sender &&
             sortBy == other.sortBy &&
             sortOrder == other.sortOrder &&
-            state == other.state &&
             type == other.type &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -647,12 +632,11 @@ private constructor(
             sender,
             sortBy,
             sortOrder,
-            state,
             type,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "InboxListParams{dateFrom=$dateFrom, dateTo=$dateTo, page=$page, pageSize=$pageSize, search=$search, sender=$sender, sortBy=$sortBy, sortOrder=$sortOrder, state=$state, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "InboxListParams{dateFrom=$dateFrom, dateTo=$dateTo, page=$page, pageSize=$pageSize, search=$search, sender=$sender, sortBy=$sortBy, sortOrder=$sortOrder, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
