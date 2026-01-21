@@ -19,6 +19,7 @@ import kotlin.jvm.optionals.getOrNull
  * Retrieve a paginated list of draft documents with filtering options including state and text
  * search.
  */
+@Deprecated("deprecated")
 class OutboxListDraftDocumentsParams
 private constructor(
     private val page: Long?,
