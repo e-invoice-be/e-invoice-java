@@ -58,7 +58,7 @@ private constructor(
     fun search(): Optional<String> = Optional.ofNullable(search)
 
     /** (Deprecated) Filter by sender ID */
-    @Deprecated("deprecated") fun sender(): Optional<String> = Optional.ofNullable(sender)
+    fun sender(): Optional<String> = Optional.ofNullable(sender)
 
     /** Field to sort by */
     fun sortBy(): Optional<SortBy> = Optional.ofNullable(sortBy)
@@ -176,10 +176,10 @@ private constructor(
         fun search(search: Optional<String>) = search(search.getOrNull())
 
         /** (Deprecated) Filter by sender ID */
-        @Deprecated("deprecated") fun sender(sender: String?) = apply { this.sender = sender }
+        fun sender(sender: String?) = apply { this.sender = sender }
 
         /** Alias for calling [Builder.sender] with `sender.orElse(null)`. */
-        @Deprecated("deprecated") fun sender(sender: Optional<String>) = sender(sender.getOrNull())
+        fun sender(sender: Optional<String>) = sender(sender.getOrNull())
 
         /** Field to sort by */
         fun sortBy(sortBy: SortBy?) = apply { this.sortBy = sortBy }
