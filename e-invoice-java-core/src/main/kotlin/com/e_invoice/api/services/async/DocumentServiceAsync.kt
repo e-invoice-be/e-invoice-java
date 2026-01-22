@@ -150,7 +150,13 @@ interface DocumentServiceAsync {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<DocumentCreateFromPdfResponse>
 
-    /** Send an invoice or credit note via Peppol */
+    /**
+     * Send an invoice or credit note via Peppol. By default, the sender and receiver Peppol IDs are
+     * derived from the company (tax) IDs in the document, regardless of whether the document was
+     * created from a UBL with a different endpoint ID. To explicitly set the sender or receiver
+     * Peppol ID, provide them via the query parameters (sender_peppol_scheme, sender_peppol_id,
+     * receiver_peppol_scheme, receiver_peppol_id).
+     */
     fun send(documentId: String): CompletableFuture<DocumentResponse> =
         send(documentId, DocumentSendParams.none())
 
