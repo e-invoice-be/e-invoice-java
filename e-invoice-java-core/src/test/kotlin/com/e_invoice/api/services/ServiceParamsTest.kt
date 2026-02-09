@@ -51,6 +51,7 @@ internal class ServiceParamsTest {
 
         documentService.create(
             DocumentCreateParams.builder()
+                .constructPdf(true)
                 .documentCreate(
                     DocumentCreate.builder()
                         .addAllowance(
