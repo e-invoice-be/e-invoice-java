@@ -79,7 +79,6 @@ internal class DocumentServiceAsyncTest {
                             .customerEmail("customer_email")
                             .customerId("customer_id")
                             .customerName("customer_name")
-                            .customerPeppolId("0208:0123456789")
                             .customerTaxId("BE1018265814")
                             .direction(DocumentDirection.INBOUND)
                             .documentType(DocumentType.INVOICE)
