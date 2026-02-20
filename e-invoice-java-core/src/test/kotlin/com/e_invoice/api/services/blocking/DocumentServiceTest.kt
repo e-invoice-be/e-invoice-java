@@ -2,7 +2,6 @@
 
 package com.e_invoice.api.services.blocking
 
-import com.e_invoice.api.TestServerExtension
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient
 import com.e_invoice.api.models.documents.CurrencyCode
 import com.e_invoice.api.models.documents.DocumentAttachmentCreate
@@ -18,19 +17,13 @@ import com.e_invoice.api.models.inbox.DocumentState
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class DocumentServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val documentService = client.documents()
 
         val documentResponse =
@@ -168,14 +161,10 @@ internal class DocumentServiceTest {
         documentResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val documentService = client.documents()
 
         val documentResponse = documentService.retrieve("document_id")
@@ -183,14 +172,10 @@ internal class DocumentServiceTest {
         documentResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun delete() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val documentService = client.documents()
 
         val document = documentService.delete("document_id")
@@ -198,14 +183,10 @@ internal class DocumentServiceTest {
         document.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createFromPdf() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val documentService = client.documents()
 
         val response =
@@ -220,14 +201,10 @@ internal class DocumentServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun send() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val documentService = client.documents()
 
         val documentResponse =
@@ -245,14 +222,10 @@ internal class DocumentServiceTest {
         documentResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun validate() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val documentService = client.documents()
 
         val ublDocumentValidation = documentService.validate("document_id")
