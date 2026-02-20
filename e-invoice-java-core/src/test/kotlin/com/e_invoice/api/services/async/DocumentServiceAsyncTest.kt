@@ -2,7 +2,6 @@
 
 package com.e_invoice.api.services.async
 
-import com.e_invoice.api.TestServerExtension
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClientAsync
 import com.e_invoice.api.models.documents.CurrencyCode
 import com.e_invoice.api.models.documents.DocumentAttachmentCreate
@@ -18,19 +17,13 @@ import com.e_invoice.api.models.inbox.DocumentState
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class DocumentServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val documentServiceAsync = client.documents()
 
         val documentResponseFuture =
@@ -169,14 +162,10 @@ internal class DocumentServiceAsyncTest {
         documentResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val documentServiceAsync = client.documents()
 
         val documentResponseFuture = documentServiceAsync.retrieve("document_id")
@@ -185,14 +174,10 @@ internal class DocumentServiceAsyncTest {
         documentResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun delete() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val documentServiceAsync = client.documents()
 
         val documentFuture = documentServiceAsync.delete("document_id")
@@ -201,14 +186,10 @@ internal class DocumentServiceAsyncTest {
         document.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun createFromPdf() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val documentServiceAsync = client.documents()
 
         val responseFuture =
@@ -224,14 +205,10 @@ internal class DocumentServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun send() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val documentServiceAsync = client.documents()
 
         val documentResponseFuture =
@@ -250,14 +227,10 @@ internal class DocumentServiceAsyncTest {
         documentResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun validate() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val documentServiceAsync = client.documents()
 
         val ublDocumentValidationFuture = documentServiceAsync.validate("document_id")

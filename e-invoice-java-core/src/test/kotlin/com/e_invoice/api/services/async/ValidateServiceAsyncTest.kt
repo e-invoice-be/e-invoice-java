@@ -2,7 +2,6 @@
 
 package com.e_invoice.api.services.async
 
-import com.e_invoice.api.TestServerExtension
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClientAsync
 import com.e_invoice.api.models.documents.CurrencyCode
 import com.e_invoice.api.models.documents.DocumentAttachmentCreate
@@ -17,19 +16,13 @@ import com.e_invoice.api.models.validate.ValidateValidateUblParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class ValidateServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun validateJson() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val validateServiceAsync = client.validate()
 
         val ublDocumentValidationFuture =
@@ -161,14 +154,10 @@ internal class ValidateServiceAsyncTest {
         ublDocumentValidation.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun validatePeppolId() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val validateServiceAsync = client.validate()
 
         val responseFuture =
@@ -180,14 +169,10 @@ internal class ValidateServiceAsyncTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun validateUbl() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val validateServiceAsync = client.validate()
 
         val ublDocumentValidationFuture =
