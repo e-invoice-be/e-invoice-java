@@ -15,7 +15,7 @@ internal class DocumentCreateFromPdfParamsTest {
         DocumentCreateFromPdfParams.builder()
             .customerTaxId("customer_tax_id")
             .vendorTaxId("vendor_tax_id")
-            .file("some content".byteInputStream())
+            .file("Example data".byteInputStream())
             .build()
     }
 
@@ -25,7 +25,7 @@ internal class DocumentCreateFromPdfParamsTest {
             DocumentCreateFromPdfParams.builder()
                 .customerTaxId("customer_tax_id")
                 .vendorTaxId("vendor_tax_id")
-                .file("some content".byteInputStream())
+                .file("Example data".byteInputStream())
                 .build()
 
         val queryParams = params._queryParams()
@@ -42,7 +42,7 @@ internal class DocumentCreateFromPdfParamsTest {
     @Test
     fun queryParamsWithoutOptionalFields() {
         val params =
-            DocumentCreateFromPdfParams.builder().file("some content".byteInputStream()).build()
+            DocumentCreateFromPdfParams.builder().file("Example data".byteInputStream()).build()
 
         val queryParams = params._queryParams()
 
@@ -55,7 +55,7 @@ internal class DocumentCreateFromPdfParamsTest {
             DocumentCreateFromPdfParams.builder()
                 .customerTaxId("customer_tax_id")
                 .vendorTaxId("vendor_tax_id")
-                .file("some content".byteInputStream())
+                .file("Example data".byteInputStream())
                 .build()
 
         val body = params._body()
@@ -69,7 +69,7 @@ internal class DocumentCreateFromPdfParamsTest {
                 InputStream::class.java,
             )
             .isEqualTo(
-                mapOf("file" to MultipartField.of("some content".byteInputStream())).mapValues {
+                mapOf("file" to MultipartField.of("Example data".byteInputStream())).mapValues {
                     (_, field) ->
                     field.map { (it as? ByteArray)?.inputStream() ?: it }
                 }
@@ -79,7 +79,7 @@ internal class DocumentCreateFromPdfParamsTest {
     @Test
     fun bodyWithoutOptionalFields() {
         val params =
-            DocumentCreateFromPdfParams.builder().file("some content".byteInputStream()).build()
+            DocumentCreateFromPdfParams.builder().file("Example data".byteInputStream()).build()
 
         val body = params._body()
 
@@ -92,7 +92,7 @@ internal class DocumentCreateFromPdfParamsTest {
                 InputStream::class.java,
             )
             .isEqualTo(
-                mapOf("file" to MultipartField.of("some content".byteInputStream())).mapValues {
+                mapOf("file" to MultipartField.of("Example data".byteInputStream())).mapValues {
                     (_, field) ->
                     field.map { (it as? ByteArray)?.inputStream() ?: it }
                 }

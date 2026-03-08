@@ -24,7 +24,7 @@ internal class ValidateValidatePeppolIdResponseTest {
                 )
                 .businessCardValid(true)
                 .dnsValid(true)
-                .isValid(true)
+                .isValid_(true)
                 .addSupportedDocumentType("string")
                 .build()
 
@@ -38,7 +38,7 @@ internal class ValidateValidatePeppolIdResponseTest {
             )
         assertThat(validateValidatePeppolIdResponse.businessCardValid()).isEqualTo(true)
         assertThat(validateValidatePeppolIdResponse.dnsValid()).isEqualTo(true)
-        assertThat(validateValidatePeppolIdResponse.isValid()).isEqualTo(true)
+        assertThat(validateValidatePeppolIdResponse.isValid_()).isEqualTo(true)
         assertThat(validateValidatePeppolIdResponse.supportedDocumentTypes().getOrNull())
             .containsExactly("string")
     }
@@ -57,7 +57,7 @@ internal class ValidateValidatePeppolIdResponseTest {
                 )
                 .businessCardValid(true)
                 .dnsValid(true)
-                .isValid(true)
+                .isValid_(true)
                 .addSupportedDocumentType("string")
                 .build()
 

@@ -32,7 +32,7 @@ private constructor(
     private val businessCard: JsonField<BusinessCard>,
     private val businessCardValid: JsonField<Boolean>,
     private val dnsValid: JsonField<Boolean>,
-    private val isValid: JsonField<Boolean>,
+    private val isValid_: JsonField<Boolean>,
     private val supportedDocumentTypes: JsonField<List<String>>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -46,7 +46,7 @@ private constructor(
         @ExcludeMissing
         businessCardValid: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("dns_valid") @ExcludeMissing dnsValid: JsonField<Boolean> = JsonMissing.of(),
-        @JsonProperty("is_valid") @ExcludeMissing isValid: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("is_valid") @ExcludeMissing isValid_: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("supported_document_types")
         @ExcludeMissing
         supportedDocumentTypes: JsonField<List<String>> = JsonMissing.of(),
@@ -54,7 +54,7 @@ private constructor(
         businessCard,
         businessCardValid,
         dnsValid,
-        isValid,
+        isValid_,
         supportedDocumentTypes,
         mutableMapOf(),
     )
@@ -89,7 +89,7 @@ private constructor(
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun isValid(): Boolean = isValid.getRequired("is_valid")
+    fun isValid_(): Boolean = isValid_.getRequired("is_valid")
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -125,11 +125,11 @@ private constructor(
     @JsonProperty("dns_valid") @ExcludeMissing fun _dnsValid(): JsonField<Boolean> = dnsValid
 
     /**
-     * Returns the raw JSON value of [isValid].
+     * Returns the raw JSON value of [isValid_].
      *
-     * Unlike [isValid], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [isValid_], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("is_valid") @ExcludeMissing fun _isValid(): JsonField<Boolean> = isValid
+    @JsonProperty("is_valid") @ExcludeMissing fun _isValid_(): JsonField<Boolean> = isValid_
 
     /**
      * Returns the raw JSON value of [supportedDocumentTypes].
@@ -164,7 +164,7 @@ private constructor(
          * .businessCard()
          * .businessCardValid()
          * .dnsValid()
-         * .isValid()
+         * .isValid_()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -176,7 +176,7 @@ private constructor(
         private var businessCard: JsonField<BusinessCard>? = null
         private var businessCardValid: JsonField<Boolean>? = null
         private var dnsValid: JsonField<Boolean>? = null
-        private var isValid: JsonField<Boolean>? = null
+        private var isValid_: JsonField<Boolean>? = null
         private var supportedDocumentTypes: JsonField<MutableList<String>>? = null
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -186,7 +186,7 @@ private constructor(
                 businessCard = validateValidatePeppolIdResponse.businessCard
                 businessCardValid = validateValidatePeppolIdResponse.businessCardValid
                 dnsValid = validateValidatePeppolIdResponse.dnsValid
-                isValid = validateValidatePeppolIdResponse.isValid
+                isValid_ = validateValidatePeppolIdResponse.isValid_
                 supportedDocumentTypes =
                     validateValidatePeppolIdResponse.supportedDocumentTypes.map {
                         it.toMutableList()
@@ -242,15 +242,16 @@ private constructor(
         fun dnsValid(dnsValid: JsonField<Boolean>) = apply { this.dnsValid = dnsValid }
 
         /** Whether the Peppol ID is valid and registered in the Peppol network */
-        fun isValid(isValid: Boolean) = isValid(JsonField.of(isValid))
+        fun isValid_(isValid_: Boolean) = isValid_(JsonField.of(isValid_))
 
         /**
-         * Sets [Builder.isValid] to an arbitrary JSON value.
+         * Sets [Builder.isValid_] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.isValid] with a well-typed [Boolean] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.isValid_] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun isValid(isValid: JsonField<Boolean>) = apply { this.isValid = isValid }
+        fun isValid_(isValid_: JsonField<Boolean>) = apply { this.isValid_ = isValid_ }
 
         fun supportedDocumentTypes(supportedDocumentTypes: List<String>) =
             supportedDocumentTypes(JsonField.of(supportedDocumentTypes))
@@ -307,7 +308,7 @@ private constructor(
          * .businessCard()
          * .businessCardValid()
          * .dnsValid()
-         * .isValid()
+         * .isValid_()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -317,7 +318,7 @@ private constructor(
                 checkRequired("businessCard", businessCard),
                 checkRequired("businessCardValid", businessCardValid),
                 checkRequired("dnsValid", dnsValid),
-                checkRequired("isValid", isValid),
+                checkRequired("isValid_", isValid_),
                 (supportedDocumentTypes ?: JsonMissing.of()).map { it.toImmutable() },
                 additionalProperties.toMutableMap(),
             )
@@ -333,7 +334,7 @@ private constructor(
         businessCard().ifPresent { it.validate() }
         businessCardValid()
         dnsValid()
-        isValid()
+        isValid_()
         supportedDocumentTypes()
         validated = true
     }
@@ -356,7 +357,7 @@ private constructor(
         (businessCard.asKnown().getOrNull()?.validity() ?: 0) +
             (if (businessCardValid.asKnown().isPresent) 1 else 0) +
             (if (dnsValid.asKnown().isPresent) 1 else 0) +
-            (if (isValid.asKnown().isPresent) 1 else 0) +
+            (if (isValid_.asKnown().isPresent) 1 else 0) +
             (supportedDocumentTypes.asKnown().getOrNull()?.size ?: 0)
 
     /** Business card information for the Peppol ID */
@@ -606,7 +607,7 @@ private constructor(
             businessCard == other.businessCard &&
             businessCardValid == other.businessCardValid &&
             dnsValid == other.dnsValid &&
-            isValid == other.isValid &&
+            isValid_ == other.isValid_ &&
             supportedDocumentTypes == other.supportedDocumentTypes &&
             additionalProperties == other.additionalProperties
     }
@@ -616,7 +617,7 @@ private constructor(
             businessCard,
             businessCardValid,
             dnsValid,
-            isValid,
+            isValid_,
             supportedDocumentTypes,
             additionalProperties,
         )
@@ -625,5 +626,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "ValidateValidatePeppolIdResponse{businessCard=$businessCard, businessCardValid=$businessCardValid, dnsValid=$dnsValid, isValid=$isValid, supportedDocumentTypes=$supportedDocumentTypes, additionalProperties=$additionalProperties}"
+        "ValidateValidatePeppolIdResponse{businessCard=$businessCard, businessCardValid=$businessCardValid, dnsValid=$dnsValid, isValid_=$isValid_, supportedDocumentTypes=$supportedDocumentTypes, additionalProperties=$additionalProperties}"
 }

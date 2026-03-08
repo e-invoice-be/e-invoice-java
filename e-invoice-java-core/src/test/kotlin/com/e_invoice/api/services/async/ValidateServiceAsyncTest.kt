@@ -177,7 +177,7 @@ internal class ValidateServiceAsyncTest {
 
         val ublDocumentValidationFuture =
             validateServiceAsync.validateUbl(
-                ValidateValidateUblParams.builder().file("some content".byteInputStream()).build()
+                ValidateValidateUblParams.builder().file("Example data".byteInputStream()).build()
             )
 
         val ublDocumentValidation = ublDocumentValidationFuture.get()

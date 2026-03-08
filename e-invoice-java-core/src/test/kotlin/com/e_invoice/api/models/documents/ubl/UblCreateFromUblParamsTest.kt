@@ -11,12 +11,12 @@ internal class UblCreateFromUblParamsTest {
 
     @Test
     fun create() {
-        UblCreateFromUblParams.builder().file("some content".byteInputStream()).build()
+        UblCreateFromUblParams.builder().file("Example data".byteInputStream()).build()
     }
 
     @Test
     fun body() {
-        val params = UblCreateFromUblParams.builder().file("some content".byteInputStream()).build()
+        val params = UblCreateFromUblParams.builder().file("Example data".byteInputStream()).build()
 
         val body = params._body()
 
@@ -29,7 +29,7 @@ internal class UblCreateFromUblParamsTest {
                 InputStream::class.java,
             )
             .isEqualTo(
-                mapOf("file" to MultipartField.of("some content".byteInputStream())).mapValues {
+                mapOf("file" to MultipartField.of("Example data".byteInputStream())).mapValues {
                     (_, field) ->
                     field.map { (it as? ByteArray)?.inputStream() ?: it }
                 }

@@ -13,7 +13,7 @@ internal class AttachmentAddParamsTest {
     fun create() {
         AttachmentAddParams.builder()
             .documentId("document_id")
-            .file("some content".byteInputStream())
+            .file("Example data".byteInputStream())
             .build()
     }
 
@@ -22,7 +22,7 @@ internal class AttachmentAddParamsTest {
         val params =
             AttachmentAddParams.builder()
                 .documentId("document_id")
-                .file("some content".byteInputStream())
+                .file("Example data".byteInputStream())
                 .build()
 
         assertThat(params._pathParam(0)).isEqualTo("document_id")
@@ -35,7 +35,7 @@ internal class AttachmentAddParamsTest {
         val params =
             AttachmentAddParams.builder()
                 .documentId("document_id")
-                .file("some content".byteInputStream())
+                .file("Example data".byteInputStream())
                 .build()
 
         val body = params._body()
@@ -49,7 +49,7 @@ internal class AttachmentAddParamsTest {
                 InputStream::class.java,
             )
             .isEqualTo(
-                mapOf("file" to MultipartField.of("some content".byteInputStream())).mapValues {
+                mapOf("file" to MultipartField.of("Example data".byteInputStream())).mapValues {
                     (_, field) ->
                     field.map { (it as? ByteArray)?.inputStream() ?: it }
                 }

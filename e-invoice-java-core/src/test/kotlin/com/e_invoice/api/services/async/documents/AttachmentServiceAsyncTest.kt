@@ -69,7 +69,7 @@ internal class AttachmentServiceAsyncTest {
             attachmentServiceAsync.add(
                 AttachmentAddParams.builder()
                     .documentId("document_id")
-                    .file("some content".byteInputStream())
+                    .file("Example data".byteInputStream())
                     .build()
             )
 
