@@ -175,7 +175,7 @@ internal class ValidateServiceTest {
 
         val ublDocumentValidation =
             validateService.validateUbl(
-                ValidateValidateUblParams.builder().file("some content".byteInputStream()).build()
+                ValidateValidateUblParams.builder().file("Example data".byteInputStream()).build()
             )
 
         ublDocumentValidation.validate()

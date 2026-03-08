@@ -197,7 +197,7 @@ internal class DocumentServiceAsyncTest {
                 DocumentCreateFromPdfParams.builder()
                     .customerTaxId("customer_tax_id")
                     .vendorTaxId("vendor_tax_id")
-                    .file("some content".byteInputStream())
+                    .file("Example data".byteInputStream())
                     .build()
             )
 

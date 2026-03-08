@@ -17,7 +17,7 @@ internal class UblServiceTest {
 
         val documentResponse =
             ublService.createFromUbl(
-                UblCreateFromUblParams.builder().file("some content".byteInputStream()).build()
+                UblCreateFromUblParams.builder().file("Example data".byteInputStream()).build()
             )
 
         documentResponse.validate()

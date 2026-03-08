@@ -17,7 +17,7 @@ internal class UblServiceAsyncTest {
 
         val documentResponseFuture =
             ublServiceAsync.createFromUbl(
-                UblCreateFromUblParams.builder().file("some content".byteInputStream()).build()
+                UblCreateFromUblParams.builder().file("Example data".byteInputStream()).build()
             )
 
         val documentResponse = documentResponseFuture.get()
