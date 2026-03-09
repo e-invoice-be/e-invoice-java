@@ -37,6 +37,7 @@ private constructor(
     private val customerEmail: JsonField<String>,
     private val customerId: JsonField<String>,
     private val customerName: JsonField<String>,
+    private val customerPeppolId: JsonField<String>,
     private val customerTaxId: JsonField<String>,
     private val direction: JsonField<DocumentDirection>,
     private val documentType: JsonField<DocumentType>,
@@ -115,6 +116,9 @@ private constructor(
         @JsonProperty("customer_name")
         @ExcludeMissing
         customerName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("customer_peppol_id")
+        @ExcludeMissing
+        customerPeppolId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("customer_tax_id")
         @ExcludeMissing
         customerTaxId: JsonField<String> = JsonMissing.of(),
@@ -215,6 +219,7 @@ private constructor(
         customerEmail,
         customerId,
         customerName,
+        customerPeppolId,
         customerTaxId,
         direction,
         documentType,
@@ -355,6 +360,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun customerName(): Optional<String> = customerName.getOptional("customer_name")
+
+    /**
+     * Customer Peppol ID
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun customerPeppolId(): Optional<String> = customerPeppolId.getOptional("customer_peppol_id")
 
     /**
      * Customer tax ID. For Belgium this is the VAT number. Must include the country prefix
@@ -766,6 +779,16 @@ private constructor(
     fun _customerName(): JsonField<String> = customerName
 
     /**
+     * Returns the raw JSON value of [customerPeppolId].
+     *
+     * Unlike [customerPeppolId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("customer_peppol_id")
+    @ExcludeMissing
+    fun _customerPeppolId(): JsonField<String> = customerPeppolId
+
+    /**
      * Returns the raw JSON value of [customerTaxId].
      *
      * Unlike [customerTaxId], this method doesn't throw if the JSON field has an unexpected type.
@@ -1108,6 +1131,7 @@ private constructor(
         private var customerEmail: JsonField<String> = JsonMissing.of()
         private var customerId: JsonField<String> = JsonMissing.of()
         private var customerName: JsonField<String> = JsonMissing.of()
+        private var customerPeppolId: JsonField<String> = JsonMissing.of()
         private var customerTaxId: JsonField<String> = JsonMissing.of()
         private var direction: JsonField<DocumentDirection> = JsonMissing.of()
         private var documentType: JsonField<DocumentType> = JsonMissing.of()
@@ -1161,6 +1185,7 @@ private constructor(
             customerEmail = documentCreateFromPdfResponse.customerEmail
             customerId = documentCreateFromPdfResponse.customerId
             customerName = documentCreateFromPdfResponse.customerName
+            customerPeppolId = documentCreateFromPdfResponse.customerPeppolId
             customerTaxId = documentCreateFromPdfResponse.customerTaxId
             direction = documentCreateFromPdfResponse.direction
             documentType = documentCreateFromPdfResponse.documentType
@@ -1466,6 +1491,25 @@ private constructor(
          */
         fun customerName(customerName: JsonField<String>) = apply {
             this.customerName = customerName
+        }
+
+        /** Customer Peppol ID */
+        fun customerPeppolId(customerPeppolId: String?) =
+            customerPeppolId(JsonField.ofNullable(customerPeppolId))
+
+        /** Alias for calling [Builder.customerPeppolId] with `customerPeppolId.orElse(null)`. */
+        fun customerPeppolId(customerPeppolId: Optional<String>) =
+            customerPeppolId(customerPeppolId.getOrNull())
+
+        /**
+         * Sets [Builder.customerPeppolId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.customerPeppolId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun customerPeppolId(customerPeppolId: JsonField<String>) = apply {
+            this.customerPeppolId = customerPeppolId
         }
 
         /** Customer tax ID. For Belgium this is the VAT number. Must include the country prefix */
@@ -2162,6 +2206,7 @@ private constructor(
                 customerEmail,
                 customerId,
                 customerName,
+                customerPeppolId,
                 customerTaxId,
                 direction,
                 documentType,
@@ -2222,6 +2267,7 @@ private constructor(
         customerEmail()
         customerId()
         customerName()
+        customerPeppolId()
         customerTaxId()
         direction().ifPresent { it.validate() }
         documentType().ifPresent { it.validate() }
@@ -2289,6 +2335,7 @@ private constructor(
             (if (customerEmail.asKnown().isPresent) 1 else 0) +
             (if (customerId.asKnown().isPresent) 1 else 0) +
             (if (customerName.asKnown().isPresent) 1 else 0) +
+            (if (customerPeppolId.asKnown().isPresent) 1 else 0) +
             (if (customerTaxId.asKnown().isPresent) 1 else 0) +
             (direction.asKnown().getOrNull()?.validity() ?: 0) +
             (documentType.asKnown().getOrNull()?.validity() ?: 0) +
@@ -3826,6 +3873,7 @@ private constructor(
             customerEmail == other.customerEmail &&
             customerId == other.customerId &&
             customerName == other.customerName &&
+            customerPeppolId == other.customerPeppolId &&
             customerTaxId == other.customerTaxId &&
             direction == other.direction &&
             documentType == other.documentType &&
@@ -3880,6 +3928,7 @@ private constructor(
             customerEmail,
             customerId,
             customerName,
+            customerPeppolId,
             customerTaxId,
             direction,
             documentType,
@@ -3923,5 +3972,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentCreateFromPdfResponse{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, success=$success, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, ublDocument=$ublDocument, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentCreateFromPdfResponse{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerPeppolId=$customerPeppolId, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, success=$success, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, ublDocument=$ublDocument, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }

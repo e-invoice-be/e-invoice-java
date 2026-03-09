@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonAnySetter
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import java.util.Collections
 import java.util.Objects
 import java.util.Optional
@@ -27,6 +28,7 @@ class DocumentResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
     private val id: JsonField<String>,
+    private val createdAt: JsonField<OffsetDateTime>,
     private val allowances: JsonField<List<Allowance>>,
     private val amountDue: JsonField<String>,
     private val attachments: JsonField<List<DocumentAttachment>>,
@@ -40,6 +42,7 @@ private constructor(
     private val customerEmail: JsonField<String>,
     private val customerId: JsonField<String>,
     private val customerName: JsonField<String>,
+    private val customerPeppolId: JsonField<String>,
     private val customerTaxId: JsonField<String>,
     private val direction: JsonField<DocumentDirection>,
     private val documentType: JsonField<DocumentType>,
@@ -80,6 +83,9 @@ private constructor(
     @JsonCreator
     private constructor(
         @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("created_at")
+        @ExcludeMissing
+        createdAt: JsonField<OffsetDateTime> = JsonMissing.of(),
         @JsonProperty("allowances")
         @ExcludeMissing
         allowances: JsonField<List<Allowance>> = JsonMissing.of(),
@@ -117,6 +123,9 @@ private constructor(
         @JsonProperty("customer_name")
         @ExcludeMissing
         customerName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("customer_peppol_id")
+        @ExcludeMissing
+        customerPeppolId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("customer_tax_id")
         @ExcludeMissing
         customerTaxId: JsonField<String> = JsonMissing.of(),
@@ -201,6 +210,7 @@ private constructor(
         vendorTaxId: JsonField<String> = JsonMissing.of(),
     ) : this(
         id,
+        createdAt,
         allowances,
         amountDue,
         attachments,
@@ -214,6 +224,7 @@ private constructor(
         customerEmail,
         customerId,
         customerName,
+        customerPeppolId,
         customerTaxId,
         direction,
         documentType,
@@ -256,6 +267,12 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun id(): String = id.getRequired("id")
+
+    /**
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
+     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
+     */
+    fun createdAt(): OffsetDateTime = createdAt.getRequired("created_at")
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -357,6 +374,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun customerName(): Optional<String> = customerName.getOptional("customer_name")
+
+    /**
+     * Customer Peppol ID
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun customerPeppolId(): Optional<String> = customerPeppolId.getOptional("customer_peppol_id")
 
     /**
      * Customer tax ID. For Belgium this is the VAT number. Must include the country prefix
@@ -645,6 +670,15 @@ private constructor(
     @JsonProperty("id") @ExcludeMissing fun _id(): JsonField<String> = id
 
     /**
+     * Returns the raw JSON value of [createdAt].
+     *
+     * Unlike [createdAt], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("created_at")
+    @ExcludeMissing
+    fun _createdAt(): JsonField<OffsetDateTime> = createdAt
+
+    /**
      * Returns the raw JSON value of [allowances].
      *
      * Unlike [allowances], this method doesn't throw if the JSON field has an unexpected type.
@@ -755,6 +789,16 @@ private constructor(
     @JsonProperty("customer_name")
     @ExcludeMissing
     fun _customerName(): JsonField<String> = customerName
+
+    /**
+     * Returns the raw JSON value of [customerPeppolId].
+     *
+     * Unlike [customerPeppolId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("customer_peppol_id")
+    @ExcludeMissing
+    fun _customerPeppolId(): JsonField<String> = customerPeppolId
 
     /**
      * Returns the raw JSON value of [customerTaxId].
@@ -1066,6 +1110,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .id()
+         * .createdAt()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -1075,6 +1120,7 @@ private constructor(
     class Builder internal constructor() {
 
         private var id: JsonField<String>? = null
+        private var createdAt: JsonField<OffsetDateTime>? = null
         private var allowances: JsonField<MutableList<Allowance>>? = null
         private var amountDue: JsonField<String> = JsonMissing.of()
         private var attachments: JsonField<MutableList<DocumentAttachment>>? = null
@@ -1088,6 +1134,7 @@ private constructor(
         private var customerEmail: JsonField<String> = JsonMissing.of()
         private var customerId: JsonField<String> = JsonMissing.of()
         private var customerName: JsonField<String> = JsonMissing.of()
+        private var customerPeppolId: JsonField<String> = JsonMissing.of()
         private var customerTaxId: JsonField<String> = JsonMissing.of()
         private var direction: JsonField<DocumentDirection> = JsonMissing.of()
         private var documentType: JsonField<DocumentType> = JsonMissing.of()
@@ -1127,6 +1174,7 @@ private constructor(
         @JvmSynthetic
         internal fun from(documentResponse: DocumentResponse) = apply {
             id = documentResponse.id
+            createdAt = documentResponse.createdAt
             allowances = documentResponse.allowances.map { it.toMutableList() }
             amountDue = documentResponse.amountDue
             attachments = documentResponse.attachments.map { it.toMutableList() }
@@ -1140,6 +1188,7 @@ private constructor(
             customerEmail = documentResponse.customerEmail
             customerId = documentResponse.customerId
             customerName = documentResponse.customerName
+            customerPeppolId = documentResponse.customerPeppolId
             customerTaxId = documentResponse.customerTaxId
             direction = documentResponse.direction
             documentType = documentResponse.documentType
@@ -1186,6 +1235,17 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun id(id: JsonField<String>) = apply { this.id = id }
+
+        fun createdAt(createdAt: OffsetDateTime) = createdAt(JsonField.of(createdAt))
+
+        /**
+         * Sets [Builder.createdAt] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.createdAt] with a well-typed [OffsetDateTime] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun createdAt(createdAt: JsonField<OffsetDateTime>) = apply { this.createdAt = createdAt }
 
         fun allowances(allowances: List<Allowance>?) = allowances(JsonField.ofNullable(allowances))
 
@@ -1453,6 +1513,25 @@ private constructor(
          */
         fun customerName(customerName: JsonField<String>) = apply {
             this.customerName = customerName
+        }
+
+        /** Customer Peppol ID */
+        fun customerPeppolId(customerPeppolId: String?) =
+            customerPeppolId(JsonField.ofNullable(customerPeppolId))
+
+        /** Alias for calling [Builder.customerPeppolId] with `customerPeppolId.orElse(null)`. */
+        fun customerPeppolId(customerPeppolId: Optional<String>) =
+            customerPeppolId(customerPeppolId.getOrNull())
+
+        /**
+         * Sets [Builder.customerPeppolId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.customerPeppolId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun customerPeppolId(customerPeppolId: JsonField<String>) = apply {
+            this.customerPeppolId = customerPeppolId
         }
 
         /** Customer tax ID. For Belgium this is the VAT number. Must include the country prefix */
@@ -2113,6 +2192,7 @@ private constructor(
          * The following fields are required:
          * ```java
          * .id()
+         * .createdAt()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
@@ -2120,6 +2200,7 @@ private constructor(
         fun build(): DocumentResponse =
             DocumentResponse(
                 checkRequired("id", id),
+                checkRequired("createdAt", createdAt),
                 (allowances ?: JsonMissing.of()).map { it.toImmutable() },
                 amountDue,
                 (attachments ?: JsonMissing.of()).map { it.toImmutable() },
@@ -2133,6 +2214,7 @@ private constructor(
                 customerEmail,
                 customerId,
                 customerName,
+                customerPeppolId,
                 customerTaxId,
                 direction,
                 documentType,
@@ -2179,6 +2261,7 @@ private constructor(
         }
 
         id()
+        createdAt()
         allowances().ifPresent { it.forEach { it.validate() } }
         amountDue()
         attachments().ifPresent { it.forEach { it.validate() } }
@@ -2192,6 +2275,7 @@ private constructor(
         customerEmail()
         customerId()
         customerName()
+        customerPeppolId()
         customerTaxId()
         direction().ifPresent { it.validate() }
         documentType().ifPresent { it.validate() }
@@ -2245,6 +2329,7 @@ private constructor(
     @JvmSynthetic
     internal fun validity(): Int =
         (if (id.asKnown().isPresent) 1 else 0) +
+            (if (createdAt.asKnown().isPresent) 1 else 0) +
             (allowances.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (amountDue.asKnown().isPresent) 1 else 0) +
             (attachments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
@@ -2258,6 +2343,7 @@ private constructor(
             (if (customerEmail.asKnown().isPresent) 1 else 0) +
             (if (customerId.asKnown().isPresent) 1 else 0) +
             (if (customerName.asKnown().isPresent) 1 else 0) +
+            (if (customerPeppolId.asKnown().isPresent) 1 else 0) +
             (if (customerTaxId.asKnown().isPresent) 1 else 0) +
             (direction.asKnown().getOrNull()?.validity() ?: 0) +
             (documentType.asKnown().getOrNull()?.validity() ?: 0) +
@@ -6725,6 +6811,7 @@ private constructor(
 
         return other is DocumentResponse &&
             id == other.id &&
+            createdAt == other.createdAt &&
             allowances == other.allowances &&
             amountDue == other.amountDue &&
             attachments == other.attachments &&
@@ -6738,6 +6825,7 @@ private constructor(
             customerEmail == other.customerEmail &&
             customerId == other.customerId &&
             customerName == other.customerName &&
+            customerPeppolId == other.customerPeppolId &&
             customerTaxId == other.customerTaxId &&
             direction == other.direction &&
             documentType == other.documentType &&
@@ -6778,6 +6866,7 @@ private constructor(
     private val hashCode: Int by lazy {
         Objects.hash(
             id,
+            createdAt,
             allowances,
             amountDue,
             attachments,
@@ -6791,6 +6880,7 @@ private constructor(
             customerEmail,
             customerId,
             customerName,
+            customerPeppolId,
             customerTaxId,
             direction,
             documentType,
@@ -6832,5 +6922,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentResponse{id=$id, allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentResponse{id=$id, createdAt=$createdAt, allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerPeppolId=$customerPeppolId, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }

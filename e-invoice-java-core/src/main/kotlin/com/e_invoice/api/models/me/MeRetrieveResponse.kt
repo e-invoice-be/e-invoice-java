@@ -24,9 +24,7 @@ import kotlin.jvm.optionals.getOrNull
 class MeRetrieveResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val creditBalance: JsonField<Long>,
     private val name: JsonField<String>,
-    private val plan: JsonField<Plan>,
     private val bccRecipientEmail: JsonField<String>,
     private val companyAddress: JsonField<String>,
     private val companyCity: JsonField<String>,
@@ -36,9 +34,11 @@ private constructor(
     private val companyNumber: JsonField<String>,
     private val companyTaxId: JsonField<String>,
     private val companyZip: JsonField<String>,
+    private val creditBalance: JsonField<Long>,
     private val description: JsonField<String>,
     private val ibans: JsonField<List<String>>,
     private val peppolIds: JsonField<List<String>>,
+    private val plan: JsonField<Plan>,
     private val smpRegistration: JsonField<Boolean>,
     private val smpRegistrationDate: JsonField<OffsetDateTime>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -46,11 +46,7 @@ private constructor(
 
     @JsonCreator
     private constructor(
-        @JsonProperty("credit_balance")
-        @ExcludeMissing
-        creditBalance: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("plan") @ExcludeMissing plan: JsonField<Plan> = JsonMissing.of(),
         @JsonProperty("bcc_recipient_email")
         @ExcludeMissing
         bccRecipientEmail: JsonField<String> = JsonMissing.of(),
@@ -78,6 +74,9 @@ private constructor(
         @JsonProperty("company_zip")
         @ExcludeMissing
         companyZip: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("credit_balance")
+        @ExcludeMissing
+        creditBalance: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("description")
         @ExcludeMissing
         description: JsonField<String> = JsonMissing.of(),
@@ -85,6 +84,7 @@ private constructor(
         @JsonProperty("peppol_ids")
         @ExcludeMissing
         peppolIds: JsonField<List<String>> = JsonMissing.of(),
+        @JsonProperty("plan") @ExcludeMissing plan: JsonField<Plan> = JsonMissing.of(),
         @JsonProperty("smp_registration")
         @ExcludeMissing
         smpRegistration: JsonField<Boolean> = JsonMissing.of(),
@@ -92,9 +92,7 @@ private constructor(
         @ExcludeMissing
         smpRegistrationDate: JsonField<OffsetDateTime> = JsonMissing.of(),
     ) : this(
-        creditBalance,
         name,
-        plan,
         bccRecipientEmail,
         companyAddress,
         companyCity,
@@ -104,35 +102,21 @@ private constructor(
         companyNumber,
         companyTaxId,
         companyZip,
+        creditBalance,
         description,
         ibans,
         peppolIds,
+        plan,
         smpRegistration,
         smpRegistrationDate,
         mutableMapOf(),
     )
 
     /**
-     * Credit balance of the tenant
-     *
-     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun creditBalance(): Long = creditBalance.getRequired("credit_balance")
-
-    /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun name(): String = name.getRequired("name")
-
-    /**
-     * Plan of the tenant
-     *
-     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun plan(): Plan = plan.getRequired("plan")
 
     /**
      * BCC recipient email to deliver documents
@@ -208,6 +192,14 @@ private constructor(
     fun companyZip(): Optional<String> = companyZip.getOptional("company_zip")
 
     /**
+     * Credit balance of the tenant
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun creditBalance(): Optional<Long> = creditBalance.getOptional("credit_balance")
+
+    /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -230,6 +222,14 @@ private constructor(
     fun peppolIds(): Optional<List<String>> = peppolIds.getOptional("peppol_ids")
 
     /**
+     * Plan of the tenant
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun plan(): Optional<Plan> = plan.getOptional("plan")
+
+    /**
      * Whether the tenant is registered on our SMP
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -247,27 +247,11 @@ private constructor(
         smpRegistrationDate.getOptional("smp_registration_date")
 
     /**
-     * Returns the raw JSON value of [creditBalance].
-     *
-     * Unlike [creditBalance], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("credit_balance")
-    @ExcludeMissing
-    fun _creditBalance(): JsonField<Long> = creditBalance
-
-    /**
      * Returns the raw JSON value of [name].
      *
      * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
-
-    /**
-     * Returns the raw JSON value of [plan].
-     *
-     * Unlike [plan], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("plan") @ExcludeMissing fun _plan(): JsonField<Plan> = plan
 
     /**
      * Returns the raw JSON value of [bccRecipientEmail].
@@ -350,6 +334,15 @@ private constructor(
     @JsonProperty("company_zip") @ExcludeMissing fun _companyZip(): JsonField<String> = companyZip
 
     /**
+     * Returns the raw JSON value of [creditBalance].
+     *
+     * Unlike [creditBalance], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("credit_balance")
+    @ExcludeMissing
+    fun _creditBalance(): JsonField<Long> = creditBalance
+
+    /**
      * Returns the raw JSON value of [description].
      *
      * Unlike [description], this method doesn't throw if the JSON field has an unexpected type.
@@ -371,6 +364,13 @@ private constructor(
     @JsonProperty("peppol_ids")
     @ExcludeMissing
     fun _peppolIds(): JsonField<List<String>> = peppolIds
+
+    /**
+     * Returns the raw JSON value of [plan].
+     *
+     * Unlike [plan], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("plan") @ExcludeMissing fun _plan(): JsonField<Plan> = plan
 
     /**
      * Returns the raw JSON value of [smpRegistration].
@@ -410,9 +410,7 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .creditBalance()
          * .name()
-         * .plan()
          * ```
          */
         @JvmStatic fun builder() = Builder()
@@ -421,9 +419,7 @@ private constructor(
     /** A builder for [MeRetrieveResponse]. */
     class Builder internal constructor() {
 
-        private var creditBalance: JsonField<Long>? = null
         private var name: JsonField<String>? = null
-        private var plan: JsonField<Plan>? = null
         private var bccRecipientEmail: JsonField<String> = JsonMissing.of()
         private var companyAddress: JsonField<String> = JsonMissing.of()
         private var companyCity: JsonField<String> = JsonMissing.of()
@@ -433,18 +429,18 @@ private constructor(
         private var companyNumber: JsonField<String> = JsonMissing.of()
         private var companyTaxId: JsonField<String> = JsonMissing.of()
         private var companyZip: JsonField<String> = JsonMissing.of()
+        private var creditBalance: JsonField<Long> = JsonMissing.of()
         private var description: JsonField<String> = JsonMissing.of()
         private var ibans: JsonField<MutableList<String>>? = null
         private var peppolIds: JsonField<MutableList<String>>? = null
+        private var plan: JsonField<Plan> = JsonMissing.of()
         private var smpRegistration: JsonField<Boolean> = JsonMissing.of()
         private var smpRegistrationDate: JsonField<OffsetDateTime> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
         @JvmSynthetic
         internal fun from(meRetrieveResponse: MeRetrieveResponse) = apply {
-            creditBalance = meRetrieveResponse.creditBalance
             name = meRetrieveResponse.name
-            plan = meRetrieveResponse.plan
             bccRecipientEmail = meRetrieveResponse.bccRecipientEmail
             companyAddress = meRetrieveResponse.companyAddress
             companyCity = meRetrieveResponse.companyCity
@@ -454,26 +450,14 @@ private constructor(
             companyNumber = meRetrieveResponse.companyNumber
             companyTaxId = meRetrieveResponse.companyTaxId
             companyZip = meRetrieveResponse.companyZip
+            creditBalance = meRetrieveResponse.creditBalance
             description = meRetrieveResponse.description
             ibans = meRetrieveResponse.ibans.map { it.toMutableList() }
             peppolIds = meRetrieveResponse.peppolIds.map { it.toMutableList() }
+            plan = meRetrieveResponse.plan
             smpRegistration = meRetrieveResponse.smpRegistration
             smpRegistrationDate = meRetrieveResponse.smpRegistrationDate
             additionalProperties = meRetrieveResponse.additionalProperties.toMutableMap()
-        }
-
-        /** Credit balance of the tenant */
-        fun creditBalance(creditBalance: Long) = creditBalance(JsonField.of(creditBalance))
-
-        /**
-         * Sets [Builder.creditBalance] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.creditBalance] with a well-typed [Long] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun creditBalance(creditBalance: JsonField<Long>) = apply {
-            this.creditBalance = creditBalance
         }
 
         fun name(name: String) = name(JsonField.of(name))
@@ -485,17 +469,6 @@ private constructor(
          * method is primarily for setting the field to an undocumented or not yet supported value.
          */
         fun name(name: JsonField<String>) = apply { this.name = name }
-
-        /** Plan of the tenant */
-        fun plan(plan: Plan) = plan(JsonField.of(plan))
-
-        /**
-         * Sets [Builder.plan] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.plan] with a well-typed [Plan] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
-         */
-        fun plan(plan: JsonField<Plan>) = apply { this.plan = plan }
 
         /** BCC recipient email to deliver documents */
         fun bccRecipientEmail(bccRecipientEmail: String?) =
@@ -658,6 +631,20 @@ private constructor(
          */
         fun companyZip(companyZip: JsonField<String>) = apply { this.companyZip = companyZip }
 
+        /** Credit balance of the tenant */
+        fun creditBalance(creditBalance: Long) = creditBalance(JsonField.of(creditBalance))
+
+        /**
+         * Sets [Builder.creditBalance] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.creditBalance] with a well-typed [Long] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun creditBalance(creditBalance: JsonField<Long>) = apply {
+            this.creditBalance = creditBalance
+        }
+
         fun description(description: String?) = description(JsonField.ofNullable(description))
 
         /** Alias for calling [Builder.description] with `description.orElse(null)`. */
@@ -727,6 +714,17 @@ private constructor(
                     checkKnown("peppolIds", it).add(peppolId)
                 }
         }
+
+        /** Plan of the tenant */
+        fun plan(plan: Plan) = plan(JsonField.of(plan))
+
+        /**
+         * Sets [Builder.plan] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.plan] with a well-typed [Plan] value instead. This
+         * method is primarily for setting the field to an undocumented or not yet supported value.
+         */
+        fun plan(plan: JsonField<Plan>) = apply { this.plan = plan }
 
         /** Whether the tenant is registered on our SMP */
         fun smpRegistration(smpRegistration: Boolean?) =
@@ -801,18 +799,14 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .creditBalance()
          * .name()
-         * .plan()
          * ```
          *
          * @throws IllegalStateException if any required field is unset.
          */
         fun build(): MeRetrieveResponse =
             MeRetrieveResponse(
-                checkRequired("creditBalance", creditBalance),
                 checkRequired("name", name),
-                checkRequired("plan", plan),
                 bccRecipientEmail,
                 companyAddress,
                 companyCity,
@@ -822,9 +816,11 @@ private constructor(
                 companyNumber,
                 companyTaxId,
                 companyZip,
+                creditBalance,
                 description,
                 (ibans ?: JsonMissing.of()).map { it.toImmutable() },
                 (peppolIds ?: JsonMissing.of()).map { it.toImmutable() },
+                plan,
                 smpRegistration,
                 smpRegistrationDate,
                 additionalProperties.toMutableMap(),
@@ -838,9 +834,7 @@ private constructor(
             return@apply
         }
 
-        creditBalance()
         name()
-        plan().validate()
         bccRecipientEmail()
         companyAddress()
         companyCity()
@@ -850,9 +844,11 @@ private constructor(
         companyNumber()
         companyTaxId()
         companyZip()
+        creditBalance()
         description()
         ibans()
         peppolIds()
+        plan().ifPresent { it.validate() }
         smpRegistration()
         smpRegistrationDate()
         validated = true
@@ -873,9 +869,7 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (if (creditBalance.asKnown().isPresent) 1 else 0) +
-            (if (name.asKnown().isPresent) 1 else 0) +
-            (plan.asKnown().getOrNull()?.validity() ?: 0) +
+        (if (name.asKnown().isPresent) 1 else 0) +
             (if (bccRecipientEmail.asKnown().isPresent) 1 else 0) +
             (if (companyAddress.asKnown().isPresent) 1 else 0) +
             (if (companyCity.asKnown().isPresent) 1 else 0) +
@@ -885,9 +879,11 @@ private constructor(
             (if (companyNumber.asKnown().isPresent) 1 else 0) +
             (if (companyTaxId.asKnown().isPresent) 1 else 0) +
             (if (companyZip.asKnown().isPresent) 1 else 0) +
+            (if (creditBalance.asKnown().isPresent) 1 else 0) +
             (if (description.asKnown().isPresent) 1 else 0) +
             (ibans.asKnown().getOrNull()?.size ?: 0) +
             (peppolIds.asKnown().getOrNull()?.size ?: 0) +
+            (plan.asKnown().getOrNull()?.validity() ?: 0) +
             (if (smpRegistration.asKnown().isPresent) 1 else 0) +
             (if (smpRegistrationDate.asKnown().isPresent) 1 else 0)
 
@@ -1031,9 +1027,7 @@ private constructor(
         }
 
         return other is MeRetrieveResponse &&
-            creditBalance == other.creditBalance &&
             name == other.name &&
-            plan == other.plan &&
             bccRecipientEmail == other.bccRecipientEmail &&
             companyAddress == other.companyAddress &&
             companyCity == other.companyCity &&
@@ -1043,9 +1037,11 @@ private constructor(
             companyNumber == other.companyNumber &&
             companyTaxId == other.companyTaxId &&
             companyZip == other.companyZip &&
+            creditBalance == other.creditBalance &&
             description == other.description &&
             ibans == other.ibans &&
             peppolIds == other.peppolIds &&
+            plan == other.plan &&
             smpRegistration == other.smpRegistration &&
             smpRegistrationDate == other.smpRegistrationDate &&
             additionalProperties == other.additionalProperties
@@ -1053,9 +1049,7 @@ private constructor(
 
     private val hashCode: Int by lazy {
         Objects.hash(
-            creditBalance,
             name,
-            plan,
             bccRecipientEmail,
             companyAddress,
             companyCity,
@@ -1065,9 +1059,11 @@ private constructor(
             companyNumber,
             companyTaxId,
             companyZip,
+            creditBalance,
             description,
             ibans,
             peppolIds,
+            plan,
             smpRegistration,
             smpRegistrationDate,
             additionalProperties,
@@ -1077,5 +1073,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "MeRetrieveResponse{creditBalance=$creditBalance, name=$name, plan=$plan, bccRecipientEmail=$bccRecipientEmail, companyAddress=$companyAddress, companyCity=$companyCity, companyCountry=$companyCountry, companyEmail=$companyEmail, companyName=$companyName, companyNumber=$companyNumber, companyTaxId=$companyTaxId, companyZip=$companyZip, description=$description, ibans=$ibans, peppolIds=$peppolIds, smpRegistration=$smpRegistration, smpRegistrationDate=$smpRegistrationDate, additionalProperties=$additionalProperties}"
+        "MeRetrieveResponse{name=$name, bccRecipientEmail=$bccRecipientEmail, companyAddress=$companyAddress, companyCity=$companyCity, companyCountry=$companyCountry, companyEmail=$companyEmail, companyName=$companyName, companyNumber=$companyNumber, companyTaxId=$companyTaxId, companyZip=$companyZip, creditBalance=$creditBalance, description=$description, ibans=$ibans, peppolIds=$peppolIds, plan=$plan, smpRegistration=$smpRegistration, smpRegistrationDate=$smpRegistrationDate, additionalProperties=$additionalProperties}"
 }
