@@ -22,7 +22,6 @@ import kotlin.jvm.optionals.getOrNull
 class PaginatedDocumentResponse
 @JsonCreator(mode = JsonCreator.Mode.DISABLED)
 private constructor(
-    private val hasNextPage: JsonField<Boolean>,
     private val items: JsonField<List<DocumentResponse>>,
     private val page: JsonField<Long>,
     private val pageSize: JsonField<Long>,
@@ -33,9 +32,6 @@ private constructor(
 
     @JsonCreator
     private constructor(
-        @JsonProperty("has_next_page")
-        @ExcludeMissing
-        hasNextPage: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("items")
         @ExcludeMissing
         items: JsonField<List<DocumentResponse>> = JsonMissing.of(),
@@ -43,13 +39,7 @@ private constructor(
         @JsonProperty("page_size") @ExcludeMissing pageSize: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("pages") @ExcludeMissing pages: JsonField<Long> = JsonMissing.of(),
         @JsonProperty("total") @ExcludeMissing total: JsonField<Long> = JsonMissing.of(),
-    ) : this(hasNextPage, items, page, pageSize, pages, total, mutableMapOf())
-
-    /**
-     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
-     *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
-     */
-    fun hasNextPage(): Boolean = hasNextPage.getRequired("has_next_page")
+    ) : this(items, page, pageSize, pages, total, mutableMapOf())
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
@@ -80,15 +70,6 @@ private constructor(
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
     fun total(): Long = total.getRequired("total")
-
-    /**
-     * Returns the raw JSON value of [hasNextPage].
-     *
-     * Unlike [hasNextPage], this method doesn't throw if the JSON field has an unexpected type.
-     */
-    @JsonProperty("has_next_page")
-    @ExcludeMissing
-    fun _hasNextPage(): JsonField<Boolean> = hasNextPage
 
     /**
      * Returns the raw JSON value of [items].
@@ -144,7 +125,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .hasNextPage()
          * .items()
          * .page()
          * .pageSize()
@@ -158,7 +138,6 @@ private constructor(
     /** A builder for [PaginatedDocumentResponse]. */
     class Builder internal constructor() {
 
-        private var hasNextPage: JsonField<Boolean>? = null
         private var items: JsonField<MutableList<DocumentResponse>>? = null
         private var page: JsonField<Long>? = null
         private var pageSize: JsonField<Long>? = null
@@ -168,7 +147,6 @@ private constructor(
 
         @JvmSynthetic
         internal fun from(paginatedDocumentResponse: PaginatedDocumentResponse) = apply {
-            hasNextPage = paginatedDocumentResponse.hasNextPage
             items = paginatedDocumentResponse.items.map { it.toMutableList() }
             page = paginatedDocumentResponse.page
             pageSize = paginatedDocumentResponse.pageSize
@@ -176,17 +154,6 @@ private constructor(
             total = paginatedDocumentResponse.total
             additionalProperties = paginatedDocumentResponse.additionalProperties.toMutableMap()
         }
-
-        fun hasNextPage(hasNextPage: Boolean) = hasNextPage(JsonField.of(hasNextPage))
-
-        /**
-         * Sets [Builder.hasNextPage] to an arbitrary JSON value.
-         *
-         * You should usually call [Builder.hasNextPage] with a well-typed [Boolean] value instead.
-         * This method is primarily for setting the field to an undocumented or not yet supported
-         * value.
-         */
-        fun hasNextPage(hasNextPage: JsonField<Boolean>) = apply { this.hasNextPage = hasNextPage }
 
         fun items(items: List<DocumentResponse>) = items(JsonField.of(items))
 
@@ -277,7 +244,6 @@ private constructor(
          *
          * The following fields are required:
          * ```java
-         * .hasNextPage()
          * .items()
          * .page()
          * .pageSize()
@@ -289,7 +255,6 @@ private constructor(
          */
         fun build(): PaginatedDocumentResponse =
             PaginatedDocumentResponse(
-                checkRequired("hasNextPage", hasNextPage),
                 checkRequired("items", items).map { it.toImmutable() },
                 checkRequired("page", page),
                 checkRequired("pageSize", pageSize),
@@ -306,7 +271,6 @@ private constructor(
             return@apply
         }
 
-        hasNextPage()
         items().forEach { it.validate() }
         page()
         pageSize()
@@ -330,8 +294,7 @@ private constructor(
      */
     @JvmSynthetic
     internal fun validity(): Int =
-        (if (hasNextPage.asKnown().isPresent) 1 else 0) +
-            (items.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
+        (items.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (page.asKnown().isPresent) 1 else 0) +
             (if (pageSize.asKnown().isPresent) 1 else 0) +
             (if (pages.asKnown().isPresent) 1 else 0) +
@@ -343,7 +306,6 @@ private constructor(
         }
 
         return other is PaginatedDocumentResponse &&
-            hasNextPage == other.hasNextPage &&
             items == other.items &&
             page == other.page &&
             pageSize == other.pageSize &&
@@ -353,11 +315,11 @@ private constructor(
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(hasNextPage, items, page, pageSize, pages, total, additionalProperties)
+        Objects.hash(items, page, pageSize, pages, total, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "PaginatedDocumentResponse{hasNextPage=$hasNextPage, items=$items, page=$page, pageSize=$pageSize, pages=$pages, total=$total, additionalProperties=$additionalProperties}"
+        "PaginatedDocumentResponse{items=$items, page=$page, pageSize=$pageSize, pages=$pages, total=$total, additionalProperties=$additionalProperties}"
 }

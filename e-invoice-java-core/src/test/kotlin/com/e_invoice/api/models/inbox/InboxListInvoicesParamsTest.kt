@@ -10,35 +10,17 @@ internal class InboxListInvoicesParamsTest {
 
     @Test
     fun create() {
-        InboxListInvoicesParams.builder()
-            .page(1L)
-            .pageSize(1L)
-            .sortBy(InboxListInvoicesParams.SortBy.CREATED_AT)
-            .sortOrder(InboxListInvoicesParams.SortOrder.ASC)
-            .build()
+        InboxListInvoicesParams.builder().page(1L).pageSize(1L).build()
     }
 
     @Test
     fun queryParams() {
-        val params =
-            InboxListInvoicesParams.builder()
-                .page(1L)
-                .pageSize(1L)
-                .sortBy(InboxListInvoicesParams.SortBy.CREATED_AT)
-                .sortOrder(InboxListInvoicesParams.SortOrder.ASC)
-                .build()
+        val params = InboxListInvoicesParams.builder().page(1L).pageSize(1L).build()
 
         val queryParams = params._queryParams()
 
         assertThat(queryParams)
-            .isEqualTo(
-                QueryParams.builder()
-                    .put("page", "1")
-                    .put("page_size", "1")
-                    .put("sort_by", "created_at")
-                    .put("sort_order", "asc")
-                    .build()
-            )
+            .isEqualTo(QueryParams.builder().put("page", "1").put("page_size", "1").build())
     }
 
     @Test

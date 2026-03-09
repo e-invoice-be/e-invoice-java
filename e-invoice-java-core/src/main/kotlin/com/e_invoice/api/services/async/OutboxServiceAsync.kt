@@ -26,30 +26,23 @@ interface OutboxServiceAsync {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxServiceAsync
 
-    /**
-     * Retrieve a paginated list of draft documents with filtering options including state and text
-     * search.
-     */
-    @Deprecated("deprecated")
+    /** Retrieve a paginated list of draft documents with filtering options. */
     fun listDraftDocuments(): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
         listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
     /** @see listDraftDocuments */
-    @Deprecated("deprecated")
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync>
 
     /** @see listDraftDocuments */
-    @Deprecated("deprecated")
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
         listDraftDocuments(params, RequestOptions.none())
 
     /** @see listDraftDocuments */
-    @Deprecated("deprecated")
     fun listDraftDocuments(
         requestOptions: RequestOptions
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
@@ -98,27 +91,23 @@ interface OutboxServiceAsync {
          * Returns a raw HTTP response for `get /api/outbox/drafts`, but is otherwise the same as
          * [OutboxServiceAsync.listDraftDocuments].
          */
-        @Deprecated("deprecated")
         fun listDraftDocuments():
             CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =
             listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
         /** @see listDraftDocuments */
-        @Deprecated("deprecated")
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>>
 
         /** @see listDraftDocuments */
-        @Deprecated("deprecated")
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =
             listDraftDocuments(params, RequestOptions.none())
 
         /** @see listDraftDocuments */
-        @Deprecated("deprecated")
         fun listDraftDocuments(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =

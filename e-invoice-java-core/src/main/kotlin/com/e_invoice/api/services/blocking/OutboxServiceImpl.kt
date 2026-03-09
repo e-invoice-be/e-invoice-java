@@ -33,7 +33,6 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxService =
         OutboxServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
-    @Deprecated("deprecated")
     override fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams,
         requestOptions: RequestOptions,
@@ -64,7 +63,6 @@ class OutboxServiceImpl internal constructor(private val clientOptions: ClientOp
         private val listDraftDocumentsHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
 
-        @Deprecated("deprecated")
         override fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams,
             requestOptions: RequestOptions,

@@ -16,7 +16,6 @@ import kotlin.jvm.optionals.getOrDefault
 import kotlin.jvm.optionals.getOrNull
 
 /** @see OutboxServiceAsync.listDraftDocuments */
-@Deprecated("deprecated")
 class OutboxListDraftDocumentsPageAsync
 private constructor(
     private val service: OutboxServiceAsync,

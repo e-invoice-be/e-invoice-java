@@ -8,23 +8,14 @@ import com.e_invoice.api.core.checkRequired
 import com.e_invoice.api.core.http.Headers
 import com.e_invoice.api.core.http.QueryParams
 import java.util.Objects
-import java.util.Optional
-import kotlin.jvm.optionals.getOrNull
 
 /** Create a new invoice or credit note */
 class DocumentCreateParams
 private constructor(
-    private val constructPdf: Boolean?,
     private val documentCreate: DocumentCreate,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
 ) : Params {
-
-    /**
-     * If true, generate a constructed PDF from the document and include it both as document
-     * attachment and embedded in the UBL.
-     */
-    fun constructPdf(): Optional<Boolean> = Optional.ofNullable(constructPdf)
 
     fun documentCreate(): DocumentCreate = documentCreate
 
@@ -54,34 +45,16 @@ private constructor(
     /** A builder for [DocumentCreateParams]. */
     class Builder internal constructor() {
 
-        private var constructPdf: Boolean? = null
         private var documentCreate: DocumentCreate? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
 
         @JvmSynthetic
         internal fun from(documentCreateParams: DocumentCreateParams) = apply {
-            constructPdf = documentCreateParams.constructPdf
             documentCreate = documentCreateParams.documentCreate
             additionalHeaders = documentCreateParams.additionalHeaders.toBuilder()
             additionalQueryParams = documentCreateParams.additionalQueryParams.toBuilder()
         }
-
-        /**
-         * If true, generate a constructed PDF from the document and include it both as document
-         * attachment and embedded in the UBL.
-         */
-        fun constructPdf(constructPdf: Boolean?) = apply { this.constructPdf = constructPdf }
-
-        /**
-         * Alias for [Builder.constructPdf].
-         *
-         * This unboxed primitive overload exists for backwards compatibility.
-         */
-        fun constructPdf(constructPdf: Boolean) = constructPdf(constructPdf as Boolean?)
-
-        /** Alias for calling [Builder.constructPdf] with `constructPdf.orElse(null)`. */
-        fun constructPdf(constructPdf: Optional<Boolean>) = constructPdf(constructPdf.getOrNull())
 
         fun documentCreate(documentCreate: DocumentCreate) = apply {
             this.documentCreate = documentCreate
@@ -199,7 +172,6 @@ private constructor(
          */
         fun build(): DocumentCreateParams =
             DocumentCreateParams(
-                constructPdf,
                 checkRequired("documentCreate", documentCreate),
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -210,13 +182,7 @@ private constructor(
 
     override fun _headers(): Headers = additionalHeaders
 
-    override fun _queryParams(): QueryParams =
-        QueryParams.builder()
-            .apply {
-                constructPdf?.let { put("construct_pdf", it.toString()) }
-                putAll(additionalQueryParams)
-            }
-            .build()
+    override fun _queryParams(): QueryParams = additionalQueryParams
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -224,15 +190,14 @@ private constructor(
         }
 
         return other is DocumentCreateParams &&
-            constructPdf == other.constructPdf &&
             documentCreate == other.documentCreate &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
     }
 
     override fun hashCode(): Int =
-        Objects.hash(constructPdf, documentCreate, additionalHeaders, additionalQueryParams)
+        Objects.hash(documentCreate, additionalHeaders, additionalQueryParams)
 
     override fun toString() =
-        "DocumentCreateParams{constructPdf=$constructPdf, documentCreate=$documentCreate, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "DocumentCreateParams{documentCreate=$documentCreate, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }

@@ -13,7 +13,6 @@ import com.e_invoice.api.models.documents.UnitOfMeasureCode
 import com.e_invoice.api.models.documents.attachments.DocumentAttachment
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
-import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
@@ -23,11 +22,9 @@ internal class PaginatedDocumentResponseTest {
     fun create() {
         val paginatedDocumentResponse =
             PaginatedDocumentResponse.builder()
-                .hasNextPage(true)
                 .addItem(
                     DocumentResponse.builder()
                         .id("id")
-                        .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .addAllowance(
                             DocumentResponse.Allowance.builder()
                                 .amount("amount")
@@ -69,7 +66,6 @@ internal class PaginatedDocumentResponseTest {
                         .customerEmail("customer_email")
                         .customerId("customer_id")
                         .customerName("customer_name")
-                        .customerPeppolId("0208:0123456789")
                         .customerTaxId("BE1018265814")
                         .direction(DocumentDirection.INBOUND)
                         .documentType(DocumentType.INVOICE)
@@ -158,12 +154,10 @@ internal class PaginatedDocumentResponseTest {
                 .total(0L)
                 .build()
 
-        assertThat(paginatedDocumentResponse.hasNextPage()).isEqualTo(true)
         assertThat(paginatedDocumentResponse.items())
             .containsExactly(
                 DocumentResponse.builder()
                     .id("id")
-                    .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                     .addAllowance(
                         DocumentResponse.Allowance.builder()
                             .amount("amount")
@@ -205,7 +199,6 @@ internal class PaginatedDocumentResponseTest {
                     .customerEmail("customer_email")
                     .customerId("customer_id")
                     .customerName("customer_name")
-                    .customerPeppolId("0208:0123456789")
                     .customerTaxId("BE1018265814")
                     .direction(DocumentDirection.INBOUND)
                     .documentType(DocumentType.INVOICE)
@@ -296,11 +289,9 @@ internal class PaginatedDocumentResponseTest {
         val jsonMapper = jsonMapper()
         val paginatedDocumentResponse =
             PaginatedDocumentResponse.builder()
-                .hasNextPage(true)
                 .addItem(
                     DocumentResponse.builder()
                         .id("id")
-                        .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                         .addAllowance(
                             DocumentResponse.Allowance.builder()
                                 .amount("amount")
@@ -342,7 +333,6 @@ internal class PaginatedDocumentResponseTest {
                         .customerEmail("customer_email")
                         .customerId("customer_id")
                         .customerName("customer_name")
-                        .customerPeppolId("0208:0123456789")
                         .customerTaxId("BE1018265814")
                         .direction(DocumentDirection.INBOUND)
                         .documentType(DocumentType.INVOICE)

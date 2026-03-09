@@ -26,10 +26,6 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
 
         @JvmField val DEBIT_NOTE = of("DEBIT_NOTE")
 
-        @JvmField val SELFBILLING_INVOICE = of("SELFBILLING_INVOICE")
-
-        @JvmField val SELFBILLING_CREDIT_NOTE = of("SELFBILLING_CREDIT_NOTE")
-
         @JvmStatic fun of(value: String) = DocumentType(JsonField.of(value))
     }
 
@@ -38,8 +34,6 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
         INVOICE,
         CREDIT_NOTE,
         DEBIT_NOTE,
-        SELFBILLING_INVOICE,
-        SELFBILLING_CREDIT_NOTE,
     }
 
     /**
@@ -55,8 +49,6 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
         INVOICE,
         CREDIT_NOTE,
         DEBIT_NOTE,
-        SELFBILLING_INVOICE,
-        SELFBILLING_CREDIT_NOTE,
         /** An enum member indicating that [DocumentType] was instantiated with an unknown value. */
         _UNKNOWN,
     }
@@ -73,8 +65,6 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
             INVOICE -> Value.INVOICE
             CREDIT_NOTE -> Value.CREDIT_NOTE
             DEBIT_NOTE -> Value.DEBIT_NOTE
-            SELFBILLING_INVOICE -> Value.SELFBILLING_INVOICE
-            SELFBILLING_CREDIT_NOTE -> Value.SELFBILLING_CREDIT_NOTE
             else -> Value._UNKNOWN
         }
 
@@ -91,8 +81,6 @@ class DocumentType @JsonCreator private constructor(private val value: JsonField
             INVOICE -> Known.INVOICE
             CREDIT_NOTE -> Known.CREDIT_NOTE
             DEBIT_NOTE -> Known.DEBIT_NOTE
-            SELFBILLING_INVOICE -> Known.SELFBILLING_INVOICE
-            SELFBILLING_CREDIT_NOTE -> Known.SELFBILLING_CREDIT_NOTE
             else -> throw EInvoiceInvalidDataException("Unknown DocumentType: $value")
         }
 

@@ -34,7 +34,6 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxServiceAsync =
         OutboxServiceAsyncImpl(clientOptions.toBuilder().apply(modifier::accept).build())
 
-    @Deprecated("deprecated")
     override fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams,
         requestOptions: RequestOptions,
@@ -65,7 +64,6 @@ class OutboxServiceAsyncImpl internal constructor(private val clientOptions: Cli
         private val listDraftDocumentsHandler: Handler<PaginatedDocumentResponse> =
             jsonHandler<PaginatedDocumentResponse>(clientOptions.jsonMapper)
 
-        @Deprecated("deprecated")
         override fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams,
             requestOptions: RequestOptions,
