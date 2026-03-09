@@ -4,7 +4,6 @@ package com.e_invoice.api.models.outbox
 
 import com.e_invoice.api.core.http.QueryParams
 import com.e_invoice.api.models.documents.DocumentType
-import com.e_invoice.api.models.inbox.DocumentState
 import java.time.OffsetDateTime
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -18,9 +17,11 @@ internal class OutboxListReceivedDocumentsParamsTest {
             .dateTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
             .page(1L)
             .pageSize(1L)
+            .receiver("receiver")
             .search("search")
             .sender("sender")
-            .state(DocumentState.DRAFT)
+            .sortBy(OutboxListReceivedDocumentsParams.SortBy.CREATED_AT)
+            .sortOrder(OutboxListReceivedDocumentsParams.SortOrder.ASC)
             .type(DocumentType.INVOICE)
             .build()
     }
@@ -33,9 +34,11 @@ internal class OutboxListReceivedDocumentsParamsTest {
                 .dateTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .page(1L)
                 .pageSize(1L)
+                .receiver("receiver")
                 .search("search")
                 .sender("sender")
-                .state(DocumentState.DRAFT)
+                .sortBy(OutboxListReceivedDocumentsParams.SortBy.CREATED_AT)
+                .sortOrder(OutboxListReceivedDocumentsParams.SortOrder.ASC)
                 .type(DocumentType.INVOICE)
                 .build()
 
@@ -48,9 +51,11 @@ internal class OutboxListReceivedDocumentsParamsTest {
                     .put("date_to", "2019-12-27T18:11:19.117Z")
                     .put("page", "1")
                     .put("page_size", "1")
+                    .put("receiver", "receiver")
                     .put("search", "search")
                     .put("sender", "sender")
-                    .put("state", "DRAFT")
+                    .put("sort_by", "created_at")
+                    .put("sort_order", "asc")
                     .put("type", "INVOICE")
                     .build()
             )

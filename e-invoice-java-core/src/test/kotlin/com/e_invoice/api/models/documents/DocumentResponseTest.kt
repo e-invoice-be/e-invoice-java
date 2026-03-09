@@ -7,6 +7,7 @@ import com.e_invoice.api.models.documents.attachments.DocumentAttachment
 import com.e_invoice.api.models.inbox.DocumentState
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import java.time.LocalDate
+import java.time.OffsetDateTime
 import kotlin.jvm.optionals.getOrNull
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
@@ -18,6 +19,7 @@ internal class DocumentResponseTest {
         val documentResponse =
             DocumentResponse.builder()
                 .id("id")
+                .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addAllowance(
                     DocumentResponse.Allowance.builder()
                         .amount("amount")
@@ -59,6 +61,7 @@ internal class DocumentResponseTest {
                 .customerEmail("customer_email")
                 .customerId("customer_id")
                 .customerName("customer_name")
+                .customerPeppolId("0208:0123456789")
                 .customerTaxId("BE1018265814")
                 .direction(DocumentDirection.INBOUND)
                 .documentType(DocumentType.INVOICE)
@@ -139,6 +142,8 @@ internal class DocumentResponseTest {
                 .build()
 
         assertThat(documentResponse.id()).isEqualTo("id")
+        assertThat(documentResponse.createdAt())
+            .isEqualTo(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
         assertThat(documentResponse.allowances().getOrNull())
             .containsExactly(
                 DocumentResponse.Allowance.builder()
@@ -184,6 +189,7 @@ internal class DocumentResponseTest {
         assertThat(documentResponse.customerEmail()).contains("customer_email")
         assertThat(documentResponse.customerId()).contains("customer_id")
         assertThat(documentResponse.customerName()).contains("customer_name")
+        assertThat(documentResponse.customerPeppolId()).contains("0208:0123456789")
         assertThat(documentResponse.customerTaxId()).contains("BE1018265814")
         assertThat(documentResponse.direction()).contains(DocumentDirection.INBOUND)
         assertThat(documentResponse.documentType()).contains(DocumentType.INVOICE)
@@ -274,6 +280,7 @@ internal class DocumentResponseTest {
         val documentResponse =
             DocumentResponse.builder()
                 .id("id")
+                .createdAt(OffsetDateTime.parse("2019-12-27T18:11:19.117Z"))
                 .addAllowance(
                     DocumentResponse.Allowance.builder()
                         .amount("amount")
@@ -315,6 +322,7 @@ internal class DocumentResponseTest {
                 .customerEmail("customer_email")
                 .customerId("customer_id")
                 .customerName("customer_name")
+                .customerPeppolId("0208:0123456789")
                 .customerTaxId("BE1018265814")
                 .direction(DocumentDirection.INBOUND)
                 .documentType(DocumentType.INVOICE)
