@@ -15,6 +15,9 @@ internal class ValidateValidatePeppolIdResponseTest {
     fun create() {
         val validateValidatePeppolIdResponse =
             ValidateValidatePeppolIdResponse.builder()
+                .businessCardValid(true)
+                .dnsValid(true)
+                .isValid_(true)
                 .businessCard(
                     ValidateValidatePeppolIdResponse.BusinessCard.builder()
                         .countryCode("BE")
@@ -22,12 +25,12 @@ internal class ValidateValidatePeppolIdResponseTest {
                         .registrationDate(LocalDate.parse("2021-06-15"))
                         .build()
                 )
-                .businessCardValid(true)
-                .dnsValid(true)
-                .isValid_(true)
                 .addSupportedDocumentType("string")
                 .build()
 
+        assertThat(validateValidatePeppolIdResponse.businessCardValid()).isEqualTo(true)
+        assertThat(validateValidatePeppolIdResponse.dnsValid()).isEqualTo(true)
+        assertThat(validateValidatePeppolIdResponse.isValid_()).isEqualTo(true)
         assertThat(validateValidatePeppolIdResponse.businessCard())
             .contains(
                 ValidateValidatePeppolIdResponse.BusinessCard.builder()
@@ -36,9 +39,6 @@ internal class ValidateValidatePeppolIdResponseTest {
                     .registrationDate(LocalDate.parse("2021-06-15"))
                     .build()
             )
-        assertThat(validateValidatePeppolIdResponse.businessCardValid()).isEqualTo(true)
-        assertThat(validateValidatePeppolIdResponse.dnsValid()).isEqualTo(true)
-        assertThat(validateValidatePeppolIdResponse.isValid_()).isEqualTo(true)
         assertThat(validateValidatePeppolIdResponse.supportedDocumentTypes().getOrNull())
             .containsExactly("string")
     }
@@ -48,6 +48,9 @@ internal class ValidateValidatePeppolIdResponseTest {
         val jsonMapper = jsonMapper()
         val validateValidatePeppolIdResponse =
             ValidateValidatePeppolIdResponse.builder()
+                .businessCardValid(true)
+                .dnsValid(true)
+                .isValid_(true)
                 .businessCard(
                     ValidateValidatePeppolIdResponse.BusinessCard.builder()
                         .countryCode("BE")
@@ -55,9 +58,6 @@ internal class ValidateValidatePeppolIdResponseTest {
                         .registrationDate(LocalDate.parse("2021-06-15"))
                         .build()
                 )
-                .businessCardValid(true)
-                .dnsValid(true)
-                .isValid_(true)
                 .addSupportedDocumentType("string")
                 .build()
 
