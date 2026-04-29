@@ -58,7 +58,6 @@ This library requires Java 8 or later.
 import com.e_invoice.api.client.EInvoiceClient;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 import com.e_invoice.api.models.documents.DocumentCreate;
-import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 
 // Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
@@ -157,7 +156,6 @@ The default client is synchronous. To switch to asynchronous execution, call the
 import com.e_invoice.api.client.EInvoiceClient;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 import com.e_invoice.api.models.documents.DocumentCreate;
-import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
@@ -175,7 +173,6 @@ Or create an asynchronous client from the beginning:
 import com.e_invoice.api.client.EInvoiceClientAsync;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClientAsync;
 import com.e_invoice.api.models.documents.DocumentCreate;
-import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
@@ -259,7 +256,6 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 import com.e_invoice.api.core.http.Headers;
 import com.e_invoice.api.core.http.HttpResponseFor;
 import com.e_invoice.api.models.documents.DocumentCreate;
-import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 
 DocumentCreate params = DocumentCreate.builder().build();
