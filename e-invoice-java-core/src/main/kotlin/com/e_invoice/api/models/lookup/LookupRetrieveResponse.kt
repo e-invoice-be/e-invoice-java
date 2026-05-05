@@ -450,6 +450,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): LookupRetrieveResponse = apply {
         if (validated) {
             return@apply
@@ -734,6 +742,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): BusinessCard = apply {
             if (validated) {
                 return@apply
@@ -1028,6 +1045,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Entity = apply {
                 if (validated) {
                     return@apply
@@ -1442,6 +1469,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): DnsInfo = apply {
             if (validated) {
                 return@apply
@@ -1597,6 +1633,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): DnsRecord = apply {
                 if (validated) {
                     return@apply
@@ -1946,6 +1992,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): QueryMetadata = apply {
             if (validated) {
                 return@apply
@@ -2256,6 +2311,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): ServiceMetadata = apply {
             if (validated) {
                 return@apply
@@ -2592,6 +2656,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Endpoint = apply {
                 if (validated) {
                     return@apply
@@ -2789,6 +2863,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): DocumentType = apply {
                     if (validated) {
                         return@apply
@@ -3022,6 +3106,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Process = apply {
                     if (validated) {
                         return@apply
@@ -3523,6 +3617,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                     *   match its expected type.
+                     */
                     fun validate(): InnerEndpoint = apply {
                         if (validated) {
                             return@apply
@@ -3766,6 +3870,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                     *   match its expected type.
+                     */
                     fun validate(): ProcessId = apply {
                         if (validated) {
                             return@apply

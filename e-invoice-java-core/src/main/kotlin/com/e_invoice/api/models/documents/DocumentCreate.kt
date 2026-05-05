@@ -2286,6 +2286,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): DocumentCreate = apply {
         if (validated) {
             return@apply
@@ -2796,6 +2804,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Allowance = apply {
             if (validated) {
                 return@apply
@@ -2859,6 +2876,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = amount.accept(new Amount.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -2868,6 +2915,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Amount = apply {
                 if (validated) {
                     return@apply
@@ -3032,6 +3089,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = baseAmount.accept(new BaseAmount.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -3041,6 +3128,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): BaseAmount = apply {
                 if (validated) {
                     return@apply
@@ -3207,6 +3304,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = multiplierFactor.accept(new MultiplierFactor.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -3216,6 +3343,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): MultiplierFactor = apply {
                 if (validated) {
                     return@apply
@@ -3551,6 +3688,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): ReasonCode = apply {
                 if (validated) {
                     return@apply
@@ -3730,6 +3877,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): TaxCode = apply {
                 if (validated) {
                     return@apply
@@ -3795,6 +3952,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = taxRate.accept(new TaxRate.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -3804,6 +3991,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): TaxRate = apply {
                 if (validated) {
                     return@apply
@@ -4001,6 +4198,35 @@ private constructor(
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+        /**
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
+         *
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.e_invoice.api.core.JsonValue;
+         * import java.util.Optional;
+         *
+         * Optional<String> result = amountDue.accept(new AmountDue.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitNumber(Double number) {
+         *         return Optional.of(number.toString());
+         *     }
+         *
+         *     // ...
+         *
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
+         *
+         * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
+         */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
                 number != null -> visitor.visitNumber(number)
@@ -4010,6 +4236,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): AmountDue = apply {
             if (validated) {
                 return@apply
@@ -4538,6 +4773,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Charge = apply {
             if (validated) {
                 return@apply
@@ -4601,6 +4845,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = amount.accept(new Amount.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -4610,6 +4884,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Amount = apply {
                 if (validated) {
                     return@apply
@@ -4774,6 +5058,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = baseAmount.accept(new BaseAmount.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -4783,6 +5097,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): BaseAmount = apply {
                 if (validated) {
                     return@apply
@@ -4948,6 +5272,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = multiplierFactor.accept(new MultiplierFactor.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -4957,6 +5311,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): MultiplierFactor = apply {
                 if (validated) {
                     return@apply
@@ -6246,6 +6610,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): ReasonCode = apply {
                 if (validated) {
                     return@apply
@@ -6429,6 +6803,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): TaxCode = apply {
                 if (validated) {
                     return@apply
@@ -6491,6 +6875,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = taxRate.accept(new TaxRate.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -6500,6 +6914,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): TaxRate = apply {
                 if (validated) {
                     return@apply
@@ -6700,6 +7124,35 @@ private constructor(
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+        /**
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
+         *
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.e_invoice.api.core.JsonValue;
+         * import java.util.Optional;
+         *
+         * Optional<String> result = invoiceTotal.accept(new InvoiceTotal.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitNumber(Double number) {
+         *         return Optional.of(number.toString());
+         *     }
+         *
+         *     // ...
+         *
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
+         *
+         * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
+         */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
                 number != null -> visitor.visitNumber(number)
@@ -6709,6 +7162,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): InvoiceTotal = apply {
             if (validated) {
                 return@apply
@@ -7420,6 +7882,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Item = apply {
             if (validated) {
                 return@apply
@@ -7875,6 +8346,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Allowance = apply {
                 if (validated) {
                     return@apply
@@ -7938,6 +8419,36 @@ private constructor(
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.e_invoice.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = amount.accept(new Amount.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitNumber(Double number) {
+                 *         return Optional.of(number.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
                 fun <T> accept(visitor: Visitor<T>): T =
                     when {
                         number != null -> visitor.visitNumber(number)
@@ -7947,6 +8458,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Amount = apply {
                     if (validated) {
                         return@apply
@@ -8113,6 +8634,36 @@ private constructor(
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.e_invoice.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = baseAmount.accept(new BaseAmount.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitNumber(Double number) {
+                 *         return Optional.of(number.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
                 fun <T> accept(visitor: Visitor<T>): T =
                     when {
                         number != null -> visitor.visitNumber(number)
@@ -8122,6 +8673,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): BaseAmount = apply {
                     if (validated) {
                         return@apply
@@ -8289,6 +8850,36 @@ private constructor(
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.e_invoice.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = multiplierFactor.accept(new MultiplierFactor.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitNumber(Double number) {
+                 *         return Optional.of(number.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
                 fun <T> accept(visitor: Visitor<T>): T =
                     when {
                         number != null -> visitor.visitNumber(number)
@@ -8298,6 +8889,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): MultiplierFactor = apply {
                     if (validated) {
                         return@apply
@@ -8638,6 +9239,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): ReasonCode = apply {
                     if (validated) {
                         return@apply
@@ -8818,6 +9429,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): TaxCode = apply {
                     if (validated) {
                         return@apply
@@ -8883,6 +9504,36 @@ private constructor(
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.e_invoice.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = taxRate.accept(new TaxRate.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitNumber(Double number) {
+                 *         return Optional.of(number.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
                 fun <T> accept(visitor: Visitor<T>): T =
                     when {
                         number != null -> visitor.visitNumber(number)
@@ -8892,6 +9543,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): TaxRate = apply {
                     if (validated) {
                         return@apply
@@ -9095,6 +9756,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = amount.accept(new Amount.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -9104,6 +9795,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Amount = apply {
                 if (validated) {
                     return@apply
@@ -9652,6 +10353,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Charge = apply {
                 if (validated) {
                     return@apply
@@ -9715,6 +10426,36 @@ private constructor(
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.e_invoice.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = amount.accept(new Amount.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitNumber(Double number) {
+                 *         return Optional.of(number.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
                 fun <T> accept(visitor: Visitor<T>): T =
                     when {
                         number != null -> visitor.visitNumber(number)
@@ -9724,6 +10465,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Amount = apply {
                     if (validated) {
                         return@apply
@@ -9890,6 +10641,36 @@ private constructor(
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.e_invoice.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = baseAmount.accept(new BaseAmount.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitNumber(Double number) {
+                 *         return Optional.of(number.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
                 fun <T> accept(visitor: Visitor<T>): T =
                     when {
                         number != null -> visitor.visitNumber(number)
@@ -9899,6 +10680,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): BaseAmount = apply {
                     if (validated) {
                         return@apply
@@ -10065,6 +10856,36 @@ private constructor(
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.e_invoice.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = multiplierFactor.accept(new MultiplierFactor.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitNumber(Double number) {
+                 *         return Optional.of(number.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
                 fun <T> accept(visitor: Visitor<T>): T =
                     when {
                         number != null -> visitor.visitNumber(number)
@@ -10074,6 +10895,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): MultiplierFactor = apply {
                     if (validated) {
                         return@apply
@@ -11368,6 +12199,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): ReasonCode = apply {
                     if (validated) {
                         return@apply
@@ -11552,6 +12393,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): TaxCode = apply {
                     if (validated) {
                         return@apply
@@ -11614,6 +12465,36 @@ private constructor(
 
                 fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+                /**
+                 * Maps this instance's current variant to a value of type [T] using the given
+                 * [visitor].
+                 *
+                 * Note that this method is _not_ forwards compatible with new variants from the
+                 * API, unless [visitor] overrides [Visitor.unknown]. To handle variants not known
+                 * to this version of the SDK gracefully, consider overriding [Visitor.unknown]:
+                 * ```java
+                 * import com.e_invoice.api.core.JsonValue;
+                 * import java.util.Optional;
+                 *
+                 * Optional<String> result = taxRate.accept(new TaxRate.Visitor<Optional<String>>() {
+                 *     @Override
+                 *     public Optional<String> visitNumber(Double number) {
+                 *         return Optional.of(number.toString());
+                 *     }
+                 *
+                 *     // ...
+                 *
+                 *     @Override
+                 *     public Optional<String> unknown(JsonValue json) {
+                 *         // Or inspect the `json`.
+                 *         return Optional.empty();
+                 *     }
+                 * });
+                 * ```
+                 *
+                 * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+                 *   [visitor] and the current variant is unknown.
+                 */
                 fun <T> accept(visitor: Visitor<T>): T =
                     when {
                         number != null -> visitor.visitNumber(number)
@@ -11623,6 +12504,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): TaxRate = apply {
                     if (validated) {
                         return@apply
@@ -11824,6 +12715,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = quantity.accept(new Quantity.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -11833,6 +12754,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Quantity = apply {
                 if (validated) {
                     return@apply
@@ -11998,6 +12929,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = tax.accept(new Tax.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -12007,6 +12968,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Tax = apply {
                 if (validated) {
                     return@apply
@@ -12168,6 +13139,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = taxRate.accept(new TaxRate.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -12177,6 +13178,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): TaxRate = apply {
                 if (validated) {
                     return@apply
@@ -12342,6 +13353,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = unitPrice.accept(new UnitPrice.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -12351,6 +13392,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): UnitPrice = apply {
                 if (validated) {
                     return@apply
@@ -12559,6 +13610,35 @@ private constructor(
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+        /**
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
+         *
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.e_invoice.api.core.JsonValue;
+         * import java.util.Optional;
+         *
+         * Optional<String> result = previousUnpaidBalance.accept(new PreviousUnpaidBalance.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitNumber(Double number) {
+         *         return Optional.of(number.toString());
+         *     }
+         *
+         *     // ...
+         *
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
+         *
+         * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
+         */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
                 number != null -> visitor.visitNumber(number)
@@ -12568,6 +13648,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): PreviousUnpaidBalance = apply {
             if (validated) {
                 return@apply
@@ -12738,6 +13827,35 @@ private constructor(
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+        /**
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
+         *
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.e_invoice.api.core.JsonValue;
+         * import java.util.Optional;
+         *
+         * Optional<String> result = subtotal.accept(new Subtotal.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitNumber(Double number) {
+         *         return Optional.of(number.toString());
+         *     }
+         *
+         *     // ...
+         *
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
+         *
+         * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
+         */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
                 number != null -> visitor.visitNumber(number)
@@ -12747,6 +13865,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Subtotal = apply {
             if (validated) {
                 return@apply
@@ -13024,6 +14151,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): TaxCode = apply {
             if (validated) {
                 return@apply
@@ -13203,6 +14339,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): TaxDetail = apply {
             if (validated) {
                 return@apply
@@ -13256,6 +14401,36 @@ private constructor(
 
             fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = amount.accept(new Amount.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
             fun <T> accept(visitor: Visitor<T>): T =
                 when {
                     number != null -> visitor.visitNumber(number)
@@ -13265,6 +14440,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Amount = apply {
                 if (validated) {
                     return@apply
@@ -13449,6 +14634,35 @@ private constructor(
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+        /**
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
+         *
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.e_invoice.api.core.JsonValue;
+         * import java.util.Optional;
+         *
+         * Optional<String> result = totalDiscount.accept(new TotalDiscount.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitNumber(Double number) {
+         *         return Optional.of(number.toString());
+         *     }
+         *
+         *     // ...
+         *
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
+         *
+         * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
+         */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
                 number != null -> visitor.visitNumber(number)
@@ -13458,6 +14672,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): TotalDiscount = apply {
             if (validated) {
                 return@apply
@@ -13620,6 +14843,35 @@ private constructor(
 
         fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
 
+        /**
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
+         *
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.e_invoice.api.core.JsonValue;
+         * import java.util.Optional;
+         *
+         * Optional<String> result = totalTax.accept(new TotalTax.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitNumber(Double number) {
+         *         return Optional.of(number.toString());
+         *     }
+         *
+         *     // ...
+         *
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
+         *
+         * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
+         */
         fun <T> accept(visitor: Visitor<T>): T =
             when {
                 number != null -> visitor.visitNumber(number)
@@ -13629,6 +14881,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): TotalTax = apply {
             if (validated) {
                 return@apply
@@ -14220,6 +15481,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Vatex = apply {
             if (validated) {
                 return@apply
