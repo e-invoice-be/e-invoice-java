@@ -506,6 +506,21 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
     .build();
 ```
 
+If the proxy responds with `407 Proxy Authentication Required`, supply credentials by also configuring `proxyAuthenticator`:
+
+```java
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.core.http.ProxyAuthenticator;
+
+EInvoiceClient client = EInvoiceOkHttpClient.builder()
+    .fromEnv()
+    .proxy(...)
+    // Or a custom implementation of `ProxyAuthenticator`.
+    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))
+    .build();
+```
+
 ### Connection pooling
 
 To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
