@@ -5,6 +5,7 @@ package com.e_invoice.api.client.okhttp
 import com.e_invoice.api.client.EInvoiceClient
 import com.e_invoice.api.client.EInvoiceClientImpl
 import com.e_invoice.api.core.ClientOptions
+import com.e_invoice.api.core.LogLevel
 import com.e_invoice.api.core.Sleeper
 import com.e_invoice.api.core.Timeout
 import com.e_invoice.api.core.http.AsyncStreamResponse
@@ -289,6 +290,15 @@ class EInvoiceOkHttpClient private constructor() {
          * Defaults to 2.
          */
         fun maxRetries(maxRetries: Int) = apply { clientOptions.maxRetries(maxRetries) }
+
+        /**
+         * The level at which to log request and response information.
+         *
+         * [fromEnv] will set the level from environment variables. See [LogLevel.fromEnv].
+         *
+         * Defaults to [LogLevel.fromEnv].
+         */
+        fun logLevel(logLevel: LogLevel) = apply { clientOptions.logLevel(logLevel) }
 
         fun apiKey(apiKey: String) = apply { clientOptions.apiKey(apiKey) }
 

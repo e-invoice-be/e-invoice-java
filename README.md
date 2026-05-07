@@ -398,8 +398,6 @@ while (true) {
 
 ## Logging
 
-The SDK uses the standard [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).
-
 Enable logging by setting the `E_INVOICE_LOG` environment variable to `info`:
 
 ```sh
@@ -410,6 +408,19 @@ Or to `debug` for more verbose logging:
 
 ```sh
 export E_INVOICE_LOG=debug
+```
+
+Or configure the client manually using the `logLevel` method:
+
+```java
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.core.LogLevel;
+
+EInvoiceClient client = EInvoiceOkHttpClient.builder()
+    .fromEnv()
+    .logLevel(LogLevel.INFO)
+    .build();
 ```
 
 ## ProGuard and R8
