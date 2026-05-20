@@ -42,6 +42,8 @@ private constructor(
     private val direction: JsonField<DocumentDirection>,
     private val documentType: JsonField<DocumentType>,
     private val dueDate: JsonField<LocalDate>,
+    private val errorMessage: JsonField<String>,
+    private val errorType: JsonField<String>,
     private val invoiceDate: JsonField<LocalDate>,
     private val invoiceId: JsonField<String>,
     private val invoiceTotal: JsonField<String>,
@@ -129,6 +131,10 @@ private constructor(
         @ExcludeMissing
         documentType: JsonField<DocumentType> = JsonMissing.of(),
         @JsonProperty("due_date") @ExcludeMissing dueDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("error_message")
+        @ExcludeMissing
+        errorMessage: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("error_type") @ExcludeMissing errorType: JsonField<String> = JsonMissing.of(),
         @JsonProperty("invoice_date")
         @ExcludeMissing
         invoiceDate: JsonField<LocalDate> = JsonMissing.of(),
@@ -224,6 +230,8 @@ private constructor(
         direction,
         documentType,
         dueDate,
+        errorMessage,
+        errorType,
         invoiceDate,
         invoiceId,
         invoiceTotal,
@@ -402,6 +410,22 @@ private constructor(
     fun dueDate(): Optional<LocalDate> = dueDate.getOptional("due_date")
 
     /**
+     * Error message when success is False
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun errorMessage(): Optional<String> = errorMessage.getOptional("error_message")
+
+    /**
+     * Error type/category when success is False
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun errorType(): Optional<String> = errorType.getOptional("error_type")
+
+    /**
      * The date when the invoice was issued
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -427,7 +451,7 @@ private constructor(
     fun invoiceTotal(): Optional<String> = invoiceTotal.getOptional("invoice_total")
 
     /**
-     * At least one line item is required
+     * Line items (may be empty for failed conversions)
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
@@ -823,6 +847,22 @@ private constructor(
     @JsonProperty("due_date") @ExcludeMissing fun _dueDate(): JsonField<LocalDate> = dueDate
 
     /**
+     * Returns the raw JSON value of [errorMessage].
+     *
+     * Unlike [errorMessage], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("error_message")
+    @ExcludeMissing
+    fun _errorMessage(): JsonField<String> = errorMessage
+
+    /**
+     * Returns the raw JSON value of [errorType].
+     *
+     * Unlike [errorType], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("error_type") @ExcludeMissing fun _errorType(): JsonField<String> = errorType
+
+    /**
      * Returns the raw JSON value of [invoiceDate].
      *
      * Unlike [invoiceDate], this method doesn't throw if the JSON field has an unexpected type.
@@ -1136,6 +1176,8 @@ private constructor(
         private var direction: JsonField<DocumentDirection> = JsonMissing.of()
         private var documentType: JsonField<DocumentType> = JsonMissing.of()
         private var dueDate: JsonField<LocalDate> = JsonMissing.of()
+        private var errorMessage: JsonField<String> = JsonMissing.of()
+        private var errorType: JsonField<String> = JsonMissing.of()
         private var invoiceDate: JsonField<LocalDate> = JsonMissing.of()
         private var invoiceId: JsonField<String> = JsonMissing.of()
         private var invoiceTotal: JsonField<String> = JsonMissing.of()
@@ -1190,6 +1232,8 @@ private constructor(
             direction = documentCreateFromPdfResponse.direction
             documentType = documentCreateFromPdfResponse.documentType
             dueDate = documentCreateFromPdfResponse.dueDate
+            errorMessage = documentCreateFromPdfResponse.errorMessage
+            errorType = documentCreateFromPdfResponse.errorType
             invoiceDate = documentCreateFromPdfResponse.invoiceDate
             invoiceId = documentCreateFromPdfResponse.invoiceId
             invoiceTotal = documentCreateFromPdfResponse.invoiceTotal
@@ -1574,6 +1618,38 @@ private constructor(
          */
         fun dueDate(dueDate: JsonField<LocalDate>) = apply { this.dueDate = dueDate }
 
+        /** Error message when success is False */
+        fun errorMessage(errorMessage: String?) = errorMessage(JsonField.ofNullable(errorMessage))
+
+        /** Alias for calling [Builder.errorMessage] with `errorMessage.orElse(null)`. */
+        fun errorMessage(errorMessage: Optional<String>) = errorMessage(errorMessage.getOrNull())
+
+        /**
+         * Sets [Builder.errorMessage] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.errorMessage] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun errorMessage(errorMessage: JsonField<String>) = apply {
+            this.errorMessage = errorMessage
+        }
+
+        /** Error type/category when success is False */
+        fun errorType(errorType: String?) = errorType(JsonField.ofNullable(errorType))
+
+        /** Alias for calling [Builder.errorType] with `errorType.orElse(null)`. */
+        fun errorType(errorType: Optional<String>) = errorType(errorType.getOrNull())
+
+        /**
+         * Sets [Builder.errorType] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.errorType] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun errorType(errorType: JsonField<String>) = apply { this.errorType = errorType }
+
         /** The date when the invoice was issued */
         fun invoiceDate(invoiceDate: LocalDate?) = invoiceDate(JsonField.ofNullable(invoiceDate))
 
@@ -1626,7 +1702,7 @@ private constructor(
             this.invoiceTotal = invoiceTotal
         }
 
-        /** At least one line item is required */
+        /** Line items (may be empty for failed conversions) */
         fun items(items: List<Item>) = items(JsonField.of(items))
 
         /**
@@ -2211,6 +2287,8 @@ private constructor(
                 direction,
                 documentType,
                 dueDate,
+                errorMessage,
+                errorType,
                 invoiceDate,
                 invoiceId,
                 invoiceTotal,
@@ -2280,6 +2358,8 @@ private constructor(
         direction().ifPresent { it.validate() }
         documentType().ifPresent { it.validate() }
         dueDate()
+        errorMessage()
+        errorType()
         invoiceDate()
         invoiceId()
         invoiceTotal()
@@ -2348,6 +2428,8 @@ private constructor(
             (direction.asKnown().getOrNull()?.validity() ?: 0) +
             (documentType.asKnown().getOrNull()?.validity() ?: 0) +
             (if (dueDate.asKnown().isPresent) 1 else 0) +
+            (if (errorMessage.asKnown().isPresent) 1 else 0) +
+            (if (errorType.asKnown().isPresent) 1 else 0) +
             (if (invoiceDate.asKnown().isPresent) 1 else 0) +
             (if (invoiceId.asKnown().isPresent) 1 else 0) +
             (if (invoiceTotal.asKnown().isPresent) 1 else 0) +
@@ -3922,6 +4004,8 @@ private constructor(
             direction == other.direction &&
             documentType == other.documentType &&
             dueDate == other.dueDate &&
+            errorMessage == other.errorMessage &&
+            errorType == other.errorType &&
             invoiceDate == other.invoiceDate &&
             invoiceId == other.invoiceId &&
             invoiceTotal == other.invoiceTotal &&
@@ -3977,6 +4061,8 @@ private constructor(
             direction,
             documentType,
             dueDate,
+            errorMessage,
+            errorType,
             invoiceDate,
             invoiceId,
             invoiceTotal,
@@ -4016,5 +4102,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentCreateFromPdfResponse{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerPeppolId=$customerPeppolId, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, success=$success, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, ublDocument=$ublDocument, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentCreateFromPdfResponse{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerPeppolId=$customerPeppolId, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, errorMessage=$errorMessage, errorType=$errorType, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, success=$success, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, ublDocument=$ublDocument, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }
