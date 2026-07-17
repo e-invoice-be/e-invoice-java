@@ -5104,6 +5104,7 @@ private constructor(
         private val charges: JsonField<List<Charge>>,
         private val date: JsonField<Void>,
         private val description: JsonField<String>,
+        private val itemAttributes: JsonField<List<ItemAttribute>>,
         private val productCode: JsonField<String>,
         private val quantity: JsonField<String>,
         private val tax: JsonField<String>,
@@ -5126,6 +5127,9 @@ private constructor(
             @JsonProperty("description")
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("item_attributes")
+            @ExcludeMissing
+            itemAttributes: JsonField<List<ItemAttribute>> = JsonMissing.of(),
             @JsonProperty("product_code")
             @ExcludeMissing
             productCode: JsonField<String> = JsonMissing.of(),
@@ -5146,6 +5150,7 @@ private constructor(
             charges,
             date,
             description,
+            itemAttributes,
             productCode,
             quantity,
             tax,
@@ -5195,6 +5200,15 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun description(): Optional<String> = description.getOptional("description")
+
+        /**
+         * Item-level attributes (BG-32) from cac:AdditionalItemProperty.
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun itemAttributes(): Optional<List<ItemAttribute>> =
+            itemAttributes.getOptional("item_attributes")
 
         /**
          * The product code of the line item.
@@ -5287,6 +5301,16 @@ private constructor(
         fun _description(): JsonField<String> = description
 
         /**
+         * Returns the raw JSON value of [itemAttributes].
+         *
+         * Unlike [itemAttributes], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("item_attributes")
+        @ExcludeMissing
+        fun _itemAttributes(): JsonField<List<ItemAttribute>> = itemAttributes
+
+        /**
          * Returns the raw JSON value of [productCode].
          *
          * Unlike [productCode], this method doesn't throw if the JSON field has an unexpected type.
@@ -5356,6 +5380,7 @@ private constructor(
             private var charges: JsonField<MutableList<Charge>>? = null
             private var date: JsonField<Void> = JsonMissing.of()
             private var description: JsonField<String> = JsonMissing.of()
+            private var itemAttributes: JsonField<MutableList<ItemAttribute>>? = null
             private var productCode: JsonField<String> = JsonMissing.of()
             private var quantity: JsonField<String> = JsonMissing.of()
             private var tax: JsonField<String> = JsonMissing.of()
@@ -5371,6 +5396,7 @@ private constructor(
                 charges = item.charges.map { it.toMutableList() }
                 date = item.date
                 description = item.description
+                itemAttributes = item.itemAttributes.map { it.toMutableList() }
                 productCode = item.productCode
                 quantity = item.quantity
                 tax = item.tax
@@ -5489,6 +5515,37 @@ private constructor(
              */
             fun description(description: JsonField<String>) = apply {
                 this.description = description
+            }
+
+            /** Item-level attributes (BG-32) from cac:AdditionalItemProperty. */
+            fun itemAttributes(itemAttributes: List<ItemAttribute>?) =
+                itemAttributes(JsonField.ofNullable(itemAttributes))
+
+            /** Alias for calling [Builder.itemAttributes] with `itemAttributes.orElse(null)`. */
+            fun itemAttributes(itemAttributes: Optional<List<ItemAttribute>>) =
+                itemAttributes(itemAttributes.getOrNull())
+
+            /**
+             * Sets [Builder.itemAttributes] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.itemAttributes] with a well-typed
+             * `List<ItemAttribute>` value instead. This method is primarily for setting the field
+             * to an undocumented or not yet supported value.
+             */
+            fun itemAttributes(itemAttributes: JsonField<List<ItemAttribute>>) = apply {
+                this.itemAttributes = itemAttributes.map { it.toMutableList() }
+            }
+
+            /**
+             * Adds a single [ItemAttribute] to [itemAttributes].
+             *
+             * @throws IllegalStateException if the field was previously set to a non-list.
+             */
+            fun addItemAttribute(itemAttribute: ItemAttribute) = apply {
+                itemAttributes =
+                    (itemAttributes ?: JsonField.of(mutableListOf())).also {
+                        checkKnown("itemAttributes", it).add(itemAttribute)
+                    }
             }
 
             /** The product code of the line item. */
@@ -5623,6 +5680,7 @@ private constructor(
                     (charges ?: JsonMissing.of()).map { it.toImmutable() },
                     date,
                     description,
+                    (itemAttributes ?: JsonMissing.of()).map { it.toImmutable() },
                     productCode,
                     quantity,
                     tax,
@@ -5654,6 +5712,7 @@ private constructor(
             charges().ifPresent { it.forEach { it.validate() } }
             date()
             description()
+            itemAttributes().ifPresent { it.forEach { it.validate() } }
             productCode()
             quantity()
             tax()
@@ -5684,12 +5743,226 @@ private constructor(
                 (charges.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (date.asKnown().isPresent) 1 else 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
+                (itemAttributes.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (productCode.asKnown().isPresent) 1 else 0) +
                 (if (quantity.asKnown().isPresent) 1 else 0) +
                 (if (tax.asKnown().isPresent) 1 else 0) +
                 (if (taxRate.asKnown().isPresent) 1 else 0) +
                 (unit.asKnown().getOrNull()?.validity() ?: 0) +
                 (if (unitPrice.asKnown().isPresent) 1 else 0)
+
+        /** An item-level attribute (BG-32 / BT-160 + BT-161) from cac:AdditionalItemProperty. */
+        class ItemAttribute
+        @JsonCreator(mode = JsonCreator.Mode.DISABLED)
+        private constructor(
+            private val name: JsonField<String>,
+            private val value: JsonField<String>,
+            private val additionalProperties: MutableMap<String, JsonValue>,
+        ) {
+
+            @JsonCreator
+            private constructor(
+                @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+                @JsonProperty("value") @ExcludeMissing value: JsonField<String> = JsonMissing.of(),
+            ) : this(name, value, mutableMapOf())
+
+            /**
+             * Attribute name (BT-160).
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
+             *   unexpectedly missing or null (e.g. if the server responded with an unexpected
+             *   value).
+             */
+            fun name(): String = name.getRequired("name")
+
+            /**
+             * Attribute value (BT-161).
+             *
+             * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g.
+             *   if the server responded with an unexpected value).
+             */
+            fun value(): Optional<String> = value.getOptional("value")
+
+            /**
+             * Returns the raw JSON value of [name].
+             *
+             * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+            /**
+             * Returns the raw JSON value of [value].
+             *
+             * Unlike [value], this method doesn't throw if the JSON field has an unexpected type.
+             */
+            @JsonProperty("value") @ExcludeMissing fun _value(): JsonField<String> = value
+
+            @JsonAnySetter
+            private fun putAdditionalProperty(key: String, value: JsonValue) {
+                additionalProperties.put(key, value)
+            }
+
+            @JsonAnyGetter
+            @ExcludeMissing
+            fun _additionalProperties(): Map<String, JsonValue> =
+                Collections.unmodifiableMap(additionalProperties)
+
+            fun toBuilder() = Builder().from(this)
+
+            companion object {
+
+                /**
+                 * Returns a mutable builder for constructing an instance of [ItemAttribute].
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .name()
+                 * ```
+                 */
+                @JvmStatic fun builder() = Builder()
+            }
+
+            /** A builder for [ItemAttribute]. */
+            class Builder internal constructor() {
+
+                private var name: JsonField<String>? = null
+                private var value: JsonField<String> = JsonMissing.of()
+                private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
+
+                @JvmSynthetic
+                internal fun from(itemAttribute: ItemAttribute) = apply {
+                    name = itemAttribute.name
+                    value = itemAttribute.value
+                    additionalProperties = itemAttribute.additionalProperties.toMutableMap()
+                }
+
+                /** Attribute name (BT-160). */
+                fun name(name: String) = name(JsonField.of(name))
+
+                /**
+                 * Sets [Builder.name] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.name] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun name(name: JsonField<String>) = apply { this.name = name }
+
+                /** Attribute value (BT-161). */
+                fun value(value: String?) = value(JsonField.ofNullable(value))
+
+                /** Alias for calling [Builder.value] with `value.orElse(null)`. */
+                fun value(value: Optional<String>) = value(value.getOrNull())
+
+                /**
+                 * Sets [Builder.value] to an arbitrary JSON value.
+                 *
+                 * You should usually call [Builder.value] with a well-typed [String] value instead.
+                 * This method is primarily for setting the field to an undocumented or not yet
+                 * supported value.
+                 */
+                fun value(value: JsonField<String>) = apply { this.value = value }
+
+                fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
+                    this.additionalProperties.clear()
+                    putAllAdditionalProperties(additionalProperties)
+                }
+
+                fun putAdditionalProperty(key: String, value: JsonValue) = apply {
+                    additionalProperties.put(key, value)
+                }
+
+                fun putAllAdditionalProperties(additionalProperties: Map<String, JsonValue>) =
+                    apply {
+                        this.additionalProperties.putAll(additionalProperties)
+                    }
+
+                fun removeAdditionalProperty(key: String) = apply {
+                    additionalProperties.remove(key)
+                }
+
+                fun removeAllAdditionalProperties(keys: Set<String>) = apply {
+                    keys.forEach(::removeAdditionalProperty)
+                }
+
+                /**
+                 * Returns an immutable instance of [ItemAttribute].
+                 *
+                 * Further updates to this [Builder] will not mutate the returned instance.
+                 *
+                 * The following fields are required:
+                 * ```java
+                 * .name()
+                 * ```
+                 *
+                 * @throws IllegalStateException if any required field is unset.
+                 */
+                fun build(): ItemAttribute =
+                    ItemAttribute(
+                        checkRequired("name", name),
+                        value,
+                        additionalProperties.toMutableMap(),
+                    )
+            }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): ItemAttribute = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                name()
+                value()
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                (if (name.asKnown().isPresent) 1 else 0) + (if (value.asKnown().isPresent) 1 else 0)
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is ItemAttribute &&
+                    name == other.name &&
+                    value == other.value &&
+                    additionalProperties == other.additionalProperties
+            }
+
+            private val hashCode: Int by lazy { Objects.hash(name, value, additionalProperties) }
+
+            override fun hashCode(): Int = hashCode
+
+            override fun toString() =
+                "ItemAttribute{name=$name, value=$value, additionalProperties=$additionalProperties}"
+        }
 
         override fun equals(other: Any?): Boolean {
             if (this === other) {
@@ -5702,6 +5975,7 @@ private constructor(
                 charges == other.charges &&
                 date == other.date &&
                 description == other.description &&
+                itemAttributes == other.itemAttributes &&
                 productCode == other.productCode &&
                 quantity == other.quantity &&
                 tax == other.tax &&
@@ -5718,6 +5992,7 @@ private constructor(
                 charges,
                 date,
                 description,
+                itemAttributes,
                 productCode,
                 quantity,
                 tax,
@@ -5731,7 +6006,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Item{allowances=$allowances, amount=$amount, charges=$charges, date=$date, description=$description, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
+            "Item{allowances=$allowances, amount=$amount, charges=$charges, date=$date, description=$description, itemAttributes=$itemAttributes, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
     }
 
     class PaymentDetail

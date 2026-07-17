@@ -129,6 +129,12 @@ internal class ServiceParamsTest {
                                 )
                                 .date(null)
                                 .description("description")
+                                .addItemAttribute(
+                                    DocumentCreate.Item.ItemAttribute.builder()
+                                        .name("name")
+                                        .value("value")
+                                        .build()
+                                )
                                 .productCode("product_code")
                                 .quantity(0.0)
                                 .tax(0.0)
