@@ -3,7 +3,7 @@
 <!-- x-release-please-start-version -->
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
-[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
+[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
 
 <!-- x-release-please-end -->
 
