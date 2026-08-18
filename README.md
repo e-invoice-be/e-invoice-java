@@ -2,8 +2,8 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
-[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
+[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.13)
+[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.13)
 
 <!-- x-release-please-end -->
 
@@ -20,7 +20,7 @@ Use the E Invoice MCP Server to enable AI assistants to interact with this API, 
 
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12).
+The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.13).
 
 <!-- x-release-please-end -->
 
@@ -31,7 +31,7 @@ The REST API documentation can be found on [api.e-invoice.be](https://api.e-invo
 ### Gradle
 
 ```kotlin
-implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.12")
+implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.13")
 ```
 
 ### Maven
@@ -40,7 +40,7 @@ implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.12")
 <dependency>
   <groupId>com.e_invoice.api</groupId>
   <artifactId>e-invoice-java</artifactId>
-  <version>0.1.0-alpha.12</version>
+  <version>0.1.0-alpha.13</version>
 </dependency>
 ```
 

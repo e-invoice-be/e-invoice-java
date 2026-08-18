@@ -1,5 +1,96 @@
 # Changelog
 
+## 0.1.0-alpha.13 (2026-08-18)
+
+Full Changelog: [v0.1.0-alpha.12...v0.1.0-alpha.13](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.12...v0.1.0-alpha.13)
+
+### Features
+
+* **api:** api update ([232c697](https://github.com/e-invoice-be/e-invoice-java/commit/232c6977dfb7f2f266492423156ff22a858fa7e0))
+* **api:** api update ([6a2bb38](https://github.com/e-invoice-be/e-invoice-java/commit/6a2bb38b7983e7c418ece0eeee1032168c2facf6))
+* **api:** api update ([010ef0a](https://github.com/e-invoice-be/e-invoice-java/commit/010ef0a97539b75ee65684450c7003ea8bfa23f5))
+* **api:** api update ([89451da](https://github.com/e-invoice-be/e-invoice-java/commit/89451da61eb898bebd1d4b6981f234e93020d85f))
+* **api:** api update ([3fda0db](https://github.com/e-invoice-be/e-invoice-java/commit/3fda0db45edabc2d5e590ebce3a557c0ada5f1b1))
+* **api:** api update ([af27f55](https://github.com/e-invoice-be/e-invoice-java/commit/af27f556569148dbd700ca19ecb8b9f2fd9ce754))
+* **api:** api update ([944f69f](https://github.com/e-invoice-be/e-invoice-java/commit/944f69f2513dfad686556d3a3cb0713f35996b68))
+* **api:** api update ([5b124b6](https://github.com/e-invoice-be/e-invoice-java/commit/5b124b6c7ba0584c6c7448f45fc9e112276ef1d4))
+* **api:** api update ([a029348](https://github.com/e-invoice-be/e-invoice-java/commit/a029348fb98b4401f275a304164023cf03aa37a8))
+* **api:** api update ([f3e2377](https://github.com/e-invoice-be/e-invoice-java/commit/f3e2377f083585717a25b0b02dfb7f109dc4bc45))
+* **api:** api update ([1fa0756](https://github.com/e-invoice-be/e-invoice-java/commit/1fa0756ce5f5a5a45eeb2071be39e23045098018))
+* **api:** api update ([60dbcea](https://github.com/e-invoice-be/e-invoice-java/commit/60dbcea186a99adbde90154602023e831daf3632))
+* **api:** api update ([c634578](https://github.com/e-invoice-be/e-invoice-java/commit/c63457882b2760456275e531d05f289c716e5934))
+* **api:** api update ([8af9305](https://github.com/e-invoice-be/e-invoice-java/commit/8af9305dcb70550adbd23bc6b31119eaa5aaf23c))
+* **api:** api update ([2b90fa4](https://github.com/e-invoice-be/e-invoice-java/commit/2b90fa4367258ccc96cdf4fe039efeede2a7048e))
+* **api:** api update ([74c4c9e](https://github.com/e-invoice-be/e-invoice-java/commit/74c4c9e381b260df4545a7180365cf517a65b26f))
+* **api:** api update ([5c08714](https://github.com/e-invoice-be/e-invoice-java/commit/5c0871400561a727de59401802a44d4722e6a09a))
+* **api:** api update ([3ef5ab9](https://github.com/e-invoice-be/e-invoice-java/commit/3ef5ab9f1fd50c8dc83094c6d58212e350e1000e))
+* **api:** api update ([4a468b2](https://github.com/e-invoice-be/e-invoice-java/commit/4a468b27a6b2a2c8e748131b3d4f35176a4e3d98))
+* **api:** api update ([d42fb14](https://github.com/e-invoice-be/e-invoice-java/commit/d42fb14927fcae080a39896743dade19a3f23c81))
+* **api:** api update ([3bc4883](https://github.com/e-invoice-be/e-invoice-java/commit/3bc4883a59e0cc7352dfa41a3c6f67f4efc8ba19))
+* **api:** api update ([010d7f1](https://github.com/e-invoice-be/e-invoice-java/commit/010d7f1fc776ed37da2fb55f96ade8267e184cee))
+* **api:** api update ([02308b8](https://github.com/e-invoice-be/e-invoice-java/commit/02308b86f70414c3008b61e1776f17f1fa8d38f0))
+* **api:** api update ([50eb173](https://github.com/e-invoice-be/e-invoice-java/commit/50eb173e52614313f0474c525571300d31f47003))
+* **api:** api update ([88a2388](https://github.com/e-invoice-be/e-invoice-java/commit/88a2388ce1f68f3ad01ac7ae30aa6fd25c1daa15))
+* **api:** api update ([5b447b4](https://github.com/e-invoice-be/e-invoice-java/commit/5b447b4473189cf6675d79480758e989808dab38))
+* **api:** api update ([7c8d5d6](https://github.com/e-invoice-be/e-invoice-java/commit/7c8d5d6baaf53b8fa24983e413280c44ef6783bb))
+* **api:** api update ([16e58bd](https://github.com/e-invoice-be/e-invoice-java/commit/16e58bd343a028e65724cd766aaea0c96b8a01aa))
+* **api:** manual updates ([4f7dc90](https://github.com/e-invoice-be/e-invoice-java/commit/4f7dc90de5d979ea18f9650a25a4b747e28ce5af))
+* **client:** improve logging ([de339be](https://github.com/e-invoice-be/e-invoice-java/commit/de339bea81dd18ddc1eff16a032a481e56cd38b5))
+* **client:** send `X-Stainless-Kotlin-Version` header ([310f45e](https://github.com/e-invoice-be/e-invoice-java/commit/310f45e949318fdc406d157cebe1525e048e1f7c))
+* **stlc:** configurable CI runner and private-production-repo support in workflow templates ([5f3b527](https://github.com/e-invoice-be/e-invoice-java/commit/5f3b52770d24f34c9e1d575dd92df049ebe47542))
+
+
+### Bug Fixes
+
+* **client:** cancel okhttp call when future cancelled ([f34d373](https://github.com/e-invoice-be/e-invoice-java/commit/f34d373cab9477deb15c0c5670166984fe83c850))
+* **client:** multi-value header serialization ([57c75d9](https://github.com/e-invoice-be/e-invoice-java/commit/57c75d98fc1b53bdc1d1544476c6a31cec525601))
+* **client:** preserve time zone in lenient date-time parsing ([2bc9f75](https://github.com/e-invoice-be/e-invoice-java/commit/2bc9f757bcc64596e9db1b2fab3bdeb504e92534))
+* **tests:** add missing query/header params ([a1039c6](https://github.com/e-invoice-be/e-invoice-java/commit/a1039c67421588b13f9a5d522b5baa7c1b150931))
+
+
+### Chores
+
+* **internal:** codegen related update ([8ff997b](https://github.com/e-invoice-be/e-invoice-java/commit/8ff997baf45a3cc28d7faa25a8c0bc0c3510efdf))
+* **internal:** codegen related update ([47a65f2](https://github.com/e-invoice-be/e-invoice-java/commit/47a65f26c401054e6842386d77ac4ca04893c653))
+* **internal:** codegen related update ([c5a1c5e](https://github.com/e-invoice-be/e-invoice-java/commit/c5a1c5e5151f2024e9f58b9180622a7f6a9a7169))
+* **internal:** codegen related update ([0ae3bc0](https://github.com/e-invoice-be/e-invoice-java/commit/0ae3bc0dfd2d85412e5842dc5497654f30306024))
+* **internal:** codegen related update ([fd79e78](https://github.com/e-invoice-be/e-invoice-java/commit/fd79e7859092fda52bf0232c32cdd0dccd20a9b0))
+* **internal:** codegen related update ([68ea4d6](https://github.com/e-invoice-be/e-invoice-java/commit/68ea4d634d919b110afc695f60701feb8e191099))
+* **internal:** codegen related update ([b754e22](https://github.com/e-invoice-be/e-invoice-java/commit/b754e22d362ceea56c0c7b833b76cb329da7bfca))
+* **internal:** codegen related update ([69e5363](https://github.com/e-invoice-be/e-invoice-java/commit/69e53635ae78ce2354bda396659019f5b5344f62))
+* **internal:** codegen related update ([6f7af12](https://github.com/e-invoice-be/e-invoice-java/commit/6f7af12cb79adfeec004a32ebf0965481ec1eca2))
+* **internal:** codegen related update ([79d4fcc](https://github.com/e-invoice-be/e-invoice-java/commit/79d4fccf46c2211878b3a8024d4cdeacc02f8bf9))
+* **internal:** codegen related update ([9367c35](https://github.com/e-invoice-be/e-invoice-java/commit/9367c35f749758f03f9f291451f0cf2f19c57bbb))
+* **internal:** codegen related update ([29e157d](https://github.com/e-invoice-be/e-invoice-java/commit/29e157d626ebc1caeee2eeb43ec75bedce7da185))
+* **internal:** codegen related update ([12f8d82](https://github.com/e-invoice-be/e-invoice-java/commit/12f8d82a0155d4039a884b54c1653624e08d4b37))
+* **internal:** codegen related update ([b9ffe2d](https://github.com/e-invoice-be/e-invoice-java/commit/b9ffe2d2223df10d11b51884a6fcdaa2faa364fe))
+* **internal:** codegen related update ([79e37f8](https://github.com/e-invoice-be/e-invoice-java/commit/79e37f8db46abfd6a6516b6586b3e1cefcf41eab))
+* **internal:** codegen related update ([442600f](https://github.com/e-invoice-be/e-invoice-java/commit/442600f9c0dee2be3f81e3a3d8c455bff4a26343))
+* **internal:** codegen related update ([f49044b](https://github.com/e-invoice-be/e-invoice-java/commit/f49044b362e95ef773145505ae746d950b3f8c1f))
+* **internal:** codegen related update ([433b160](https://github.com/e-invoice-be/e-invoice-java/commit/433b160e264fbed54ac8114533186042264f05e6))
+* **internal:** codegen related update ([4475aa6](https://github.com/e-invoice-be/e-invoice-java/commit/4475aa6a28f1e49c33c085e333ee073bf7c31855))
+* **internal:** codegen related update ([6671411](https://github.com/e-invoice-be/e-invoice-java/commit/667141138f8b75ed1c1c5d7c26488f0bfea9339d))
+* **internal:** codegen related update ([a41277c](https://github.com/e-invoice-be/e-invoice-java/commit/a41277cfd97b9438a8bf28f489802b5d327de5a7))
+* **internal:** codegen related update ([fe92d4f](https://github.com/e-invoice-be/e-invoice-java/commit/fe92d4fe269fbf4d3dcd3c8a9e30e9dbed0a5f71))
+* **internal:** codegen related update ([0bd96de](https://github.com/e-invoice-be/e-invoice-java/commit/0bd96de349c640f0757190242e91a9e315c133e1))
+* **internal:** codegen related update ([20dd5a8](https://github.com/e-invoice-be/e-invoice-java/commit/20dd5a8e841a3649ffe0f76098e1046e1d8f00e9))
+* **internal:** codegen related update ([04ffe93](https://github.com/e-invoice-be/e-invoice-java/commit/04ffe93692ea6714f8825df585864c39b84a2663))
+* **internal:** codegen related update ([eb5c7e5](https://github.com/e-invoice-be/e-invoice-java/commit/eb5c7e54df6ca465861af705907ed654e844d5a5))
+* **internal:** codegen related update ([34d3b25](https://github.com/e-invoice-be/e-invoice-java/commit/34d3b2519e014679f33b0e66e807b13134c12741))
+* **internal:** codegen related update ([6c5b431](https://github.com/e-invoice-be/e-invoice-java/commit/6c5b4313f318f8c7e7a99cade9644bbb2103be72))
+* **internal:** codegen related update ([0059a2f](https://github.com/e-invoice-be/e-invoice-java/commit/0059a2f619a5e17c3bc9f17e7f684e4af983fe60))
+* **internal:** codegen related update ([ee9459a](https://github.com/e-invoice-be/e-invoice-java/commit/ee9459ac80af991d3a9d719f46d28bee16ac1d49))
+* **internal:** codegen related update ([52e1ebb](https://github.com/e-invoice-be/e-invoice-java/commit/52e1ebbb83280db67feb3581a08d3f7241a500f0))
+* **internal:** codegen related update ([b3aad10](https://github.com/e-invoice-be/e-invoice-java/commit/b3aad10fd43571a39c18361ddf3597d68a643531))
+* **internal:** codegen related update ([b5a6a0f](https://github.com/e-invoice-be/e-invoice-java/commit/b5a6a0f7aa5ed8d9a44f27f818da15da3ff30d3f))
+* **internal:** correct cache invalidation for `SKIP_MOCK_TESTS` ([524c037](https://github.com/e-invoice-be/e-invoice-java/commit/524c0373a029f9e0ac7429d05d0e9869dca8a723))
+* **internal:** update maven repo doc to include authentication ([9e69b7f](https://github.com/e-invoice-be/e-invoice-java/commit/9e69b7ff607be2392d5ab6e9796518e129c46fcc))
+
+
+### Documentation
+
+* remove `$` for better copy-pasteabality ([4b1c946](https://github.com/e-invoice-be/e-invoice-java/commit/4b1c946cf5e6403194165bf0c92f5160a5e95e32))
+
 ## 0.1.0-alpha.12 (2025-09-26)
 
 Full Changelog: [v0.1.0-alpha.11...v0.1.0-alpha.12](https://github.com/e-invoice-be/e-invoice-java/compare/v0.1.0-alpha.11...v0.1.0-alpha.12)
