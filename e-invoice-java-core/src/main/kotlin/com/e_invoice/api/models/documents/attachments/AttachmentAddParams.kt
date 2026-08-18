@@ -23,7 +23,12 @@ import kotlin.io.path.inputStream
 import kotlin.io.path.name
 import kotlin.jvm.optionals.getOrNull
 
-/** Add a new attachment to an invoice or credit note */
+/**
+ * Add one or more attachments to an invoice. Be careful: the attachments ARE NOT ADDED to the UBL!
+ * They are only stored in our database and can be downloaded later. To add attachments to the UBL,
+ * you need to add the attachment(s) via POST /api/documents
+ */
+@Deprecated("deprecated")
 class AttachmentAddParams
 private constructor(
     private val documentId: String?,
@@ -382,6 +387,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Body = apply {
             if (validated) {
                 return@apply

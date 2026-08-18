@@ -2,7 +2,6 @@
 
 package com.e_invoice.api.services.blocking
 
-import com.e_invoice.api.TestServerExtension
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient
 import com.e_invoice.api.models.documents.CurrencyCode
 import com.e_invoice.api.models.documents.DocumentAttachmentCreate
@@ -17,24 +16,29 @@ import com.e_invoice.api.models.validate.ValidateValidateUblParams
 import java.time.LocalDate
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class ValidateServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun validateJson() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val validateService = client.validate()
 
         val ublDocumentValidation =
             validateService.validateJson(
                 DocumentCreate.builder()
+                    .addAllowance(
+                        DocumentCreate.Allowance.builder()
+                            .amount(0.0)
+                            .baseAmount(0.0)
+                            .multiplierFactor(0.0)
+                            .reason("reason")
+                            .reasonCode(DocumentCreate.Allowance.ReasonCode._41)
+                            .taxCode(DocumentCreate.Allowance.TaxCode.AE)
+                            .taxRate(0.0)
+                            .build()
+                    )
                     .amountDue(0.0)
                     .addAttachment(
                         DocumentAttachmentCreate.builder()
@@ -46,13 +50,26 @@ internal class ValidateServiceTest {
                     )
                     .billingAddress("billing_address")
                     .billingAddressRecipient("billing_address_recipient")
+                    .addCharge(
+                        DocumentCreate.Charge.builder()
+                            .amount(0.0)
+                            .baseAmount(0.0)
+                            .multiplierFactor(0.0)
+                            .reason("reason")
+                            .reasonCode(DocumentCreate.Charge.ReasonCode.AA)
+                            .taxCode(DocumentCreate.Charge.TaxCode.AE)
+                            .taxRate("21.00")
+                            .build()
+                    )
                     .currency(CurrencyCode.EUR)
                     .customerAddress("customer_address")
                     .customerAddressRecipient("customer_address_recipient")
+                    .customerCompanyId("1018265814")
                     .customerEmail("customer_email")
                     .customerId("customer_id")
                     .customerName("customer_name")
-                    .customerTaxId("customer_tax_id")
+                    .customerPeppolId("0208:0123456789")
+                    .customerTaxId("BE1018265814")
                     .direction(DocumentDirection.INBOUND)
                     .documentType(DocumentType.INVOICE)
                     .dueDate(LocalDate.parse("2019-12-27"))
@@ -61,13 +78,41 @@ internal class ValidateServiceTest {
                     .invoiceTotal(0.0)
                     .addItem(
                         DocumentCreate.Item.builder()
+                            .addAllowance(
+                                DocumentCreate.Item.Allowance.builder()
+                                    .amount(0.0)
+                                    .baseAmount(0.0)
+                                    .multiplierFactor(0.0)
+                                    .reason("reason")
+                                    .reasonCode(DocumentCreate.Item.Allowance.ReasonCode._41)
+                                    .taxCode(DocumentCreate.Item.Allowance.TaxCode.AE)
+                                    .taxRate(0.0)
+                                    .build()
+                            )
                             .amount(0.0)
+                            .addCharge(
+                                DocumentCreate.Item.Charge.builder()
+                                    .amount(0.0)
+                                    .baseAmount(0.0)
+                                    .multiplierFactor(0.0)
+                                    .reason("reason")
+                                    .reasonCode(DocumentCreate.Item.Charge.ReasonCode.AA)
+                                    .taxCode(DocumentCreate.Item.Charge.TaxCode.AE)
+                                    .taxRate("21.00")
+                                    .build()
+                            )
                             .date(null)
                             .description("description")
+                            .addItemAttribute(
+                                DocumentCreate.Item.ItemAttribute.builder()
+                                    .name("name")
+                                    .value("value")
+                                    .build()
+                            )
                             .productCode("product_code")
                             .quantity(0.0)
                             .tax(0.0)
-                            .taxRate("tax_rate")
+                            .taxRate("21.00")
                             .unit(UnitOfMeasureCode._10)
                             .unitPrice(0.0)
                             .build()
@@ -94,30 +139,30 @@ internal class ValidateServiceTest {
                     .shippingAddressRecipient("shipping_address_recipient")
                     .state(DocumentState.DRAFT)
                     .subtotal(0.0)
+                    .taxCode(DocumentCreate.TaxCode.AE)
                     .addTaxDetail(
                         DocumentCreate.TaxDetail.builder().amount(0.0).rate("rate").build()
                     )
                     .totalDiscount(0.0)
                     .totalTax(0.0)
+                    .vatex(DocumentCreate.Vatex.VATEX_EU_79_C)
+                    .vatexNote("vatex_note")
                     .vendorAddress("vendor_address")
                     .vendorAddressRecipient("vendor_address_recipient")
+                    .vendorCompanyId("1018265814")
                     .vendorEmail("vendor_email")
                     .vendorName("vendor_name")
-                    .vendorTaxId("vendor_tax_id")
+                    .vendorTaxId("BE1018265814")
                     .build()
             )
 
         ublDocumentValidation.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun validatePeppolId() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val validateService = client.validate()
 
         val response =
@@ -128,19 +173,15 @@ internal class ValidateServiceTest {
         response.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun validateUbl() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val validateService = client.validate()
 
         val ublDocumentValidation =
             validateService.validateUbl(
-                ValidateValidateUblParams.builder().file("some content".byteInputStream()).build()
+                ValidateValidateUblParams.builder().file("Example data".byteInputStream()).build()
             )
 
         ublDocumentValidation.validate()

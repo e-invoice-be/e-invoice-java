@@ -5,12 +5,16 @@ package com.e_invoice.api.errors
 import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.checkRequired
 import com.e_invoice.api.core.http.Headers
+import com.e_invoice.api.core.jsonMapper
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
 class BadRequestException
 private constructor(private val headers: Headers, private val body: JsonValue, cause: Throwable?) :
-    EInvoiceServiceException("400: $body", cause) {
+    EInvoiceServiceException(
+        "400: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
+        cause,
+    ) {
 
     override fun statusCode(): Int = 400
 

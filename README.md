@@ -2,16 +2,25 @@
 
 <!-- x-release-please-start-version -->
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
-[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12)
+[![Maven Central](https://img.shields.io/maven-central/v/com.e_invoice.api/e-invoice-java)](https://central.sonatype.com/artifact/com.e_invoice.api/e-invoice-java/0.1.0-alpha.13)
+[![javadoc](https://javadoc.io/badge2/com.e_invoice.api/e-invoice-java/javadoc.svg)](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.13)
 
 <!-- x-release-please-end -->
 
 The e-invoice.be Peppol SDK provides convenient access to the [e-invoice.be REST API](https://api.e-invoice.be) from applications written in Java.
 
+## MCP Server
+
+Use the E Invoice MCP Server to enable AI assistants to interact with this API, allowing them to explore endpoints, make test requests, and use documentation to help integrate this SDK into your application.
+
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=e-invoice-api-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImUtaW52b2ljZS1hcGktbWNwIl0sImVudiI6eyJFX0lOVk9JQ0VfQVBJX0tFWSI6Ik15IEFQSSBLZXkifX0)
+[![Install in VS Code](https://img.shields.io/badge/_-Add_to_VS_Code-blue?style=for-the-badge&logo=data:image/svg%2bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9Im5vbmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iI0VFRSIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMzAuMjM1IDM5Ljg4NGEyLjQ5MSAyLjQ5MSAwIDAgMS0xLjc4MS0uNzNMMTIuNyAyNC43OGwtMy40NiAyLjYyNC0zLjQwNiAyLjU4MmExLjY2NSAxLjY2NSAwIDAgMS0xLjA4Mi4zMzggMS42NjQgMS42NjQgMCAwIDEtMS4wNDYtLjQzMWwtMi4yLTJhMS42NjYgMS42NjYgMCAwIDEgMC0yLjQ2M0w3LjQ1OCAyMCA0LjY3IDE3LjQ1MyAxLjUwNyAxNC41N2ExLjY2NSAxLjY2NSAwIDAgMSAwLTIuNDYzbDIuMi0yYTEuNjY1IDEuNjY1IDAgMCAxIDIuMTMtLjA5N2w2Ljg2MyA1LjIwOUwyOC40NTIuODQ0YTIuNDg4IDIuNDg4IDAgMCAxIDEuODQxLS43MjljLjM1MS4wMDkuNjk5LjA5MSAxLjAxOS4yNDVsOC4yMzYgMy45NjFhMi41IDIuNSAwIDAgMSAxLjQxNSAyLjI1M3YuMDk5LS4wNDVWMzMuMzd2LS4wNDUuMDk1YTIuNTAxIDIuNTAxIDAgMCAxLTEuNDE2IDIuMjU3bC04LjIzNSAzLjk2MWEyLjQ5MiAyLjQ5MiAwIDAgMS0xLjA3Ny4yNDZabS43MTYtMjguOTQ3LTExLjk0OCA5LjA2MiAxMS45NTIgOS4wNjUtLjAwNC0xOC4xMjdaIi8+PC9zdmc+)](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22e-invoice-api-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22e-invoice-api-mcp%22%5D%2C%22env%22%3A%7B%22E_INVOICE_API_KEY%22%3A%22My%20API%20Key%22%7D%7D)
+
+> Note: You may need to set environment variables in your MCP client.
+
 <!-- x-release-please-start-version -->
 
-The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.12).
+The REST API documentation can be found on [api.e-invoice.be](https://api.e-invoice.be). Javadocs are available on [javadoc.io](https://javadoc.io/doc/com.e_invoice.api/e-invoice-java/0.1.0-alpha.13).
 
 <!-- x-release-please-end -->
 
@@ -22,7 +31,7 @@ The REST API documentation can be found on [api.e-invoice.be](https://api.e-invo
 ### Gradle
 
 ```kotlin
-implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.12")
+implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.13")
 ```
 
 ### Maven
@@ -31,7 +40,7 @@ implementation("com.e_invoice.api:e-invoice-java:0.1.0-alpha.12")
 <dependency>
   <groupId>com.e_invoice.api</groupId>
   <artifactId>e-invoice-java</artifactId>
-  <version>0.1.0-alpha.12</version>
+  <version>0.1.0-alpha.13</version>
 </dependency>
 ```
 
@@ -47,7 +56,6 @@ This library requires Java 8 or later.
 import com.e_invoice.api.client.EInvoiceClient;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 import com.e_invoice.api.models.documents.DocumentCreate;
-import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 
 // Configures using the `einvoice.apiKey` and `einvoice.baseUrl` system properties
@@ -146,7 +154,6 @@ The default client is synchronous. To switch to asynchronous execution, call the
 import com.e_invoice.api.client.EInvoiceClient;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
 import com.e_invoice.api.models.documents.DocumentCreate;
-import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
@@ -164,7 +171,6 @@ Or create an asynchronous client from the beginning:
 import com.e_invoice.api.client.EInvoiceClientAsync;
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClientAsync;
 import com.e_invoice.api.models.documents.DocumentCreate;
-import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 import java.util.concurrent.CompletableFuture;
 
@@ -185,61 +191,57 @@ The SDK defines methods that accept files.
 To upload a file, pass a [`Path`](https://docs.oracle.com/javase/8/docs/api/java/nio/file/Path.html):
 
 ```java
-import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse;
 import java.nio.file.Paths;
 
-AttachmentAddParams params = AttachmentAddParams.builder()
-    .documentId("document_id")
+DocumentCreateFromPdfParams params = DocumentCreateFromPdfParams.builder()
     .file(Paths.get("/path/to/file"))
     .build();
-DocumentAttachment documentAttachment = client.documents().attachments().add(params);
+DocumentCreateFromPdfResponse response = client.documents().createFromPdf(params);
 ```
 
 Or an arbitrary [`InputStream`](https://docs.oracle.com/javase/8/docs/api/java/io/InputStream.html):
 
 ```java
-import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse;
 import java.net.URL;
 
-AttachmentAddParams params = AttachmentAddParams.builder()
-    .documentId("document_id")
+DocumentCreateFromPdfParams params = DocumentCreateFromPdfParams.builder()
     .file(new URL("https://example.com//path/to/file").openStream())
     .build();
-DocumentAttachment documentAttachment = client.documents().attachments().add(params);
+DocumentCreateFromPdfResponse response = client.documents().createFromPdf(params);
 ```
 
 Or a `byte[]` array:
 
 ```java
-import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse;
 
-AttachmentAddParams params = AttachmentAddParams.builder()
-    .documentId("document_id")
+DocumentCreateFromPdfParams params = DocumentCreateFromPdfParams.builder()
     .file("content".getBytes())
     .build();
-DocumentAttachment documentAttachment = client.documents().attachments().add(params);
+DocumentCreateFromPdfResponse response = client.documents().createFromPdf(params);
 ```
 
 Note that when passing a non-`Path` its filename is unknown so it will not be included in the request. To manually set a filename, pass a [`MultipartField`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/core/Values.kt):
 
 ```java
 import com.e_invoice.api.core.MultipartField;
-import com.e_invoice.api.models.documents.attachments.AttachmentAddParams;
-import com.e_invoice.api.models.documents.attachments.DocumentAttachment;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams;
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse;
 import java.io.InputStream;
 import java.net.URL;
 
-AttachmentAddParams params = AttachmentAddParams.builder()
-    .documentId("document_id")
+DocumentCreateFromPdfParams params = DocumentCreateFromPdfParams.builder()
     .file(MultipartField.<InputStream>builder()
         .value(new URL("https://example.com//path/to/file").openStream())
         .filename("/path/to/file")
         .build())
     .build();
-DocumentAttachment documentAttachment = client.documents().attachments().add(params);
+DocumentCreateFromPdfResponse response = client.documents().createFromPdf(params);
 ```
 
 ## Raw responses
@@ -252,7 +254,6 @@ To access this data, prefix any HTTP method call on a client or service with `wi
 import com.e_invoice.api.core.http.Headers;
 import com.e_invoice.api.core.http.HttpResponseFor;
 import com.e_invoice.api.models.documents.DocumentCreate;
-import com.e_invoice.api.models.documents.DocumentCreateParams;
 import com.e_invoice.api.models.documents.DocumentResponse;
 
 DocumentCreate params = DocumentCreate.builder().build();
@@ -397,18 +398,29 @@ while (true) {
 
 ## Logging
 
-The SDK uses the standard [OkHttp logging interceptor](https://github.com/square/okhttp/tree/master/okhttp-logging-interceptor).
-
 Enable logging by setting the `E_INVOICE_LOG` environment variable to `info`:
 
 ```sh
-$ export E_INVOICE_LOG=info
+export E_INVOICE_LOG=info
 ```
 
 Or to `debug` for more verbose logging:
 
 ```sh
-$ export E_INVOICE_LOG=debug
+export E_INVOICE_LOG=debug
+```
+
+Or configure the client manually using the `logLevel` method:
+
+```java
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.core.LogLevel;
+
+EInvoiceClient client = EInvoiceOkHttpClient.builder()
+    .fromEnv()
+    .logLevel(LogLevel.INFO)
+    .build();
 ```
 
 ## ProGuard and R8
@@ -427,6 +439,8 @@ If the SDK threw an exception, but you're _certain_ the version is compatible, t
 
 > [!CAUTION]
 > We make no guarantee that the SDK works correctly when the Jackson version check is disabled.
+
+Also note that there are bugs in older Jackson versions that can affect the SDK. We don't work around all Jackson bugs ([example](https://github.com/FasterXML/jackson-databind/issues/3240)) and expect users to upgrade Jackson for those instead.
 
 ## Network options
 
@@ -502,6 +516,40 @@ EInvoiceClient client = EInvoiceOkHttpClient.builder()
     ))
     .build();
 ```
+
+If the proxy responds with `407 Proxy Authentication Required`, supply credentials by also configuring `proxyAuthenticator`:
+
+```java
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
+import com.e_invoice.api.core.http.ProxyAuthenticator;
+
+EInvoiceClient client = EInvoiceOkHttpClient.builder()
+    .fromEnv()
+    .proxy(...)
+    // Or a custom implementation of `ProxyAuthenticator`.
+    .proxyAuthenticator(ProxyAuthenticator.basic("username", "password"))
+    .build();
+```
+
+### Connection pooling
+
+To customize the underlying OkHttp connection pool, configure the client using the `maxIdleConnections` and `keepAliveDuration` methods:
+
+```java
+import com.e_invoice.api.client.EInvoiceClient;
+import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient;
+import java.time.Duration;
+
+EInvoiceClient client = EInvoiceOkHttpClient.builder()
+    .fromEnv()
+    // If `maxIdleConnections` is set, then `keepAliveDuration` must be set, and vice versa.
+    .maxIdleConnections(10)
+    .keepAliveDuration(Duration.ofMinutes(2))
+    .build();
+```
+
+If both options are unset, OkHttp's default connection pool settings are used.
 
 ### HTTPS
 
@@ -705,7 +753,9 @@ In rare cases, the API may return a response that doesn't match the expected typ
 
 By default, the SDK will not throw an exception in this case. It will throw [`EInvoiceInvalidDataException`](e-invoice-java-core/src/main/kotlin/com/e_invoice/api/errors/EInvoiceInvalidDataException.kt) only if you directly access the property.
 
-If you would prefer to check that the response is completely well-typed upfront, then either call `validate()`:
+Validating the response is _not_ forwards compatible with new types from the API for existing fields.
+
+If you would still prefer to check that the response is completely well-typed upfront, then either call `validate()`:
 
 ```java
 import com.e_invoice.api.models.documents.DocumentResponse;

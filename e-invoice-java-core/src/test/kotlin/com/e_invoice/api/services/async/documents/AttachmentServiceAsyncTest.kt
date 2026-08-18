@@ -2,26 +2,19 @@
 
 package com.e_invoice.api.services.async.documents
 
-import com.e_invoice.api.TestServerExtension
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClientAsync
 import com.e_invoice.api.models.documents.attachments.AttachmentAddParams
 import com.e_invoice.api.models.documents.attachments.AttachmentDeleteParams
 import com.e_invoice.api.models.documents.attachments.AttachmentRetrieveParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class AttachmentServiceAsyncTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val attachmentServiceAsync = client.documents().attachments()
 
         val documentAttachmentFuture =
@@ -36,14 +29,10 @@ internal class AttachmentServiceAsyncTest {
         documentAttachment.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val attachmentServiceAsync = client.documents().attachments()
 
         val documentAttachmentsFuture = attachmentServiceAsync.list("document_id")
@@ -52,14 +41,10 @@ internal class AttachmentServiceAsyncTest {
         documentAttachments.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun delete() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val attachmentServiceAsync = client.documents().attachments()
 
         val attachmentFuture =
@@ -74,21 +59,17 @@ internal class AttachmentServiceAsyncTest {
         attachment.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun add() {
-        val client =
-            EInvoiceOkHttpClientAsync.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClientAsync.builder().apiKey("My API Key").build()
         val attachmentServiceAsync = client.documents().attachments()
 
         val documentAttachmentFuture =
             attachmentServiceAsync.add(
                 AttachmentAddParams.builder()
                     .documentId("document_id")
-                    .file("some content".byteInputStream())
+                    .file("Example data".byteInputStream())
                     .build()
             )
 

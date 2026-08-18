@@ -5,6 +5,8 @@ package com.e_invoice.api.services.async.documents
 import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
+import com.e_invoice.api.models.documents.DocumentResponse
+import com.e_invoice.api.models.documents.ubl.UblCreateFromUblParams
 import com.e_invoice.api.models.documents.ubl.UblGetParams
 import com.e_invoice.api.models.documents.ubl.UblGetResponse
 import java.util.concurrent.CompletableFuture
@@ -23,6 +25,16 @@ interface UblServiceAsync {
      * The original service is not modified.
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblServiceAsync
+
+    /** Create a new invoice or credit note from a UBL file */
+    fun createFromUbl(params: UblCreateFromUblParams): CompletableFuture<DocumentResponse> =
+        createFromUbl(params, RequestOptions.none())
+
+    /** @see createFromUbl */
+    fun createFromUbl(
+        params: UblCreateFromUblParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentResponse>
 
     /** Get the UBL for an invoice or credit note */
     fun get(documentId: String): CompletableFuture<UblGetResponse> =
@@ -65,6 +77,21 @@ interface UblServiceAsync {
          * The original service is not modified.
          */
         fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblServiceAsync.WithRawResponse
+
+        /**
+         * Returns a raw HTTP response for `post /api/documents/ubl`, but is otherwise the same as
+         * [UblServiceAsync.createFromUbl].
+         */
+        fun createFromUbl(
+            params: UblCreateFromUblParams
+        ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
+            createFromUbl(params, RequestOptions.none())
+
+        /** @see createFromUbl */
+        fun createFromUbl(
+            params: UblCreateFromUblParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentResponse>>
 
         /**
          * Returns a raw HTTP response for `get /api/documents/{document_id}/ubl`, but is otherwise

@@ -792,8 +792,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
 
         @JvmField val C61 = of("C61")
 
-        @JvmField val C62 = of("C62")
-
         @JvmField val C63 = of("C63")
 
         @JvmField val C64 = of("C64")
@@ -959,8 +957,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         @JvmField val MON = of("MON")
 
         @JvmField val ONZ = of("ONZ")
-
-        @JvmField val PCE = of("PCE")
 
         @JvmField val LBR = of("LBR")
 
@@ -2082,7 +2078,11 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
 
         @JvmField val NAR = of("NAR")
 
+        @JvmField val C62 = of("C62")
+
         @JvmField val LTR = of("LTR")
+
+        @JvmField val H87 = of("H87")
 
         @JvmStatic fun of(value: String) = UnitOfMeasureCode(JsonField.of(value))
     }
@@ -2474,7 +2474,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         C59,
         C60,
         C61,
-        C62,
         C63,
         C64,
         C65,
@@ -2558,7 +2557,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         MIN,
         MON,
         ONZ,
-        PCE,
         LBR,
         QT,
         SEC,
@@ -3119,7 +3117,9 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         XZZ,
         ZZ,
         NAR,
+        C62,
         LTR,
+        H87,
     }
 
     /**
@@ -3517,7 +3517,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         C59,
         C60,
         C61,
-        C62,
         C63,
         C64,
         C65,
@@ -3601,7 +3600,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         MIN,
         MON,
         ONZ,
-        PCE,
         LBR,
         QT,
         SEC,
@@ -4162,7 +4160,9 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         XZZ,
         ZZ,
         NAR,
+        C62,
         LTR,
+        H87,
         /**
          * An enum member indicating that [UnitOfMeasureCode] was instantiated with an unknown
          * value.
@@ -4564,7 +4564,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             C59 -> Value.C59
             C60 -> Value.C60
             C61 -> Value.C61
-            C62 -> Value.C62
             C63 -> Value.C63
             C64 -> Value.C64
             C65 -> Value.C65
@@ -4648,7 +4647,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             MIN -> Value.MIN
             MON -> Value.MON
             ONZ -> Value.ONZ
-            PCE -> Value.PCE
             LBR -> Value.LBR
             QT -> Value.QT
             SEC -> Value.SEC
@@ -5209,7 +5207,9 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             XZZ -> Value.XZZ
             ZZ -> Value.ZZ
             NAR -> Value.NAR
+            C62 -> Value.C62
             LTR -> Value.LTR
+            H87 -> Value.H87
             else -> Value._UNKNOWN
         }
 
@@ -5608,7 +5608,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             C59 -> Known.C59
             C60 -> Known.C60
             C61 -> Known.C61
-            C62 -> Known.C62
             C63 -> Known.C63
             C64 -> Known.C64
             C65 -> Known.C65
@@ -5692,7 +5691,6 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             MIN -> Known.MIN
             MON -> Known.MON
             ONZ -> Known.ONZ
-            PCE -> Known.PCE
             LBR -> Known.LBR
             QT -> Known.QT
             SEC -> Known.SEC
@@ -6253,7 +6251,9 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
             XZZ -> Known.XZZ
             ZZ -> Known.ZZ
             NAR -> Known.NAR
+            C62 -> Known.C62
             LTR -> Known.LTR
+            H87 -> Known.H87
             else -> throw EInvoiceInvalidDataException("Unknown UnitOfMeasureCode: $value")
         }
 
@@ -6271,6 +6271,14 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): UnitOfMeasureCode = apply {
         if (validated) {
             return@apply

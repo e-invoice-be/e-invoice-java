@@ -6,12 +6,16 @@ import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.RequestOptions
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.models.documents.DocumentCreate
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse
 import com.e_invoice.api.models.documents.DocumentCreateParams
 import com.e_invoice.api.models.documents.DocumentDeleteParams
 import com.e_invoice.api.models.documents.DocumentDeleteResponse
 import com.e_invoice.api.models.documents.DocumentResponse
 import com.e_invoice.api.models.documents.DocumentRetrieveParams
 import com.e_invoice.api.models.documents.DocumentSendParams
+import com.e_invoice.api.models.documents.DocumentValidateParams
+import com.e_invoice.api.models.validate.UblDocumentValidation
 import com.e_invoice.api.services.blocking.documents.AttachmentService
 import com.e_invoice.api.services.blocking.documents.UblService
 import com.google.errorprone.annotations.MustBeClosed
@@ -123,7 +127,28 @@ interface DocumentService {
     fun delete(documentId: String, requestOptions: RequestOptions): DocumentDeleteResponse =
         delete(documentId, DocumentDeleteParams.none(), requestOptions)
 
-    /** Send an invoice or credit note via Peppol */
+    /**
+     * Create a new invoice or credit note from a PDF file. If the 'ubl_document' field is set in
+     * the response, it indicates that sufficient details were extracted from the PDF to
+     * automatically generate a valid UBL document ready for sending. If 'ubl_document' is not set,
+     * human intervention may be required to ensure compliance.
+     */
+    fun createFromPdf(params: DocumentCreateFromPdfParams): DocumentCreateFromPdfResponse =
+        createFromPdf(params, RequestOptions.none())
+
+    /** @see createFromPdf */
+    fun createFromPdf(
+        params: DocumentCreateFromPdfParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): DocumentCreateFromPdfResponse
+
+    /**
+     * Send an invoice or credit note via Peppol. By default, the sender and receiver Peppol IDs are
+     * derived from the company (tax) IDs in the document, regardless of whether the document was
+     * created from a UBL with a different endpoint ID. To explicitly set the sender or receiver
+     * Peppol ID, provide them via the query parameters (sender_peppol_scheme, sender_peppol_id,
+     * receiver_peppol_scheme, receiver_peppol_id).
+     */
     fun send(documentId: String): DocumentResponse = send(documentId, DocumentSendParams.none())
 
     /** @see send */
@@ -151,6 +176,38 @@ interface DocumentService {
     /** @see send */
     fun send(documentId: String, requestOptions: RequestOptions): DocumentResponse =
         send(documentId, DocumentSendParams.none(), requestOptions)
+
+    /** Validate a UBL document according to Peppol BIS Billing 3.0 */
+    fun validate(documentId: String): UblDocumentValidation =
+        validate(documentId, DocumentValidateParams.none())
+
+    /** @see validate */
+    fun validate(
+        documentId: String,
+        params: DocumentValidateParams = DocumentValidateParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): UblDocumentValidation =
+        validate(params.toBuilder().documentId(documentId).build(), requestOptions)
+
+    /** @see validate */
+    fun validate(
+        documentId: String,
+        params: DocumentValidateParams = DocumentValidateParams.none(),
+    ): UblDocumentValidation = validate(documentId, params, RequestOptions.none())
+
+    /** @see validate */
+    fun validate(
+        params: DocumentValidateParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): UblDocumentValidation
+
+    /** @see validate */
+    fun validate(params: DocumentValidateParams): UblDocumentValidation =
+        validate(params, RequestOptions.none())
+
+    /** @see validate */
+    fun validate(documentId: String, requestOptions: RequestOptions): UblDocumentValidation =
+        validate(documentId, DocumentValidateParams.none(), requestOptions)
 
     /** A view of [DocumentService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -287,6 +344,23 @@ interface DocumentService {
             delete(documentId, DocumentDeleteParams.none(), requestOptions)
 
         /**
+         * Returns a raw HTTP response for `post /api/documents/pdf`, but is otherwise the same as
+         * [DocumentService.createFromPdf].
+         */
+        @MustBeClosed
+        fun createFromPdf(
+            params: DocumentCreateFromPdfParams
+        ): HttpResponseFor<DocumentCreateFromPdfResponse> =
+            createFromPdf(params, RequestOptions.none())
+
+        /** @see createFromPdf */
+        @MustBeClosed
+        fun createFromPdf(
+            params: DocumentCreateFromPdfParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<DocumentCreateFromPdfResponse>
+
+        /**
          * Returns a raw HTTP response for `post /api/documents/{document_id}/send`, but is
          * otherwise the same as [DocumentService.send].
          */
@@ -329,5 +403,50 @@ interface DocumentService {
             requestOptions: RequestOptions,
         ): HttpResponseFor<DocumentResponse> =
             send(documentId, DocumentSendParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/documents/{document_id}/validate`, but is
+         * otherwise the same as [DocumentService.validate].
+         */
+        @MustBeClosed
+        fun validate(documentId: String): HttpResponseFor<UblDocumentValidation> =
+            validate(documentId, DocumentValidateParams.none())
+
+        /** @see validate */
+        @MustBeClosed
+        fun validate(
+            documentId: String,
+            params: DocumentValidateParams = DocumentValidateParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<UblDocumentValidation> =
+            validate(params.toBuilder().documentId(documentId).build(), requestOptions)
+
+        /** @see validate */
+        @MustBeClosed
+        fun validate(
+            documentId: String,
+            params: DocumentValidateParams = DocumentValidateParams.none(),
+        ): HttpResponseFor<UblDocumentValidation> =
+            validate(documentId, params, RequestOptions.none())
+
+        /** @see validate */
+        @MustBeClosed
+        fun validate(
+            params: DocumentValidateParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<UblDocumentValidation>
+
+        /** @see validate */
+        @MustBeClosed
+        fun validate(params: DocumentValidateParams): HttpResponseFor<UblDocumentValidation> =
+            validate(params, RequestOptions.none())
+
+        /** @see validate */
+        @MustBeClosed
+        fun validate(
+            documentId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<UblDocumentValidation> =
+            validate(documentId, DocumentValidateParams.none(), requestOptions)
     }
 }

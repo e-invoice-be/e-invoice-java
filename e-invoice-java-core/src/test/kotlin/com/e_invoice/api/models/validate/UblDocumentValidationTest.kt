@@ -15,7 +15,7 @@ internal class UblDocumentValidationTest {
             UblDocumentValidation.builder()
                 .id("id")
                 .fileName("file_name")
-                .isValid(true)
+                .isValid_(true)
                 .addIssue(
                     UblDocumentValidation.Issue.builder()
                         .message("message")
@@ -32,7 +32,7 @@ internal class UblDocumentValidationTest {
 
         assertThat(ublDocumentValidation.id()).isEqualTo("id")
         assertThat(ublDocumentValidation.fileName()).contains("file_name")
-        assertThat(ublDocumentValidation.isValid()).isEqualTo(true)
+        assertThat(ublDocumentValidation.isValid_()).isEqualTo(true)
         assertThat(ublDocumentValidation.issues())
             .containsExactly(
                 UblDocumentValidation.Issue.builder()
@@ -55,7 +55,7 @@ internal class UblDocumentValidationTest {
             UblDocumentValidation.builder()
                 .id("id")
                 .fileName("file_name")
-                .isValid(true)
+                .isValid_(true)
                 .addIssue(
                     UblDocumentValidation.Issue.builder()
                         .message("message")

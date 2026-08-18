@@ -26,22 +26,29 @@ interface OutboxService {
      */
     fun withOptions(modifier: Consumer<ClientOptions.Builder>): OutboxService
 
-    /** Retrieve a paginated list of draft documents with filtering options. */
+    /**
+     * Retrieve a paginated list of draft documents with filtering options including state and text
+     * search.
+     */
+    @Deprecated("deprecated")
     fun listDraftDocuments(): OutboxListDraftDocumentsPage =
         listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
     /** @see listDraftDocuments */
+    @Deprecated("deprecated")
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): OutboxListDraftDocumentsPage
 
     /** @see listDraftDocuments */
+    @Deprecated("deprecated")
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
     ): OutboxListDraftDocumentsPage = listDraftDocuments(params, RequestOptions.none())
 
     /** @see listDraftDocuments */
+    @Deprecated("deprecated")
     fun listDraftDocuments(requestOptions: RequestOptions): OutboxListDraftDocumentsPage =
         listDraftDocuments(OutboxListDraftDocumentsParams.none(), requestOptions)
 
@@ -81,11 +88,13 @@ interface OutboxService {
          * Returns a raw HTTP response for `get /api/outbox/drafts`, but is otherwise the same as
          * [OutboxService.listDraftDocuments].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun listDraftDocuments(): HttpResponseFor<OutboxListDraftDocumentsPage> =
             listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
         /** @see listDraftDocuments */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
@@ -93,6 +102,7 @@ interface OutboxService {
         ): HttpResponseFor<OutboxListDraftDocumentsPage>
 
         /** @see listDraftDocuments */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
@@ -100,6 +110,7 @@ interface OutboxService {
             listDraftDocuments(params, RequestOptions.none())
 
         /** @see listDraftDocuments */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun listDraftDocuments(
             requestOptions: RequestOptions

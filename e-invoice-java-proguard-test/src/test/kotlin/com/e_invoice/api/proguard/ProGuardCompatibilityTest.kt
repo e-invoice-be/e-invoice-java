@@ -4,8 +4,8 @@ package com.e_invoice.api.proguard
 
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient
 import com.e_invoice.api.core.jsonMapper
+import com.e_invoice.api.models.documents.Allowance
 import com.e_invoice.api.models.documents.CurrencyCode
-import com.e_invoice.api.models.documents.DocumentAttachmentCreate
 import com.fasterxml.jackson.module.kotlin.jacksonTypeRef
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.jvm.javaMethod
@@ -53,27 +53,31 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.outbox()).isNotNull()
         assertThat(client.validate()).isNotNull()
         assertThat(client.lookup()).isNotNull()
+        assertThat(client.me()).isNotNull()
         assertThat(client.webhooks()).isNotNull()
     }
 
     @Test
-    fun documentAttachmentCreateRoundtrip() {
+    fun allowanceRoundtrip() {
         val jsonMapper = jsonMapper()
-        val documentAttachmentCreate =
-            DocumentAttachmentCreate.builder()
-                .fileName("file_name")
-                .fileData("file_data")
-                .fileSize(0L)
-                .fileType("file_type")
+        val allowance =
+            Allowance.builder()
+                .amount("amount")
+                .baseAmount("base_amount")
+                .multiplierFactor("multiplier_factor")
+                .reason("reason")
+                .reasonCode(Allowance.ReasonCode._41)
+                .taxCode(Allowance.TaxCode.AE)
+                .taxRate("tax_rate")
                 .build()
 
-        val roundtrippedDocumentAttachmentCreate =
+        val roundtrippedAllowance =
             jsonMapper.readValue(
-                jsonMapper.writeValueAsString(documentAttachmentCreate),
-                jacksonTypeRef<DocumentAttachmentCreate>(),
+                jsonMapper.writeValueAsString(allowance),
+                jacksonTypeRef<Allowance>(),
             )
 
-        assertThat(roundtrippedDocumentAttachmentCreate).isEqualTo(documentAttachmentCreate)
+        assertThat(roundtrippedAllowance).isEqualTo(allowance)
     }
 
     @Test

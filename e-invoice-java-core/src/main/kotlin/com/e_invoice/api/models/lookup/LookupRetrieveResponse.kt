@@ -450,6 +450,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): LookupRetrieveResponse = apply {
         if (validated) {
             return@apply
@@ -734,6 +742,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): BusinessCard = apply {
             if (validated) {
                 return@apply
@@ -1028,6 +1045,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Entity = apply {
                 if (validated) {
                     return@apply
@@ -1121,6 +1148,8 @@ private constructor(
         private val smlHostname: JsonField<String>,
         private val status: JsonField<String>,
         private val error: JsonField<String>,
+        private val lookupMethod: JsonField<String>,
+        private val smpHostname: JsonField<String>,
         private val additionalProperties: MutableMap<String, JsonValue>,
     ) {
 
@@ -1134,7 +1163,13 @@ private constructor(
             smlHostname: JsonField<String> = JsonMissing.of(),
             @JsonProperty("status") @ExcludeMissing status: JsonField<String> = JsonMissing.of(),
             @JsonProperty("error") @ExcludeMissing error: JsonField<String> = JsonMissing.of(),
-        ) : this(dnsRecords, smlHostname, status, error, mutableMapOf())
+            @JsonProperty("lookupMethod")
+            @ExcludeMissing
+            lookupMethod: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("smpHostname")
+            @ExcludeMissing
+            smpHostname: JsonField<String> = JsonMissing.of(),
+        ) : this(dnsRecords, smlHostname, status, error, lookupMethod, smpHostname, mutableMapOf())
 
         /**
          * List of DNS records found for the Peppol participant
@@ -1169,6 +1204,22 @@ private constructor(
         fun error(): Optional<String> = error.getOptional("error")
 
         /**
+         * DNS lookup method used: 'naptr' (new spec) or 'busdox' (legacy)
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun lookupMethod(): Optional<String> = lookupMethod.getOptional("lookupMethod")
+
+        /**
+         * Hostname of the SMP (Service Metadata Publisher) discovered via DNS
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun smpHostname(): Optional<String> = smpHostname.getOptional("smpHostname")
+
+        /**
          * Returns the raw JSON value of [dnsRecords].
          *
          * Unlike [dnsRecords], this method doesn't throw if the JSON field has an unexpected type.
@@ -1199,6 +1250,25 @@ private constructor(
          * Unlike [error], this method doesn't throw if the JSON field has an unexpected type.
          */
         @JsonProperty("error") @ExcludeMissing fun _error(): JsonField<String> = error
+
+        /**
+         * Returns the raw JSON value of [lookupMethod].
+         *
+         * Unlike [lookupMethod], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("lookupMethod")
+        @ExcludeMissing
+        fun _lookupMethod(): JsonField<String> = lookupMethod
+
+        /**
+         * Returns the raw JSON value of [smpHostname].
+         *
+         * Unlike [smpHostname], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("smpHostname")
+        @ExcludeMissing
+        fun _smpHostname(): JsonField<String> = smpHostname
 
         @JsonAnySetter
         private fun putAdditionalProperty(key: String, value: JsonValue) {
@@ -1234,6 +1304,8 @@ private constructor(
             private var smlHostname: JsonField<String>? = null
             private var status: JsonField<String>? = null
             private var error: JsonField<String> = JsonMissing.of()
+            private var lookupMethod: JsonField<String> = JsonMissing.of()
+            private var smpHostname: JsonField<String> = JsonMissing.of()
             private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
             @JvmSynthetic
@@ -1242,6 +1314,8 @@ private constructor(
                 smlHostname = dnsInfo.smlHostname
                 status = dnsInfo.status
                 error = dnsInfo.error
+                lookupMethod = dnsInfo.lookupMethod
+                smpHostname = dnsInfo.smpHostname
                 additionalProperties = dnsInfo.additionalProperties.toMutableMap()
             }
 
@@ -1312,6 +1386,42 @@ private constructor(
              */
             fun error(error: JsonField<String>) = apply { this.error = error }
 
+            /** DNS lookup method used: 'naptr' (new spec) or 'busdox' (legacy) */
+            fun lookupMethod(lookupMethod: String?) =
+                lookupMethod(JsonField.ofNullable(lookupMethod))
+
+            /** Alias for calling [Builder.lookupMethod] with `lookupMethod.orElse(null)`. */
+            fun lookupMethod(lookupMethod: Optional<String>) =
+                lookupMethod(lookupMethod.getOrNull())
+
+            /**
+             * Sets [Builder.lookupMethod] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.lookupMethod] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun lookupMethod(lookupMethod: JsonField<String>) = apply {
+                this.lookupMethod = lookupMethod
+            }
+
+            /** Hostname of the SMP (Service Metadata Publisher) discovered via DNS */
+            fun smpHostname(smpHostname: String?) = smpHostname(JsonField.ofNullable(smpHostname))
+
+            /** Alias for calling [Builder.smpHostname] with `smpHostname.orElse(null)`. */
+            fun smpHostname(smpHostname: Optional<String>) = smpHostname(smpHostname.getOrNull())
+
+            /**
+             * Sets [Builder.smpHostname] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.smpHostname] with a well-typed [String] value
+             * instead. This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
+             */
+            fun smpHostname(smpHostname: JsonField<String>) = apply {
+                this.smpHostname = smpHostname
+            }
+
             fun additionalProperties(additionalProperties: Map<String, JsonValue>) = apply {
                 this.additionalProperties.clear()
                 putAllAdditionalProperties(additionalProperties)
@@ -1351,12 +1461,23 @@ private constructor(
                     checkRequired("smlHostname", smlHostname),
                     checkRequired("status", status),
                     error,
+                    lookupMethod,
+                    smpHostname,
                     additionalProperties.toMutableMap(),
                 )
         }
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): DnsInfo = apply {
             if (validated) {
                 return@apply
@@ -1366,6 +1487,8 @@ private constructor(
             smlHostname()
             status()
             error()
+            lookupMethod()
+            smpHostname()
             validated = true
         }
 
@@ -1388,7 +1511,9 @@ private constructor(
             (dnsRecords.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (smlHostname.asKnown().isPresent) 1 else 0) +
                 (if (status.asKnown().isPresent) 1 else 0) +
-                (if (error.asKnown().isPresent) 1 else 0)
+                (if (error.asKnown().isPresent) 1 else 0) +
+                (if (lookupMethod.asKnown().isPresent) 1 else 0) +
+                (if (smpHostname.asKnown().isPresent) 1 else 0)
 
         /** DNS record information for a Peppol participant. */
         class DnsRecord
@@ -1508,6 +1633,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): DnsRecord = apply {
                 if (validated) {
                     return@apply
@@ -1561,17 +1696,27 @@ private constructor(
                 smlHostname == other.smlHostname &&
                 status == other.status &&
                 error == other.error &&
+                lookupMethod == other.lookupMethod &&
+                smpHostname == other.smpHostname &&
                 additionalProperties == other.additionalProperties
         }
 
         private val hashCode: Int by lazy {
-            Objects.hash(dnsRecords, smlHostname, status, error, additionalProperties)
+            Objects.hash(
+                dnsRecords,
+                smlHostname,
+                status,
+                error,
+                lookupMethod,
+                smpHostname,
+                additionalProperties,
+            )
         }
 
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "DnsInfo{dnsRecords=$dnsRecords, smlHostname=$smlHostname, status=$status, error=$error, additionalProperties=$additionalProperties}"
+            "DnsInfo{dnsRecords=$dnsRecords, smlHostname=$smlHostname, status=$status, error=$error, lookupMethod=$lookupMethod, smpHostname=$smpHostname, additionalProperties=$additionalProperties}"
     }
 
     /** Metadata about the query that was performed */
@@ -1847,6 +1992,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): QueryMetadata = apply {
             if (validated) {
                 return@apply
@@ -2157,6 +2311,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): ServiceMetadata = apply {
             if (validated) {
                 return@apply
@@ -2493,6 +2656,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Endpoint = apply {
                 if (validated) {
                     return@apply
@@ -2690,6 +2863,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): DocumentType = apply {
                     if (validated) {
                         return@apply
@@ -2923,6 +3106,16 @@ private constructor(
 
                 private var validated: Boolean = false
 
+                /**
+                 * Validates that the types of all values in this object match their expected types
+                 * recursively.
+                 *
+                 * This method is _not_ forwards compatible with new types from the API for existing
+                 * fields.
+                 *
+                 * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                 *   match its expected type.
+                 */
                 fun validate(): Process = apply {
                     if (validated) {
                         return@apply
@@ -3424,6 +3617,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                     *   match its expected type.
+                     */
                     fun validate(): InnerEndpoint = apply {
                         if (validated) {
                             return@apply
@@ -3667,6 +3870,16 @@ private constructor(
 
                     private var validated: Boolean = false
 
+                    /**
+                     * Validates that the types of all values in this object match their expected
+                     * types recursively.
+                     *
+                     * This method is _not_ forwards compatible with new types from the API for
+                     * existing fields.
+                     *
+                     * @throws EInvoiceInvalidDataException if any value type in this object doesn't
+                     *   match its expected type.
+                     */
                     fun validate(): ProcessId = apply {
                         if (validated) {
                             return@apply

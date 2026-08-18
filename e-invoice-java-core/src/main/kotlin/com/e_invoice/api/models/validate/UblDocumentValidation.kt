@@ -25,7 +25,7 @@ class UblDocumentValidation
 private constructor(
     private val id: JsonField<String>,
     private val fileName: JsonField<String>,
-    private val isValid: JsonField<Boolean>,
+    private val isValid_: JsonField<Boolean>,
     private val issues: JsonField<List<Issue>>,
     private val ublDocument: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
@@ -35,12 +35,12 @@ private constructor(
     private constructor(
         @JsonProperty("id") @ExcludeMissing id: JsonField<String> = JsonMissing.of(),
         @JsonProperty("file_name") @ExcludeMissing fileName: JsonField<String> = JsonMissing.of(),
-        @JsonProperty("is_valid") @ExcludeMissing isValid: JsonField<Boolean> = JsonMissing.of(),
+        @JsonProperty("is_valid") @ExcludeMissing isValid_: JsonField<Boolean> = JsonMissing.of(),
         @JsonProperty("issues") @ExcludeMissing issues: JsonField<List<Issue>> = JsonMissing.of(),
         @JsonProperty("ubl_document")
         @ExcludeMissing
         ublDocument: JsonField<String> = JsonMissing.of(),
-    ) : this(id, fileName, isValid, issues, ublDocument, mutableMapOf())
+    ) : this(id, fileName, isValid_, issues, ublDocument, mutableMapOf())
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
@@ -58,7 +58,7 @@ private constructor(
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
      *   unexpectedly missing or null (e.g. if the server responded with an unexpected value).
      */
-    fun isValid(): Boolean = isValid.getRequired("is_valid")
+    fun isValid_(): Boolean = isValid_.getRequired("is_valid")
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type or is
@@ -87,11 +87,11 @@ private constructor(
     @JsonProperty("file_name") @ExcludeMissing fun _fileName(): JsonField<String> = fileName
 
     /**
-     * Returns the raw JSON value of [isValid].
+     * Returns the raw JSON value of [isValid_].
      *
-     * Unlike [isValid], this method doesn't throw if the JSON field has an unexpected type.
+     * Unlike [isValid_], this method doesn't throw if the JSON field has an unexpected type.
      */
-    @JsonProperty("is_valid") @ExcludeMissing fun _isValid(): JsonField<Boolean> = isValid
+    @JsonProperty("is_valid") @ExcludeMissing fun _isValid_(): JsonField<Boolean> = isValid_
 
     /**
      * Returns the raw JSON value of [issues].
@@ -130,7 +130,7 @@ private constructor(
          * ```java
          * .id()
          * .fileName()
-         * .isValid()
+         * .isValid_()
          * .issues()
          * ```
          */
@@ -142,7 +142,7 @@ private constructor(
 
         private var id: JsonField<String>? = null
         private var fileName: JsonField<String>? = null
-        private var isValid: JsonField<Boolean>? = null
+        private var isValid_: JsonField<Boolean>? = null
         private var issues: JsonField<MutableList<Issue>>? = null
         private var ublDocument: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
@@ -151,7 +151,7 @@ private constructor(
         internal fun from(ublDocumentValidation: UblDocumentValidation) = apply {
             id = ublDocumentValidation.id
             fileName = ublDocumentValidation.fileName
-            isValid = ublDocumentValidation.isValid
+            isValid_ = ublDocumentValidation.isValid_
             issues = ublDocumentValidation.issues.map { it.toMutableList() }
             ublDocument = ublDocumentValidation.ublDocument
             additionalProperties = ublDocumentValidation.additionalProperties.toMutableMap()
@@ -180,15 +180,16 @@ private constructor(
          */
         fun fileName(fileName: JsonField<String>) = apply { this.fileName = fileName }
 
-        fun isValid(isValid: Boolean) = isValid(JsonField.of(isValid))
+        fun isValid_(isValid_: Boolean) = isValid_(JsonField.of(isValid_))
 
         /**
-         * Sets [Builder.isValid] to an arbitrary JSON value.
+         * Sets [Builder.isValid_] to an arbitrary JSON value.
          *
-         * You should usually call [Builder.isValid] with a well-typed [Boolean] value instead. This
-         * method is primarily for setting the field to an undocumented or not yet supported value.
+         * You should usually call [Builder.isValid_] with a well-typed [Boolean] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
          */
-        fun isValid(isValid: JsonField<Boolean>) = apply { this.isValid = isValid }
+        fun isValid_(isValid_: JsonField<Boolean>) = apply { this.isValid_ = isValid_ }
 
         fun issues(issues: List<Issue>) = issues(JsonField.of(issues))
 
@@ -257,7 +258,7 @@ private constructor(
          * ```java
          * .id()
          * .fileName()
-         * .isValid()
+         * .isValid_()
          * .issues()
          * ```
          *
@@ -267,7 +268,7 @@ private constructor(
             UblDocumentValidation(
                 checkRequired("id", id),
                 checkRequired("fileName", fileName),
-                checkRequired("isValid", isValid),
+                checkRequired("isValid_", isValid_),
                 checkRequired("issues", issues).map { it.toImmutable() },
                 ublDocument,
                 additionalProperties.toMutableMap(),
@@ -276,6 +277,14 @@ private constructor(
 
     private var validated: Boolean = false
 
+    /**
+     * Validates that the types of all values in this object match their expected types recursively.
+     *
+     * This method is _not_ forwards compatible with new types from the API for existing fields.
+     *
+     * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+     *   expected type.
+     */
     fun validate(): UblDocumentValidation = apply {
         if (validated) {
             return@apply
@@ -283,7 +292,7 @@ private constructor(
 
         id()
         fileName()
-        isValid()
+        isValid_()
         issues().forEach { it.validate() }
         ublDocument()
         validated = true
@@ -306,7 +315,7 @@ private constructor(
     internal fun validity(): Int =
         (if (id.asKnown().isPresent) 1 else 0) +
             (if (fileName.asKnown().isPresent) 1 else 0) +
-            (if (isValid.asKnown().isPresent) 1 else 0) +
+            (if (isValid_.asKnown().isPresent) 1 else 0) +
             (issues.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (ublDocument.asKnown().isPresent) 1 else 0)
 
@@ -619,6 +628,15 @@ private constructor(
 
         private var validated: Boolean = false
 
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
         fun validate(): Issue = apply {
             if (validated) {
                 return@apply
@@ -747,6 +765,16 @@ private constructor(
 
             private var validated: Boolean = false
 
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
             fun validate(): Type = apply {
                 if (validated) {
                     return@apply
@@ -828,18 +856,18 @@ private constructor(
         return other is UblDocumentValidation &&
             id == other.id &&
             fileName == other.fileName &&
-            isValid == other.isValid &&
+            isValid_ == other.isValid_ &&
             issues == other.issues &&
             ublDocument == other.ublDocument &&
             additionalProperties == other.additionalProperties
     }
 
     private val hashCode: Int by lazy {
-        Objects.hash(id, fileName, isValid, issues, ublDocument, additionalProperties)
+        Objects.hash(id, fileName, isValid_, issues, ublDocument, additionalProperties)
     }
 
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "UblDocumentValidation{id=$id, fileName=$fileName, isValid=$isValid, issues=$issues, ublDocument=$ublDocument, additionalProperties=$additionalProperties}"
+        "UblDocumentValidation{id=$id, fileName=$fileName, isValid_=$isValid_, issues=$issues, ublDocument=$ublDocument, additionalProperties=$additionalProperties}"
 }
