@@ -10,6 +10,8 @@ import com.e_invoice.api.services.async.InboxServiceAsync
 import com.e_invoice.api.services.async.InboxServiceAsyncImpl
 import com.e_invoice.api.services.async.LookupServiceAsync
 import com.e_invoice.api.services.async.LookupServiceAsyncImpl
+import com.e_invoice.api.services.async.MeServiceAsync
+import com.e_invoice.api.services.async.MeServiceAsyncImpl
 import com.e_invoice.api.services.async.OutboxServiceAsync
 import com.e_invoice.api.services.async.OutboxServiceAsyncImpl
 import com.e_invoice.api.services.async.ValidateServiceAsync
@@ -55,6 +57,8 @@ class EInvoiceClientAsyncImpl(private val clientOptions: ClientOptions) : EInvoi
         LookupServiceAsyncImpl(clientOptionsWithUserAgent)
     }
 
+    private val me: MeServiceAsync by lazy { MeServiceAsyncImpl(clientOptionsWithUserAgent) }
+
     private val webhooks: WebhookServiceAsync by lazy {
         WebhookServiceAsyncImpl(clientOptionsWithUserAgent)
     }
@@ -75,6 +79,8 @@ class EInvoiceClientAsyncImpl(private val clientOptions: ClientOptions) : EInvoi
     override fun validate(): ValidateServiceAsync = validate
 
     override fun lookup(): LookupServiceAsync = lookup
+
+    override fun me(): MeServiceAsync = me
 
     override fun webhooks(): WebhookServiceAsync = webhooks
 
@@ -103,6 +109,10 @@ class EInvoiceClientAsyncImpl(private val clientOptions: ClientOptions) : EInvoi
             LookupServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val me: MeServiceAsync.WithRawResponse by lazy {
+            MeServiceAsyncImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val webhooks: WebhookServiceAsync.WithRawResponse by lazy {
             WebhookServiceAsyncImpl.WithRawResponseImpl(clientOptions)
         }
@@ -123,6 +133,8 @@ class EInvoiceClientAsyncImpl(private val clientOptions: ClientOptions) : EInvoi
         override fun validate(): ValidateServiceAsync.WithRawResponse = validate
 
         override fun lookup(): LookupServiceAsync.WithRawResponse = lookup
+
+        override fun me(): MeServiceAsync.WithRawResponse = me
 
         override fun webhooks(): WebhookServiceAsync.WithRawResponse = webhooks
     }

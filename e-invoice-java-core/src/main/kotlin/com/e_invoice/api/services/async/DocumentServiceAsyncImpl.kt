@@ -14,14 +14,19 @@ import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.json
+import com.e_invoice.api.core.http.multipartFormData
 import com.e_invoice.api.core.http.parseable
 import com.e_invoice.api.core.prepareAsync
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse
 import com.e_invoice.api.models.documents.DocumentCreateParams
 import com.e_invoice.api.models.documents.DocumentDeleteParams
 import com.e_invoice.api.models.documents.DocumentDeleteResponse
 import com.e_invoice.api.models.documents.DocumentResponse
 import com.e_invoice.api.models.documents.DocumentRetrieveParams
 import com.e_invoice.api.models.documents.DocumentSendParams
+import com.e_invoice.api.models.documents.DocumentValidateParams
+import com.e_invoice.api.models.validate.UblDocumentValidation
 import com.e_invoice.api.services.async.documents.AttachmentServiceAsync
 import com.e_invoice.api.services.async.documents.AttachmentServiceAsyncImpl
 import com.e_invoice.api.services.async.documents.UblServiceAsync
@@ -73,12 +78,26 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
         // delete /api/documents/{document_id}
         withRawResponse().delete(params, requestOptions).thenApply { it.parse() }
 
+    override fun createFromPdf(
+        params: DocumentCreateFromPdfParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<DocumentCreateFromPdfResponse> =
+        // post /api/documents/pdf
+        withRawResponse().createFromPdf(params, requestOptions).thenApply { it.parse() }
+
     override fun send(
         params: DocumentSendParams,
         requestOptions: RequestOptions,
     ): CompletableFuture<DocumentResponse> =
         // post /api/documents/{document_id}/send
         withRawResponse().send(params, requestOptions).thenApply { it.parse() }
+
+    override fun validate(
+        params: DocumentValidateParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<UblDocumentValidation> =
+        // post /api/documents/{document_id}/validate
+        withRawResponse().validate(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DocumentServiceAsync.WithRawResponse {
@@ -203,6 +222,37 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
                 }
         }
 
+        private val createFromPdfHandler: Handler<DocumentCreateFromPdfResponse> =
+            jsonHandler<DocumentCreateFromPdfResponse>(clientOptions.jsonMapper)
+
+        override fun createFromPdf(
+            params: DocumentCreateFromPdfParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DocumentCreateFromPdfResponse>> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", "pdf")
+                    .body(multipartFormData(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { createFromPdfHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
         private val sendHandler: Handler<DocumentResponse> =
             jsonHandler<DocumentResponse>(clientOptions.jsonMapper)
 
@@ -228,6 +278,40 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
                     errorHandler.handle(response).parseable {
                         response
                             .use { sendHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val validateHandler: Handler<UblDocumentValidation> =
+            jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)
+
+        override fun validate(
+            params: DocumentValidateParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<UblDocumentValidation>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("documentId", params.documentId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", params._pathParam(0), "validate")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { validateHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()

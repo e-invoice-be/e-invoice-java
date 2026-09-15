@@ -14,6 +14,7 @@ import kotlin.jvm.optionals.getOrDefault
 import kotlin.jvm.optionals.getOrNull
 
 /** @see OutboxService.listDraftDocuments */
+@Deprecated("deprecated")
 class OutboxListDraftDocumentsPage
 private constructor(
     private val service: OutboxService,
@@ -56,8 +57,8 @@ private constructor(
         }
 
         val pageNumber = page().getOrDefault(1)
-        val pageCount = total().getOrDefault(Long.MAX_VALUE)
-        return pageNumber < pageCount
+        val pageCount = total().getOrNull()
+        return pageCount == null || pageNumber < pageCount
     }
 
     fun nextPageParams(): OutboxListDraftDocumentsParams {

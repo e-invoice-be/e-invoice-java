@@ -2,25 +2,18 @@
 
 package com.e_invoice.api.services.blocking
 
-import com.e_invoice.api.TestServerExtension
 import com.e_invoice.api.client.okhttp.EInvoiceOkHttpClient
 import com.e_invoice.api.models.webhooks.WebhookCreateParams
 import com.e_invoice.api.models.webhooks.WebhookUpdateParams
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
 
-@ExtendWith(TestServerExtension::class)
 internal class WebhookServiceTest {
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun create() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val webhookService = client.webhooks()
 
         val webhookResponse =
@@ -35,14 +28,10 @@ internal class WebhookServiceTest {
         webhookResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun retrieve() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val webhookService = client.webhooks()
 
         val webhookResponse = webhookService.retrieve("webhook_id")
@@ -50,14 +39,10 @@ internal class WebhookServiceTest {
         webhookResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun update() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val webhookService = client.webhooks()
 
         val webhookResponse =
@@ -73,14 +58,10 @@ internal class WebhookServiceTest {
         webhookResponse.validate()
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun list() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val webhookService = client.webhooks()
 
         val webhookResponses = webhookService.list()
@@ -88,14 +69,10 @@ internal class WebhookServiceTest {
         webhookResponses.forEach { it.validate() }
     }
 
-    @Disabled("Prism tests are disabled")
+    @Disabled("Mock server tests are disabled")
     @Test
     fun delete() {
-        val client =
-            EInvoiceOkHttpClient.builder()
-                .baseUrl(TestServerExtension.BASE_URL)
-                .apiKey("My API Key")
-                .build()
+        val client = EInvoiceOkHttpClient.builder().apiKey("My API Key").build()
         val webhookService = client.webhooks()
 
         val webhook = webhookService.delete("webhook_id")

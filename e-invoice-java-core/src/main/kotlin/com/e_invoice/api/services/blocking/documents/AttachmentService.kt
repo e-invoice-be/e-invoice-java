@@ -107,11 +107,17 @@ interface AttachmentService {
         requestOptions: RequestOptions = RequestOptions.none(),
     ): AttachmentDeleteResponse
 
-    /** Add a new attachment to an invoice or credit note */
+    /**
+     * Add one or more attachments to an invoice. Be careful: the attachments ARE NOT ADDED to the
+     * UBL! They are only stored in our database and can be downloaded later. To add attachments to
+     * the UBL, you need to add the attachment(s) via POST /api/documents
+     */
+    @Deprecated("deprecated")
     fun add(documentId: String, params: AttachmentAddParams): DocumentAttachment =
         add(documentId, params, RequestOptions.none())
 
     /** @see add */
+    @Deprecated("deprecated")
     fun add(
         documentId: String,
         params: AttachmentAddParams,
@@ -119,9 +125,11 @@ interface AttachmentService {
     ): DocumentAttachment = add(params.toBuilder().documentId(documentId).build(), requestOptions)
 
     /** @see add */
+    @Deprecated("deprecated")
     fun add(params: AttachmentAddParams): DocumentAttachment = add(params, RequestOptions.none())
 
     /** @see add */
+    @Deprecated("deprecated")
     fun add(
         params: AttachmentAddParams,
         requestOptions: RequestOptions = RequestOptions.none(),
@@ -254,6 +262,7 @@ interface AttachmentService {
          * Returns a raw HTTP response for `post /api/documents/{document_id}/attachments`, but is
          * otherwise the same as [AttachmentService.add].
          */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun add(
             documentId: String,
@@ -261,6 +270,7 @@ interface AttachmentService {
         ): HttpResponseFor<DocumentAttachment> = add(documentId, params, RequestOptions.none())
 
         /** @see add */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun add(
             documentId: String,
@@ -270,11 +280,13 @@ interface AttachmentService {
             add(params.toBuilder().documentId(documentId).build(), requestOptions)
 
         /** @see add */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun add(params: AttachmentAddParams): HttpResponseFor<DocumentAttachment> =
             add(params, RequestOptions.none())
 
         /** @see add */
+        @Deprecated("deprecated")
         @MustBeClosed
         fun add(
             params: AttachmentAddParams,

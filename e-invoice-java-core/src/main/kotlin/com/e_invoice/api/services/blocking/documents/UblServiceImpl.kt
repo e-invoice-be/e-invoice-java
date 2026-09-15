@@ -13,8 +13,11 @@ import com.e_invoice.api.core.http.HttpRequest
 import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
+import com.e_invoice.api.core.http.multipartFormData
 import com.e_invoice.api.core.http.parseable
 import com.e_invoice.api.core.prepare
+import com.e_invoice.api.models.documents.DocumentResponse
+import com.e_invoice.api.models.documents.ubl.UblCreateFromUblParams
 import com.e_invoice.api.models.documents.ubl.UblGetParams
 import com.e_invoice.api.models.documents.ubl.UblGetResponse
 import java.util.function.Consumer
@@ -30,6 +33,13 @@ class UblServiceImpl internal constructor(private val clientOptions: ClientOptio
 
     override fun withOptions(modifier: Consumer<ClientOptions.Builder>): UblService =
         UblServiceImpl(clientOptions.toBuilder().apply(modifier::accept).build())
+
+    override fun createFromUbl(
+        params: UblCreateFromUblParams,
+        requestOptions: RequestOptions,
+    ): DocumentResponse =
+        // post /api/documents/ubl
+        withRawResponse().createFromUbl(params, requestOptions).parse()
 
     override fun get(params: UblGetParams, requestOptions: RequestOptions): UblGetResponse =
         // get /api/documents/{document_id}/ubl
@@ -47,6 +57,34 @@ class UblServiceImpl internal constructor(private val clientOptions: ClientOptio
             UblServiceImpl.WithRawResponseImpl(
                 clientOptions.toBuilder().apply(modifier::accept).build()
             )
+
+        private val createFromUblHandler: Handler<DocumentResponse> =
+            jsonHandler<DocumentResponse>(clientOptions.jsonMapper)
+
+        override fun createFromUbl(
+            params: UblCreateFromUblParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DocumentResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", "ubl")
+                    .body(multipartFormData(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { createFromUblHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
 
         private val getHandler: Handler<UblGetResponse> =
             jsonHandler<UblGetResponse>(clientOptions.jsonMapper)

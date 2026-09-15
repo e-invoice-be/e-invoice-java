@@ -10,6 +10,8 @@ import com.e_invoice.api.services.blocking.InboxService
 import com.e_invoice.api.services.blocking.InboxServiceImpl
 import com.e_invoice.api.services.blocking.LookupService
 import com.e_invoice.api.services.blocking.LookupServiceImpl
+import com.e_invoice.api.services.blocking.MeService
+import com.e_invoice.api.services.blocking.MeServiceImpl
 import com.e_invoice.api.services.blocking.OutboxService
 import com.e_invoice.api.services.blocking.OutboxServiceImpl
 import com.e_invoice.api.services.blocking.ValidateService
@@ -49,6 +51,8 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
 
     private val lookup: LookupService by lazy { LookupServiceImpl(clientOptionsWithUserAgent) }
 
+    private val me: MeService by lazy { MeServiceImpl(clientOptionsWithUserAgent) }
+
     private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptionsWithUserAgent) }
 
     override fun async(): EInvoiceClientAsync = async
@@ -67,6 +71,8 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
     override fun validate(): ValidateService = validate
 
     override fun lookup(): LookupService = lookup
+
+    override fun me(): MeService = me
 
     override fun webhooks(): WebhookService = webhooks
 
@@ -95,6 +101,10 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
             LookupServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val me: MeService.WithRawResponse by lazy {
+            MeServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val webhooks: WebhookService.WithRawResponse by lazy {
             WebhookServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -115,6 +125,8 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
         override fun validate(): ValidateService.WithRawResponse = validate
 
         override fun lookup(): LookupService.WithRawResponse = lookup
+
+        override fun me(): MeService.WithRawResponse = me
 
         override fun webhooks(): WebhookService.WithRawResponse = webhooks
     }

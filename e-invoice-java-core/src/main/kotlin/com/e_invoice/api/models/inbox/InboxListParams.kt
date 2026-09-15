@@ -2,10 +2,14 @@
 
 package com.e_invoice.api.models.inbox
 
+import com.e_invoice.api.core.Enum
+import com.e_invoice.api.core.JsonField
 import com.e_invoice.api.core.Params
 import com.e_invoice.api.core.http.Headers
 import com.e_invoice.api.core.http.QueryParams
+import com.e_invoice.api.errors.EInvoiceInvalidDataException
 import com.e_invoice.api.models.documents.DocumentType
+import com.fasterxml.jackson.annotation.JsonCreator
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Objects
@@ -24,7 +28,8 @@ private constructor(
     private val pageSize: Long?,
     private val search: String?,
     private val sender: String?,
-    private val state: DocumentState?,
+    private val sortBy: SortBy?,
+    private val sortOrder: SortOrder?,
     private val type: DocumentType?,
     private val additionalHeaders: Headers,
     private val additionalQueryParams: QueryParams,
@@ -45,13 +50,16 @@ private constructor(
     /** Search in invoice number, seller/buyer names */
     fun search(): Optional<String> = Optional.ofNullable(search)
 
-    /** Filter by sender ID */
+    /** Filter by sender (vendor_name, vendor_email, vendor_tax_id, vendor_company_id) */
     fun sender(): Optional<String> = Optional.ofNullable(sender)
 
-    /** Filter by document state */
-    fun state(): Optional<DocumentState> = Optional.ofNullable(state)
+    /** Field to sort by */
+    fun sortBy(): Optional<SortBy> = Optional.ofNullable(sortBy)
 
-    /** Filter by document type */
+    /** Sort direction (asc/desc) */
+    fun sortOrder(): Optional<SortOrder> = Optional.ofNullable(sortOrder)
+
+    /** Filter by document type. If not provided, returns all types. */
     fun type(): Optional<DocumentType> = Optional.ofNullable(type)
 
     /** Additional headers to send with the request. */
@@ -79,7 +87,8 @@ private constructor(
         private var pageSize: Long? = null
         private var search: String? = null
         private var sender: String? = null
-        private var state: DocumentState? = null
+        private var sortBy: SortBy? = null
+        private var sortOrder: SortOrder? = null
         private var type: DocumentType? = null
         private var additionalHeaders: Headers.Builder = Headers.builder()
         private var additionalQueryParams: QueryParams.Builder = QueryParams.builder()
@@ -92,7 +101,8 @@ private constructor(
             pageSize = inboxListParams.pageSize
             search = inboxListParams.search
             sender = inboxListParams.sender
-            state = inboxListParams.state
+            sortBy = inboxListParams.sortBy
+            sortOrder = inboxListParams.sortOrder
             type = inboxListParams.type
             additionalHeaders = inboxListParams.additionalHeaders.toBuilder()
             additionalQueryParams = inboxListParams.additionalQueryParams.toBuilder()
@@ -142,19 +152,25 @@ private constructor(
         /** Alias for calling [Builder.search] with `search.orElse(null)`. */
         fun search(search: Optional<String>) = search(search.getOrNull())
 
-        /** Filter by sender ID */
+        /** Filter by sender (vendor_name, vendor_email, vendor_tax_id, vendor_company_id) */
         fun sender(sender: String?) = apply { this.sender = sender }
 
         /** Alias for calling [Builder.sender] with `sender.orElse(null)`. */
         fun sender(sender: Optional<String>) = sender(sender.getOrNull())
 
-        /** Filter by document state */
-        fun state(state: DocumentState?) = apply { this.state = state }
+        /** Field to sort by */
+        fun sortBy(sortBy: SortBy?) = apply { this.sortBy = sortBy }
 
-        /** Alias for calling [Builder.state] with `state.orElse(null)`. */
-        fun state(state: Optional<DocumentState>) = state(state.getOrNull())
+        /** Alias for calling [Builder.sortBy] with `sortBy.orElse(null)`. */
+        fun sortBy(sortBy: Optional<SortBy>) = sortBy(sortBy.getOrNull())
 
-        /** Filter by document type */
+        /** Sort direction (asc/desc) */
+        fun sortOrder(sortOrder: SortOrder?) = apply { this.sortOrder = sortOrder }
+
+        /** Alias for calling [Builder.sortOrder] with `sortOrder.orElse(null)`. */
+        fun sortOrder(sortOrder: Optional<SortOrder>) = sortOrder(sortOrder.getOrNull())
+
+        /** Filter by document type. If not provided, returns all types. */
         fun type(type: DocumentType?) = apply { this.type = type }
 
         /** Alias for calling [Builder.type] with `type.orElse(null)`. */
@@ -271,7 +287,8 @@ private constructor(
                 pageSize,
                 search,
                 sender,
-                state,
+                sortBy,
+                sortOrder,
                 type,
                 additionalHeaders.build(),
                 additionalQueryParams.build(),
@@ -291,11 +308,318 @@ private constructor(
                 pageSize?.let { put("page_size", it.toString()) }
                 search?.let { put("search", it) }
                 sender?.let { put("sender", it) }
-                state?.let { put("state", it.toString()) }
+                sortBy?.let { put("sort_by", it.toString()) }
+                sortOrder?.let { put("sort_order", it.toString()) }
                 type?.let { put("type", it.toString()) }
                 putAll(additionalQueryParams)
             }
             .build()
+
+    /** Field to sort by */
+    class SortBy @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val CREATED_AT = of("created_at")
+
+            @JvmField val INVOICE_DATE = of("invoice_date")
+
+            @JvmField val DUE_DATE = of("due_date")
+
+            @JvmField val INVOICE_TOTAL = of("invoice_total")
+
+            @JvmField val CUSTOMER_NAME = of("customer_name")
+
+            @JvmField val VENDOR_NAME = of("vendor_name")
+
+            @JvmField val INVOICE_ID = of("invoice_id")
+
+            @JvmStatic fun of(value: String) = SortBy(JsonField.of(value))
+        }
+
+        /** An enum containing [SortBy]'s known values. */
+        enum class Known {
+            CREATED_AT,
+            INVOICE_DATE,
+            DUE_DATE,
+            INVOICE_TOTAL,
+            CUSTOMER_NAME,
+            VENDOR_NAME,
+            INVOICE_ID,
+        }
+
+        /**
+         * An enum containing [SortBy]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [SortBy] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            CREATED_AT,
+            INVOICE_DATE,
+            DUE_DATE,
+            INVOICE_TOTAL,
+            CUSTOMER_NAME,
+            VENDOR_NAME,
+            INVOICE_ID,
+            /** An enum member indicating that [SortBy] was instantiated with an unknown value. */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                CREATED_AT -> Value.CREATED_AT
+                INVOICE_DATE -> Value.INVOICE_DATE
+                DUE_DATE -> Value.DUE_DATE
+                INVOICE_TOTAL -> Value.INVOICE_TOTAL
+                CUSTOMER_NAME -> Value.CUSTOMER_NAME
+                VENDOR_NAME -> Value.VENDOR_NAME
+                INVOICE_ID -> Value.INVOICE_ID
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                CREATED_AT -> Known.CREATED_AT
+                INVOICE_DATE -> Known.INVOICE_DATE
+                DUE_DATE -> Known.DUE_DATE
+                INVOICE_TOTAL -> Known.INVOICE_TOTAL
+                CUSTOMER_NAME -> Known.CUSTOMER_NAME
+                VENDOR_NAME -> Known.VENDOR_NAME
+                INVOICE_ID -> Known.INVOICE_ID
+                else -> throw EInvoiceInvalidDataException("Unknown SortBy: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                EInvoiceInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): SortBy = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is SortBy && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
+
+    /** Sort direction (asc/desc) */
+    class SortOrder @JsonCreator private constructor(private val value: JsonField<String>) : Enum {
+
+        /**
+         * Returns this class instance's raw value.
+         *
+         * This is usually only useful if this instance was deserialized from data that doesn't
+         * match any known member, and you want to know that value. For example, if the SDK is on an
+         * older version than the API, then the API may respond with new members that the SDK is
+         * unaware of.
+         */
+        @com.fasterxml.jackson.annotation.JsonValue fun _value(): JsonField<String> = value
+
+        companion object {
+
+            @JvmField val ASC = of("asc")
+
+            @JvmField val DESC = of("desc")
+
+            @JvmStatic fun of(value: String) = SortOrder(JsonField.of(value))
+        }
+
+        /** An enum containing [SortOrder]'s known values. */
+        enum class Known {
+            ASC,
+            DESC,
+        }
+
+        /**
+         * An enum containing [SortOrder]'s known values, as well as an [_UNKNOWN] member.
+         *
+         * An instance of [SortOrder] can contain an unknown value in a couple of cases:
+         * - It was deserialized from data that doesn't match any known member. For example, if the
+         *   SDK is on an older version than the API, then the API may respond with new members that
+         *   the SDK is unaware of.
+         * - It was constructed with an arbitrary value using the [of] method.
+         */
+        enum class Value {
+            ASC,
+            DESC,
+            /**
+             * An enum member indicating that [SortOrder] was instantiated with an unknown value.
+             */
+            _UNKNOWN,
+        }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value, or [Value._UNKNOWN]
+         * if the class was instantiated with an unknown value.
+         *
+         * Use the [known] method instead if you're certain the value is always known or if you want
+         * to throw for the unknown case.
+         */
+        fun value(): Value =
+            when (this) {
+                ASC -> Value.ASC
+                DESC -> Value.DESC
+                else -> Value._UNKNOWN
+            }
+
+        /**
+         * Returns an enum member corresponding to this class instance's value.
+         *
+         * Use the [value] method instead if you're uncertain the value is always known and don't
+         * want to throw for the unknown case.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value is a not a known
+         *   member.
+         */
+        fun known(): Known =
+            when (this) {
+                ASC -> Known.ASC
+                DESC -> Known.DESC
+                else -> throw EInvoiceInvalidDataException("Unknown SortOrder: $value")
+            }
+
+        /**
+         * Returns this class instance's primitive wire representation.
+         *
+         * This differs from the [toString] method because that method is primarily for debugging
+         * and generally doesn't throw.
+         *
+         * @throws EInvoiceInvalidDataException if this class instance's value does not have the
+         *   expected primitive type.
+         */
+        fun asString(): String =
+            _value().asString().orElseThrow {
+                EInvoiceInvalidDataException("Value is not a String")
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): SortOrder = apply {
+            if (validated) {
+                return@apply
+            }
+
+            known()
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic internal fun validity(): Int = if (value() == Value._UNKNOWN) 0 else 1
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is SortOrder && value == other.value
+        }
+
+        override fun hashCode() = value.hashCode()
+
+        override fun toString() = value.toString()
+    }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) {
@@ -309,7 +633,8 @@ private constructor(
             pageSize == other.pageSize &&
             search == other.search &&
             sender == other.sender &&
-            state == other.state &&
+            sortBy == other.sortBy &&
+            sortOrder == other.sortOrder &&
             type == other.type &&
             additionalHeaders == other.additionalHeaders &&
             additionalQueryParams == other.additionalQueryParams
@@ -323,12 +648,13 @@ private constructor(
             pageSize,
             search,
             sender,
-            state,
+            sortBy,
+            sortOrder,
             type,
             additionalHeaders,
             additionalQueryParams,
         )
 
     override fun toString() =
-        "InboxListParams{dateFrom=$dateFrom, dateTo=$dateTo, page=$page, pageSize=$pageSize, search=$search, sender=$sender, state=$state, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
+        "InboxListParams{dateFrom=$dateFrom, dateTo=$dateTo, page=$page, pageSize=$pageSize, search=$search, sender=$sender, sortBy=$sortBy, sortOrder=$sortOrder, type=$type, additionalHeaders=$additionalHeaders, additionalQueryParams=$additionalQueryParams}"
 }
