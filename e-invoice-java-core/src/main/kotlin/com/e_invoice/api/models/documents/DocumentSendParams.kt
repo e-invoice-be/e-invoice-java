@@ -33,7 +33,8 @@ private constructor(
 
     fun documentId(): Optional<String> = Optional.ofNullable(documentId)
 
-    @Deprecated("deprecated") fun email(): Optional<String> = Optional.ofNullable(email)
+    @Deprecated("The email query parameter is deprecated by the API and may be removed.")
+    fun email(): Optional<String> = Optional.ofNullable(email)
 
     fun receiverPeppolId(): Optional<String> = Optional.ofNullable(receiverPeppolId)
 
@@ -93,10 +94,12 @@ private constructor(
         /** Alias for calling [Builder.documentId] with `documentId.orElse(null)`. */
         fun documentId(documentId: Optional<String>) = documentId(documentId.getOrNull())
 
-        @Deprecated("deprecated") fun email(email: String?) = apply { this.email = email }
+        @Deprecated("The email query parameter is deprecated by the API and may be removed.")
+        fun email(email: String?) = apply { this.email = email }
 
         /** Alias for calling [Builder.email] with `email.orElse(null)`. */
-        @Deprecated("deprecated") fun email(email: Optional<String>) = email(email.getOrNull())
+        @Deprecated("The email query parameter is deprecated by the API and may be removed.")
+        fun email(email: Optional<String>) = email(email.getOrNull())
 
         fun receiverPeppolId(receiverPeppolId: String?) = apply {
             this.receiverPeppolId = receiverPeppolId

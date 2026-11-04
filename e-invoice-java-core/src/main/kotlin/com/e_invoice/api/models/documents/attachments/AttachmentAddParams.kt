@@ -28,7 +28,9 @@ import kotlin.jvm.optionals.getOrNull
  * They are only stored in our database and can be downloaded later. To add attachments to the UBL,
  * you need to add the attachment(s) via POST /api/documents
  */
-@Deprecated("deprecated")
+@Deprecated(
+    "Attachments added this way are not embedded in the UBL document. Pass attachments when creating the document via POST /api/documents instead."
+)
 class AttachmentAddParams
 private constructor(
     private val documentId: String?,
