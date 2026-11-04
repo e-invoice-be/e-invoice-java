@@ -21,7 +21,11 @@ import com.e_invoice.api.models.webhooks.WebhookDeleteParams
 import com.e_invoice.api.models.webhooks.WebhookDeleteResponse
 import com.e_invoice.api.models.webhooks.WebhookListParams
 import com.e_invoice.api.models.webhooks.WebhookResponse
+import com.e_invoice.api.models.webhooks.WebhookRetrieveHistoryParams
+import com.e_invoice.api.models.webhooks.WebhookRetrieveHistoryResponse
 import com.e_invoice.api.models.webhooks.WebhookRetrieveParams
+import com.e_invoice.api.models.webhooks.WebhookTestParams
+import com.e_invoice.api.models.webhooks.WebhookTestResponse
 import com.e_invoice.api.models.webhooks.WebhookUpdateParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -73,6 +77,20 @@ class WebhookServiceAsyncImpl internal constructor(private val clientOptions: Cl
     ): CompletableFuture<WebhookDeleteResponse> =
         // delete /api/webhooks/{webhook_id}
         withRawResponse().delete(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveHistory(
+        params: WebhookRetrieveHistoryParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<WebhookRetrieveHistoryResponse> =
+        // get /api/webhooks/{webhook_id}/history
+        withRawResponse().retrieveHistory(params, requestOptions).thenApply { it.parse() }
+
+    override fun test(
+        params: WebhookTestParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<WebhookTestResponse> =
+        // post /api/webhooks/{webhook_id}/test
+        withRawResponse().test(params, requestOptions).thenApply { it.parse() }
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         WebhookServiceAsync.WithRawResponse {
@@ -240,6 +258,73 @@ class WebhookServiceAsyncImpl internal constructor(private val clientOptions: Cl
                     errorHandler.handle(response).parseable {
                         response
                             .use { deleteHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveHistoryHandler: Handler<WebhookRetrieveHistoryResponse> =
+            jsonHandler<WebhookRetrieveHistoryResponse>(clientOptions.jsonMapper)
+
+        override fun retrieveHistory(
+            params: WebhookRetrieveHistoryParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<WebhookRetrieveHistoryResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("webhookId", params.webhookId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "webhooks", params._pathParam(0), "history")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { retrieveHistoryHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val testHandler: Handler<WebhookTestResponse> =
+            jsonHandler<WebhookTestResponse>(clientOptions.jsonMapper)
+
+        override fun test(
+            params: WebhookTestParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<WebhookTestResponse>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("webhookId", params.webhookId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "webhooks", params._pathParam(0), "test")
+                    .body(json(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { testHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
