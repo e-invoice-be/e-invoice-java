@@ -3,10 +3,15 @@
 package com.e_invoice.api.client
 
 import com.e_invoice.api.core.ClientOptions
+import com.e_invoice.api.services.blocking.ConversionService
 import com.e_invoice.api.services.blocking.DocumentService
+import com.e_invoice.api.services.blocking.DraftService
 import com.e_invoice.api.services.blocking.InboxService
 import com.e_invoice.api.services.blocking.LookupService
+import com.e_invoice.api.services.blocking.MailboxService
+import com.e_invoice.api.services.blocking.MeService
 import com.e_invoice.api.services.blocking.OutboxService
+import com.e_invoice.api.services.blocking.StatsService
 import com.e_invoice.api.services.blocking.ValidateService
 import com.e_invoice.api.services.blocking.WebhookService
 import java.util.function.Consumer
@@ -57,6 +62,16 @@ interface EInvoiceClient {
 
     fun lookup(): LookupService
 
+    fun me(): MeService
+
+    fun mailbox(): MailboxService
+
+    fun drafts(): DraftService
+
+    fun stats(): StatsService
+
+    fun conversion(): ConversionService
+
     fun webhooks(): WebhookService
 
     /**
@@ -91,6 +106,16 @@ interface EInvoiceClient {
         fun validate(): ValidateService.WithRawResponse
 
         fun lookup(): LookupService.WithRawResponse
+
+        fun me(): MeService.WithRawResponse
+
+        fun mailbox(): MailboxService.WithRawResponse
+
+        fun drafts(): DraftService.WithRawResponse
+
+        fun stats(): StatsService.WithRawResponse
+
+        fun conversion(): ConversionService.WithRawResponse
 
         fun webhooks(): WebhookService.WithRawResponse
     }

@@ -14,14 +14,23 @@ import com.e_invoice.api.core.http.HttpResponse
 import com.e_invoice.api.core.http.HttpResponse.Handler
 import com.e_invoice.api.core.http.HttpResponseFor
 import com.e_invoice.api.core.http.json
+import com.e_invoice.api.core.http.multipartFormData
 import com.e_invoice.api.core.http.parseable
 import com.e_invoice.api.core.prepare
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfParams
+import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse
 import com.e_invoice.api.models.documents.DocumentCreateParams
 import com.e_invoice.api.models.documents.DocumentDeleteParams
 import com.e_invoice.api.models.documents.DocumentDeleteResponse
+import com.e_invoice.api.models.documents.DocumentLifecycle
 import com.e_invoice.api.models.documents.DocumentResponse
+import com.e_invoice.api.models.documents.DocumentRetrieveLifecycleParams
 import com.e_invoice.api.models.documents.DocumentRetrieveParams
+import com.e_invoice.api.models.documents.DocumentRetrieveTimelineParams
 import com.e_invoice.api.models.documents.DocumentSendParams
+import com.e_invoice.api.models.documents.DocumentTimeline
+import com.e_invoice.api.models.documents.DocumentValidateParams
+import com.e_invoice.api.models.validate.UblDocumentValidation
 import com.e_invoice.api.services.blocking.documents.AttachmentService
 import com.e_invoice.api.services.blocking.documents.AttachmentServiceImpl
 import com.e_invoice.api.services.blocking.documents.UblService
@@ -63,6 +72,20 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         // get /api/documents/{document_id}
         withRawResponse().retrieve(params, requestOptions).parse()
 
+    override fun retrieveTimeline(
+        params: DocumentRetrieveTimelineParams,
+        requestOptions: RequestOptions,
+    ): DocumentTimeline =
+        // get /api/documents/{document_id}/timeline
+        withRawResponse().retrieveTimeline(params, requestOptions).parse()
+
+    override fun retrieveLifecycle(
+        params: DocumentRetrieveLifecycleParams,
+        requestOptions: RequestOptions,
+    ): DocumentLifecycle =
+        // get /api/documents/{document_id}/lifecycle
+        withRawResponse().retrieveLifecycle(params, requestOptions).parse()
+
     override fun delete(
         params: DocumentDeleteParams,
         requestOptions: RequestOptions,
@@ -70,12 +93,26 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
         // delete /api/documents/{document_id}
         withRawResponse().delete(params, requestOptions).parse()
 
+    override fun createFromPdf(
+        params: DocumentCreateFromPdfParams,
+        requestOptions: RequestOptions,
+    ): DocumentCreateFromPdfResponse =
+        // post /api/documents/pdf
+        withRawResponse().createFromPdf(params, requestOptions).parse()
+
     override fun send(
         params: DocumentSendParams,
         requestOptions: RequestOptions,
     ): DocumentResponse =
         // post /api/documents/{document_id}/send
         withRawResponse().send(params, requestOptions).parse()
+
+    override fun validate(
+        params: DocumentValidateParams,
+        requestOptions: RequestOptions,
+    ): UblDocumentValidation =
+        // post /api/documents/{document_id}/validate
+        withRawResponse().validate(params, requestOptions).parse()
 
     class WithRawResponseImpl internal constructor(private val clientOptions: ClientOptions) :
         DocumentService.WithRawResponse {
@@ -160,6 +197,66 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
             }
         }
 
+        private val retrieveTimelineHandler: Handler<DocumentTimeline> =
+            jsonHandler<DocumentTimeline>(clientOptions.jsonMapper)
+
+        override fun retrieveTimeline(
+            params: DocumentRetrieveTimelineParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DocumentTimeline> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("documentId", params.documentId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", params._pathParam(0), "timeline")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retrieveTimelineHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val retrieveLifecycleHandler: Handler<DocumentLifecycle> =
+            jsonHandler<DocumentLifecycle>(clientOptions.jsonMapper)
+
+        override fun retrieveLifecycle(
+            params: DocumentRetrieveLifecycleParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DocumentLifecycle> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("documentId", params.documentId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", params._pathParam(0), "lifecycle")
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { retrieveLifecycleHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
         private val deleteHandler: Handler<DocumentDeleteResponse> =
             jsonHandler<DocumentDeleteResponse>(clientOptions.jsonMapper)
 
@@ -191,6 +288,34 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
             }
         }
 
+        private val createFromPdfHandler: Handler<DocumentCreateFromPdfResponse> =
+            jsonHandler<DocumentCreateFromPdfResponse>(clientOptions.jsonMapper)
+
+        override fun createFromPdf(
+            params: DocumentCreateFromPdfParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<DocumentCreateFromPdfResponse> {
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", "pdf")
+                    .body(multipartFormData(clientOptions.jsonMapper, params._body()))
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { createFromPdfHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
         private val sendHandler: Handler<DocumentResponse> =
             jsonHandler<DocumentResponse>(clientOptions.jsonMapper)
 
@@ -214,6 +339,37 @@ class DocumentServiceImpl internal constructor(private val clientOptions: Client
             return errorHandler.handle(response).parseable {
                 response
                     .use { sendHandler.handle(it) }
+                    .also {
+                        if (requestOptions.responseValidation!!) {
+                            it.validate()
+                        }
+                    }
+            }
+        }
+
+        private val validateHandler: Handler<UblDocumentValidation> =
+            jsonHandler<UblDocumentValidation>(clientOptions.jsonMapper)
+
+        override fun validate(
+            params: DocumentValidateParams,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<UblDocumentValidation> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("documentId", params.documentId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.POST)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", params._pathParam(0), "validate")
+                    .apply { params._body().ifPresent { body(json(clientOptions.jsonMapper, it)) } }
+                    .build()
+                    .prepare(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            val response = clientOptions.httpClient.execute(request, requestOptions)
+            return errorHandler.handle(response).parseable {
+                response
+                    .use { validateHandler.handle(it) }
                     .also {
                         if (requestOptions.responseValidation!!) {
                             it.validate()

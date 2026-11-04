@@ -10,7 +10,11 @@ import com.e_invoice.api.models.webhooks.WebhookDeleteParams
 import com.e_invoice.api.models.webhooks.WebhookDeleteResponse
 import com.e_invoice.api.models.webhooks.WebhookListParams
 import com.e_invoice.api.models.webhooks.WebhookResponse
+import com.e_invoice.api.models.webhooks.WebhookRetrieveHistoryParams
+import com.e_invoice.api.models.webhooks.WebhookRetrieveHistoryResponse
 import com.e_invoice.api.models.webhooks.WebhookRetrieveParams
+import com.e_invoice.api.models.webhooks.WebhookTestParams
+import com.e_invoice.api.models.webhooks.WebhookTestResponse
 import com.e_invoice.api.models.webhooks.WebhookUpdateParams
 import com.google.errorprone.annotations.MustBeClosed
 import java.util.function.Consumer
@@ -146,6 +150,61 @@ interface WebhookService {
     /** @see delete */
     fun delete(webhookId: String, requestOptions: RequestOptions): WebhookDeleteResponse =
         delete(webhookId, WebhookDeleteParams.none(), requestOptions)
+
+    /** Get the history of a webhook */
+    fun retrieveHistory(webhookId: String): WebhookRetrieveHistoryResponse =
+        retrieveHistory(webhookId, WebhookRetrieveHistoryParams.none())
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        webhookId: String,
+        params: WebhookRetrieveHistoryParams = WebhookRetrieveHistoryParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): WebhookRetrieveHistoryResponse =
+        retrieveHistory(params.toBuilder().webhookId(webhookId).build(), requestOptions)
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        webhookId: String,
+        params: WebhookRetrieveHistoryParams = WebhookRetrieveHistoryParams.none(),
+    ): WebhookRetrieveHistoryResponse = retrieveHistory(webhookId, params, RequestOptions.none())
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        params: WebhookRetrieveHistoryParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): WebhookRetrieveHistoryResponse
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(params: WebhookRetrieveHistoryParams): WebhookRetrieveHistoryResponse =
+        retrieveHistory(params, RequestOptions.none())
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        webhookId: String,
+        requestOptions: RequestOptions,
+    ): WebhookRetrieveHistoryResponse =
+        retrieveHistory(webhookId, WebhookRetrieveHistoryParams.none(), requestOptions)
+
+    /** Send a test event to a webhook for testing and debugging purposes */
+    fun test(webhookId: String, params: WebhookTestParams): WebhookTestResponse =
+        test(webhookId, params, RequestOptions.none())
+
+    /** @see test */
+    fun test(
+        webhookId: String,
+        params: WebhookTestParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): WebhookTestResponse = test(params.toBuilder().webhookId(webhookId).build(), requestOptions)
+
+    /** @see test */
+    fun test(params: WebhookTestParams): WebhookTestResponse = test(params, RequestOptions.none())
+
+    /** @see test */
+    fun test(
+        params: WebhookTestParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): WebhookTestResponse
 
     /** A view of [WebhookService] that provides access to raw HTTP responses for each method. */
     interface WithRawResponse {
@@ -328,5 +387,83 @@ interface WebhookService {
             requestOptions: RequestOptions,
         ): HttpResponseFor<WebhookDeleteResponse> =
             delete(webhookId, WebhookDeleteParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/webhooks/{webhook_id}/history`, but is
+         * otherwise the same as [WebhookService.retrieveHistory].
+         */
+        @MustBeClosed
+        fun retrieveHistory(webhookId: String): HttpResponseFor<WebhookRetrieveHistoryResponse> =
+            retrieveHistory(webhookId, WebhookRetrieveHistoryParams.none())
+
+        /** @see retrieveHistory */
+        @MustBeClosed
+        fun retrieveHistory(
+            webhookId: String,
+            params: WebhookRetrieveHistoryParams = WebhookRetrieveHistoryParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<WebhookRetrieveHistoryResponse> =
+            retrieveHistory(params.toBuilder().webhookId(webhookId).build(), requestOptions)
+
+        /** @see retrieveHistory */
+        @MustBeClosed
+        fun retrieveHistory(
+            webhookId: String,
+            params: WebhookRetrieveHistoryParams = WebhookRetrieveHistoryParams.none(),
+        ): HttpResponseFor<WebhookRetrieveHistoryResponse> =
+            retrieveHistory(webhookId, params, RequestOptions.none())
+
+        /** @see retrieveHistory */
+        @MustBeClosed
+        fun retrieveHistory(
+            params: WebhookRetrieveHistoryParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<WebhookRetrieveHistoryResponse>
+
+        /** @see retrieveHistory */
+        @MustBeClosed
+        fun retrieveHistory(
+            params: WebhookRetrieveHistoryParams
+        ): HttpResponseFor<WebhookRetrieveHistoryResponse> =
+            retrieveHistory(params, RequestOptions.none())
+
+        /** @see retrieveHistory */
+        @MustBeClosed
+        fun retrieveHistory(
+            webhookId: String,
+            requestOptions: RequestOptions,
+        ): HttpResponseFor<WebhookRetrieveHistoryResponse> =
+            retrieveHistory(webhookId, WebhookRetrieveHistoryParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/webhooks/{webhook_id}/test`, but is otherwise
+         * the same as [WebhookService.test].
+         */
+        @MustBeClosed
+        fun test(
+            webhookId: String,
+            params: WebhookTestParams,
+        ): HttpResponseFor<WebhookTestResponse> = test(webhookId, params, RequestOptions.none())
+
+        /** @see test */
+        @MustBeClosed
+        fun test(
+            webhookId: String,
+            params: WebhookTestParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<WebhookTestResponse> =
+            test(params.toBuilder().webhookId(webhookId).build(), requestOptions)
+
+        /** @see test */
+        @MustBeClosed
+        fun test(params: WebhookTestParams): HttpResponseFor<WebhookTestResponse> =
+            test(params, RequestOptions.none())
+
+        /** @see test */
+        @MustBeClosed
+        fun test(
+            params: WebhookTestParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): HttpResponseFor<WebhookTestResponse>
     }
 }

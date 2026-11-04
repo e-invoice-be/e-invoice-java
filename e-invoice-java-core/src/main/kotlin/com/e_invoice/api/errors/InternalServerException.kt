@@ -5,6 +5,7 @@ package com.e_invoice.api.errors
 import com.e_invoice.api.core.JsonValue
 import com.e_invoice.api.core.checkRequired
 import com.e_invoice.api.core.http.Headers
+import com.e_invoice.api.core.jsonMapper
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
 
@@ -14,7 +15,11 @@ private constructor(
     private val headers: Headers,
     private val body: JsonValue,
     cause: Throwable?,
-) : EInvoiceServiceException("$statusCode: $body", cause) {
+) :
+    EInvoiceServiceException(
+        "$statusCode: ${if (body.isMissing()) "Unknown" else jsonMapper().writeValueAsString(body)}",
+        cause,
+    ) {
 
     override fun statusCode(): Int = statusCode
 

@@ -52,14 +52,32 @@ private constructor(
      */
     fun total(): Optional<Long> = response._total().getOptional("total")
 
+    /**
+     * Delegates to [PaginatedDocumentResponse], but gracefully handles missing data.
+     *
+     * @see PaginatedDocumentResponse.pages
+     */
+    fun pages(): Optional<Long> = response._pages().getOptional("pages")
+
+    /**
+     * Delegates to [PaginatedDocumentResponse], but gracefully handles missing data.
+     *
+     * @see PaginatedDocumentResponse.hasNextPage
+     */
+    fun hasNextPageField(): Optional<Boolean> = response._hasNextPage().getOptional("has_next_page")
+
     override fun hasNextPage(): Boolean {
         if (items().isEmpty()) {
             return false
         }
 
+        hasNextPageField().getOrNull()?.let {
+            return it
+        }
+
         val pageNumber = page().getOrDefault(1)
-        val pageCount = total().getOrDefault(Long.MAX_VALUE)
-        return pageNumber < pageCount
+        val pageCount = pages().getOrNull()
+        return pageCount == null || pageNumber < pageCount
     }
 
     fun nextPageParams(): InboxListInvoicesParams {
