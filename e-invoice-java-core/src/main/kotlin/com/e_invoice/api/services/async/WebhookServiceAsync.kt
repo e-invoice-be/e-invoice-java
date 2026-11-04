@@ -10,7 +10,11 @@ import com.e_invoice.api.models.webhooks.WebhookDeleteParams
 import com.e_invoice.api.models.webhooks.WebhookDeleteResponse
 import com.e_invoice.api.models.webhooks.WebhookListParams
 import com.e_invoice.api.models.webhooks.WebhookResponse
+import com.e_invoice.api.models.webhooks.WebhookRetrieveHistoryParams
+import com.e_invoice.api.models.webhooks.WebhookRetrieveHistoryResponse
 import com.e_invoice.api.models.webhooks.WebhookRetrieveParams
+import com.e_invoice.api.models.webhooks.WebhookTestParams
+import com.e_invoice.api.models.webhooks.WebhookTestResponse
 import com.e_invoice.api.models.webhooks.WebhookUpdateParams
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
@@ -161,6 +165,66 @@ interface WebhookServiceAsync {
         requestOptions: RequestOptions,
     ): CompletableFuture<WebhookDeleteResponse> =
         delete(webhookId, WebhookDeleteParams.none(), requestOptions)
+
+    /** Get the history of a webhook */
+    fun retrieveHistory(webhookId: String): CompletableFuture<WebhookRetrieveHistoryResponse> =
+        retrieveHistory(webhookId, WebhookRetrieveHistoryParams.none())
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        webhookId: String,
+        params: WebhookRetrieveHistoryParams = WebhookRetrieveHistoryParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<WebhookRetrieveHistoryResponse> =
+        retrieveHistory(params.toBuilder().webhookId(webhookId).build(), requestOptions)
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        webhookId: String,
+        params: WebhookRetrieveHistoryParams = WebhookRetrieveHistoryParams.none(),
+    ): CompletableFuture<WebhookRetrieveHistoryResponse> =
+        retrieveHistory(webhookId, params, RequestOptions.none())
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        params: WebhookRetrieveHistoryParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<WebhookRetrieveHistoryResponse>
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        params: WebhookRetrieveHistoryParams
+    ): CompletableFuture<WebhookRetrieveHistoryResponse> =
+        retrieveHistory(params, RequestOptions.none())
+
+    /** @see retrieveHistory */
+    fun retrieveHistory(
+        webhookId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<WebhookRetrieveHistoryResponse> =
+        retrieveHistory(webhookId, WebhookRetrieveHistoryParams.none(), requestOptions)
+
+    /** Send a test event to a webhook for testing and debugging purposes */
+    fun test(webhookId: String, params: WebhookTestParams): CompletableFuture<WebhookTestResponse> =
+        test(webhookId, params, RequestOptions.none())
+
+    /** @see test */
+    fun test(
+        webhookId: String,
+        params: WebhookTestParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<WebhookTestResponse> =
+        test(params.toBuilder().webhookId(webhookId).build(), requestOptions)
+
+    /** @see test */
+    fun test(params: WebhookTestParams): CompletableFuture<WebhookTestResponse> =
+        test(params, RequestOptions.none())
+
+    /** @see test */
+    fun test(
+        params: WebhookTestParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<WebhookTestResponse>
 
     /**
      * A view of [WebhookServiceAsync] that provides access to raw HTTP responses for each method.
@@ -338,5 +402,78 @@ interface WebhookServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<WebhookDeleteResponse>> =
             delete(webhookId, WebhookDeleteParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/webhooks/{webhook_id}/history`, but is
+         * otherwise the same as [WebhookServiceAsync.retrieveHistory].
+         */
+        fun retrieveHistory(
+            webhookId: String
+        ): CompletableFuture<HttpResponseFor<WebhookRetrieveHistoryResponse>> =
+            retrieveHistory(webhookId, WebhookRetrieveHistoryParams.none())
+
+        /** @see retrieveHistory */
+        fun retrieveHistory(
+            webhookId: String,
+            params: WebhookRetrieveHistoryParams = WebhookRetrieveHistoryParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<WebhookRetrieveHistoryResponse>> =
+            retrieveHistory(params.toBuilder().webhookId(webhookId).build(), requestOptions)
+
+        /** @see retrieveHistory */
+        fun retrieveHistory(
+            webhookId: String,
+            params: WebhookRetrieveHistoryParams = WebhookRetrieveHistoryParams.none(),
+        ): CompletableFuture<HttpResponseFor<WebhookRetrieveHistoryResponse>> =
+            retrieveHistory(webhookId, params, RequestOptions.none())
+
+        /** @see retrieveHistory */
+        fun retrieveHistory(
+            params: WebhookRetrieveHistoryParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<WebhookRetrieveHistoryResponse>>
+
+        /** @see retrieveHistory */
+        fun retrieveHistory(
+            params: WebhookRetrieveHistoryParams
+        ): CompletableFuture<HttpResponseFor<WebhookRetrieveHistoryResponse>> =
+            retrieveHistory(params, RequestOptions.none())
+
+        /** @see retrieveHistory */
+        fun retrieveHistory(
+            webhookId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<WebhookRetrieveHistoryResponse>> =
+            retrieveHistory(webhookId, WebhookRetrieveHistoryParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `post /api/webhooks/{webhook_id}/test`, but is otherwise
+         * the same as [WebhookServiceAsync.test].
+         */
+        fun test(
+            webhookId: String,
+            params: WebhookTestParams,
+        ): CompletableFuture<HttpResponseFor<WebhookTestResponse>> =
+            test(webhookId, params, RequestOptions.none())
+
+        /** @see test */
+        fun test(
+            webhookId: String,
+            params: WebhookTestParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<WebhookTestResponse>> =
+            test(params.toBuilder().webhookId(webhookId).build(), requestOptions)
+
+        /** @see test */
+        fun test(
+            params: WebhookTestParams
+        ): CompletableFuture<HttpResponseFor<WebhookTestResponse>> =
+            test(params, RequestOptions.none())
+
+        /** @see test */
+        fun test(
+            params: WebhookTestParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<WebhookTestResponse>>
     }
 }
