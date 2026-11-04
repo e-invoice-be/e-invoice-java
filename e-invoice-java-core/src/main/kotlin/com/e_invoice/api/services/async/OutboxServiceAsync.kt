@@ -29,27 +29,38 @@ interface OutboxServiceAsync {
     /**
      * Retrieve a paginated list of draft documents with filtering options including state and text
      * search.
+     *
+     * @deprecated This endpoint is deprecated by the API. Use `drafts().list()` on the client (`GET
+     *   /api/drafts/`) instead.
      */
-    @Deprecated("deprecated")
+    @Deprecated(
+        "`GET /api/outbox/drafts` is deprecated. Use `drafts().list()` on the client (`GET /api/drafts/`) instead."
+    )
     fun listDraftDocuments(): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
         listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
     /** @see listDraftDocuments */
-    @Deprecated("deprecated")
+    @Deprecated(
+        "`GET /api/outbox/drafts` is deprecated. Use `drafts().list()` on the client (`GET /api/drafts/`) instead."
+    )
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
         requestOptions: RequestOptions = RequestOptions.none(),
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync>
 
     /** @see listDraftDocuments */
-    @Deprecated("deprecated")
+    @Deprecated(
+        "`GET /api/outbox/drafts` is deprecated. Use `drafts().list()` on the client (`GET /api/drafts/`) instead."
+    )
     fun listDraftDocuments(
         params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
         listDraftDocuments(params, RequestOptions.none())
 
     /** @see listDraftDocuments */
-    @Deprecated("deprecated")
+    @Deprecated(
+        "`GET /api/outbox/drafts` is deprecated. Use `drafts().list()` on the client (`GET /api/drafts/`) instead."
+    )
     fun listDraftDocuments(
         requestOptions: RequestOptions
     ): CompletableFuture<OutboxListDraftDocumentsPageAsync> =
@@ -98,27 +109,35 @@ interface OutboxServiceAsync {
          * Returns a raw HTTP response for `get /api/outbox/drafts`, but is otherwise the same as
          * [OutboxServiceAsync.listDraftDocuments].
          */
-        @Deprecated("deprecated")
+        @Deprecated(
+            "`GET /api/outbox/drafts` is deprecated. Use `drafts().list()` on the client (`GET /api/drafts/`) instead."
+        )
         fun listDraftDocuments():
             CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =
             listDraftDocuments(OutboxListDraftDocumentsParams.none())
 
         /** @see listDraftDocuments */
-        @Deprecated("deprecated")
+        @Deprecated(
+            "`GET /api/outbox/drafts` is deprecated. Use `drafts().list()` on the client (`GET /api/drafts/`) instead."
+        )
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none(),
             requestOptions: RequestOptions = RequestOptions.none(),
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>>
 
         /** @see listDraftDocuments */
-        @Deprecated("deprecated")
+        @Deprecated(
+            "`GET /api/outbox/drafts` is deprecated. Use `drafts().list()` on the client (`GET /api/drafts/`) instead."
+        )
         fun listDraftDocuments(
             params: OutboxListDraftDocumentsParams = OutboxListDraftDocumentsParams.none()
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =
             listDraftDocuments(params, RequestOptions.none())
 
         /** @see listDraftDocuments */
-        @Deprecated("deprecated")
+        @Deprecated(
+            "`GET /api/outbox/drafts` is deprecated. Use `drafts().list()` on the client (`GET /api/drafts/`) instead."
+        )
         fun listDraftDocuments(
             requestOptions: RequestOptions
         ): CompletableFuture<HttpResponseFor<OutboxListDraftDocumentsPageAsync>> =
