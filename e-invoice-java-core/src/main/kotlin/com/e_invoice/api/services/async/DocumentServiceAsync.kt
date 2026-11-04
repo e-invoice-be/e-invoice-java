@@ -11,9 +11,13 @@ import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse
 import com.e_invoice.api.models.documents.DocumentCreateParams
 import com.e_invoice.api.models.documents.DocumentDeleteParams
 import com.e_invoice.api.models.documents.DocumentDeleteResponse
+import com.e_invoice.api.models.documents.DocumentLifecycle
 import com.e_invoice.api.models.documents.DocumentResponse
+import com.e_invoice.api.models.documents.DocumentRetrieveLifecycleParams
 import com.e_invoice.api.models.documents.DocumentRetrieveParams
+import com.e_invoice.api.models.documents.DocumentRetrieveTimelineParams
 import com.e_invoice.api.models.documents.DocumentSendParams
+import com.e_invoice.api.models.documents.DocumentTimeline
 import com.e_invoice.api.models.documents.DocumentValidateParams
 import com.e_invoice.api.models.validate.UblDocumentValidation
 import com.e_invoice.api.services.async.documents.AttachmentServiceAsync
@@ -97,6 +101,88 @@ interface DocumentServiceAsync {
         requestOptions: RequestOptions,
     ): CompletableFuture<DocumentResponse> =
         retrieve(documentId, DocumentRetrieveParams.none(), requestOptions)
+
+    /**
+     * Get the timeline of events for an invoice or credit note, including creation, validation,
+     * transmission, and delivery events
+     */
+    fun retrieveTimeline(documentId: String): CompletableFuture<DocumentTimeline> =
+        retrieveTimeline(documentId, DocumentRetrieveTimelineParams.none())
+
+    /** @see retrieveTimeline */
+    fun retrieveTimeline(
+        documentId: String,
+        params: DocumentRetrieveTimelineParams = DocumentRetrieveTimelineParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentTimeline> =
+        retrieveTimeline(params.toBuilder().documentId(documentId).build(), requestOptions)
+
+    /** @see retrieveTimeline */
+    fun retrieveTimeline(
+        documentId: String,
+        params: DocumentRetrieveTimelineParams = DocumentRetrieveTimelineParams.none(),
+    ): CompletableFuture<DocumentTimeline> =
+        retrieveTimeline(documentId, params, RequestOptions.none())
+
+    /** @see retrieveTimeline */
+    fun retrieveTimeline(
+        params: DocumentRetrieveTimelineParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentTimeline>
+
+    /** @see retrieveTimeline */
+    fun retrieveTimeline(
+        params: DocumentRetrieveTimelineParams
+    ): CompletableFuture<DocumentTimeline> = retrieveTimeline(params, RequestOptions.none())
+
+    /** @see retrieveTimeline */
+    fun retrieveTimeline(
+        documentId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<DocumentTimeline> =
+        retrieveTimeline(documentId, DocumentRetrieveTimelineParams.none(), requestOptions)
+
+    /**
+     * Get the lifecycle events stated about an invoice or credit note after creation (Peppol
+     * Message Level and Invoice Responses, partner status events), oldest first. Each event carries
+     * a route-agnostic canonical status next to the untouched native code of its source; native
+     * codes without a canonical equivalent have canonical_status null.
+     */
+    fun retrieveLifecycle(documentId: String): CompletableFuture<DocumentLifecycle> =
+        retrieveLifecycle(documentId, DocumentRetrieveLifecycleParams.none())
+
+    /** @see retrieveLifecycle */
+    fun retrieveLifecycle(
+        documentId: String,
+        params: DocumentRetrieveLifecycleParams = DocumentRetrieveLifecycleParams.none(),
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentLifecycle> =
+        retrieveLifecycle(params.toBuilder().documentId(documentId).build(), requestOptions)
+
+    /** @see retrieveLifecycle */
+    fun retrieveLifecycle(
+        documentId: String,
+        params: DocumentRetrieveLifecycleParams = DocumentRetrieveLifecycleParams.none(),
+    ): CompletableFuture<DocumentLifecycle> =
+        retrieveLifecycle(documentId, params, RequestOptions.none())
+
+    /** @see retrieveLifecycle */
+    fun retrieveLifecycle(
+        params: DocumentRetrieveLifecycleParams,
+        requestOptions: RequestOptions = RequestOptions.none(),
+    ): CompletableFuture<DocumentLifecycle>
+
+    /** @see retrieveLifecycle */
+    fun retrieveLifecycle(
+        params: DocumentRetrieveLifecycleParams
+    ): CompletableFuture<DocumentLifecycle> = retrieveLifecycle(params, RequestOptions.none())
+
+    /** @see retrieveLifecycle */
+    fun retrieveLifecycle(
+        documentId: String,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<DocumentLifecycle> =
+        retrieveLifecycle(documentId, DocumentRetrieveLifecycleParams.none(), requestOptions)
 
     /** Delete an invoice or credit note */
     fun delete(documentId: String): CompletableFuture<DocumentDeleteResponse> =
@@ -316,6 +402,92 @@ interface DocumentServiceAsync {
             requestOptions: RequestOptions,
         ): CompletableFuture<HttpResponseFor<DocumentResponse>> =
             retrieve(documentId, DocumentRetrieveParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/documents/{document_id}/timeline`, but is
+         * otherwise the same as [DocumentServiceAsync.retrieveTimeline].
+         */
+        fun retrieveTimeline(
+            documentId: String
+        ): CompletableFuture<HttpResponseFor<DocumentTimeline>> =
+            retrieveTimeline(documentId, DocumentRetrieveTimelineParams.none())
+
+        /** @see retrieveTimeline */
+        fun retrieveTimeline(
+            documentId: String,
+            params: DocumentRetrieveTimelineParams = DocumentRetrieveTimelineParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentTimeline>> =
+            retrieveTimeline(params.toBuilder().documentId(documentId).build(), requestOptions)
+
+        /** @see retrieveTimeline */
+        fun retrieveTimeline(
+            documentId: String,
+            params: DocumentRetrieveTimelineParams = DocumentRetrieveTimelineParams.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentTimeline>> =
+            retrieveTimeline(documentId, params, RequestOptions.none())
+
+        /** @see retrieveTimeline */
+        fun retrieveTimeline(
+            params: DocumentRetrieveTimelineParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentTimeline>>
+
+        /** @see retrieveTimeline */
+        fun retrieveTimeline(
+            params: DocumentRetrieveTimelineParams
+        ): CompletableFuture<HttpResponseFor<DocumentTimeline>> =
+            retrieveTimeline(params, RequestOptions.none())
+
+        /** @see retrieveTimeline */
+        fun retrieveTimeline(
+            documentId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DocumentTimeline>> =
+            retrieveTimeline(documentId, DocumentRetrieveTimelineParams.none(), requestOptions)
+
+        /**
+         * Returns a raw HTTP response for `get /api/documents/{document_id}/lifecycle`, but is
+         * otherwise the same as [DocumentServiceAsync.retrieveLifecycle].
+         */
+        fun retrieveLifecycle(
+            documentId: String
+        ): CompletableFuture<HttpResponseFor<DocumentLifecycle>> =
+            retrieveLifecycle(documentId, DocumentRetrieveLifecycleParams.none())
+
+        /** @see retrieveLifecycle */
+        fun retrieveLifecycle(
+            documentId: String,
+            params: DocumentRetrieveLifecycleParams = DocumentRetrieveLifecycleParams.none(),
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentLifecycle>> =
+            retrieveLifecycle(params.toBuilder().documentId(documentId).build(), requestOptions)
+
+        /** @see retrieveLifecycle */
+        fun retrieveLifecycle(
+            documentId: String,
+            params: DocumentRetrieveLifecycleParams = DocumentRetrieveLifecycleParams.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentLifecycle>> =
+            retrieveLifecycle(documentId, params, RequestOptions.none())
+
+        /** @see retrieveLifecycle */
+        fun retrieveLifecycle(
+            params: DocumentRetrieveLifecycleParams,
+            requestOptions: RequestOptions = RequestOptions.none(),
+        ): CompletableFuture<HttpResponseFor<DocumentLifecycle>>
+
+        /** @see retrieveLifecycle */
+        fun retrieveLifecycle(
+            params: DocumentRetrieveLifecycleParams
+        ): CompletableFuture<HttpResponseFor<DocumentLifecycle>> =
+            retrieveLifecycle(params, RequestOptions.none())
+
+        /** @see retrieveLifecycle */
+        fun retrieveLifecycle(
+            documentId: String,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DocumentLifecycle>> =
+            retrieveLifecycle(documentId, DocumentRetrieveLifecycleParams.none(), requestOptions)
 
         /**
          * Returns a raw HTTP response for `delete /api/documents/{document_id}`, but is otherwise

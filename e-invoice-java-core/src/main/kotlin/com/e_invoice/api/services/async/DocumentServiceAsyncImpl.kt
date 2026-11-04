@@ -22,9 +22,13 @@ import com.e_invoice.api.models.documents.DocumentCreateFromPdfResponse
 import com.e_invoice.api.models.documents.DocumentCreateParams
 import com.e_invoice.api.models.documents.DocumentDeleteParams
 import com.e_invoice.api.models.documents.DocumentDeleteResponse
+import com.e_invoice.api.models.documents.DocumentLifecycle
 import com.e_invoice.api.models.documents.DocumentResponse
+import com.e_invoice.api.models.documents.DocumentRetrieveLifecycleParams
 import com.e_invoice.api.models.documents.DocumentRetrieveParams
+import com.e_invoice.api.models.documents.DocumentRetrieveTimelineParams
 import com.e_invoice.api.models.documents.DocumentSendParams
+import com.e_invoice.api.models.documents.DocumentTimeline
 import com.e_invoice.api.models.documents.DocumentValidateParams
 import com.e_invoice.api.models.validate.UblDocumentValidation
 import com.e_invoice.api.services.async.documents.AttachmentServiceAsync
@@ -70,6 +74,20 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
     ): CompletableFuture<DocumentResponse> =
         // get /api/documents/{document_id}
         withRawResponse().retrieve(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveTimeline(
+        params: DocumentRetrieveTimelineParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<DocumentTimeline> =
+        // get /api/documents/{document_id}/timeline
+        withRawResponse().retrieveTimeline(params, requestOptions).thenApply { it.parse() }
+
+    override fun retrieveLifecycle(
+        params: DocumentRetrieveLifecycleParams,
+        requestOptions: RequestOptions,
+    ): CompletableFuture<DocumentLifecycle> =
+        // get /api/documents/{document_id}/lifecycle
+        withRawResponse().retrieveLifecycle(params, requestOptions).thenApply { it.parse() }
 
     override fun delete(
         params: DocumentDeleteParams,
@@ -179,6 +197,72 @@ class DocumentServiceAsyncImpl internal constructor(private val clientOptions: C
                     errorHandler.handle(response).parseable {
                         response
                             .use { retrieveHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveTimelineHandler: Handler<DocumentTimeline> =
+            jsonHandler<DocumentTimeline>(clientOptions.jsonMapper)
+
+        override fun retrieveTimeline(
+            params: DocumentRetrieveTimelineParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DocumentTimeline>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("documentId", params.documentId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", params._pathParam(0), "timeline")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { retrieveTimelineHandler.handle(it) }
+                            .also {
+                                if (requestOptions.responseValidation!!) {
+                                    it.validate()
+                                }
+                            }
+                    }
+                }
+        }
+
+        private val retrieveLifecycleHandler: Handler<DocumentLifecycle> =
+            jsonHandler<DocumentLifecycle>(clientOptions.jsonMapper)
+
+        override fun retrieveLifecycle(
+            params: DocumentRetrieveLifecycleParams,
+            requestOptions: RequestOptions,
+        ): CompletableFuture<HttpResponseFor<DocumentLifecycle>> {
+            // We check here instead of in the params builder because this can be specified
+            // positionally or in the params class.
+            checkRequired("documentId", params.documentId().getOrNull())
+            val request =
+                HttpRequest.builder()
+                    .method(HttpMethod.GET)
+                    .baseUrl(clientOptions.baseUrl())
+                    .addPathSegments("api", "documents", params._pathParam(0), "lifecycle")
+                    .build()
+                    .prepareAsync(clientOptions, params)
+            val requestOptions = requestOptions.applyDefaults(RequestOptions.from(clientOptions))
+            return request
+                .thenComposeAsync { clientOptions.httpClient.executeAsync(it, requestOptions) }
+                .thenApply { response ->
+                    errorHandler.handle(response).parseable {
+                        response
+                            .use { retrieveLifecycleHandler.handle(it) }
                             .also {
                                 if (requestOptions.responseValidation!!) {
                                     it.validate()
