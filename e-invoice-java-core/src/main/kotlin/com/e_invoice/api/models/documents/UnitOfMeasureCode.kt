@@ -2084,7 +2084,2721 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
 
         @JvmField val H87 = of("H87")
 
+        @JvmField val AA = of("AA")
+
+        @JvmField val AB = of("AB")
+
+        @JvmField val ACT = of("ACT")
+
+        @JvmField val AD = of("AD")
+
+        @JvmField val AE = of("AE")
+
+        @JvmField val AL = of("AL")
+
+        @JvmField val AMP = of("AMP")
+
+        @JvmField val APZ = of("APZ")
+
+        @JvmField val AQ = of("AQ")
+
+        @JvmField val AS = of("AS")
+
+        @JvmField val ASM = of("ASM")
+
+        @JvmField val ASU = of("ASU")
+
+        @JvmField val ATM = of("ATM")
+
+        @JvmField val AWG = of("AWG")
+
+        @JvmField val AY = of("AY")
+
+        @JvmField val AZ = of("AZ")
+
+        @JvmField val B10 = of("B10")
+
+        @JvmField val BP = of("BP")
+
+        @JvmField val BPM = of("BPM")
+
+        @JvmField val BQL = of("BQL")
+
+        @JvmField val BTU = of("BTU")
+
+        @JvmField val C3 = of("C3")
+
+        @JvmField val C7 = of("C7")
+
+        @JvmField val C8 = of("C8")
+
+        @JvmField val C9 = of("C9")
+
+        @JvmField val CCT = of("CCT")
+
+        @JvmField val CEN = of("CEN")
+
+        @JvmField val CG = of("CG")
+
+        @JvmField val CGM = of("CGM")
+
+        @JvmField val CKG = of("CKG")
+
+        @JvmField val CLF = of("CLF")
+
+        @JvmField val CTM = of("CTM")
+
+        @JvmField val D03 = of("D03")
+
+        @JvmField val D04 = of("D04")
+
+        @JvmField val D1 = of("D1")
+
+        @JvmField val D10 = of("D10")
+
+        @JvmField val D11 = of("D11")
+
+        @JvmField val D12 = of("D12")
+
+        @JvmField val D13 = of("D13")
+
+        @JvmField val D15 = of("D15")
+
+        @JvmField val D16 = of("D16")
+
+        @JvmField val D17 = of("D17")
+
+        @JvmField val D18 = of("D18")
+
+        @JvmField val D19 = of("D19")
+
+        @JvmField val D2 = of("D2")
+
+        @JvmField val D20 = of("D20")
+
+        @JvmField val D21 = of("D21")
+
+        @JvmField val D22 = of("D22")
+
+        @JvmField val D23 = of("D23")
+
+        @JvmField val D24 = of("D24")
+
+        @JvmField val D25 = of("D25")
+
+        @JvmField val D26 = of("D26")
+
+        @JvmField val D27 = of("D27")
+
+        @JvmField val D29 = of("D29")
+
+        @JvmField val D30 = of("D30")
+
+        @JvmField val D31 = of("D31")
+
+        @JvmField val D32 = of("D32")
+
+        @JvmField val D33 = of("D33")
+
+        @JvmField val D34 = of("D34")
+
+        @JvmField val D36 = of("D36")
+
+        @JvmField val D41 = of("D41")
+
+        @JvmField val D42 = of("D42")
+
+        @JvmField val D43 = of("D43")
+
+        @JvmField val D44 = of("D44")
+
+        @JvmField val D45 = of("D45")
+
+        @JvmField val D46 = of("D46")
+
+        @JvmField val D47 = of("D47")
+
+        @JvmField val D48 = of("D48")
+
+        @JvmField val D49 = of("D49")
+
+        @JvmField val D5 = of("D5")
+
+        @JvmField val D50 = of("D50")
+
+        @JvmField val D51 = of("D51")
+
+        @JvmField val D52 = of("D52")
+
+        @JvmField val D53 = of("D53")
+
+        @JvmField val D54 = of("D54")
+
+        @JvmField val D55 = of("D55")
+
+        @JvmField val D56 = of("D56")
+
+        @JvmField val D57 = of("D57")
+
+        @JvmField val D58 = of("D58")
+
+        @JvmField val D59 = of("D59")
+
+        @JvmField val D6 = of("D6")
+
+        @JvmField val D60 = of("D60")
+
+        @JvmField val D61 = of("D61")
+
+        @JvmField val D62 = of("D62")
+
+        @JvmField val D63 = of("D63")
+
+        @JvmField val D65 = of("D65")
+
+        @JvmField val D68 = of("D68")
+
+        @JvmField val D69 = of("D69")
+
+        @JvmField val D73 = of("D73")
+
+        @JvmField val D74 = of("D74")
+
+        @JvmField val D77 = of("D77")
+
+        @JvmField val D78 = of("D78")
+
+        @JvmField val D80 = of("D80")
+
+        @JvmField val D81 = of("D81")
+
+        @JvmField val D82 = of("D82")
+
+        @JvmField val D83 = of("D83")
+
+        @JvmField val D85 = of("D85")
+
+        @JvmField val D86 = of("D86")
+
+        @JvmField val D87 = of("D87")
+
+        @JvmField val D88 = of("D88")
+
+        @JvmField val D89 = of("D89")
+
+        @JvmField val D91 = of("D91")
+
+        @JvmField val D93 = of("D93")
+
+        @JvmField val D94 = of("D94")
+
+        @JvmField val D95 = of("D95")
+
+        @JvmField val DAA = of("DAA")
+
+        @JvmField val DAD = of("DAD")
+
+        @JvmField val DBM = of("DBM")
+
+        @JvmField val DBW = of("DBW")
+
+        @JvmField val DEC = of("DEC")
+
+        @JvmField val DJ = of("DJ")
+
+        @JvmField val DMA = of("DMA")
+
+        @JvmField val DMO = of("DMO")
+
+        @JvmField val DN = of("DN")
+
+        @JvmField val DPR = of("DPR")
+
+        @JvmField val DRI = of("DRI")
+
+        @JvmField val DRL = of("DRL")
+
+        @JvmField val DT = of("DT")
+
+        @JvmField val DTN = of("DTN")
+
+        @JvmField val DWT = of("DWT")
+
+        @JvmField val E08 = of("E08")
+
+        @JvmField val E15 = of("E15")
+
+        @JvmField val E16 = of("E16")
+
+        @JvmField val E18 = of("E18")
+
+        @JvmField val E19 = of("E19")
+
+        @JvmField val E21 = of("E21")
+
+        @JvmField val E22 = of("E22")
+
+        @JvmField val E28 = of("E28")
+
+        @JvmField val E30 = of("E30")
+
+        @JvmField val E32 = of("E32")
+
+        @JvmField val E33 = of("E33")
+
+        @JvmField val E4 = of("E4")
+
+        @JvmField val E59 = of("E59")
+
+        @JvmField val E61 = of("E61")
+
+        @JvmField val E63 = of("E63")
+
+        @JvmField val E64 = of("E64")
+
+        @JvmField val E68 = of("E68")
+
+        @JvmField val E72 = of("E72")
+
+        @JvmField val E74 = of("E74")
+
+        @JvmField val E77 = of("E77")
+
+        @JvmField val E78 = of("E78")
+
+        @JvmField val E79 = of("E79")
+
+        @JvmField val E80 = of("E80")
+
+        @JvmField val E81 = of("E81")
+
+        @JvmField val E82 = of("E82")
+
+        @JvmField val E83 = of("E83")
+
+        @JvmField val E84 = of("E84")
+
+        @JvmField val E85 = of("E85")
+
+        @JvmField val E86 = of("E86")
+
+        @JvmField val E87 = of("E87")
+
+        @JvmField val E88 = of("E88")
+
+        @JvmField val E89 = of("E89")
+
+        @JvmField val E90 = of("E90")
+
+        @JvmField val E91 = of("E91")
+
+        @JvmField val E92 = of("E92")
+
+        @JvmField val E93 = of("E93")
+
+        @JvmField val E94 = of("E94")
+
+        @JvmField val E95 = of("E95")
+
+        @JvmField val E96 = of("E96")
+
+        @JvmField val E97 = of("E97")
+
+        @JvmField val E98 = of("E98")
+
+        @JvmField val E99 = of("E99")
+
+        @JvmField val EB = of("EB")
+
+        @JvmField val EQ = of("EQ")
+
+        @JvmField val F01 = of("F01")
+
+        @JvmField val F02 = of("F02")
+
+        @JvmField val F03 = of("F03")
+
+        @JvmField val F04 = of("F04")
+
+        @JvmField val F05 = of("F05")
+
+        @JvmField val F06 = of("F06")
+
+        @JvmField val F07 = of("F07")
+
+        @JvmField val F08 = of("F08")
+
+        @JvmField val F10 = of("F10")
+
+        @JvmField val F11 = of("F11")
+
+        @JvmField val F12 = of("F12")
+
+        @JvmField val F13 = of("F13")
+
+        @JvmField val F14 = of("F14")
+
+        @JvmField val F15 = of("F15")
+
+        @JvmField val F16 = of("F16")
+
+        @JvmField val F17 = of("F17")
+
+        @JvmField val F18 = of("F18")
+
+        @JvmField val F19 = of("F19")
+
+        @JvmField val F20 = of("F20")
+
+        @JvmField val F21 = of("F21")
+
+        @JvmField val F22 = of("F22")
+
+        @JvmField val F23 = of("F23")
+
+        @JvmField val F24 = of("F24")
+
+        @JvmField val F25 = of("F25")
+
+        @JvmField val F26 = of("F26")
+
+        @JvmField val F27 = of("F27")
+
+        @JvmField val F28 = of("F28")
+
+        @JvmField val F29 = of("F29")
+
+        @JvmField val F30 = of("F30")
+
+        @JvmField val F31 = of("F31")
+
+        @JvmField val F32 = of("F32")
+
+        @JvmField val F33 = of("F33")
+
+        @JvmField val F34 = of("F34")
+
+        @JvmField val F35 = of("F35")
+
+        @JvmField val F36 = of("F36")
+
+        @JvmField val F37 = of("F37")
+
+        @JvmField val F38 = of("F38")
+
+        @JvmField val F39 = of("F39")
+
+        @JvmField val F40 = of("F40")
+
+        @JvmField val F41 = of("F41")
+
+        @JvmField val F42 = of("F42")
+
+        @JvmField val F43 = of("F43")
+
+        @JvmField val F44 = of("F44")
+
+        @JvmField val F45 = of("F45")
+
+        @JvmField val F46 = of("F46")
+
+        @JvmField val F47 = of("F47")
+
+        @JvmField val F48 = of("F48")
+
+        @JvmField val F49 = of("F49")
+
+        @JvmField val F50 = of("F50")
+
+        @JvmField val F51 = of("F51")
+
+        @JvmField val F52 = of("F52")
+
+        @JvmField val F53 = of("F53")
+
+        @JvmField val F54 = of("F54")
+
+        @JvmField val F55 = of("F55")
+
+        @JvmField val F56 = of("F56")
+
+        @JvmField val F57 = of("F57")
+
+        @JvmField val F58 = of("F58")
+
+        @JvmField val F59 = of("F59")
+
+        @JvmField val F60 = of("F60")
+
+        @JvmField val F61 = of("F61")
+
+        @JvmField val F62 = of("F62")
+
+        @JvmField val F63 = of("F63")
+
+        @JvmField val F64 = of("F64")
+
+        @JvmField val F65 = of("F65")
+
+        @JvmField val F66 = of("F66")
+
+        @JvmField val F67 = of("F67")
+
+        @JvmField val F68 = of("F68")
+
+        @JvmField val F69 = of("F69")
+
+        @JvmField val F70 = of("F70")
+
+        @JvmField val F71 = of("F71")
+
+        @JvmField val F72 = of("F72")
+
+        @JvmField val F73 = of("F73")
+
+        @JvmField val F74 = of("F74")
+
+        @JvmField val F75 = of("F75")
+
+        @JvmField val F76 = of("F76")
+
+        @JvmField val F77 = of("F77")
+
+        @JvmField val F78 = of("F78")
+
+        @JvmField val F79 = of("F79")
+
+        @JvmField val F80 = of("F80")
+
+        @JvmField val F81 = of("F81")
+
+        @JvmField val F82 = of("F82")
+
+        @JvmField val F83 = of("F83")
+
+        @JvmField val F84 = of("F84")
+
+        @JvmField val F85 = of("F85")
+
+        @JvmField val F86 = of("F86")
+
+        @JvmField val F87 = of("F87")
+
+        @JvmField val F88 = of("F88")
+
+        @JvmField val F89 = of("F89")
+
+        @JvmField val F90 = of("F90")
+
+        @JvmField val F91 = of("F91")
+
+        @JvmField val F92 = of("F92")
+
+        @JvmField val F93 = of("F93")
+
+        @JvmField val F94 = of("F94")
+
+        @JvmField val F95 = of("F95")
+
+        @JvmField val F96 = of("F96")
+
+        @JvmField val F97 = of("F97")
+
+        @JvmField val F98 = of("F98")
+
+        @JvmField val F99 = of("F99")
+
+        @JvmField val FAH = of("FAH")
+
+        @JvmField val FAR = of("FAR")
+
+        @JvmField val FBM = of("FBM")
+
+        @JvmField val FC = of("FC")
+
+        @JvmField val FF = of("FF")
+
+        @JvmField val FH = of("FH")
+
+        @JvmField val FIT = of("FIT")
+
+        @JvmField val FL = of("FL")
+
+        @JvmField val FNU = of("FNU")
+
+        @JvmField val FP = of("FP")
+
+        @JvmField val FR = of("FR")
+
+        @JvmField val FS = of("FS")
+
+        @JvmField val G01 = of("G01")
+
+        @JvmField val G04 = of("G04")
+
+        @JvmField val G05 = of("G05")
+
+        @JvmField val G06 = of("G06")
+
+        @JvmField val G08 = of("G08")
+
+        @JvmField val G09 = of("G09")
+
+        @JvmField val G10 = of("G10")
+
+        @JvmField val G11 = of("G11")
+
+        @JvmField val G12 = of("G12")
+
+        @JvmField val G13 = of("G13")
+
+        @JvmField val G14 = of("G14")
+
+        @JvmField val G15 = of("G15")
+
+        @JvmField val G16 = of("G16")
+
+        @JvmField val G17 = of("G17")
+
+        @JvmField val G18 = of("G18")
+
+        @JvmField val G19 = of("G19")
+
+        @JvmField val G2 = of("G2")
+
+        @JvmField val G20 = of("G20")
+
+        @JvmField val G21 = of("G21")
+
+        @JvmField val G23 = of("G23")
+
+        @JvmField val G24 = of("G24")
+
+        @JvmField val G25 = of("G25")
+
+        @JvmField val G26 = of("G26")
+
+        @JvmField val G27 = of("G27")
+
+        @JvmField val G28 = of("G28")
+
+        @JvmField val G29 = of("G29")
+
+        @JvmField val G3 = of("G3")
+
+        @JvmField val G30 = of("G30")
+
+        @JvmField val G31 = of("G31")
+
+        @JvmField val G32 = of("G32")
+
+        @JvmField val G33 = of("G33")
+
+        @JvmField val G34 = of("G34")
+
+        @JvmField val G35 = of("G35")
+
+        @JvmField val G36 = of("G36")
+
+        @JvmField val G37 = of("G37")
+
+        @JvmField val G38 = of("G38")
+
+        @JvmField val G39 = of("G39")
+
+        @JvmField val G40 = of("G40")
+
+        @JvmField val G41 = of("G41")
+
+        @JvmField val G42 = of("G42")
+
+        @JvmField val G43 = of("G43")
+
+        @JvmField val G44 = of("G44")
+
+        @JvmField val G45 = of("G45")
+
+        @JvmField val G46 = of("G46")
+
+        @JvmField val G47 = of("G47")
+
+        @JvmField val G48 = of("G48")
+
+        @JvmField val G49 = of("G49")
+
+        @JvmField val G50 = of("G50")
+
+        @JvmField val G51 = of("G51")
+
+        @JvmField val G52 = of("G52")
+
+        @JvmField val G53 = of("G53")
+
+        @JvmField val G54 = of("G54")
+
+        @JvmField val G55 = of("G55")
+
+        @JvmField val G56 = of("G56")
+
+        @JvmField val G57 = of("G57")
+
+        @JvmField val G58 = of("G58")
+
+        @JvmField val G59 = of("G59")
+
+        @JvmField val G60 = of("G60")
+
+        @JvmField val G61 = of("G61")
+
+        @JvmField val G62 = of("G62")
+
+        @JvmField val G63 = of("G63")
+
+        @JvmField val G64 = of("G64")
+
+        @JvmField val G65 = of("G65")
+
+        @JvmField val G66 = of("G66")
+
+        @JvmField val G67 = of("G67")
+
+        @JvmField val G68 = of("G68")
+
+        @JvmField val G69 = of("G69")
+
+        @JvmField val G70 = of("G70")
+
+        @JvmField val G71 = of("G71")
+
+        @JvmField val G72 = of("G72")
+
+        @JvmField val G73 = of("G73")
+
+        @JvmField val G74 = of("G74")
+
+        @JvmField val G75 = of("G75")
+
+        @JvmField val G76 = of("G76")
+
+        @JvmField val G77 = of("G77")
+
+        @JvmField val G78 = of("G78")
+
+        @JvmField val G79 = of("G79")
+
+        @JvmField val G80 = of("G80")
+
+        @JvmField val G81 = of("G81")
+
+        @JvmField val G82 = of("G82")
+
+        @JvmField val G83 = of("G83")
+
+        @JvmField val G84 = of("G84")
+
+        @JvmField val G85 = of("G85")
+
+        @JvmField val G86 = of("G86")
+
+        @JvmField val G87 = of("G87")
+
+        @JvmField val G88 = of("G88")
+
+        @JvmField val G89 = of("G89")
+
+        @JvmField val G90 = of("G90")
+
+        @JvmField val G91 = of("G91")
+
+        @JvmField val G92 = of("G92")
+
+        @JvmField val G93 = of("G93")
+
+        @JvmField val G94 = of("G94")
+
+        @JvmField val G95 = of("G95")
+
+        @JvmField val G96 = of("G96")
+
+        @JvmField val G97 = of("G97")
+
+        @JvmField val G98 = of("G98")
+
+        @JvmField val G99 = of("G99")
+
+        @JvmField val GB = of("GB")
+
+        @JvmField val GBQ = of("GBQ")
+
+        @JvmField val GDW = of("GDW")
+
+        @JvmField val GE = of("GE")
+
+        @JvmField val GF = of("GF")
+
+        @JvmField val GFI = of("GFI")
+
+        @JvmField val GGR = of("GGR")
+
+        @JvmField val GIA = of("GIA")
+
+        @JvmField val GIC = of("GIC")
+
+        @JvmField val GII = of("GII")
+
+        @JvmField val GIP = of("GIP")
+
+        @JvmField val GJ = of("GJ")
+
+        @JvmField val GL = of("GL")
+
+        @JvmField val GLD = of("GLD")
+
+        @JvmField val GM = of("GM")
+
+        @JvmField val GO = of("GO")
+
+        @JvmField val GP = of("GP")
+
+        @JvmField val GQ = of("GQ")
+
+        @JvmField val GRN = of("GRN")
+
+        @JvmField val GV = of("GV")
+
+        @JvmField val GWH = of("GWH")
+
+        @JvmField val H03 = of("H03")
+
+        @JvmField val H04 = of("H04")
+
+        @JvmField val H05 = of("H05")
+
+        @JvmField val H06 = of("H06")
+
+        @JvmField val H07 = of("H07")
+
+        @JvmField val H08 = of("H08")
+
+        @JvmField val H09 = of("H09")
+
+        @JvmField val H10 = of("H10")
+
+        @JvmField val H11 = of("H11")
+
+        @JvmField val H12 = of("H12")
+
+        @JvmField val H13 = of("H13")
+
+        @JvmField val H14 = of("H14")
+
+        @JvmField val H15 = of("H15")
+
+        @JvmField val H16 = of("H16")
+
+        @JvmField val H18 = of("H18")
+
+        @JvmField val H19 = of("H19")
+
+        @JvmField val H20 = of("H20")
+
+        @JvmField val H21 = of("H21")
+
+        @JvmField val H22 = of("H22")
+
+        @JvmField val H23 = of("H23")
+
+        @JvmField val H24 = of("H24")
+
+        @JvmField val H25 = of("H25")
+
+        @JvmField val H26 = of("H26")
+
+        @JvmField val H27 = of("H27")
+
+        @JvmField val H28 = of("H28")
+
+        @JvmField val H29 = of("H29")
+
+        @JvmField val H30 = of("H30")
+
+        @JvmField val H31 = of("H31")
+
+        @JvmField val H32 = of("H32")
+
+        @JvmField val H33 = of("H33")
+
+        @JvmField val H34 = of("H34")
+
+        @JvmField val H35 = of("H35")
+
+        @JvmField val H36 = of("H36")
+
+        @JvmField val H37 = of("H37")
+
+        @JvmField val H38 = of("H38")
+
+        @JvmField val H39 = of("H39")
+
+        @JvmField val H40 = of("H40")
+
+        @JvmField val H41 = of("H41")
+
+        @JvmField val H42 = of("H42")
+
+        @JvmField val H43 = of("H43")
+
+        @JvmField val H44 = of("H44")
+
+        @JvmField val H45 = of("H45")
+
+        @JvmField val H46 = of("H46")
+
+        @JvmField val H47 = of("H47")
+
+        @JvmField val H48 = of("H48")
+
+        @JvmField val H49 = of("H49")
+
+        @JvmField val H50 = of("H50")
+
+        @JvmField val H51 = of("H51")
+
+        @JvmField val H52 = of("H52")
+
+        @JvmField val H53 = of("H53")
+
+        @JvmField val H54 = of("H54")
+
+        @JvmField val H55 = of("H55")
+
+        @JvmField val H56 = of("H56")
+
+        @JvmField val H57 = of("H57")
+
+        @JvmField val H58 = of("H58")
+
+        @JvmField val H59 = of("H59")
+
+        @JvmField val H60 = of("H60")
+
+        @JvmField val H61 = of("H61")
+
+        @JvmField val H62 = of("H62")
+
+        @JvmField val H63 = of("H63")
+
+        @JvmField val H64 = of("H64")
+
+        @JvmField val H65 = of("H65")
+
+        @JvmField val H66 = of("H66")
+
+        @JvmField val H67 = of("H67")
+
+        @JvmField val H68 = of("H68")
+
+        @JvmField val H69 = of("H69")
+
+        @JvmField val H70 = of("H70")
+
+        @JvmField val H71 = of("H71")
+
+        @JvmField val H72 = of("H72")
+
+        @JvmField val H73 = of("H73")
+
+        @JvmField val H74 = of("H74")
+
+        @JvmField val H75 = of("H75")
+
+        @JvmField val H76 = of("H76")
+
+        @JvmField val H77 = of("H77")
+
+        @JvmField val H79 = of("H79")
+
+        @JvmField val H80 = of("H80")
+
+        @JvmField val H81 = of("H81")
+
+        @JvmField val H82 = of("H82")
+
+        @JvmField val H83 = of("H83")
+
+        @JvmField val H84 = of("H84")
+
+        @JvmField val H85 = of("H85")
+
+        @JvmField val H88 = of("H88")
+
+        @JvmField val H89 = of("H89")
+
+        @JvmField val H90 = of("H90")
+
+        @JvmField val H91 = of("H91")
+
+        @JvmField val H92 = of("H92")
+
+        @JvmField val H93 = of("H93")
+
+        @JvmField val H94 = of("H94")
+
+        @JvmField val H95 = of("H95")
+
+        @JvmField val H96 = of("H96")
+
+        @JvmField val H98 = of("H98")
+
+        @JvmField val H99 = of("H99")
+
+        @JvmField val HA = of("HA")
+
+        @JvmField val HAD = of("HAD")
+
+        @JvmField val HBA = of("HBA")
+
+        @JvmField val HBX = of("HBX")
+
+        @JvmField val HC = of("HC")
+
+        @JvmField val HDW = of("HDW")
+
+        @JvmField val HEA = of("HEA")
+
+        @JvmField val HGM = of("HGM")
+
+        @JvmField val HH = of("HH")
+
+        @JvmField val HIU = of("HIU")
+
+        @JvmField val HKM = of("HKM")
+
+        @JvmField val HLT = of("HLT")
+
+        @JvmField val HM = of("HM")
+
+        @JvmField val HMO = of("HMO")
+
+        @JvmField val HMQ = of("HMQ")
+
+        @JvmField val HMT = of("HMT")
+
+        @JvmField val HPA = of("HPA")
+
+        @JvmField val HWE = of("HWE")
+
+        @JvmField val IA = of("IA")
+
+        @JvmField val IE = of("IE")
+
+        @JvmField val ISD = of("ISD")
+
+        @JvmField val IU = of("IU")
+
+        @JvmField val IUG = of("IUG")
+
+        @JvmField val IV = of("IV")
+
+        @JvmField val J10 = of("J10")
+
+        @JvmField val J12 = of("J12")
+
+        @JvmField val J13 = of("J13")
+
+        @JvmField val J14 = of("J14")
+
+        @JvmField val J15 = of("J15")
+
+        @JvmField val J16 = of("J16")
+
+        @JvmField val J17 = of("J17")
+
+        @JvmField val J18 = of("J18")
+
+        @JvmField val J19 = of("J19")
+
+        @JvmField val J2 = of("J2")
+
+        @JvmField val J20 = of("J20")
+
+        @JvmField val J21 = of("J21")
+
+        @JvmField val J22 = of("J22")
+
+        @JvmField val J23 = of("J23")
+
+        @JvmField val J24 = of("J24")
+
+        @JvmField val J25 = of("J25")
+
+        @JvmField val J26 = of("J26")
+
+        @JvmField val J27 = of("J27")
+
+        @JvmField val J28 = of("J28")
+
+        @JvmField val J29 = of("J29")
+
+        @JvmField val J30 = of("J30")
+
+        @JvmField val J31 = of("J31")
+
+        @JvmField val J32 = of("J32")
+
+        @JvmField val J33 = of("J33")
+
+        @JvmField val J34 = of("J34")
+
+        @JvmField val J35 = of("J35")
+
+        @JvmField val J36 = of("J36")
+
+        @JvmField val J38 = of("J38")
+
+        @JvmField val J39 = of("J39")
+
+        @JvmField val J40 = of("J40")
+
+        @JvmField val J41 = of("J41")
+
+        @JvmField val J42 = of("J42")
+
+        @JvmField val J43 = of("J43")
+
+        @JvmField val J44 = of("J44")
+
+        @JvmField val J45 = of("J45")
+
+        @JvmField val J46 = of("J46")
+
+        @JvmField val J47 = of("J47")
+
+        @JvmField val J48 = of("J48")
+
+        @JvmField val J49 = of("J49")
+
+        @JvmField val J50 = of("J50")
+
+        @JvmField val J51 = of("J51")
+
+        @JvmField val J52 = of("J52")
+
+        @JvmField val J53 = of("J53")
+
+        @JvmField val J54 = of("J54")
+
+        @JvmField val J55 = of("J55")
+
+        @JvmField val J56 = of("J56")
+
+        @JvmField val J57 = of("J57")
+
+        @JvmField val J58 = of("J58")
+
+        @JvmField val J59 = of("J59")
+
+        @JvmField val J60 = of("J60")
+
+        @JvmField val J61 = of("J61")
+
+        @JvmField val J62 = of("J62")
+
+        @JvmField val J63 = of("J63")
+
+        @JvmField val J64 = of("J64")
+
+        @JvmField val J65 = of("J65")
+
+        @JvmField val J66 = of("J66")
+
+        @JvmField val J67 = of("J67")
+
+        @JvmField val J68 = of("J68")
+
+        @JvmField val J69 = of("J69")
+
+        @JvmField val J70 = of("J70")
+
+        @JvmField val J71 = of("J71")
+
+        @JvmField val J72 = of("J72")
+
+        @JvmField val J73 = of("J73")
+
+        @JvmField val J74 = of("J74")
+
+        @JvmField val J75 = of("J75")
+
+        @JvmField val J76 = of("J76")
+
+        @JvmField val J78 = of("J78")
+
+        @JvmField val J79 = of("J79")
+
+        @JvmField val J81 = of("J81")
+
+        @JvmField val J82 = of("J82")
+
+        @JvmField val J83 = of("J83")
+
+        @JvmField val J84 = of("J84")
+
+        @JvmField val J85 = of("J85")
+
+        @JvmField val J87 = of("J87")
+
+        @JvmField val J90 = of("J90")
+
+        @JvmField val J91 = of("J91")
+
+        @JvmField val J92 = of("J92")
+
+        @JvmField val J93 = of("J93")
+
+        @JvmField val J95 = of("J95")
+
+        @JvmField val J96 = of("J96")
+
+        @JvmField val J97 = of("J97")
+
+        @JvmField val J98 = of("J98")
+
+        @JvmField val J99 = of("J99")
+
+        @JvmField val JE = of("JE")
+
+        @JvmField val JK = of("JK")
+
+        @JvmField val JM = of("JM")
+
+        @JvmField val JNT = of("JNT")
+
+        @JvmField val JOU = of("JOU")
+
+        @JvmField val JPS = of("JPS")
+
+        @JvmField val JWL = of("JWL")
+
+        @JvmField val K1 = of("K1")
+
+        @JvmField val K10 = of("K10")
+
+        @JvmField val K11 = of("K11")
+
+        @JvmField val K12 = of("K12")
+
+        @JvmField val K13 = of("K13")
+
+        @JvmField val K14 = of("K14")
+
+        @JvmField val K15 = of("K15")
+
+        @JvmField val K16 = of("K16")
+
+        @JvmField val K17 = of("K17")
+
+        @JvmField val K18 = of("K18")
+
+        @JvmField val K19 = of("K19")
+
+        @JvmField val K2 = of("K2")
+
+        @JvmField val K20 = of("K20")
+
+        @JvmField val K21 = of("K21")
+
+        @JvmField val K22 = of("K22")
+
+        @JvmField val K23 = of("K23")
+
+        @JvmField val K26 = of("K26")
+
+        @JvmField val K27 = of("K27")
+
+        @JvmField val K28 = of("K28")
+
+        @JvmField val K3 = of("K3")
+
+        @JvmField val K30 = of("K30")
+
+        @JvmField val K31 = of("K31")
+
+        @JvmField val K32 = of("K32")
+
+        @JvmField val K33 = of("K33")
+
+        @JvmField val K34 = of("K34")
+
+        @JvmField val K35 = of("K35")
+
+        @JvmField val K36 = of("K36")
+
+        @JvmField val K37 = of("K37")
+
+        @JvmField val K38 = of("K38")
+
+        @JvmField val K39 = of("K39")
+
+        @JvmField val K40 = of("K40")
+
+        @JvmField val K41 = of("K41")
+
+        @JvmField val K42 = of("K42")
+
+        @JvmField val K43 = of("K43")
+
+        @JvmField val K45 = of("K45")
+
+        @JvmField val K46 = of("K46")
+
+        @JvmField val K47 = of("K47")
+
+        @JvmField val K48 = of("K48")
+
+        @JvmField val K49 = of("K49")
+
+        @JvmField val K50 = of("K50")
+
+        @JvmField val K51 = of("K51")
+
+        @JvmField val K52 = of("K52")
+
+        @JvmField val K53 = of("K53")
+
+        @JvmField val K54 = of("K54")
+
+        @JvmField val K55 = of("K55")
+
+        @JvmField val K58 = of("K58")
+
+        @JvmField val K59 = of("K59")
+
+        @JvmField val K6 = of("K6")
+
+        @JvmField val K60 = of("K60")
+
+        @JvmField val K61 = of("K61")
+
+        @JvmField val K62 = of("K62")
+
+        @JvmField val K63 = of("K63")
+
+        @JvmField val K64 = of("K64")
+
+        @JvmField val K65 = of("K65")
+
+        @JvmField val K66 = of("K66")
+
+        @JvmField val K67 = of("K67")
+
+        @JvmField val K68 = of("K68")
+
+        @JvmField val K69 = of("K69")
+
+        @JvmField val K70 = of("K70")
+
+        @JvmField val K71 = of("K71")
+
+        @JvmField val K73 = of("K73")
+
+        @JvmField val K74 = of("K74")
+
+        @JvmField val K75 = of("K75")
+
+        @JvmField val K76 = of("K76")
+
+        @JvmField val K77 = of("K77")
+
+        @JvmField val K78 = of("K78")
+
+        @JvmField val K79 = of("K79")
+
+        @JvmField val K80 = of("K80")
+
+        @JvmField val K81 = of("K81")
+
+        @JvmField val K82 = of("K82")
+
+        @JvmField val K83 = of("K83")
+
+        @JvmField val K84 = of("K84")
+
+        @JvmField val K85 = of("K85")
+
+        @JvmField val K86 = of("K86")
+
+        @JvmField val K87 = of("K87")
+
+        @JvmField val K88 = of("K88")
+
+        @JvmField val K89 = of("K89")
+
+        @JvmField val K90 = of("K90")
+
+        @JvmField val K91 = of("K91")
+
+        @JvmField val K92 = of("K92")
+
+        @JvmField val K93 = of("K93")
+
+        @JvmField val K94 = of("K94")
+
+        @JvmField val K95 = of("K95")
+
+        @JvmField val K96 = of("K96")
+
+        @JvmField val K97 = of("K97")
+
+        @JvmField val K98 = of("K98")
+
+        @JvmField val K99 = of("K99")
+
+        @JvmField val KA = of("KA")
+
+        @JvmField val KAT = of("KAT")
+
+        @JvmField val KB = of("KB")
+
+        @JvmField val KBA = of("KBA")
+
+        @JvmField val KCC = of("KCC")
+
+        @JvmField val KDW = of("KDW")
+
+        @JvmField val KEL = of("KEL")
+
+        @JvmField val KGS = of("KGS")
+
+        @JvmField val KHY = of("KHY")
+
+        @JvmField val KHZ = of("KHZ")
+
+        @JvmField val KI = of("KI")
+
+        @JvmField val KIC = of("KIC")
+
+        @JvmField val KIP = of("KIP")
+
+        @JvmField val KJ = of("KJ")
+
+        @JvmField val KJO = of("KJO")
+
+        @JvmField val KL = of("KL")
+
+        @JvmField val KLK = of("KLK")
+
+        @JvmField val KLX = of("KLX")
+
+        @JvmField val KMA = of("KMA")
+
+        @JvmField val KMH = of("KMH")
+
+        @JvmField val KMQ = of("KMQ")
+
+        @JvmField val KNI = of("KNI")
+
+        @JvmField val KNM = of("KNM")
+
+        @JvmField val KNS = of("KNS")
+
+        @JvmField val KNT = of("KNT")
+
+        @JvmField val KO = of("KO")
+
+        @JvmField val KPA = of("KPA")
+
+        @JvmField val KPH = of("KPH")
+
+        @JvmField val KPO = of("KPO")
+
+        @JvmField val KPP = of("KPP")
+
+        @JvmField val KR = of("KR")
+
+        @JvmField val KSD = of("KSD")
+
+        @JvmField val KSH = of("KSH")
+
+        @JvmField val KT = of("KT")
+
+        @JvmField val KTN = of("KTN")
+
+        @JvmField val KUR = of("KUR")
+
+        @JvmField val KVA = of("KVA")
+
+        @JvmField val KVR = of("KVR")
+
+        @JvmField val KVT = of("KVT")
+
+        @JvmField val KW = of("KW")
+
+        @JvmField val KWH = of("KWH")
+
+        @JvmField val KWN = of("KWN")
+
+        @JvmField val KWO = of("KWO")
+
+        @JvmField val KWS = of("KWS")
+
+        @JvmField val KWT = of("KWT")
+
+        @JvmField val KWY = of("KWY")
+
+        @JvmField val KX = of("KX")
+
+        @JvmField val L10 = of("L10")
+
+        @JvmField val L11 = of("L11")
+
+        @JvmField val L12 = of("L12")
+
+        @JvmField val L13 = of("L13")
+
+        @JvmField val L14 = of("L14")
+
+        @JvmField val L15 = of("L15")
+
+        @JvmField val L16 = of("L16")
+
+        @JvmField val L17 = of("L17")
+
+        @JvmField val L18 = of("L18")
+
+        @JvmField val L19 = of("L19")
+
+        @JvmField val L2 = of("L2")
+
+        @JvmField val L20 = of("L20")
+
+        @JvmField val L21 = of("L21")
+
+        @JvmField val L23 = of("L23")
+
+        @JvmField val L24 = of("L24")
+
+        @JvmField val L25 = of("L25")
+
+        @JvmField val L26 = of("L26")
+
+        @JvmField val L27 = of("L27")
+
+        @JvmField val L28 = of("L28")
+
+        @JvmField val L29 = of("L29")
+
+        @JvmField val L30 = of("L30")
+
+        @JvmField val L31 = of("L31")
+
+        @JvmField val L32 = of("L32")
+
+        @JvmField val L33 = of("L33")
+
+        @JvmField val L34 = of("L34")
+
+        @JvmField val L35 = of("L35")
+
+        @JvmField val L36 = of("L36")
+
+        @JvmField val L37 = of("L37")
+
+        @JvmField val L38 = of("L38")
+
+        @JvmField val L39 = of("L39")
+
+        @JvmField val L40 = of("L40")
+
+        @JvmField val L41 = of("L41")
+
+        @JvmField val L42 = of("L42")
+
+        @JvmField val L43 = of("L43")
+
+        @JvmField val L44 = of("L44")
+
+        @JvmField val L45 = of("L45")
+
+        @JvmField val L46 = of("L46")
+
+        @JvmField val L47 = of("L47")
+
+        @JvmField val L48 = of("L48")
+
+        @JvmField val L49 = of("L49")
+
+        @JvmField val L50 = of("L50")
+
+        @JvmField val L51 = of("L51")
+
+        @JvmField val L52 = of("L52")
+
+        @JvmField val L53 = of("L53")
+
+        @JvmField val L54 = of("L54")
+
+        @JvmField val L55 = of("L55")
+
+        @JvmField val L56 = of("L56")
+
+        @JvmField val L57 = of("L57")
+
+        @JvmField val L58 = of("L58")
+
+        @JvmField val L59 = of("L59")
+
+        @JvmField val L60 = of("L60")
+
+        @JvmField val L63 = of("L63")
+
+        @JvmField val L64 = of("L64")
+
+        @JvmField val L65 = of("L65")
+
+        @JvmField val L66 = of("L66")
+
+        @JvmField val L67 = of("L67")
+
+        @JvmField val L68 = of("L68")
+
+        @JvmField val L69 = of("L69")
+
+        @JvmField val L70 = of("L70")
+
+        @JvmField val L71 = of("L71")
+
+        @JvmField val L72 = of("L72")
+
+        @JvmField val L73 = of("L73")
+
+        @JvmField val L74 = of("L74")
+
+        @JvmField val L75 = of("L75")
+
+        @JvmField val L76 = of("L76")
+
+        @JvmField val L77 = of("L77")
+
+        @JvmField val L78 = of("L78")
+
+        @JvmField val L79 = of("L79")
+
+        @JvmField val L80 = of("L80")
+
+        @JvmField val L81 = of("L81")
+
+        @JvmField val L82 = of("L82")
+
+        @JvmField val L83 = of("L83")
+
+        @JvmField val L84 = of("L84")
+
+        @JvmField val L85 = of("L85")
+
+        @JvmField val L86 = of("L86")
+
+        @JvmField val L87 = of("L87")
+
+        @JvmField val L88 = of("L88")
+
+        @JvmField val L89 = of("L89")
+
+        @JvmField val L90 = of("L90")
+
+        @JvmField val L91 = of("L91")
+
+        @JvmField val L92 = of("L92")
+
+        @JvmField val L93 = of("L93")
+
+        @JvmField val L94 = of("L94")
+
+        @JvmField val L95 = of("L95")
+
+        @JvmField val L96 = of("L96")
+
+        @JvmField val L98 = of("L98")
+
+        @JvmField val L99 = of("L99")
+
+        @JvmField val LA = of("LA")
+
+        @JvmField val LAC = of("LAC")
+
+        @JvmField val LBT = of("LBT")
+
+        @JvmField val LD = of("LD")
+
+        @JvmField val LEF = of("LEF")
+
+        @JvmField val LF = of("LF")
+
+        @JvmField val LH = of("LH")
+
+        @JvmField val LK = of("LK")
+
+        @JvmField val LM = of("LM")
+
+        @JvmField val LN = of("LN")
+
+        @JvmField val LO = of("LO")
+
+        @JvmField val LP = of("LP")
+
+        @JvmField val LPA = of("LPA")
+
+        @JvmField val LR = of("LR")
+
+        @JvmField val LS = of("LS")
+
+        @JvmField val LTN = of("LTN")
+
+        @JvmField val LUB = of("LUB")
+
+        @JvmField val LUM = of("LUM")
+
+        @JvmField val LUX = of("LUX")
+
+        @JvmField val LY = of("LY")
+
+        @JvmField val M1 = of("M1")
+
+        @JvmField val M10 = of("M10")
+
+        @JvmField val M11 = of("M11")
+
+        @JvmField val M12 = of("M12")
+
+        @JvmField val M13 = of("M13")
+
+        @JvmField val M14 = of("M14")
+
+        @JvmField val M15 = of("M15")
+
+        @JvmField val M16 = of("M16")
+
+        @JvmField val M17 = of("M17")
+
+        @JvmField val M18 = of("M18")
+
+        @JvmField val M19 = of("M19")
+
+        @JvmField val M20 = of("M20")
+
+        @JvmField val M21 = of("M21")
+
+        @JvmField val M22 = of("M22")
+
+        @JvmField val M23 = of("M23")
+
+        @JvmField val M24 = of("M24")
+
+        @JvmField val M25 = of("M25")
+
+        @JvmField val M26 = of("M26")
+
+        @JvmField val M27 = of("M27")
+
+        @JvmField val M29 = of("M29")
+
+        @JvmField val M30 = of("M30")
+
+        @JvmField val M31 = of("M31")
+
+        @JvmField val M32 = of("M32")
+
+        @JvmField val M33 = of("M33")
+
+        @JvmField val M34 = of("M34")
+
+        @JvmField val M35 = of("M35")
+
+        @JvmField val M36 = of("M36")
+
+        @JvmField val M37 = of("M37")
+
+        @JvmField val M38 = of("M38")
+
+        @JvmField val M39 = of("M39")
+
+        @JvmField val M4 = of("M4")
+
+        @JvmField val M40 = of("M40")
+
+        @JvmField val M41 = of("M41")
+
+        @JvmField val M42 = of("M42")
+
+        @JvmField val M43 = of("M43")
+
+        @JvmField val M44 = of("M44")
+
+        @JvmField val M45 = of("M45")
+
+        @JvmField val M46 = of("M46")
+
+        @JvmField val M47 = of("M47")
+
+        @JvmField val M48 = of("M48")
+
+        @JvmField val M49 = of("M49")
+
+        @JvmField val M5 = of("M5")
+
+        @JvmField val M50 = of("M50")
+
+        @JvmField val M51 = of("M51")
+
+        @JvmField val M52 = of("M52")
+
+        @JvmField val M53 = of("M53")
+
+        @JvmField val M55 = of("M55")
+
+        @JvmField val M56 = of("M56")
+
+        @JvmField val M57 = of("M57")
+
+        @JvmField val M58 = of("M58")
+
+        @JvmField val M59 = of("M59")
+
+        @JvmField val M60 = of("M60")
+
+        @JvmField val M61 = of("M61")
+
+        @JvmField val M62 = of("M62")
+
+        @JvmField val M63 = of("M63")
+
+        @JvmField val M64 = of("M64")
+
+        @JvmField val M65 = of("M65")
+
+        @JvmField val M66 = of("M66")
+
+        @JvmField val M67 = of("M67")
+
+        @JvmField val M68 = of("M68")
+
+        @JvmField val M69 = of("M69")
+
+        @JvmField val M7 = of("M7")
+
+        @JvmField val M70 = of("M70")
+
+        @JvmField val M71 = of("M71")
+
+        @JvmField val M72 = of("M72")
+
+        @JvmField val M73 = of("M73")
+
+        @JvmField val M74 = of("M74")
+
+        @JvmField val M75 = of("M75")
+
+        @JvmField val M76 = of("M76")
+
+        @JvmField val M77 = of("M77")
+
+        @JvmField val M78 = of("M78")
+
+        @JvmField val M79 = of("M79")
+
+        @JvmField val M80 = of("M80")
+
+        @JvmField val M81 = of("M81")
+
+        @JvmField val M82 = of("M82")
+
+        @JvmField val M83 = of("M83")
+
+        @JvmField val M84 = of("M84")
+
+        @JvmField val M85 = of("M85")
+
+        @JvmField val M86 = of("M86")
+
+        @JvmField val M87 = of("M87")
+
+        @JvmField val M88 = of("M88")
+
+        @JvmField val M89 = of("M89")
+
+        @JvmField val M9 = of("M9")
+
+        @JvmField val M90 = of("M90")
+
+        @JvmField val M91 = of("M91")
+
+        @JvmField val M92 = of("M92")
+
+        @JvmField val M93 = of("M93")
+
+        @JvmField val M94 = of("M94")
+
+        @JvmField val M95 = of("M95")
+
+        @JvmField val M96 = of("M96")
+
+        @JvmField val M97 = of("M97")
+
+        @JvmField val M98 = of("M98")
+
+        @JvmField val M99 = of("M99")
+
+        @JvmField val MAH = of("MAH")
+
+        @JvmField val MAL = of("MAL")
+
+        @JvmField val MAM = of("MAM")
+
+        @JvmField val MAR = of("MAR")
+
+        @JvmField val MAW = of("MAW")
+
+        @JvmField val MBE = of("MBE")
+
+        @JvmField val MBF = of("MBF")
+
+        @JvmField val MBR = of("MBR")
+
+        @JvmField val MC = of("MC")
+
+        @JvmField val MCU = of("MCU")
+
+        @JvmField val MD = of("MD")
+
+        @JvmField val MGM = of("MGM")
+
+        @JvmField val MHZ = of("MHZ")
+
+        @JvmField val MIK = of("MIK")
+
+        @JvmField val MIL = of("MIL")
+
+        @JvmField val MIO = of("MIO")
+
+        @JvmField val MIU = of("MIU")
+
+        @JvmField val MKD = of("MKD")
+
+        @JvmField val MKM = of("MKM")
+
+        @JvmField val MKW = of("MKW")
+
+        @JvmField val MLD = of("MLD")
+
+        @JvmField val MMQ = of("MMQ")
+
+        @JvmField val MND = of("MND")
+
+        @JvmField val MNJ = of("MNJ")
+
+        @JvmField val MPA = of("MPA")
+
+        @JvmField val MQD = of("MQD")
+
+        @JvmField val MQH = of("MQH")
+
+        @JvmField val MQM = of("MQM")
+
+        @JvmField val MQS = of("MQS")
+
+        @JvmField val MQW = of("MQW")
+
+        @JvmField val MRD = of("MRD")
+
+        @JvmField val MRM = of("MRM")
+
+        @JvmField val MRW = of("MRW")
+
+        @JvmField val MSK = of("MSK")
+
+        @JvmField val MTS = of("MTS")
+
+        @JvmField val MTZ = of("MTZ")
+
+        @JvmField val MVA = of("MVA")
+
+        @JvmField val MWH = of("MWH")
+
+        @JvmField val N1 = of("N1")
+
+        @JvmField val N10 = of("N10")
+
+        @JvmField val N11 = of("N11")
+
+        @JvmField val N12 = of("N12")
+
+        @JvmField val N13 = of("N13")
+
+        @JvmField val N14 = of("N14")
+
+        @JvmField val N15 = of("N15")
+
+        @JvmField val N16 = of("N16")
+
+        @JvmField val N17 = of("N17")
+
+        @JvmField val N18 = of("N18")
+
+        @JvmField val N19 = of("N19")
+
+        @JvmField val N20 = of("N20")
+
+        @JvmField val N21 = of("N21")
+
+        @JvmField val N22 = of("N22")
+
+        @JvmField val N23 = of("N23")
+
+        @JvmField val N24 = of("N24")
+
+        @JvmField val N25 = of("N25")
+
+        @JvmField val N26 = of("N26")
+
+        @JvmField val N27 = of("N27")
+
+        @JvmField val N28 = of("N28")
+
+        @JvmField val N29 = of("N29")
+
+        @JvmField val N3 = of("N3")
+
+        @JvmField val N30 = of("N30")
+
+        @JvmField val N31 = of("N31")
+
+        @JvmField val N32 = of("N32")
+
+        @JvmField val N33 = of("N33")
+
+        @JvmField val N34 = of("N34")
+
+        @JvmField val N35 = of("N35")
+
+        @JvmField val N36 = of("N36")
+
+        @JvmField val N37 = of("N37")
+
+        @JvmField val N38 = of("N38")
+
+        @JvmField val N39 = of("N39")
+
+        @JvmField val N40 = of("N40")
+
+        @JvmField val N41 = of("N41")
+
+        @JvmField val N42 = of("N42")
+
+        @JvmField val N43 = of("N43")
+
+        @JvmField val N44 = of("N44")
+
+        @JvmField val N45 = of("N45")
+
+        @JvmField val N46 = of("N46")
+
+        @JvmField val N47 = of("N47")
+
+        @JvmField val N48 = of("N48")
+
+        @JvmField val N49 = of("N49")
+
+        @JvmField val N50 = of("N50")
+
+        @JvmField val N51 = of("N51")
+
+        @JvmField val N52 = of("N52")
+
+        @JvmField val N53 = of("N53")
+
+        @JvmField val N54 = of("N54")
+
+        @JvmField val N55 = of("N55")
+
+        @JvmField val N56 = of("N56")
+
+        @JvmField val N57 = of("N57")
+
+        @JvmField val N58 = of("N58")
+
+        @JvmField val N59 = of("N59")
+
+        @JvmField val N60 = of("N60")
+
+        @JvmField val N61 = of("N61")
+
+        @JvmField val N62 = of("N62")
+
+        @JvmField val N63 = of("N63")
+
+        @JvmField val N64 = of("N64")
+
+        @JvmField val N65 = of("N65")
+
+        @JvmField val N66 = of("N66")
+
+        @JvmField val N67 = of("N67")
+
+        @JvmField val N68 = of("N68")
+
+        @JvmField val N69 = of("N69")
+
+        @JvmField val N70 = of("N70")
+
+        @JvmField val N71 = of("N71")
+
+        @JvmField val N72 = of("N72")
+
+        @JvmField val N73 = of("N73")
+
+        @JvmField val N74 = of("N74")
+
+        @JvmField val N75 = of("N75")
+
+        @JvmField val N76 = of("N76")
+
+        @JvmField val N77 = of("N77")
+
+        @JvmField val N78 = of("N78")
+
+        @JvmField val N79 = of("N79")
+
+        @JvmField val N80 = of("N80")
+
+        @JvmField val N81 = of("N81")
+
+        @JvmField val N82 = of("N82")
+
+        @JvmField val N83 = of("N83")
+
+        @JvmField val N84 = of("N84")
+
+        @JvmField val N85 = of("N85")
+
+        @JvmField val N86 = of("N86")
+
+        @JvmField val N87 = of("N87")
+
+        @JvmField val N88 = of("N88")
+
+        @JvmField val N89 = of("N89")
+
+        @JvmField val N90 = of("N90")
+
+        @JvmField val N91 = of("N91")
+
+        @JvmField val N92 = of("N92")
+
+        @JvmField val N93 = of("N93")
+
+        @JvmField val N94 = of("N94")
+
+        @JvmField val N95 = of("N95")
+
+        @JvmField val N96 = of("N96")
+
+        @JvmField val N97 = of("N97")
+
+        @JvmField val N98 = of("N98")
+
+        @JvmField val N99 = of("N99")
+
+        @JvmField val NA = of("NA")
+
+        @JvmField val NCL = of("NCL")
+
+        @JvmField val NEW = of("NEW")
+
+        @JvmField val NF = of("NF")
+
+        @JvmField val NIL = of("NIL")
+
+        @JvmField val NIU = of("NIU")
+
+        @JvmField val NL = of("NL")
+
+        @JvmField val NM3 = of("NM3")
+
+        @JvmField val NMI = of("NMI")
+
+        @JvmField val NMP = of("NMP")
+
+        @JvmField val NPT = of("NPT")
+
+        @JvmField val NT = of("NT")
+
+        @JvmField val NTU = of("NTU")
+
+        @JvmField val NU = of("NU")
+
+        @JvmField val NX = of("NX")
+
+        @JvmField val OA = of("OA")
+
+        @JvmField val ODE = of("ODE")
+
+        @JvmField val ODG = of("ODG")
+
+        @JvmField val ODK = of("ODK")
+
+        @JvmField val ODM = of("ODM")
+
+        @JvmField val OHM = of("OHM")
+
+        @JvmField val ON = of("ON")
+
+        @JvmField val OPM = of("OPM")
+
+        @JvmField val OT = of("OT")
+
+        @JvmField val OZA = of("OZA")
+
+        @JvmField val OZI = of("OZI")
+
+        @JvmField val P1 = of("P1")
+
+        @JvmField val P10 = of("P10")
+
+        @JvmField val P11 = of("P11")
+
+        @JvmField val P12 = of("P12")
+
+        @JvmField val P13 = of("P13")
+
+        @JvmField val P14 = of("P14")
+
+        @JvmField val P15 = of("P15")
+
+        @JvmField val P16 = of("P16")
+
+        @JvmField val P17 = of("P17")
+
+        @JvmField val P18 = of("P18")
+
+        @JvmField val P19 = of("P19")
+
+        @JvmField val P2 = of("P2")
+
+        @JvmField val P20 = of("P20")
+
+        @JvmField val P21 = of("P21")
+
+        @JvmField val P22 = of("P22")
+
+        @JvmField val P23 = of("P23")
+
+        @JvmField val P24 = of("P24")
+
+        @JvmField val P25 = of("P25")
+
+        @JvmField val P26 = of("P26")
+
+        @JvmField val P27 = of("P27")
+
+        @JvmField val P28 = of("P28")
+
+        @JvmField val P29 = of("P29")
+
+        @JvmField val P30 = of("P30")
+
+        @JvmField val P31 = of("P31")
+
+        @JvmField val P32 = of("P32")
+
+        @JvmField val P33 = of("P33")
+
+        @JvmField val P34 = of("P34")
+
+        @JvmField val P35 = of("P35")
+
+        @JvmField val P36 = of("P36")
+
+        @JvmField val P37 = of("P37")
+
+        @JvmField val P38 = of("P38")
+
+        @JvmField val P39 = of("P39")
+
+        @JvmField val P40 = of("P40")
+
+        @JvmField val P41 = of("P41")
+
+        @JvmField val P42 = of("P42")
+
+        @JvmField val P43 = of("P43")
+
+        @JvmField val P44 = of("P44")
+
+        @JvmField val P45 = of("P45")
+
+        @JvmField val P46 = of("P46")
+
+        @JvmField val P47 = of("P47")
+
+        @JvmField val P48 = of("P48")
+
+        @JvmField val P49 = of("P49")
+
+        @JvmField val P5 = of("P5")
+
+        @JvmField val P50 = of("P50")
+
+        @JvmField val P51 = of("P51")
+
+        @JvmField val P52 = of("P52")
+
+        @JvmField val P53 = of("P53")
+
+        @JvmField val P54 = of("P54")
+
+        @JvmField val P55 = of("P55")
+
+        @JvmField val P56 = of("P56")
+
+        @JvmField val P57 = of("P57")
+
+        @JvmField val P58 = of("P58")
+
+        @JvmField val P59 = of("P59")
+
+        @JvmField val P60 = of("P60")
+
+        @JvmField val P61 = of("P61")
+
+        @JvmField val P62 = of("P62")
+
+        @JvmField val P63 = of("P63")
+
+        @JvmField val P64 = of("P64")
+
+        @JvmField val P65 = of("P65")
+
+        @JvmField val P66 = of("P66")
+
+        @JvmField val P67 = of("P67")
+
+        @JvmField val P68 = of("P68")
+
+        @JvmField val P69 = of("P69")
+
+        @JvmField val P70 = of("P70")
+
+        @JvmField val P71 = of("P71")
+
+        @JvmField val P72 = of("P72")
+
+        @JvmField val P73 = of("P73")
+
+        @JvmField val P74 = of("P74")
+
+        @JvmField val P75 = of("P75")
+
+        @JvmField val P76 = of("P76")
+
+        @JvmField val P77 = of("P77")
+
+        @JvmField val P78 = of("P78")
+
+        @JvmField val P79 = of("P79")
+
+        @JvmField val P80 = of("P80")
+
+        @JvmField val P81 = of("P81")
+
+        @JvmField val P82 = of("P82")
+
+        @JvmField val P83 = of("P83")
+
+        @JvmField val P84 = of("P84")
+
+        @JvmField val P85 = of("P85")
+
+        @JvmField val P86 = of("P86")
+
+        @JvmField val P87 = of("P87")
+
+        @JvmField val P88 = of("P88")
+
+        @JvmField val P89 = of("P89")
+
+        @JvmField val P90 = of("P90")
+
+        @JvmField val P91 = of("P91")
+
+        @JvmField val P92 = of("P92")
+
+        @JvmField val P93 = of("P93")
+
+        @JvmField val P94 = of("P94")
+
+        @JvmField val P95 = of("P95")
+
+        @JvmField val P96 = of("P96")
+
+        @JvmField val P97 = of("P97")
+
+        @JvmField val P98 = of("P98")
+
+        @JvmField val P99 = of("P99")
+
+        @JvmField val PAL = of("PAL")
+
+        @JvmField val PD = of("PD")
+
+        @JvmField val PFL = of("PFL")
+
+        @JvmField val PGL = of("PGL")
+
+        @JvmField val PI = of("PI")
+
+        @JvmField val PLA = of("PLA")
+
+        @JvmField val PO = of("PO")
+
+        @JvmField val PQ = of("PQ")
+
+        @JvmField val PR = of("PR")
+
+        @JvmField val PS = of("PS")
+
+        @JvmField val PTD = of("PTD")
+
+        @JvmField val PTI = of("PTI")
+
+        @JvmField val PTL = of("PTL")
+
+        @JvmField val PTN = of("PTN")
+
+        @JvmField val Q10 = of("Q10")
+
+        @JvmField val Q11 = of("Q11")
+
+        @JvmField val Q12 = of("Q12")
+
+        @JvmField val Q13 = of("Q13")
+
+        @JvmField val Q14 = of("Q14")
+
+        @JvmField val Q15 = of("Q15")
+
+        @JvmField val Q16 = of("Q16")
+
+        @JvmField val Q17 = of("Q17")
+
+        @JvmField val Q18 = of("Q18")
+
+        @JvmField val Q19 = of("Q19")
+
+        @JvmField val Q20 = of("Q20")
+
+        @JvmField val Q21 = of("Q21")
+
+        @JvmField val Q22 = of("Q22")
+
+        @JvmField val Q23 = of("Q23")
+
+        @JvmField val Q24 = of("Q24")
+
+        @JvmField val Q25 = of("Q25")
+
+        @JvmField val Q26 = of("Q26")
+
+        @JvmField val Q27 = of("Q27")
+
+        @JvmField val Q28 = of("Q28")
+
+        @JvmField val Q29 = of("Q29")
+
+        @JvmField val Q3 = of("Q3")
+
+        @JvmField val Q30 = of("Q30")
+
+        @JvmField val Q31 = of("Q31")
+
+        @JvmField val Q32 = of("Q32")
+
+        @JvmField val Q33 = of("Q33")
+
+        @JvmField val Q34 = of("Q34")
+
+        @JvmField val Q35 = of("Q35")
+
+        @JvmField val Q36 = of("Q36")
+
+        @JvmField val Q37 = of("Q37")
+
+        @JvmField val Q38 = of("Q38")
+
+        @JvmField val Q39 = of("Q39")
+
+        @JvmField val Q40 = of("Q40")
+
+        @JvmField val Q41 = of("Q41")
+
+        @JvmField val Q42 = of("Q42")
+
+        @JvmField val QA = of("QA")
+
+        @JvmField val QAN = of("QAN")
+
+        @JvmField val QB = of("QB")
+
+        @JvmField val QR = of("QR")
+
+        @JvmField val QTD = of("QTD")
+
+        @JvmField val QTI = of("QTI")
+
+        @JvmField val QTL = of("QTL")
+
+        @JvmField val QTR = of("QTR")
+
+        @JvmField val R1 = of("R1")
+
+        @JvmField val R9 = of("R9")
+
+        @JvmField val RH = of("RH")
+
+        @JvmField val RM = of("RM")
+
+        @JvmField val ROM = of("ROM")
+
+        @JvmField val RP = of("RP")
+
+        @JvmField val RPM = of("RPM")
+
+        @JvmField val RPS = of("RPS")
+
+        @JvmField val RT = of("RT")
+
+        @JvmField val S3 = of("S3")
+
+        @JvmField val S4 = of("S4")
+
+        @JvmField val SAN = of("SAN")
+
+        @JvmField val SCO = of("SCO")
+
+        @JvmField val SCR = of("SCR")
+
+        @JvmField val SET = of("SET")
+
+        @JvmField val SG = of("SG")
+
+        @JvmField val SIE = of("SIE")
+
+        @JvmField val SM3 = of("SM3")
+
+        @JvmField val SQ = of("SQ")
+
+        @JvmField val SQR = of("SQR")
+
+        @JvmField val SR = of("SR")
+
+        @JvmField val STC = of("STC")
+
+        @JvmField val STI = of("STI")
+
+        @JvmField val STK = of("STK")
+
+        @JvmField val STL = of("STL")
+
+        @JvmField val STN = of("STN")
+
+        @JvmField val STW = of("STW")
+
+        @JvmField val SW = of("SW")
+
+        @JvmField val SX = of("SX")
+
+        @JvmField val SYR = of("SYR")
+
+        @JvmField val T0 = of("T0")
+
+        @JvmField val T3 = of("T3")
+
+        @JvmField val TAH = of("TAH")
+
+        @JvmField val TAN = of("TAN")
+
+        @JvmField val TI = of("TI")
+
+        @JvmField val TIC = of("TIC")
+
+        @JvmField val TIP = of("TIP")
+
+        @JvmField val TKM = of("TKM")
+
+        @JvmField val TMS = of("TMS")
+
+        @JvmField val TP = of("TP")
+
+        @JvmField val TPI = of("TPI")
+
+        @JvmField val TPR = of("TPR")
+
+        @JvmField val TQD = of("TQD")
+
+        @JvmField val TRL = of("TRL")
+
+        @JvmField val TST = of("TST")
+
+        @JvmField val TTS = of("TTS")
+
+        @JvmField val U1 = of("U1")
+
+        @JvmField val U2 = of("U2")
+
+        @JvmField val UB = of("UB")
+
+        @JvmField val UC = of("UC")
+
+        @JvmField val VA = of("VA")
+
+        @JvmField val VP = of("VP")
+
+        @JvmField val W2 = of("W2")
+
+        @JvmField val WA = of("WA")
+
+        @JvmField val WB = of("WB")
+
+        @JvmField val WCD = of("WCD")
+
+        @JvmField val WE = of("WE")
+
+        @JvmField val WEB = of("WEB")
+
+        @JvmField val WEE = of("WEE")
+
+        @JvmField val WG = of("WG")
+
+        @JvmField val WHR = of("WHR")
+
+        @JvmField val WM = of("WM")
+
+        @JvmField val WSD = of("WSD")
+
+        @JvmField val X1 = of("X1")
+
+        @JvmField val Z11 = of("Z11")
+
+        @JvmField val Z9 = of("Z9")
+
+        @JvmField val ZP = of("ZP")
+
+        @JvmField val X1A = of("X1A")
+
+        @JvmField val X1B = of("X1B")
+
+        @JvmField val X1D = of("X1D")
+
+        @JvmField val X1F = of("X1F")
+
+        @JvmField val X1G = of("X1G")
+
+        @JvmField val X1W = of("X1W")
+
+        @JvmField val X2C = of("X2C")
+
+        @JvmField val X3A = of("X3A")
+
+        @JvmField val X3H = of("X3H")
+
+        @JvmField val X43 = of("X43")
+
+        @JvmField val X44 = of("X44")
+
+        @JvmField val X4A = of("X4A")
+
+        @JvmField val X4B = of("X4B")
+
+        @JvmField val X4C = of("X4C")
+
+        @JvmField val X4D = of("X4D")
+
+        @JvmField val X4F = of("X4F")
+
+        @JvmField val X4G = of("X4G")
+
+        @JvmField val X4H = of("X4H")
+
+        @JvmField val X5H = of("X5H")
+
+        @JvmField val X5L = of("X5L")
+
+        @JvmField val X5M = of("X5M")
+
+        @JvmField val X6H = of("X6H")
+
+        @JvmField val X6P = of("X6P")
+
+        @JvmField val X7A = of("X7A")
+
+        @JvmField val X7B = of("X7B")
+
+        @JvmField val X8A = of("X8A")
+
+        @JvmField val X8B = of("X8B")
+
+        @JvmField val X8C = of("X8C")
+
+        @JvmField val XIZ = of("XIZ")
+
+        @JvmField val XKG = of("XKG")
+
+        @JvmField val XKI = of("XKI")
+
+        @JvmField val XNS = of("XNS")
+
+        @JvmField val XNT = of("XNT")
+
+        @JvmField val XNU = of("XNU")
+
+        @JvmField val XNV = of("XNV")
+
+        @JvmField val XO1 = of("XO1")
+
+        @JvmField val XO2 = of("XO2")
+
+        @JvmField val XO3 = of("XO3")
+
+        @JvmField val XO4 = of("XO4")
+
+        @JvmField val XO5 = of("XO5")
+
+        @JvmField val XO6 = of("XO6")
+
+        @JvmField val XO7 = of("XO7")
+
+        @JvmField val XO8 = of("XO8")
+
+        @JvmField val XO9 = of("XO9")
+
+        @JvmField val XT1 = of("XT1")
+
         @JvmStatic fun of(value: String) = UnitOfMeasureCode(JsonField.of(value))
+
+        /*
+         * Lookup tables used by [value] and [known] instead of a `when` expression: with thousands
+         * of members, a `when` compiles to a branch chain deep enough to overflow ProGuard's
+         * recursive stack-size analysis. Member names are the wire values with `_` removed (codes
+         * consist of `[A-Z0-9]` only), and keys compare like `when (this)` did, via [equals].
+         */
+        private val KNOWN_BY_CODE: Map<UnitOfMeasureCode, Known> by lazy {
+            Known.values().associateBy { of(it.name.replace("_", "")) }
+        }
+
+        private val VALUE_BY_CODE: Map<UnitOfMeasureCode, Value> by lazy {
+            Value.values()
+                .filter { it != Value._UNKNOWN }
+                .associateBy { of(it.name.replace("_", "")) }
+        }
     }
 
     /** An enum containing [UnitOfMeasureCode]'s known values. */
@@ -3120,6 +5834,1355 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         C62,
         LTR,
         H87,
+        AA,
+        AB,
+        ACT,
+        AD,
+        AE,
+        AL,
+        AMP,
+        APZ,
+        AQ,
+        AS,
+        ASM,
+        ASU,
+        ATM,
+        AWG,
+        AY,
+        AZ,
+        B10,
+        BP,
+        BPM,
+        BQL,
+        BTU,
+        C3,
+        C7,
+        C8,
+        C9,
+        CCT,
+        CEN,
+        CG,
+        CGM,
+        CKG,
+        CLF,
+        CTM,
+        D03,
+        D04,
+        D1,
+        D10,
+        D11,
+        D12,
+        D13,
+        D15,
+        D16,
+        D17,
+        D18,
+        D19,
+        D2,
+        D20,
+        D21,
+        D22,
+        D23,
+        D24,
+        D25,
+        D26,
+        D27,
+        D29,
+        D30,
+        D31,
+        D32,
+        D33,
+        D34,
+        D36,
+        D41,
+        D42,
+        D43,
+        D44,
+        D45,
+        D46,
+        D47,
+        D48,
+        D49,
+        D5,
+        D50,
+        D51,
+        D52,
+        D53,
+        D54,
+        D55,
+        D56,
+        D57,
+        D58,
+        D59,
+        D6,
+        D60,
+        D61,
+        D62,
+        D63,
+        D65,
+        D68,
+        D69,
+        D73,
+        D74,
+        D77,
+        D78,
+        D80,
+        D81,
+        D82,
+        D83,
+        D85,
+        D86,
+        D87,
+        D88,
+        D89,
+        D91,
+        D93,
+        D94,
+        D95,
+        DAA,
+        DAD,
+        DBM,
+        DBW,
+        DEC,
+        DJ,
+        DMA,
+        DMO,
+        DN,
+        DPR,
+        DRI,
+        DRL,
+        DT,
+        DTN,
+        DWT,
+        E08,
+        E15,
+        E16,
+        E18,
+        E19,
+        E21,
+        E22,
+        E28,
+        E30,
+        E32,
+        E33,
+        E4,
+        E59,
+        E61,
+        E63,
+        E64,
+        E68,
+        E72,
+        E74,
+        E77,
+        E78,
+        E79,
+        E80,
+        E81,
+        E82,
+        E83,
+        E84,
+        E85,
+        E86,
+        E87,
+        E88,
+        E89,
+        E90,
+        E91,
+        E92,
+        E93,
+        E94,
+        E95,
+        E96,
+        E97,
+        E98,
+        E99,
+        EB,
+        EQ,
+        F01,
+        F02,
+        F03,
+        F04,
+        F05,
+        F06,
+        F07,
+        F08,
+        F10,
+        F11,
+        F12,
+        F13,
+        F14,
+        F15,
+        F16,
+        F17,
+        F18,
+        F19,
+        F20,
+        F21,
+        F22,
+        F23,
+        F24,
+        F25,
+        F26,
+        F27,
+        F28,
+        F29,
+        F30,
+        F31,
+        F32,
+        F33,
+        F34,
+        F35,
+        F36,
+        F37,
+        F38,
+        F39,
+        F40,
+        F41,
+        F42,
+        F43,
+        F44,
+        F45,
+        F46,
+        F47,
+        F48,
+        F49,
+        F50,
+        F51,
+        F52,
+        F53,
+        F54,
+        F55,
+        F56,
+        F57,
+        F58,
+        F59,
+        F60,
+        F61,
+        F62,
+        F63,
+        F64,
+        F65,
+        F66,
+        F67,
+        F68,
+        F69,
+        F70,
+        F71,
+        F72,
+        F73,
+        F74,
+        F75,
+        F76,
+        F77,
+        F78,
+        F79,
+        F80,
+        F81,
+        F82,
+        F83,
+        F84,
+        F85,
+        F86,
+        F87,
+        F88,
+        F89,
+        F90,
+        F91,
+        F92,
+        F93,
+        F94,
+        F95,
+        F96,
+        F97,
+        F98,
+        F99,
+        FAH,
+        FAR,
+        FBM,
+        FC,
+        FF,
+        FH,
+        FIT,
+        FL,
+        FNU,
+        FP,
+        FR,
+        FS,
+        G01,
+        G04,
+        G05,
+        G06,
+        G08,
+        G09,
+        G10,
+        G11,
+        G12,
+        G13,
+        G14,
+        G15,
+        G16,
+        G17,
+        G18,
+        G19,
+        G2,
+        G20,
+        G21,
+        G23,
+        G24,
+        G25,
+        G26,
+        G27,
+        G28,
+        G29,
+        G3,
+        G30,
+        G31,
+        G32,
+        G33,
+        G34,
+        G35,
+        G36,
+        G37,
+        G38,
+        G39,
+        G40,
+        G41,
+        G42,
+        G43,
+        G44,
+        G45,
+        G46,
+        G47,
+        G48,
+        G49,
+        G50,
+        G51,
+        G52,
+        G53,
+        G54,
+        G55,
+        G56,
+        G57,
+        G58,
+        G59,
+        G60,
+        G61,
+        G62,
+        G63,
+        G64,
+        G65,
+        G66,
+        G67,
+        G68,
+        G69,
+        G70,
+        G71,
+        G72,
+        G73,
+        G74,
+        G75,
+        G76,
+        G77,
+        G78,
+        G79,
+        G80,
+        G81,
+        G82,
+        G83,
+        G84,
+        G85,
+        G86,
+        G87,
+        G88,
+        G89,
+        G90,
+        G91,
+        G92,
+        G93,
+        G94,
+        G95,
+        G96,
+        G97,
+        G98,
+        G99,
+        GB,
+        GBQ,
+        GDW,
+        GE,
+        GF,
+        GFI,
+        GGR,
+        GIA,
+        GIC,
+        GII,
+        GIP,
+        GJ,
+        GL,
+        GLD,
+        GM,
+        GO,
+        GP,
+        GQ,
+        GRN,
+        GV,
+        GWH,
+        H03,
+        H04,
+        H05,
+        H06,
+        H07,
+        H08,
+        H09,
+        H10,
+        H11,
+        H12,
+        H13,
+        H14,
+        H15,
+        H16,
+        H18,
+        H19,
+        H20,
+        H21,
+        H22,
+        H23,
+        H24,
+        H25,
+        H26,
+        H27,
+        H28,
+        H29,
+        H30,
+        H31,
+        H32,
+        H33,
+        H34,
+        H35,
+        H36,
+        H37,
+        H38,
+        H39,
+        H40,
+        H41,
+        H42,
+        H43,
+        H44,
+        H45,
+        H46,
+        H47,
+        H48,
+        H49,
+        H50,
+        H51,
+        H52,
+        H53,
+        H54,
+        H55,
+        H56,
+        H57,
+        H58,
+        H59,
+        H60,
+        H61,
+        H62,
+        H63,
+        H64,
+        H65,
+        H66,
+        H67,
+        H68,
+        H69,
+        H70,
+        H71,
+        H72,
+        H73,
+        H74,
+        H75,
+        H76,
+        H77,
+        H79,
+        H80,
+        H81,
+        H82,
+        H83,
+        H84,
+        H85,
+        H88,
+        H89,
+        H90,
+        H91,
+        H92,
+        H93,
+        H94,
+        H95,
+        H96,
+        H98,
+        H99,
+        HA,
+        HAD,
+        HBA,
+        HBX,
+        HC,
+        HDW,
+        HEA,
+        HGM,
+        HH,
+        HIU,
+        HKM,
+        HLT,
+        HM,
+        HMO,
+        HMQ,
+        HMT,
+        HPA,
+        HWE,
+        IA,
+        IE,
+        ISD,
+        IU,
+        IUG,
+        IV,
+        J10,
+        J12,
+        J13,
+        J14,
+        J15,
+        J16,
+        J17,
+        J18,
+        J19,
+        J2,
+        J20,
+        J21,
+        J22,
+        J23,
+        J24,
+        J25,
+        J26,
+        J27,
+        J28,
+        J29,
+        J30,
+        J31,
+        J32,
+        J33,
+        J34,
+        J35,
+        J36,
+        J38,
+        J39,
+        J40,
+        J41,
+        J42,
+        J43,
+        J44,
+        J45,
+        J46,
+        J47,
+        J48,
+        J49,
+        J50,
+        J51,
+        J52,
+        J53,
+        J54,
+        J55,
+        J56,
+        J57,
+        J58,
+        J59,
+        J60,
+        J61,
+        J62,
+        J63,
+        J64,
+        J65,
+        J66,
+        J67,
+        J68,
+        J69,
+        J70,
+        J71,
+        J72,
+        J73,
+        J74,
+        J75,
+        J76,
+        J78,
+        J79,
+        J81,
+        J82,
+        J83,
+        J84,
+        J85,
+        J87,
+        J90,
+        J91,
+        J92,
+        J93,
+        J95,
+        J96,
+        J97,
+        J98,
+        J99,
+        JE,
+        JK,
+        JM,
+        JNT,
+        JOU,
+        JPS,
+        JWL,
+        K1,
+        K10,
+        K11,
+        K12,
+        K13,
+        K14,
+        K15,
+        K16,
+        K17,
+        K18,
+        K19,
+        K2,
+        K20,
+        K21,
+        K22,
+        K23,
+        K26,
+        K27,
+        K28,
+        K3,
+        K30,
+        K31,
+        K32,
+        K33,
+        K34,
+        K35,
+        K36,
+        K37,
+        K38,
+        K39,
+        K40,
+        K41,
+        K42,
+        K43,
+        K45,
+        K46,
+        K47,
+        K48,
+        K49,
+        K50,
+        K51,
+        K52,
+        K53,
+        K54,
+        K55,
+        K58,
+        K59,
+        K6,
+        K60,
+        K61,
+        K62,
+        K63,
+        K64,
+        K65,
+        K66,
+        K67,
+        K68,
+        K69,
+        K70,
+        K71,
+        K73,
+        K74,
+        K75,
+        K76,
+        K77,
+        K78,
+        K79,
+        K80,
+        K81,
+        K82,
+        K83,
+        K84,
+        K85,
+        K86,
+        K87,
+        K88,
+        K89,
+        K90,
+        K91,
+        K92,
+        K93,
+        K94,
+        K95,
+        K96,
+        K97,
+        K98,
+        K99,
+        KA,
+        KAT,
+        KB,
+        KBA,
+        KCC,
+        KDW,
+        KEL,
+        KGS,
+        KHY,
+        KHZ,
+        KI,
+        KIC,
+        KIP,
+        KJ,
+        KJO,
+        KL,
+        KLK,
+        KLX,
+        KMA,
+        KMH,
+        KMQ,
+        KNI,
+        KNM,
+        KNS,
+        KNT,
+        KO,
+        KPA,
+        KPH,
+        KPO,
+        KPP,
+        KR,
+        KSD,
+        KSH,
+        KT,
+        KTN,
+        KUR,
+        KVA,
+        KVR,
+        KVT,
+        KW,
+        KWH,
+        KWN,
+        KWO,
+        KWS,
+        KWT,
+        KWY,
+        KX,
+        L10,
+        L11,
+        L12,
+        L13,
+        L14,
+        L15,
+        L16,
+        L17,
+        L18,
+        L19,
+        L2,
+        L20,
+        L21,
+        L23,
+        L24,
+        L25,
+        L26,
+        L27,
+        L28,
+        L29,
+        L30,
+        L31,
+        L32,
+        L33,
+        L34,
+        L35,
+        L36,
+        L37,
+        L38,
+        L39,
+        L40,
+        L41,
+        L42,
+        L43,
+        L44,
+        L45,
+        L46,
+        L47,
+        L48,
+        L49,
+        L50,
+        L51,
+        L52,
+        L53,
+        L54,
+        L55,
+        L56,
+        L57,
+        L58,
+        L59,
+        L60,
+        L63,
+        L64,
+        L65,
+        L66,
+        L67,
+        L68,
+        L69,
+        L70,
+        L71,
+        L72,
+        L73,
+        L74,
+        L75,
+        L76,
+        L77,
+        L78,
+        L79,
+        L80,
+        L81,
+        L82,
+        L83,
+        L84,
+        L85,
+        L86,
+        L87,
+        L88,
+        L89,
+        L90,
+        L91,
+        L92,
+        L93,
+        L94,
+        L95,
+        L96,
+        L98,
+        L99,
+        LA,
+        LAC,
+        LBT,
+        LD,
+        LEF,
+        LF,
+        LH,
+        LK,
+        LM,
+        LN,
+        LO,
+        LP,
+        LPA,
+        LR,
+        LS,
+        LTN,
+        LUB,
+        LUM,
+        LUX,
+        LY,
+        M1,
+        M10,
+        M11,
+        M12,
+        M13,
+        M14,
+        M15,
+        M16,
+        M17,
+        M18,
+        M19,
+        M20,
+        M21,
+        M22,
+        M23,
+        M24,
+        M25,
+        M26,
+        M27,
+        M29,
+        M30,
+        M31,
+        M32,
+        M33,
+        M34,
+        M35,
+        M36,
+        M37,
+        M38,
+        M39,
+        M4,
+        M40,
+        M41,
+        M42,
+        M43,
+        M44,
+        M45,
+        M46,
+        M47,
+        M48,
+        M49,
+        M5,
+        M50,
+        M51,
+        M52,
+        M53,
+        M55,
+        M56,
+        M57,
+        M58,
+        M59,
+        M60,
+        M61,
+        M62,
+        M63,
+        M64,
+        M65,
+        M66,
+        M67,
+        M68,
+        M69,
+        M7,
+        M70,
+        M71,
+        M72,
+        M73,
+        M74,
+        M75,
+        M76,
+        M77,
+        M78,
+        M79,
+        M80,
+        M81,
+        M82,
+        M83,
+        M84,
+        M85,
+        M86,
+        M87,
+        M88,
+        M89,
+        M9,
+        M90,
+        M91,
+        M92,
+        M93,
+        M94,
+        M95,
+        M96,
+        M97,
+        M98,
+        M99,
+        MAH,
+        MAL,
+        MAM,
+        MAR,
+        MAW,
+        MBE,
+        MBF,
+        MBR,
+        MC,
+        MCU,
+        MD,
+        MGM,
+        MHZ,
+        MIK,
+        MIL,
+        MIO,
+        MIU,
+        MKD,
+        MKM,
+        MKW,
+        MLD,
+        MMQ,
+        MND,
+        MNJ,
+        MPA,
+        MQD,
+        MQH,
+        MQM,
+        MQS,
+        MQW,
+        MRD,
+        MRM,
+        MRW,
+        MSK,
+        MTS,
+        MTZ,
+        MVA,
+        MWH,
+        N1,
+        N10,
+        N11,
+        N12,
+        N13,
+        N14,
+        N15,
+        N16,
+        N17,
+        N18,
+        N19,
+        N20,
+        N21,
+        N22,
+        N23,
+        N24,
+        N25,
+        N26,
+        N27,
+        N28,
+        N29,
+        N3,
+        N30,
+        N31,
+        N32,
+        N33,
+        N34,
+        N35,
+        N36,
+        N37,
+        N38,
+        N39,
+        N40,
+        N41,
+        N42,
+        N43,
+        N44,
+        N45,
+        N46,
+        N47,
+        N48,
+        N49,
+        N50,
+        N51,
+        N52,
+        N53,
+        N54,
+        N55,
+        N56,
+        N57,
+        N58,
+        N59,
+        N60,
+        N61,
+        N62,
+        N63,
+        N64,
+        N65,
+        N66,
+        N67,
+        N68,
+        N69,
+        N70,
+        N71,
+        N72,
+        N73,
+        N74,
+        N75,
+        N76,
+        N77,
+        N78,
+        N79,
+        N80,
+        N81,
+        N82,
+        N83,
+        N84,
+        N85,
+        N86,
+        N87,
+        N88,
+        N89,
+        N90,
+        N91,
+        N92,
+        N93,
+        N94,
+        N95,
+        N96,
+        N97,
+        N98,
+        N99,
+        NA,
+        NCL,
+        NEW,
+        NF,
+        NIL,
+        NIU,
+        NL,
+        NM3,
+        NMI,
+        NMP,
+        NPT,
+        NT,
+        NTU,
+        NU,
+        NX,
+        OA,
+        ODE,
+        ODG,
+        ODK,
+        ODM,
+        OHM,
+        ON,
+        OPM,
+        OT,
+        OZA,
+        OZI,
+        P1,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+        P15,
+        P16,
+        P17,
+        P18,
+        P19,
+        P2,
+        P20,
+        P21,
+        P22,
+        P23,
+        P24,
+        P25,
+        P26,
+        P27,
+        P28,
+        P29,
+        P30,
+        P31,
+        P32,
+        P33,
+        P34,
+        P35,
+        P36,
+        P37,
+        P38,
+        P39,
+        P40,
+        P41,
+        P42,
+        P43,
+        P44,
+        P45,
+        P46,
+        P47,
+        P48,
+        P49,
+        P5,
+        P50,
+        P51,
+        P52,
+        P53,
+        P54,
+        P55,
+        P56,
+        P57,
+        P58,
+        P59,
+        P60,
+        P61,
+        P62,
+        P63,
+        P64,
+        P65,
+        P66,
+        P67,
+        P68,
+        P69,
+        P70,
+        P71,
+        P72,
+        P73,
+        P74,
+        P75,
+        P76,
+        P77,
+        P78,
+        P79,
+        P80,
+        P81,
+        P82,
+        P83,
+        P84,
+        P85,
+        P86,
+        P87,
+        P88,
+        P89,
+        P90,
+        P91,
+        P92,
+        P93,
+        P94,
+        P95,
+        P96,
+        P97,
+        P98,
+        P99,
+        PAL,
+        PD,
+        PFL,
+        PGL,
+        PI,
+        PLA,
+        PO,
+        PQ,
+        PR,
+        PS,
+        PTD,
+        PTI,
+        PTL,
+        PTN,
+        Q10,
+        Q11,
+        Q12,
+        Q13,
+        Q14,
+        Q15,
+        Q16,
+        Q17,
+        Q18,
+        Q19,
+        Q20,
+        Q21,
+        Q22,
+        Q23,
+        Q24,
+        Q25,
+        Q26,
+        Q27,
+        Q28,
+        Q29,
+        Q3,
+        Q30,
+        Q31,
+        Q32,
+        Q33,
+        Q34,
+        Q35,
+        Q36,
+        Q37,
+        Q38,
+        Q39,
+        Q40,
+        Q41,
+        Q42,
+        QA,
+        QAN,
+        QB,
+        QR,
+        QTD,
+        QTI,
+        QTL,
+        QTR,
+        R1,
+        R9,
+        RH,
+        RM,
+        ROM,
+        RP,
+        RPM,
+        RPS,
+        RT,
+        S3,
+        S4,
+        SAN,
+        SCO,
+        SCR,
+        SET,
+        SG,
+        SIE,
+        SM3,
+        SQ,
+        SQR,
+        SR,
+        STC,
+        STI,
+        STK,
+        STL,
+        STN,
+        STW,
+        SW,
+        SX,
+        SYR,
+        T0,
+        T3,
+        TAH,
+        TAN,
+        TI,
+        TIC,
+        TIP,
+        TKM,
+        TMS,
+        TP,
+        TPI,
+        TPR,
+        TQD,
+        TRL,
+        TST,
+        TTS,
+        U1,
+        U2,
+        UB,
+        UC,
+        VA,
+        VP,
+        W2,
+        WA,
+        WB,
+        WCD,
+        WE,
+        WEB,
+        WEE,
+        WG,
+        WHR,
+        WM,
+        WSD,
+        X1,
+        Z11,
+        Z9,
+        ZP,
+        X1A,
+        X1B,
+        X1D,
+        X1F,
+        X1G,
+        X1W,
+        X2C,
+        X3A,
+        X3H,
+        X43,
+        X44,
+        X4A,
+        X4B,
+        X4C,
+        X4D,
+        X4F,
+        X4G,
+        X4H,
+        X5H,
+        X5L,
+        X5M,
+        X6H,
+        X6P,
+        X7A,
+        X7B,
+        X8A,
+        X8B,
+        X8C,
+        XIZ,
+        XKG,
+        XKI,
+        XNS,
+        XNT,
+        XNU,
+        XNV,
+        XO1,
+        XO2,
+        XO3,
+        XO4,
+        XO5,
+        XO6,
+        XO7,
+        XO8,
+        XO9,
+        XT1,
     }
 
     /**
@@ -4163,6 +8226,1355 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
         C62,
         LTR,
         H87,
+        AA,
+        AB,
+        ACT,
+        AD,
+        AE,
+        AL,
+        AMP,
+        APZ,
+        AQ,
+        AS,
+        ASM,
+        ASU,
+        ATM,
+        AWG,
+        AY,
+        AZ,
+        B10,
+        BP,
+        BPM,
+        BQL,
+        BTU,
+        C3,
+        C7,
+        C8,
+        C9,
+        CCT,
+        CEN,
+        CG,
+        CGM,
+        CKG,
+        CLF,
+        CTM,
+        D03,
+        D04,
+        D1,
+        D10,
+        D11,
+        D12,
+        D13,
+        D15,
+        D16,
+        D17,
+        D18,
+        D19,
+        D2,
+        D20,
+        D21,
+        D22,
+        D23,
+        D24,
+        D25,
+        D26,
+        D27,
+        D29,
+        D30,
+        D31,
+        D32,
+        D33,
+        D34,
+        D36,
+        D41,
+        D42,
+        D43,
+        D44,
+        D45,
+        D46,
+        D47,
+        D48,
+        D49,
+        D5,
+        D50,
+        D51,
+        D52,
+        D53,
+        D54,
+        D55,
+        D56,
+        D57,
+        D58,
+        D59,
+        D6,
+        D60,
+        D61,
+        D62,
+        D63,
+        D65,
+        D68,
+        D69,
+        D73,
+        D74,
+        D77,
+        D78,
+        D80,
+        D81,
+        D82,
+        D83,
+        D85,
+        D86,
+        D87,
+        D88,
+        D89,
+        D91,
+        D93,
+        D94,
+        D95,
+        DAA,
+        DAD,
+        DBM,
+        DBW,
+        DEC,
+        DJ,
+        DMA,
+        DMO,
+        DN,
+        DPR,
+        DRI,
+        DRL,
+        DT,
+        DTN,
+        DWT,
+        E08,
+        E15,
+        E16,
+        E18,
+        E19,
+        E21,
+        E22,
+        E28,
+        E30,
+        E32,
+        E33,
+        E4,
+        E59,
+        E61,
+        E63,
+        E64,
+        E68,
+        E72,
+        E74,
+        E77,
+        E78,
+        E79,
+        E80,
+        E81,
+        E82,
+        E83,
+        E84,
+        E85,
+        E86,
+        E87,
+        E88,
+        E89,
+        E90,
+        E91,
+        E92,
+        E93,
+        E94,
+        E95,
+        E96,
+        E97,
+        E98,
+        E99,
+        EB,
+        EQ,
+        F01,
+        F02,
+        F03,
+        F04,
+        F05,
+        F06,
+        F07,
+        F08,
+        F10,
+        F11,
+        F12,
+        F13,
+        F14,
+        F15,
+        F16,
+        F17,
+        F18,
+        F19,
+        F20,
+        F21,
+        F22,
+        F23,
+        F24,
+        F25,
+        F26,
+        F27,
+        F28,
+        F29,
+        F30,
+        F31,
+        F32,
+        F33,
+        F34,
+        F35,
+        F36,
+        F37,
+        F38,
+        F39,
+        F40,
+        F41,
+        F42,
+        F43,
+        F44,
+        F45,
+        F46,
+        F47,
+        F48,
+        F49,
+        F50,
+        F51,
+        F52,
+        F53,
+        F54,
+        F55,
+        F56,
+        F57,
+        F58,
+        F59,
+        F60,
+        F61,
+        F62,
+        F63,
+        F64,
+        F65,
+        F66,
+        F67,
+        F68,
+        F69,
+        F70,
+        F71,
+        F72,
+        F73,
+        F74,
+        F75,
+        F76,
+        F77,
+        F78,
+        F79,
+        F80,
+        F81,
+        F82,
+        F83,
+        F84,
+        F85,
+        F86,
+        F87,
+        F88,
+        F89,
+        F90,
+        F91,
+        F92,
+        F93,
+        F94,
+        F95,
+        F96,
+        F97,
+        F98,
+        F99,
+        FAH,
+        FAR,
+        FBM,
+        FC,
+        FF,
+        FH,
+        FIT,
+        FL,
+        FNU,
+        FP,
+        FR,
+        FS,
+        G01,
+        G04,
+        G05,
+        G06,
+        G08,
+        G09,
+        G10,
+        G11,
+        G12,
+        G13,
+        G14,
+        G15,
+        G16,
+        G17,
+        G18,
+        G19,
+        G2,
+        G20,
+        G21,
+        G23,
+        G24,
+        G25,
+        G26,
+        G27,
+        G28,
+        G29,
+        G3,
+        G30,
+        G31,
+        G32,
+        G33,
+        G34,
+        G35,
+        G36,
+        G37,
+        G38,
+        G39,
+        G40,
+        G41,
+        G42,
+        G43,
+        G44,
+        G45,
+        G46,
+        G47,
+        G48,
+        G49,
+        G50,
+        G51,
+        G52,
+        G53,
+        G54,
+        G55,
+        G56,
+        G57,
+        G58,
+        G59,
+        G60,
+        G61,
+        G62,
+        G63,
+        G64,
+        G65,
+        G66,
+        G67,
+        G68,
+        G69,
+        G70,
+        G71,
+        G72,
+        G73,
+        G74,
+        G75,
+        G76,
+        G77,
+        G78,
+        G79,
+        G80,
+        G81,
+        G82,
+        G83,
+        G84,
+        G85,
+        G86,
+        G87,
+        G88,
+        G89,
+        G90,
+        G91,
+        G92,
+        G93,
+        G94,
+        G95,
+        G96,
+        G97,
+        G98,
+        G99,
+        GB,
+        GBQ,
+        GDW,
+        GE,
+        GF,
+        GFI,
+        GGR,
+        GIA,
+        GIC,
+        GII,
+        GIP,
+        GJ,
+        GL,
+        GLD,
+        GM,
+        GO,
+        GP,
+        GQ,
+        GRN,
+        GV,
+        GWH,
+        H03,
+        H04,
+        H05,
+        H06,
+        H07,
+        H08,
+        H09,
+        H10,
+        H11,
+        H12,
+        H13,
+        H14,
+        H15,
+        H16,
+        H18,
+        H19,
+        H20,
+        H21,
+        H22,
+        H23,
+        H24,
+        H25,
+        H26,
+        H27,
+        H28,
+        H29,
+        H30,
+        H31,
+        H32,
+        H33,
+        H34,
+        H35,
+        H36,
+        H37,
+        H38,
+        H39,
+        H40,
+        H41,
+        H42,
+        H43,
+        H44,
+        H45,
+        H46,
+        H47,
+        H48,
+        H49,
+        H50,
+        H51,
+        H52,
+        H53,
+        H54,
+        H55,
+        H56,
+        H57,
+        H58,
+        H59,
+        H60,
+        H61,
+        H62,
+        H63,
+        H64,
+        H65,
+        H66,
+        H67,
+        H68,
+        H69,
+        H70,
+        H71,
+        H72,
+        H73,
+        H74,
+        H75,
+        H76,
+        H77,
+        H79,
+        H80,
+        H81,
+        H82,
+        H83,
+        H84,
+        H85,
+        H88,
+        H89,
+        H90,
+        H91,
+        H92,
+        H93,
+        H94,
+        H95,
+        H96,
+        H98,
+        H99,
+        HA,
+        HAD,
+        HBA,
+        HBX,
+        HC,
+        HDW,
+        HEA,
+        HGM,
+        HH,
+        HIU,
+        HKM,
+        HLT,
+        HM,
+        HMO,
+        HMQ,
+        HMT,
+        HPA,
+        HWE,
+        IA,
+        IE,
+        ISD,
+        IU,
+        IUG,
+        IV,
+        J10,
+        J12,
+        J13,
+        J14,
+        J15,
+        J16,
+        J17,
+        J18,
+        J19,
+        J2,
+        J20,
+        J21,
+        J22,
+        J23,
+        J24,
+        J25,
+        J26,
+        J27,
+        J28,
+        J29,
+        J30,
+        J31,
+        J32,
+        J33,
+        J34,
+        J35,
+        J36,
+        J38,
+        J39,
+        J40,
+        J41,
+        J42,
+        J43,
+        J44,
+        J45,
+        J46,
+        J47,
+        J48,
+        J49,
+        J50,
+        J51,
+        J52,
+        J53,
+        J54,
+        J55,
+        J56,
+        J57,
+        J58,
+        J59,
+        J60,
+        J61,
+        J62,
+        J63,
+        J64,
+        J65,
+        J66,
+        J67,
+        J68,
+        J69,
+        J70,
+        J71,
+        J72,
+        J73,
+        J74,
+        J75,
+        J76,
+        J78,
+        J79,
+        J81,
+        J82,
+        J83,
+        J84,
+        J85,
+        J87,
+        J90,
+        J91,
+        J92,
+        J93,
+        J95,
+        J96,
+        J97,
+        J98,
+        J99,
+        JE,
+        JK,
+        JM,
+        JNT,
+        JOU,
+        JPS,
+        JWL,
+        K1,
+        K10,
+        K11,
+        K12,
+        K13,
+        K14,
+        K15,
+        K16,
+        K17,
+        K18,
+        K19,
+        K2,
+        K20,
+        K21,
+        K22,
+        K23,
+        K26,
+        K27,
+        K28,
+        K3,
+        K30,
+        K31,
+        K32,
+        K33,
+        K34,
+        K35,
+        K36,
+        K37,
+        K38,
+        K39,
+        K40,
+        K41,
+        K42,
+        K43,
+        K45,
+        K46,
+        K47,
+        K48,
+        K49,
+        K50,
+        K51,
+        K52,
+        K53,
+        K54,
+        K55,
+        K58,
+        K59,
+        K6,
+        K60,
+        K61,
+        K62,
+        K63,
+        K64,
+        K65,
+        K66,
+        K67,
+        K68,
+        K69,
+        K70,
+        K71,
+        K73,
+        K74,
+        K75,
+        K76,
+        K77,
+        K78,
+        K79,
+        K80,
+        K81,
+        K82,
+        K83,
+        K84,
+        K85,
+        K86,
+        K87,
+        K88,
+        K89,
+        K90,
+        K91,
+        K92,
+        K93,
+        K94,
+        K95,
+        K96,
+        K97,
+        K98,
+        K99,
+        KA,
+        KAT,
+        KB,
+        KBA,
+        KCC,
+        KDW,
+        KEL,
+        KGS,
+        KHY,
+        KHZ,
+        KI,
+        KIC,
+        KIP,
+        KJ,
+        KJO,
+        KL,
+        KLK,
+        KLX,
+        KMA,
+        KMH,
+        KMQ,
+        KNI,
+        KNM,
+        KNS,
+        KNT,
+        KO,
+        KPA,
+        KPH,
+        KPO,
+        KPP,
+        KR,
+        KSD,
+        KSH,
+        KT,
+        KTN,
+        KUR,
+        KVA,
+        KVR,
+        KVT,
+        KW,
+        KWH,
+        KWN,
+        KWO,
+        KWS,
+        KWT,
+        KWY,
+        KX,
+        L10,
+        L11,
+        L12,
+        L13,
+        L14,
+        L15,
+        L16,
+        L17,
+        L18,
+        L19,
+        L2,
+        L20,
+        L21,
+        L23,
+        L24,
+        L25,
+        L26,
+        L27,
+        L28,
+        L29,
+        L30,
+        L31,
+        L32,
+        L33,
+        L34,
+        L35,
+        L36,
+        L37,
+        L38,
+        L39,
+        L40,
+        L41,
+        L42,
+        L43,
+        L44,
+        L45,
+        L46,
+        L47,
+        L48,
+        L49,
+        L50,
+        L51,
+        L52,
+        L53,
+        L54,
+        L55,
+        L56,
+        L57,
+        L58,
+        L59,
+        L60,
+        L63,
+        L64,
+        L65,
+        L66,
+        L67,
+        L68,
+        L69,
+        L70,
+        L71,
+        L72,
+        L73,
+        L74,
+        L75,
+        L76,
+        L77,
+        L78,
+        L79,
+        L80,
+        L81,
+        L82,
+        L83,
+        L84,
+        L85,
+        L86,
+        L87,
+        L88,
+        L89,
+        L90,
+        L91,
+        L92,
+        L93,
+        L94,
+        L95,
+        L96,
+        L98,
+        L99,
+        LA,
+        LAC,
+        LBT,
+        LD,
+        LEF,
+        LF,
+        LH,
+        LK,
+        LM,
+        LN,
+        LO,
+        LP,
+        LPA,
+        LR,
+        LS,
+        LTN,
+        LUB,
+        LUM,
+        LUX,
+        LY,
+        M1,
+        M10,
+        M11,
+        M12,
+        M13,
+        M14,
+        M15,
+        M16,
+        M17,
+        M18,
+        M19,
+        M20,
+        M21,
+        M22,
+        M23,
+        M24,
+        M25,
+        M26,
+        M27,
+        M29,
+        M30,
+        M31,
+        M32,
+        M33,
+        M34,
+        M35,
+        M36,
+        M37,
+        M38,
+        M39,
+        M4,
+        M40,
+        M41,
+        M42,
+        M43,
+        M44,
+        M45,
+        M46,
+        M47,
+        M48,
+        M49,
+        M5,
+        M50,
+        M51,
+        M52,
+        M53,
+        M55,
+        M56,
+        M57,
+        M58,
+        M59,
+        M60,
+        M61,
+        M62,
+        M63,
+        M64,
+        M65,
+        M66,
+        M67,
+        M68,
+        M69,
+        M7,
+        M70,
+        M71,
+        M72,
+        M73,
+        M74,
+        M75,
+        M76,
+        M77,
+        M78,
+        M79,
+        M80,
+        M81,
+        M82,
+        M83,
+        M84,
+        M85,
+        M86,
+        M87,
+        M88,
+        M89,
+        M9,
+        M90,
+        M91,
+        M92,
+        M93,
+        M94,
+        M95,
+        M96,
+        M97,
+        M98,
+        M99,
+        MAH,
+        MAL,
+        MAM,
+        MAR,
+        MAW,
+        MBE,
+        MBF,
+        MBR,
+        MC,
+        MCU,
+        MD,
+        MGM,
+        MHZ,
+        MIK,
+        MIL,
+        MIO,
+        MIU,
+        MKD,
+        MKM,
+        MKW,
+        MLD,
+        MMQ,
+        MND,
+        MNJ,
+        MPA,
+        MQD,
+        MQH,
+        MQM,
+        MQS,
+        MQW,
+        MRD,
+        MRM,
+        MRW,
+        MSK,
+        MTS,
+        MTZ,
+        MVA,
+        MWH,
+        N1,
+        N10,
+        N11,
+        N12,
+        N13,
+        N14,
+        N15,
+        N16,
+        N17,
+        N18,
+        N19,
+        N20,
+        N21,
+        N22,
+        N23,
+        N24,
+        N25,
+        N26,
+        N27,
+        N28,
+        N29,
+        N3,
+        N30,
+        N31,
+        N32,
+        N33,
+        N34,
+        N35,
+        N36,
+        N37,
+        N38,
+        N39,
+        N40,
+        N41,
+        N42,
+        N43,
+        N44,
+        N45,
+        N46,
+        N47,
+        N48,
+        N49,
+        N50,
+        N51,
+        N52,
+        N53,
+        N54,
+        N55,
+        N56,
+        N57,
+        N58,
+        N59,
+        N60,
+        N61,
+        N62,
+        N63,
+        N64,
+        N65,
+        N66,
+        N67,
+        N68,
+        N69,
+        N70,
+        N71,
+        N72,
+        N73,
+        N74,
+        N75,
+        N76,
+        N77,
+        N78,
+        N79,
+        N80,
+        N81,
+        N82,
+        N83,
+        N84,
+        N85,
+        N86,
+        N87,
+        N88,
+        N89,
+        N90,
+        N91,
+        N92,
+        N93,
+        N94,
+        N95,
+        N96,
+        N97,
+        N98,
+        N99,
+        NA,
+        NCL,
+        NEW,
+        NF,
+        NIL,
+        NIU,
+        NL,
+        NM3,
+        NMI,
+        NMP,
+        NPT,
+        NT,
+        NTU,
+        NU,
+        NX,
+        OA,
+        ODE,
+        ODG,
+        ODK,
+        ODM,
+        OHM,
+        ON,
+        OPM,
+        OT,
+        OZA,
+        OZI,
+        P1,
+        P10,
+        P11,
+        P12,
+        P13,
+        P14,
+        P15,
+        P16,
+        P17,
+        P18,
+        P19,
+        P2,
+        P20,
+        P21,
+        P22,
+        P23,
+        P24,
+        P25,
+        P26,
+        P27,
+        P28,
+        P29,
+        P30,
+        P31,
+        P32,
+        P33,
+        P34,
+        P35,
+        P36,
+        P37,
+        P38,
+        P39,
+        P40,
+        P41,
+        P42,
+        P43,
+        P44,
+        P45,
+        P46,
+        P47,
+        P48,
+        P49,
+        P5,
+        P50,
+        P51,
+        P52,
+        P53,
+        P54,
+        P55,
+        P56,
+        P57,
+        P58,
+        P59,
+        P60,
+        P61,
+        P62,
+        P63,
+        P64,
+        P65,
+        P66,
+        P67,
+        P68,
+        P69,
+        P70,
+        P71,
+        P72,
+        P73,
+        P74,
+        P75,
+        P76,
+        P77,
+        P78,
+        P79,
+        P80,
+        P81,
+        P82,
+        P83,
+        P84,
+        P85,
+        P86,
+        P87,
+        P88,
+        P89,
+        P90,
+        P91,
+        P92,
+        P93,
+        P94,
+        P95,
+        P96,
+        P97,
+        P98,
+        P99,
+        PAL,
+        PD,
+        PFL,
+        PGL,
+        PI,
+        PLA,
+        PO,
+        PQ,
+        PR,
+        PS,
+        PTD,
+        PTI,
+        PTL,
+        PTN,
+        Q10,
+        Q11,
+        Q12,
+        Q13,
+        Q14,
+        Q15,
+        Q16,
+        Q17,
+        Q18,
+        Q19,
+        Q20,
+        Q21,
+        Q22,
+        Q23,
+        Q24,
+        Q25,
+        Q26,
+        Q27,
+        Q28,
+        Q29,
+        Q3,
+        Q30,
+        Q31,
+        Q32,
+        Q33,
+        Q34,
+        Q35,
+        Q36,
+        Q37,
+        Q38,
+        Q39,
+        Q40,
+        Q41,
+        Q42,
+        QA,
+        QAN,
+        QB,
+        QR,
+        QTD,
+        QTI,
+        QTL,
+        QTR,
+        R1,
+        R9,
+        RH,
+        RM,
+        ROM,
+        RP,
+        RPM,
+        RPS,
+        RT,
+        S3,
+        S4,
+        SAN,
+        SCO,
+        SCR,
+        SET,
+        SG,
+        SIE,
+        SM3,
+        SQ,
+        SQR,
+        SR,
+        STC,
+        STI,
+        STK,
+        STL,
+        STN,
+        STW,
+        SW,
+        SX,
+        SYR,
+        T0,
+        T3,
+        TAH,
+        TAN,
+        TI,
+        TIC,
+        TIP,
+        TKM,
+        TMS,
+        TP,
+        TPI,
+        TPR,
+        TQD,
+        TRL,
+        TST,
+        TTS,
+        U1,
+        U2,
+        UB,
+        UC,
+        VA,
+        VP,
+        W2,
+        WA,
+        WB,
+        WCD,
+        WE,
+        WEB,
+        WEE,
+        WG,
+        WHR,
+        WM,
+        WSD,
+        X1,
+        Z11,
+        Z9,
+        ZP,
+        X1A,
+        X1B,
+        X1D,
+        X1F,
+        X1G,
+        X1W,
+        X2C,
+        X3A,
+        X3H,
+        X43,
+        X44,
+        X4A,
+        X4B,
+        X4C,
+        X4D,
+        X4F,
+        X4G,
+        X4H,
+        X5H,
+        X5L,
+        X5M,
+        X6H,
+        X6P,
+        X7A,
+        X7B,
+        X8A,
+        X8B,
+        X8C,
+        XIZ,
+        XKG,
+        XKI,
+        XNS,
+        XNT,
+        XNU,
+        XNV,
+        XO1,
+        XO2,
+        XO3,
+        XO4,
+        XO5,
+        XO6,
+        XO7,
+        XO8,
+        XO9,
+        XT1,
         /**
          * An enum member indicating that [UnitOfMeasureCode] was instantiated with an unknown
          * value.
@@ -4177,1041 +9589,7 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
      * Use the [known] method instead if you're certain the value is always known or if you want to
      * throw for the unknown case.
      */
-    fun value(): Value =
-        when (this) {
-            _10 -> Value._10
-            _11 -> Value._11
-            _13 -> Value._13
-            _14 -> Value._14
-            _15 -> Value._15
-            _20 -> Value._20
-            _21 -> Value._21
-            _22 -> Value._22
-            _23 -> Value._23
-            _24 -> Value._24
-            _25 -> Value._25
-            _27 -> Value._27
-            _28 -> Value._28
-            _33 -> Value._33
-            _34 -> Value._34
-            _35 -> Value._35
-            _37 -> Value._37
-            _38 -> Value._38
-            _40 -> Value._40
-            _41 -> Value._41
-            _56 -> Value._56
-            _57 -> Value._57
-            _58 -> Value._58
-            _59 -> Value._59
-            _60 -> Value._60
-            _61 -> Value._61
-            _74 -> Value._74
-            _77 -> Value._77
-            _80 -> Value._80
-            _81 -> Value._81
-            _85 -> Value._85
-            _87 -> Value._87
-            _89 -> Value._89
-            _91 -> Value._91
-            _1_I -> Value._1_I
-            EA -> Value.EA
-            E01 -> Value.E01
-            E07 -> Value.E07
-            E09 -> Value.E09
-            E10 -> Value.E10
-            E12 -> Value.E12
-            E14 -> Value.E14
-            E17 -> Value.E17
-            E20 -> Value.E20
-            E23 -> Value.E23
-            E25 -> Value.E25
-            E27 -> Value.E27
-            E31 -> Value.E31
-            E34 -> Value.E34
-            E35 -> Value.E35
-            E36 -> Value.E36
-            E37 -> Value.E37
-            E38 -> Value.E38
-            E39 -> Value.E39
-            E40 -> Value.E40
-            E41 -> Value.E41
-            E42 -> Value.E42
-            E43 -> Value.E43
-            E44 -> Value.E44
-            E45 -> Value.E45
-            E46 -> Value.E46
-            E47 -> Value.E47
-            E48 -> Value.E48
-            E49 -> Value.E49
-            E50 -> Value.E50
-            E51 -> Value.E51
-            E52 -> Value.E52
-            E53 -> Value.E53
-            E54 -> Value.E54
-            E55 -> Value.E55
-            E56 -> Value.E56
-            E57 -> Value.E57
-            E58 -> Value.E58
-            E60 -> Value.E60
-            E62 -> Value.E62
-            E65 -> Value.E65
-            E66 -> Value.E66
-            E67 -> Value.E67
-            E69 -> Value.E69
-            E70 -> Value.E70
-            E71 -> Value.E71
-            E73 -> Value.E73
-            E75 -> Value.E75
-            E76 -> Value.E76
-            _2_A -> Value._2_A
-            _2_B -> Value._2_B
-            _2_C -> Value._2_C
-            _2_G -> Value._2_G
-            _2_H -> Value._2_H
-            _2_I -> Value._2_I
-            _2_J -> Value._2_J
-            _2_K -> Value._2_K
-            _2_L -> Value._2_L
-            _2_M -> Value._2_M
-            _2_N -> Value._2_N
-            _2_P -> Value._2_P
-            _2_Q -> Value._2_Q
-            _2_R -> Value._2_R
-            _2_U -> Value._2_U
-            _2_X -> Value._2_X
-            _2_Y -> Value._2_Y
-            _2_Z -> Value._2_Z
-            _3_B -> Value._3_B
-            _3_C -> Value._3_C
-            _4_C -> Value._4_C
-            _4_G -> Value._4_G
-            _4_H -> Value._4_H
-            _4_K -> Value._4_K
-            _4_L -> Value._4_L
-            _4_M -> Value._4_M
-            _4_N -> Value._4_N
-            _4_O -> Value._4_O
-            _4_P -> Value._4_P
-            _4_Q -> Value._4_Q
-            _4_R -> Value._4_R
-            _4_T -> Value._4_T
-            _4_U -> Value._4_U
-            _4_W -> Value._4_W
-            _4_X -> Value._4_X
-            _5_A -> Value._5_A
-            _5_B -> Value._5_B
-            _5_E -> Value._5_E
-            _5_J -> Value._5_J
-            A10 -> Value.A10
-            A11 -> Value.A11
-            A12 -> Value.A12
-            A13 -> Value.A13
-            A14 -> Value.A14
-            A15 -> Value.A15
-            A16 -> Value.A16
-            A17 -> Value.A17
-            A18 -> Value.A18
-            A19 -> Value.A19
-            A2 -> Value.A2
-            A20 -> Value.A20
-            A21 -> Value.A21
-            A22 -> Value.A22
-            A23 -> Value.A23
-            A24 -> Value.A24
-            A26 -> Value.A26
-            A27 -> Value.A27
-            A28 -> Value.A28
-            A29 -> Value.A29
-            A3 -> Value.A3
-            A30 -> Value.A30
-            A31 -> Value.A31
-            A32 -> Value.A32
-            A33 -> Value.A33
-            A34 -> Value.A34
-            A35 -> Value.A35
-            A36 -> Value.A36
-            A37 -> Value.A37
-            A38 -> Value.A38
-            A39 -> Value.A39
-            A4 -> Value.A4
-            A40 -> Value.A40
-            A41 -> Value.A41
-            A42 -> Value.A42
-            A43 -> Value.A43
-            A44 -> Value.A44
-            A45 -> Value.A45
-            A46 -> Value.A46
-            A47 -> Value.A47
-            A48 -> Value.A48
-            A49 -> Value.A49
-            A5 -> Value.A5
-            A50 -> Value.A50
-            A51 -> Value.A51
-            A52 -> Value.A52
-            A53 -> Value.A53
-            A54 -> Value.A54
-            A55 -> Value.A55
-            A56 -> Value.A56
-            A57 -> Value.A57
-            A58 -> Value.A58
-            A59 -> Value.A59
-            A6 -> Value.A6
-            A60 -> Value.A60
-            A61 -> Value.A61
-            A62 -> Value.A62
-            A63 -> Value.A63
-            A64 -> Value.A64
-            A65 -> Value.A65
-            A66 -> Value.A66
-            A67 -> Value.A67
-            A68 -> Value.A68
-            A69 -> Value.A69
-            A7 -> Value.A7
-            A70 -> Value.A70
-            A71 -> Value.A71
-            A72 -> Value.A72
-            A73 -> Value.A73
-            A74 -> Value.A74
-            A75 -> Value.A75
-            A76 -> Value.A76
-            A77 -> Value.A77
-            A78 -> Value.A78
-            A79 -> Value.A79
-            A8 -> Value.A8
-            A80 -> Value.A80
-            A81 -> Value.A81
-            A82 -> Value.A82
-            A83 -> Value.A83
-            A84 -> Value.A84
-            A85 -> Value.A85
-            A86 -> Value.A86
-            A87 -> Value.A87
-            A88 -> Value.A88
-            A89 -> Value.A89
-            A9 -> Value.A9
-            A90 -> Value.A90
-            A91 -> Value.A91
-            A92 -> Value.A92
-            A93 -> Value.A93
-            A94 -> Value.A94
-            A95 -> Value.A95
-            A96 -> Value.A96
-            A97 -> Value.A97
-            A98 -> Value.A98
-            A99 -> Value.A99
-            ACR -> Value.ACR
-            AH -> Value.AH
-            AI -> Value.AI
-            AK -> Value.AK
-            AMH -> Value.AMH
-            AMT -> Value.AMT
-            ANN -> Value.ANN
-            B1 -> Value.B1
-            B11 -> Value.B11
-            B12 -> Value.B12
-            B13 -> Value.B13
-            B14 -> Value.B14
-            B15 -> Value.B15
-            B16 -> Value.B16
-            B17 -> Value.B17
-            B18 -> Value.B18
-            B19 -> Value.B19
-            B20 -> Value.B20
-            B21 -> Value.B21
-            B22 -> Value.B22
-            B23 -> Value.B23
-            B24 -> Value.B24
-            B25 -> Value.B25
-            B26 -> Value.B26
-            B27 -> Value.B27
-            B28 -> Value.B28
-            B29 -> Value.B29
-            B3 -> Value.B3
-            B30 -> Value.B30
-            B31 -> Value.B31
-            B32 -> Value.B32
-            B33 -> Value.B33
-            B34 -> Value.B34
-            B35 -> Value.B35
-            B36 -> Value.B36
-            B37 -> Value.B37
-            B38 -> Value.B38
-            B39 -> Value.B39
-            B4 -> Value.B4
-            B40 -> Value.B40
-            B41 -> Value.B41
-            B42 -> Value.B42
-            B43 -> Value.B43
-            B44 -> Value.B44
-            B45 -> Value.B45
-            B46 -> Value.B46
-            B47 -> Value.B47
-            B48 -> Value.B48
-            B49 -> Value.B49
-            B5 -> Value.B5
-            B50 -> Value.B50
-            B52 -> Value.B52
-            B53 -> Value.B53
-            B54 -> Value.B54
-            B55 -> Value.B55
-            B56 -> Value.B56
-            B57 -> Value.B57
-            B58 -> Value.B58
-            B59 -> Value.B59
-            B6 -> Value.B6
-            B60 -> Value.B60
-            B61 -> Value.B61
-            B62 -> Value.B62
-            B63 -> Value.B63
-            B64 -> Value.B64
-            B65 -> Value.B65
-            B66 -> Value.B66
-            B67 -> Value.B67
-            B68 -> Value.B68
-            B69 -> Value.B69
-            B7 -> Value.B7
-            B70 -> Value.B70
-            B71 -> Value.B71
-            B72 -> Value.B72
-            B73 -> Value.B73
-            B74 -> Value.B74
-            B75 -> Value.B75
-            B76 -> Value.B76
-            B77 -> Value.B77
-            B78 -> Value.B78
-            B79 -> Value.B79
-            B8 -> Value.B8
-            B80 -> Value.B80
-            B81 -> Value.B81
-            B82 -> Value.B82
-            B83 -> Value.B83
-            B84 -> Value.B84
-            B85 -> Value.B85
-            B86 -> Value.B86
-            B87 -> Value.B87
-            B88 -> Value.B88
-            B89 -> Value.B89
-            B9 -> Value.B9
-            B90 -> Value.B90
-            B91 -> Value.B91
-            B92 -> Value.B92
-            B93 -> Value.B93
-            B94 -> Value.B94
-            B95 -> Value.B95
-            B96 -> Value.B96
-            B97 -> Value.B97
-            B98 -> Value.B98
-            B99 -> Value.B99
-            BAR -> Value.BAR
-            BB -> Value.BB
-            BFT -> Value.BFT
-            BHP -> Value.BHP
-            BIL -> Value.BIL
-            BLD -> Value.BLD
-            BLL -> Value.BLL
-            BUA -> Value.BUA
-            BUI -> Value.BUI
-            C0 -> Value.C0
-            C10 -> Value.C10
-            C11 -> Value.C11
-            C12 -> Value.C12
-            C13 -> Value.C13
-            C14 -> Value.C14
-            C15 -> Value.C15
-            C16 -> Value.C16
-            C17 -> Value.C17
-            C18 -> Value.C18
-            C19 -> Value.C19
-            C20 -> Value.C20
-            C21 -> Value.C21
-            C22 -> Value.C22
-            C23 -> Value.C23
-            C24 -> Value.C24
-            C25 -> Value.C25
-            C26 -> Value.C26
-            C27 -> Value.C27
-            C28 -> Value.C28
-            C29 -> Value.C29
-            C30 -> Value.C30
-            C31 -> Value.C31
-            C32 -> Value.C32
-            C33 -> Value.C33
-            C34 -> Value.C34
-            C35 -> Value.C35
-            C36 -> Value.C36
-            C37 -> Value.C37
-            C38 -> Value.C38
-            C39 -> Value.C39
-            C40 -> Value.C40
-            C41 -> Value.C41
-            C42 -> Value.C42
-            C43 -> Value.C43
-            C44 -> Value.C44
-            C45 -> Value.C45
-            C46 -> Value.C46
-            C47 -> Value.C47
-            C48 -> Value.C48
-            C49 -> Value.C49
-            C50 -> Value.C50
-            C51 -> Value.C51
-            C52 -> Value.C52
-            C53 -> Value.C53
-            C54 -> Value.C54
-            C55 -> Value.C55
-            C56 -> Value.C56
-            C57 -> Value.C57
-            C58 -> Value.C58
-            C59 -> Value.C59
-            C60 -> Value.C60
-            C61 -> Value.C61
-            C63 -> Value.C63
-            C64 -> Value.C64
-            C65 -> Value.C65
-            C66 -> Value.C66
-            C67 -> Value.C67
-            C68 -> Value.C68
-            C69 -> Value.C69
-            C70 -> Value.C70
-            C71 -> Value.C71
-            C72 -> Value.C72
-            C73 -> Value.C73
-            C74 -> Value.C74
-            C75 -> Value.C75
-            C76 -> Value.C76
-            C77 -> Value.C77
-            C78 -> Value.C78
-            C79 -> Value.C79
-            C80 -> Value.C80
-            C81 -> Value.C81
-            C82 -> Value.C82
-            C83 -> Value.C83
-            C84 -> Value.C84
-            C85 -> Value.C85
-            C86 -> Value.C86
-            C87 -> Value.C87
-            C88 -> Value.C88
-            C89 -> Value.C89
-            C90 -> Value.C90
-            C91 -> Value.C91
-            C92 -> Value.C92
-            C93 -> Value.C93
-            C94 -> Value.C94
-            C95 -> Value.C95
-            C96 -> Value.C96
-            C97 -> Value.C97
-            C98 -> Value.C98
-            C99 -> Value.C99
-            CDL -> Value.CDL
-            CEL -> Value.CEL
-            CHU -> Value.CHU
-            CIU -> Value.CIU
-            CLT -> Value.CLT
-            CMK -> Value.CMK
-            CMQ -> Value.CMQ
-            CMT -> Value.CMT
-            CNP -> Value.CNP
-            CNT -> Value.CNT
-            COU -> Value.COU
-            CTG -> Value.CTG
-            CTN -> Value.CTN
-            CUR -> Value.CUR
-            CWA -> Value.CWA
-            CWI -> Value.CWI
-            DAN -> Value.DAN
-            DAY -> Value.DAY
-            DB -> Value.DB
-            DD -> Value.DD
-            DG -> Value.DG
-            DI -> Value.DI
-            DLT -> Value.DLT
-            DMK -> Value.DMK
-            DMQ -> Value.DMQ
-            DMT -> Value.DMT
-            DPC -> Value.DPC
-            DPT -> Value.DPT
-            DRA -> Value.DRA
-            DZN -> Value.DZN
-            DZP -> Value.DZP
-            FOT -> Value.FOT
-            GLL -> Value.GLL
-            GLI -> Value.GLI
-            GRM -> Value.GRM
-            GRO -> Value.GRO
-            HUR -> Value.HUR
-            HTZ -> Value.HTZ
-            INH -> Value.INH
-            KGM -> Value.KGM
-            KMT -> Value.KMT
-            MTR -> Value.MTR
-            SMI -> Value.SMI
-            MIN -> Value.MIN
-            MON -> Value.MON
-            ONZ -> Value.ONZ
-            LBR -> Value.LBR
-            QT -> Value.QT
-            SEC -> Value.SEC
-            FTK -> Value.FTK
-            INK -> Value.INK
-            MTK -> Value.MTK
-            YDK -> Value.YDK
-            TNE -> Value.TNE
-            VLT -> Value.VLT
-            WTT -> Value.WTT
-            YRD -> Value.YRD
-            FTQ -> Value.FTQ
-            INQ -> Value.INQ
-            MTQ -> Value.MTQ
-            YDQ -> Value.YDQ
-            HAR -> Value.HAR
-            KLT -> Value.KLT
-            MLT -> Value.MLT
-            MMT -> Value.MMT
-            KMK -> Value.KMK
-            MMK -> Value.MMK
-            XAA -> Value.XAA
-            XAB -> Value.XAB
-            XAC -> Value.XAC
-            XAD -> Value.XAD
-            XAE -> Value.XAE
-            XAF -> Value.XAF
-            XAG -> Value.XAG
-            XAH -> Value.XAH
-            XAI -> Value.XAI
-            XAJ -> Value.XAJ
-            XAL -> Value.XAL
-            XAM -> Value.XAM
-            XAP -> Value.XAP
-            XAT -> Value.XAT
-            XAV -> Value.XAV
-            XB4 -> Value.XB4
-            XBA -> Value.XBA
-            XBB -> Value.XBB
-            XBC -> Value.XBC
-            XBD -> Value.XBD
-            XBE -> Value.XBE
-            XBF -> Value.XBF
-            XBG -> Value.XBG
-            XBH -> Value.XBH
-            XBI -> Value.XBI
-            XBJ -> Value.XBJ
-            XBK -> Value.XBK
-            XBL -> Value.XBL
-            XBM -> Value.XBM
-            XBN -> Value.XBN
-            XBO -> Value.XBO
-            XBP -> Value.XBP
-            XBQ -> Value.XBQ
-            XBR -> Value.XBR
-            XBS -> Value.XBS
-            XBT -> Value.XBT
-            XBU -> Value.XBU
-            XBV -> Value.XBV
-            XBW -> Value.XBW
-            XBX -> Value.XBX
-            XBY -> Value.XBY
-            XBZ -> Value.XBZ
-            XCA -> Value.XCA
-            XCB -> Value.XCB
-            XCC -> Value.XCC
-            XCD -> Value.XCD
-            XCE -> Value.XCE
-            XCF -> Value.XCF
-            XCG -> Value.XCG
-            XCH -> Value.XCH
-            XCI -> Value.XCI
-            XCJ -> Value.XCJ
-            XCK -> Value.XCK
-            XCL -> Value.XCL
-            XCM -> Value.XCM
-            XCN -> Value.XCN
-            XCO -> Value.XCO
-            XCP -> Value.XCP
-            XCQ -> Value.XCQ
-            XCR -> Value.XCR
-            XCS -> Value.XCS
-            XCT -> Value.XCT
-            XCU -> Value.XCU
-            XCV -> Value.XCV
-            XCW -> Value.XCW
-            XCX -> Value.XCX
-            XCY -> Value.XCY
-            XCZ -> Value.XCZ
-            XDA -> Value.XDA
-            XDB -> Value.XDB
-            XDC -> Value.XDC
-            XDD -> Value.XDD
-            XDE -> Value.XDE
-            XDF -> Value.XDF
-            XDG -> Value.XDG
-            XDH -> Value.XDH
-            XDI -> Value.XDI
-            XDJ -> Value.XDJ
-            XDK -> Value.XDK
-            XDL -> Value.XDL
-            XDM -> Value.XDM
-            XDN -> Value.XDN
-            XDP -> Value.XDP
-            XDQ -> Value.XDQ
-            XDR -> Value.XDR
-            XDS -> Value.XDS
-            XDT -> Value.XDT
-            XDU -> Value.XDU
-            XDV -> Value.XDV
-            XDW -> Value.XDW
-            XDX -> Value.XDX
-            XDY -> Value.XDY
-            XDZ -> Value.XDZ
-            XEA -> Value.XEA
-            XEB -> Value.XEB
-            XEC -> Value.XEC
-            XED -> Value.XED
-            XEE -> Value.XEE
-            XEF -> Value.XEF
-            XEG -> Value.XEG
-            XEH -> Value.XEH
-            XEI -> Value.XEI
-            XEJ -> Value.XEJ
-            XEK -> Value.XEK
-            XEL -> Value.XEL
-            XEM -> Value.XEM
-            XEN -> Value.XEN
-            XEP -> Value.XEP
-            XEQ -> Value.XEQ
-            XER -> Value.XER
-            XES -> Value.XES
-            XET -> Value.XET
-            XEU -> Value.XEU
-            XEV -> Value.XEV
-            XEW -> Value.XEW
-            XEX -> Value.XEX
-            XEY -> Value.XEY
-            XFB -> Value.XFB
-            XFC -> Value.XFC
-            XFD -> Value.XFD
-            XFE -> Value.XFE
-            XFF -> Value.XFF
-            XFG -> Value.XFG
-            XFH -> Value.XFH
-            XFI -> Value.XFI
-            XFJ -> Value.XFJ
-            XFK -> Value.XFK
-            XFL -> Value.XFL
-            XFM -> Value.XFM
-            XFN -> Value.XFN
-            XFO -> Value.XFO
-            XFP -> Value.XFP
-            XFQ -> Value.XFQ
-            XFR -> Value.XFR
-            XFS -> Value.XFS
-            XFT -> Value.XFT
-            XFU -> Value.XFU
-            XFV -> Value.XFV
-            XFW -> Value.XFW
-            XFX -> Value.XFX
-            XFY -> Value.XFY
-            XFZ -> Value.XFZ
-            XGA -> Value.XGA
-            XGB -> Value.XGB
-            XGC -> Value.XGC
-            XGD -> Value.XGD
-            XGE -> Value.XGE
-            XGF -> Value.XGF
-            XGG -> Value.XGG
-            XGH -> Value.XGH
-            XGI -> Value.XGI
-            XGJ -> Value.XGJ
-            XGK -> Value.XGK
-            XGL -> Value.XGL
-            XGM -> Value.XGM
-            XGN -> Value.XGN
-            XGO -> Value.XGO
-            XGP -> Value.XGP
-            XGQ -> Value.XGQ
-            XGR -> Value.XGR
-            XGS -> Value.XGS
-            XGT -> Value.XGT
-            XGU -> Value.XGU
-            XGV -> Value.XGV
-            XGW -> Value.XGW
-            XGX -> Value.XGX
-            XGY -> Value.XGY
-            XGZ -> Value.XGZ
-            XHA -> Value.XHA
-            XHB -> Value.XHB
-            XHC -> Value.XHC
-            XHD -> Value.XHD
-            XHE -> Value.XHE
-            XHF -> Value.XHF
-            XHG -> Value.XHG
-            XHH -> Value.XHH
-            XHI -> Value.XHI
-            XHJ -> Value.XHJ
-            XHK -> Value.XHK
-            XHL -> Value.XHL
-            XHM -> Value.XHM
-            XHN -> Value.XHN
-            XHP -> Value.XHP
-            XHQ -> Value.XHQ
-            XHR -> Value.XHR
-            XHS -> Value.XHS
-            XHT -> Value.XHT
-            XHU -> Value.XHU
-            XHV -> Value.XHV
-            XHW -> Value.XHW
-            XHX -> Value.XHX
-            XHY -> Value.XHY
-            XHZ -> Value.XHZ
-            XIA -> Value.XIA
-            XIB -> Value.XIB
-            XIC -> Value.XIC
-            XID -> Value.XID
-            XIE -> Value.XIE
-            XIF -> Value.XIF
-            XIG -> Value.XIG
-            XIH -> Value.XIH
-            XII -> Value.XII
-            XIJ -> Value.XIJ
-            XIK -> Value.XIK
-            XIL -> Value.XIL
-            XIM -> Value.XIM
-            XIN -> Value.XIN
-            XIO -> Value.XIO
-            XJA -> Value.XJA
-            XJB -> Value.XJB
-            XJC -> Value.XJC
-            XJD -> Value.XJD
-            XJE -> Value.XJE
-            XJF -> Value.XJF
-            XJG -> Value.XJG
-            XJH -> Value.XJH
-            XJI -> Value.XJI
-            XJJ -> Value.XJJ
-            XJK -> Value.XJK
-            XJL -> Value.XJL
-            XJM -> Value.XJM
-            XJN -> Value.XJN
-            XJO -> Value.XJO
-            XJP -> Value.XJP
-            XJQ -> Value.XJQ
-            XJR -> Value.XJR
-            XJS -> Value.XJS
-            XJT -> Value.XJT
-            XJU -> Value.XJU
-            XJV -> Value.XJV
-            XJW -> Value.XJW
-            XJX -> Value.XJX
-            XJY -> Value.XJY
-            XJZ -> Value.XJZ
-            XLA -> Value.XLA
-            XLB -> Value.XLB
-            XLC -> Value.XLC
-            XLD -> Value.XLD
-            XLE -> Value.XLE
-            XLF -> Value.XLF
-            XLG -> Value.XLG
-            XLH -> Value.XLH
-            XLI -> Value.XLI
-            XLJ -> Value.XLJ
-            XLK -> Value.XLK
-            XLL -> Value.XLL
-            XLM -> Value.XLM
-            XLN -> Value.XLN
-            XLO -> Value.XLO
-            XLP -> Value.XLP
-            XLQ -> Value.XLQ
-            XLR -> Value.XLR
-            XLS -> Value.XLS
-            XLT -> Value.XLT
-            XLU -> Value.XLU
-            XLV -> Value.XLV
-            XLW -> Value.XLW
-            XLX -> Value.XLX
-            XLY -> Value.XLY
-            XLZ -> Value.XLZ
-            XMA -> Value.XMA
-            XMB -> Value.XMB
-            XMC -> Value.XMC
-            XMD -> Value.XMD
-            XME -> Value.XME
-            XMF -> Value.XMF
-            XMG -> Value.XMG
-            XMH -> Value.XMH
-            XMI -> Value.XMI
-            XMJ -> Value.XMJ
-            XMK -> Value.XMK
-            XML -> Value.XML
-            XMM -> Value.XMM
-            XMN -> Value.XMN
-            XMO -> Value.XMO
-            XMP -> Value.XMP
-            XMQ -> Value.XMQ
-            XMR -> Value.XMR
-            XMS -> Value.XMS
-            XMT -> Value.XMT
-            XMU -> Value.XMU
-            XMV -> Value.XMV
-            XMW -> Value.XMW
-            XMX -> Value.XMX
-            XMY -> Value.XMY
-            XMZ -> Value.XMZ
-            XNA -> Value.XNA
-            XNB -> Value.XNB
-            XNC -> Value.XNC
-            XND -> Value.XND
-            XNE -> Value.XNE
-            XNF -> Value.XNF
-            XNG -> Value.XNG
-            XNH -> Value.XNH
-            XNI -> Value.XNI
-            XNJ -> Value.XNJ
-            XNK -> Value.XNK
-            XNL -> Value.XNL
-            XNM -> Value.XNM
-            XOA -> Value.XOA
-            XOB -> Value.XOB
-            XOC -> Value.XOC
-            XOD -> Value.XOD
-            XOE -> Value.XOE
-            XOF -> Value.XOF
-            XOG -> Value.XOG
-            XOH -> Value.XOH
-            XOI -> Value.XOI
-            XOJ -> Value.XOJ
-            XOK -> Value.XOK
-            XOL -> Value.XOL
-            XOM -> Value.XOM
-            XON -> Value.XON
-            XOO -> Value.XOO
-            XOP -> Value.XOP
-            XOQ -> Value.XOQ
-            XOR -> Value.XOR
-            XOS -> Value.XOS
-            XOT -> Value.XOT
-            XOU -> Value.XOU
-            XOV -> Value.XOV
-            XOW -> Value.XOW
-            XOX -> Value.XOX
-            XOY -> Value.XOY
-            XOZ -> Value.XOZ
-            XP1 -> Value.XP1
-            XP2 -> Value.XP2
-            XP3 -> Value.XP3
-            XP4 -> Value.XP4
-            XPA -> Value.XPA
-            XPB -> Value.XPB
-            XPC -> Value.XPC
-            XPD -> Value.XPD
-            XPE -> Value.XPE
-            XPF -> Value.XPF
-            XPG -> Value.XPG
-            XPH -> Value.XPH
-            XPI -> Value.XPI
-            XPJ -> Value.XPJ
-            XPK -> Value.XPK
-            XPL -> Value.XPL
-            XPM -> Value.XPM
-            XPN -> Value.XPN
-            XPO -> Value.XPO
-            XPP -> Value.XPP
-            XPQ -> Value.XPQ
-            XPR -> Value.XPR
-            XPS -> Value.XPS
-            XPT -> Value.XPT
-            XPU -> Value.XPU
-            XPV -> Value.XPV
-            XPW -> Value.XPW
-            XPX -> Value.XPX
-            XPY -> Value.XPY
-            XPZ -> Value.XPZ
-            XQA -> Value.XQA
-            XQB -> Value.XQB
-            XQC -> Value.XQC
-            XQD -> Value.XQD
-            XQE -> Value.XQE
-            XQF -> Value.XQF
-            XQG -> Value.XQG
-            XQH -> Value.XQH
-            XQI -> Value.XQI
-            XQJ -> Value.XQJ
-            XQK -> Value.XQK
-            XQL -> Value.XQL
-            XQM -> Value.XQM
-            XQN -> Value.XQN
-            XQO -> Value.XQO
-            XQP -> Value.XQP
-            XQQ -> Value.XQQ
-            XQR -> Value.XQR
-            XQS -> Value.XQS
-            XRD -> Value.XRD
-            XRE -> Value.XRE
-            XRF -> Value.XRF
-            XRG -> Value.XRG
-            XRH -> Value.XRH
-            XRI -> Value.XRI
-            XRJ -> Value.XRJ
-            XRK -> Value.XRK
-            XRL -> Value.XRL
-            XRM -> Value.XRM
-            XRN -> Value.XRN
-            XRO -> Value.XRO
-            XRP -> Value.XRP
-            XRQ -> Value.XRQ
-            XRR -> Value.XRR
-            XRS -> Value.XRS
-            XRT -> Value.XRT
-            XRU -> Value.XRU
-            XRV -> Value.XRV
-            XRW -> Value.XRW
-            XRX -> Value.XRX
-            XRY -> Value.XRY
-            XRZ -> Value.XRZ
-            XSA -> Value.XSA
-            XSB -> Value.XSB
-            XSC -> Value.XSC
-            XSD -> Value.XSD
-            XSE -> Value.XSE
-            XSF -> Value.XSF
-            XSG -> Value.XSG
-            XSH -> Value.XSH
-            XSI -> Value.XSI
-            XSJ -> Value.XSJ
-            XSK -> Value.XSK
-            XSL -> Value.XSL
-            XSM -> Value.XSM
-            XSN -> Value.XSN
-            XSO -> Value.XSO
-            XSP -> Value.XSP
-            XSQ -> Value.XSQ
-            XSR -> Value.XSR
-            XSS -> Value.XSS
-            XST -> Value.XST
-            XSU -> Value.XSU
-            XSV -> Value.XSV
-            XSW -> Value.XSW
-            XSX -> Value.XSX
-            XSY -> Value.XSY
-            XSZ -> Value.XSZ
-            XTA -> Value.XTA
-            XTB -> Value.XTB
-            XTC -> Value.XTC
-            XTD -> Value.XTD
-            XTE -> Value.XTE
-            XTF -> Value.XTF
-            XTG -> Value.XTG
-            XTI -> Value.XTI
-            XTJ -> Value.XTJ
-            XTK -> Value.XTK
-            XTL -> Value.XTL
-            XTM -> Value.XTM
-            XTN -> Value.XTN
-            XTO -> Value.XTO
-            XTR -> Value.XTR
-            XTS -> Value.XTS
-            XTT -> Value.XTT
-            XTU -> Value.XTU
-            XTV -> Value.XTV
-            XTW -> Value.XTW
-            XTX -> Value.XTX
-            XTY -> Value.XTY
-            XTZ -> Value.XTZ
-            XUC -> Value.XUC
-            XUN -> Value.XUN
-            XVA -> Value.XVA
-            XVG -> Value.XVG
-            XVI -> Value.XVI
-            XVK -> Value.XVK
-            XVL -> Value.XVL
-            XVN -> Value.XVN
-            XVO -> Value.XVO
-            XVP -> Value.XVP
-            XVQ -> Value.XVQ
-            XVR -> Value.XVR
-            XVS -> Value.XVS
-            XVY -> Value.XVY
-            XWA -> Value.XWA
-            XWB -> Value.XWB
-            XWC -> Value.XWC
-            XWD -> Value.XWD
-            XWF -> Value.XWF
-            XWG -> Value.XWG
-            XWH -> Value.XWH
-            XWJ -> Value.XWJ
-            XWK -> Value.XWK
-            XWL -> Value.XWL
-            XWM -> Value.XWM
-            XWN -> Value.XWN
-            XWP -> Value.XWP
-            XWQ -> Value.XWQ
-            XWR -> Value.XWR
-            XWS -> Value.XWS
-            XWT -> Value.XWT
-            XWU -> Value.XWU
-            XWV -> Value.XWV
-            XWW -> Value.XWW
-            XWX -> Value.XWX
-            XWY -> Value.XWY
-            XWZ -> Value.XWZ
-            XXA -> Value.XXA
-            XXB -> Value.XXB
-            XXC -> Value.XXC
-            XXD -> Value.XXD
-            XXF -> Value.XXF
-            XXG -> Value.XXG
-            XXH -> Value.XXH
-            XXJ -> Value.XXJ
-            XXK -> Value.XXK
-            XYA -> Value.XYA
-            XYB -> Value.XYB
-            XYC -> Value.XYC
-            XYD -> Value.XYD
-            XYF -> Value.XYF
-            XYG -> Value.XYG
-            XYH -> Value.XYH
-            XYJ -> Value.XYJ
-            XYK -> Value.XYK
-            XYL -> Value.XYL
-            XYM -> Value.XYM
-            XYN -> Value.XYN
-            XYP -> Value.XYP
-            XYQ -> Value.XYQ
-            XYR -> Value.XYR
-            XYS -> Value.XYS
-            XYT -> Value.XYT
-            XYV -> Value.XYV
-            XYW -> Value.XYW
-            XYX -> Value.XYX
-            XYY -> Value.XYY
-            XYZ -> Value.XYZ
-            XZA -> Value.XZA
-            XZB -> Value.XZB
-            XZC -> Value.XZC
-            XZD -> Value.XZD
-            XZF -> Value.XZF
-            XZG -> Value.XZG
-            XZH -> Value.XZH
-            XZJ -> Value.XZJ
-            XZK -> Value.XZK
-            XZL -> Value.XZL
-            XZM -> Value.XZM
-            XZN -> Value.XZN
-            XZP -> Value.XZP
-            XZQ -> Value.XZQ
-            XZR -> Value.XZR
-            XZS -> Value.XZS
-            XZT -> Value.XZT
-            XZU -> Value.XZU
-            XZV -> Value.XZV
-            XZW -> Value.XZW
-            XZX -> Value.XZX
-            XZY -> Value.XZY
-            XZZ -> Value.XZZ
-            ZZ -> Value.ZZ
-            NAR -> Value.NAR
-            C62 -> Value.C62
-            LTR -> Value.LTR
-            H87 -> Value.H87
-            else -> Value._UNKNOWN
-        }
+    fun value(): Value = VALUE_BY_CODE[this] ?: Value._UNKNOWN
 
     /**
      * Returns an enum member corresponding to this class instance's value.
@@ -5222,1040 +9600,8 @@ class UnitOfMeasureCode @JsonCreator private constructor(private val value: Json
      * @throws EInvoiceInvalidDataException if this class instance's value is a not a known member.
      */
     fun known(): Known =
-        when (this) {
-            _10 -> Known._10
-            _11 -> Known._11
-            _13 -> Known._13
-            _14 -> Known._14
-            _15 -> Known._15
-            _20 -> Known._20
-            _21 -> Known._21
-            _22 -> Known._22
-            _23 -> Known._23
-            _24 -> Known._24
-            _25 -> Known._25
-            _27 -> Known._27
-            _28 -> Known._28
-            _33 -> Known._33
-            _34 -> Known._34
-            _35 -> Known._35
-            _37 -> Known._37
-            _38 -> Known._38
-            _40 -> Known._40
-            _41 -> Known._41
-            _56 -> Known._56
-            _57 -> Known._57
-            _58 -> Known._58
-            _59 -> Known._59
-            _60 -> Known._60
-            _61 -> Known._61
-            _74 -> Known._74
-            _77 -> Known._77
-            _80 -> Known._80
-            _81 -> Known._81
-            _85 -> Known._85
-            _87 -> Known._87
-            _89 -> Known._89
-            _91 -> Known._91
-            _1_I -> Known._1_I
-            EA -> Known.EA
-            E01 -> Known.E01
-            E07 -> Known.E07
-            E09 -> Known.E09
-            E10 -> Known.E10
-            E12 -> Known.E12
-            E14 -> Known.E14
-            E17 -> Known.E17
-            E20 -> Known.E20
-            E23 -> Known.E23
-            E25 -> Known.E25
-            E27 -> Known.E27
-            E31 -> Known.E31
-            E34 -> Known.E34
-            E35 -> Known.E35
-            E36 -> Known.E36
-            E37 -> Known.E37
-            E38 -> Known.E38
-            E39 -> Known.E39
-            E40 -> Known.E40
-            E41 -> Known.E41
-            E42 -> Known.E42
-            E43 -> Known.E43
-            E44 -> Known.E44
-            E45 -> Known.E45
-            E46 -> Known.E46
-            E47 -> Known.E47
-            E48 -> Known.E48
-            E49 -> Known.E49
-            E50 -> Known.E50
-            E51 -> Known.E51
-            E52 -> Known.E52
-            E53 -> Known.E53
-            E54 -> Known.E54
-            E55 -> Known.E55
-            E56 -> Known.E56
-            E57 -> Known.E57
-            E58 -> Known.E58
-            E60 -> Known.E60
-            E62 -> Known.E62
-            E65 -> Known.E65
-            E66 -> Known.E66
-            E67 -> Known.E67
-            E69 -> Known.E69
-            E70 -> Known.E70
-            E71 -> Known.E71
-            E73 -> Known.E73
-            E75 -> Known.E75
-            E76 -> Known.E76
-            _2_A -> Known._2_A
-            _2_B -> Known._2_B
-            _2_C -> Known._2_C
-            _2_G -> Known._2_G
-            _2_H -> Known._2_H
-            _2_I -> Known._2_I
-            _2_J -> Known._2_J
-            _2_K -> Known._2_K
-            _2_L -> Known._2_L
-            _2_M -> Known._2_M
-            _2_N -> Known._2_N
-            _2_P -> Known._2_P
-            _2_Q -> Known._2_Q
-            _2_R -> Known._2_R
-            _2_U -> Known._2_U
-            _2_X -> Known._2_X
-            _2_Y -> Known._2_Y
-            _2_Z -> Known._2_Z
-            _3_B -> Known._3_B
-            _3_C -> Known._3_C
-            _4_C -> Known._4_C
-            _4_G -> Known._4_G
-            _4_H -> Known._4_H
-            _4_K -> Known._4_K
-            _4_L -> Known._4_L
-            _4_M -> Known._4_M
-            _4_N -> Known._4_N
-            _4_O -> Known._4_O
-            _4_P -> Known._4_P
-            _4_Q -> Known._4_Q
-            _4_R -> Known._4_R
-            _4_T -> Known._4_T
-            _4_U -> Known._4_U
-            _4_W -> Known._4_W
-            _4_X -> Known._4_X
-            _5_A -> Known._5_A
-            _5_B -> Known._5_B
-            _5_E -> Known._5_E
-            _5_J -> Known._5_J
-            A10 -> Known.A10
-            A11 -> Known.A11
-            A12 -> Known.A12
-            A13 -> Known.A13
-            A14 -> Known.A14
-            A15 -> Known.A15
-            A16 -> Known.A16
-            A17 -> Known.A17
-            A18 -> Known.A18
-            A19 -> Known.A19
-            A2 -> Known.A2
-            A20 -> Known.A20
-            A21 -> Known.A21
-            A22 -> Known.A22
-            A23 -> Known.A23
-            A24 -> Known.A24
-            A26 -> Known.A26
-            A27 -> Known.A27
-            A28 -> Known.A28
-            A29 -> Known.A29
-            A3 -> Known.A3
-            A30 -> Known.A30
-            A31 -> Known.A31
-            A32 -> Known.A32
-            A33 -> Known.A33
-            A34 -> Known.A34
-            A35 -> Known.A35
-            A36 -> Known.A36
-            A37 -> Known.A37
-            A38 -> Known.A38
-            A39 -> Known.A39
-            A4 -> Known.A4
-            A40 -> Known.A40
-            A41 -> Known.A41
-            A42 -> Known.A42
-            A43 -> Known.A43
-            A44 -> Known.A44
-            A45 -> Known.A45
-            A46 -> Known.A46
-            A47 -> Known.A47
-            A48 -> Known.A48
-            A49 -> Known.A49
-            A5 -> Known.A5
-            A50 -> Known.A50
-            A51 -> Known.A51
-            A52 -> Known.A52
-            A53 -> Known.A53
-            A54 -> Known.A54
-            A55 -> Known.A55
-            A56 -> Known.A56
-            A57 -> Known.A57
-            A58 -> Known.A58
-            A59 -> Known.A59
-            A6 -> Known.A6
-            A60 -> Known.A60
-            A61 -> Known.A61
-            A62 -> Known.A62
-            A63 -> Known.A63
-            A64 -> Known.A64
-            A65 -> Known.A65
-            A66 -> Known.A66
-            A67 -> Known.A67
-            A68 -> Known.A68
-            A69 -> Known.A69
-            A7 -> Known.A7
-            A70 -> Known.A70
-            A71 -> Known.A71
-            A72 -> Known.A72
-            A73 -> Known.A73
-            A74 -> Known.A74
-            A75 -> Known.A75
-            A76 -> Known.A76
-            A77 -> Known.A77
-            A78 -> Known.A78
-            A79 -> Known.A79
-            A8 -> Known.A8
-            A80 -> Known.A80
-            A81 -> Known.A81
-            A82 -> Known.A82
-            A83 -> Known.A83
-            A84 -> Known.A84
-            A85 -> Known.A85
-            A86 -> Known.A86
-            A87 -> Known.A87
-            A88 -> Known.A88
-            A89 -> Known.A89
-            A9 -> Known.A9
-            A90 -> Known.A90
-            A91 -> Known.A91
-            A92 -> Known.A92
-            A93 -> Known.A93
-            A94 -> Known.A94
-            A95 -> Known.A95
-            A96 -> Known.A96
-            A97 -> Known.A97
-            A98 -> Known.A98
-            A99 -> Known.A99
-            ACR -> Known.ACR
-            AH -> Known.AH
-            AI -> Known.AI
-            AK -> Known.AK
-            AMH -> Known.AMH
-            AMT -> Known.AMT
-            ANN -> Known.ANN
-            B1 -> Known.B1
-            B11 -> Known.B11
-            B12 -> Known.B12
-            B13 -> Known.B13
-            B14 -> Known.B14
-            B15 -> Known.B15
-            B16 -> Known.B16
-            B17 -> Known.B17
-            B18 -> Known.B18
-            B19 -> Known.B19
-            B20 -> Known.B20
-            B21 -> Known.B21
-            B22 -> Known.B22
-            B23 -> Known.B23
-            B24 -> Known.B24
-            B25 -> Known.B25
-            B26 -> Known.B26
-            B27 -> Known.B27
-            B28 -> Known.B28
-            B29 -> Known.B29
-            B3 -> Known.B3
-            B30 -> Known.B30
-            B31 -> Known.B31
-            B32 -> Known.B32
-            B33 -> Known.B33
-            B34 -> Known.B34
-            B35 -> Known.B35
-            B36 -> Known.B36
-            B37 -> Known.B37
-            B38 -> Known.B38
-            B39 -> Known.B39
-            B4 -> Known.B4
-            B40 -> Known.B40
-            B41 -> Known.B41
-            B42 -> Known.B42
-            B43 -> Known.B43
-            B44 -> Known.B44
-            B45 -> Known.B45
-            B46 -> Known.B46
-            B47 -> Known.B47
-            B48 -> Known.B48
-            B49 -> Known.B49
-            B5 -> Known.B5
-            B50 -> Known.B50
-            B52 -> Known.B52
-            B53 -> Known.B53
-            B54 -> Known.B54
-            B55 -> Known.B55
-            B56 -> Known.B56
-            B57 -> Known.B57
-            B58 -> Known.B58
-            B59 -> Known.B59
-            B6 -> Known.B6
-            B60 -> Known.B60
-            B61 -> Known.B61
-            B62 -> Known.B62
-            B63 -> Known.B63
-            B64 -> Known.B64
-            B65 -> Known.B65
-            B66 -> Known.B66
-            B67 -> Known.B67
-            B68 -> Known.B68
-            B69 -> Known.B69
-            B7 -> Known.B7
-            B70 -> Known.B70
-            B71 -> Known.B71
-            B72 -> Known.B72
-            B73 -> Known.B73
-            B74 -> Known.B74
-            B75 -> Known.B75
-            B76 -> Known.B76
-            B77 -> Known.B77
-            B78 -> Known.B78
-            B79 -> Known.B79
-            B8 -> Known.B8
-            B80 -> Known.B80
-            B81 -> Known.B81
-            B82 -> Known.B82
-            B83 -> Known.B83
-            B84 -> Known.B84
-            B85 -> Known.B85
-            B86 -> Known.B86
-            B87 -> Known.B87
-            B88 -> Known.B88
-            B89 -> Known.B89
-            B9 -> Known.B9
-            B90 -> Known.B90
-            B91 -> Known.B91
-            B92 -> Known.B92
-            B93 -> Known.B93
-            B94 -> Known.B94
-            B95 -> Known.B95
-            B96 -> Known.B96
-            B97 -> Known.B97
-            B98 -> Known.B98
-            B99 -> Known.B99
-            BAR -> Known.BAR
-            BB -> Known.BB
-            BFT -> Known.BFT
-            BHP -> Known.BHP
-            BIL -> Known.BIL
-            BLD -> Known.BLD
-            BLL -> Known.BLL
-            BUA -> Known.BUA
-            BUI -> Known.BUI
-            C0 -> Known.C0
-            C10 -> Known.C10
-            C11 -> Known.C11
-            C12 -> Known.C12
-            C13 -> Known.C13
-            C14 -> Known.C14
-            C15 -> Known.C15
-            C16 -> Known.C16
-            C17 -> Known.C17
-            C18 -> Known.C18
-            C19 -> Known.C19
-            C20 -> Known.C20
-            C21 -> Known.C21
-            C22 -> Known.C22
-            C23 -> Known.C23
-            C24 -> Known.C24
-            C25 -> Known.C25
-            C26 -> Known.C26
-            C27 -> Known.C27
-            C28 -> Known.C28
-            C29 -> Known.C29
-            C30 -> Known.C30
-            C31 -> Known.C31
-            C32 -> Known.C32
-            C33 -> Known.C33
-            C34 -> Known.C34
-            C35 -> Known.C35
-            C36 -> Known.C36
-            C37 -> Known.C37
-            C38 -> Known.C38
-            C39 -> Known.C39
-            C40 -> Known.C40
-            C41 -> Known.C41
-            C42 -> Known.C42
-            C43 -> Known.C43
-            C44 -> Known.C44
-            C45 -> Known.C45
-            C46 -> Known.C46
-            C47 -> Known.C47
-            C48 -> Known.C48
-            C49 -> Known.C49
-            C50 -> Known.C50
-            C51 -> Known.C51
-            C52 -> Known.C52
-            C53 -> Known.C53
-            C54 -> Known.C54
-            C55 -> Known.C55
-            C56 -> Known.C56
-            C57 -> Known.C57
-            C58 -> Known.C58
-            C59 -> Known.C59
-            C60 -> Known.C60
-            C61 -> Known.C61
-            C63 -> Known.C63
-            C64 -> Known.C64
-            C65 -> Known.C65
-            C66 -> Known.C66
-            C67 -> Known.C67
-            C68 -> Known.C68
-            C69 -> Known.C69
-            C70 -> Known.C70
-            C71 -> Known.C71
-            C72 -> Known.C72
-            C73 -> Known.C73
-            C74 -> Known.C74
-            C75 -> Known.C75
-            C76 -> Known.C76
-            C77 -> Known.C77
-            C78 -> Known.C78
-            C79 -> Known.C79
-            C80 -> Known.C80
-            C81 -> Known.C81
-            C82 -> Known.C82
-            C83 -> Known.C83
-            C84 -> Known.C84
-            C85 -> Known.C85
-            C86 -> Known.C86
-            C87 -> Known.C87
-            C88 -> Known.C88
-            C89 -> Known.C89
-            C90 -> Known.C90
-            C91 -> Known.C91
-            C92 -> Known.C92
-            C93 -> Known.C93
-            C94 -> Known.C94
-            C95 -> Known.C95
-            C96 -> Known.C96
-            C97 -> Known.C97
-            C98 -> Known.C98
-            C99 -> Known.C99
-            CDL -> Known.CDL
-            CEL -> Known.CEL
-            CHU -> Known.CHU
-            CIU -> Known.CIU
-            CLT -> Known.CLT
-            CMK -> Known.CMK
-            CMQ -> Known.CMQ
-            CMT -> Known.CMT
-            CNP -> Known.CNP
-            CNT -> Known.CNT
-            COU -> Known.COU
-            CTG -> Known.CTG
-            CTN -> Known.CTN
-            CUR -> Known.CUR
-            CWA -> Known.CWA
-            CWI -> Known.CWI
-            DAN -> Known.DAN
-            DAY -> Known.DAY
-            DB -> Known.DB
-            DD -> Known.DD
-            DG -> Known.DG
-            DI -> Known.DI
-            DLT -> Known.DLT
-            DMK -> Known.DMK
-            DMQ -> Known.DMQ
-            DMT -> Known.DMT
-            DPC -> Known.DPC
-            DPT -> Known.DPT
-            DRA -> Known.DRA
-            DZN -> Known.DZN
-            DZP -> Known.DZP
-            FOT -> Known.FOT
-            GLL -> Known.GLL
-            GLI -> Known.GLI
-            GRM -> Known.GRM
-            GRO -> Known.GRO
-            HUR -> Known.HUR
-            HTZ -> Known.HTZ
-            INH -> Known.INH
-            KGM -> Known.KGM
-            KMT -> Known.KMT
-            MTR -> Known.MTR
-            SMI -> Known.SMI
-            MIN -> Known.MIN
-            MON -> Known.MON
-            ONZ -> Known.ONZ
-            LBR -> Known.LBR
-            QT -> Known.QT
-            SEC -> Known.SEC
-            FTK -> Known.FTK
-            INK -> Known.INK
-            MTK -> Known.MTK
-            YDK -> Known.YDK
-            TNE -> Known.TNE
-            VLT -> Known.VLT
-            WTT -> Known.WTT
-            YRD -> Known.YRD
-            FTQ -> Known.FTQ
-            INQ -> Known.INQ
-            MTQ -> Known.MTQ
-            YDQ -> Known.YDQ
-            HAR -> Known.HAR
-            KLT -> Known.KLT
-            MLT -> Known.MLT
-            MMT -> Known.MMT
-            KMK -> Known.KMK
-            MMK -> Known.MMK
-            XAA -> Known.XAA
-            XAB -> Known.XAB
-            XAC -> Known.XAC
-            XAD -> Known.XAD
-            XAE -> Known.XAE
-            XAF -> Known.XAF
-            XAG -> Known.XAG
-            XAH -> Known.XAH
-            XAI -> Known.XAI
-            XAJ -> Known.XAJ
-            XAL -> Known.XAL
-            XAM -> Known.XAM
-            XAP -> Known.XAP
-            XAT -> Known.XAT
-            XAV -> Known.XAV
-            XB4 -> Known.XB4
-            XBA -> Known.XBA
-            XBB -> Known.XBB
-            XBC -> Known.XBC
-            XBD -> Known.XBD
-            XBE -> Known.XBE
-            XBF -> Known.XBF
-            XBG -> Known.XBG
-            XBH -> Known.XBH
-            XBI -> Known.XBI
-            XBJ -> Known.XBJ
-            XBK -> Known.XBK
-            XBL -> Known.XBL
-            XBM -> Known.XBM
-            XBN -> Known.XBN
-            XBO -> Known.XBO
-            XBP -> Known.XBP
-            XBQ -> Known.XBQ
-            XBR -> Known.XBR
-            XBS -> Known.XBS
-            XBT -> Known.XBT
-            XBU -> Known.XBU
-            XBV -> Known.XBV
-            XBW -> Known.XBW
-            XBX -> Known.XBX
-            XBY -> Known.XBY
-            XBZ -> Known.XBZ
-            XCA -> Known.XCA
-            XCB -> Known.XCB
-            XCC -> Known.XCC
-            XCD -> Known.XCD
-            XCE -> Known.XCE
-            XCF -> Known.XCF
-            XCG -> Known.XCG
-            XCH -> Known.XCH
-            XCI -> Known.XCI
-            XCJ -> Known.XCJ
-            XCK -> Known.XCK
-            XCL -> Known.XCL
-            XCM -> Known.XCM
-            XCN -> Known.XCN
-            XCO -> Known.XCO
-            XCP -> Known.XCP
-            XCQ -> Known.XCQ
-            XCR -> Known.XCR
-            XCS -> Known.XCS
-            XCT -> Known.XCT
-            XCU -> Known.XCU
-            XCV -> Known.XCV
-            XCW -> Known.XCW
-            XCX -> Known.XCX
-            XCY -> Known.XCY
-            XCZ -> Known.XCZ
-            XDA -> Known.XDA
-            XDB -> Known.XDB
-            XDC -> Known.XDC
-            XDD -> Known.XDD
-            XDE -> Known.XDE
-            XDF -> Known.XDF
-            XDG -> Known.XDG
-            XDH -> Known.XDH
-            XDI -> Known.XDI
-            XDJ -> Known.XDJ
-            XDK -> Known.XDK
-            XDL -> Known.XDL
-            XDM -> Known.XDM
-            XDN -> Known.XDN
-            XDP -> Known.XDP
-            XDQ -> Known.XDQ
-            XDR -> Known.XDR
-            XDS -> Known.XDS
-            XDT -> Known.XDT
-            XDU -> Known.XDU
-            XDV -> Known.XDV
-            XDW -> Known.XDW
-            XDX -> Known.XDX
-            XDY -> Known.XDY
-            XDZ -> Known.XDZ
-            XEA -> Known.XEA
-            XEB -> Known.XEB
-            XEC -> Known.XEC
-            XED -> Known.XED
-            XEE -> Known.XEE
-            XEF -> Known.XEF
-            XEG -> Known.XEG
-            XEH -> Known.XEH
-            XEI -> Known.XEI
-            XEJ -> Known.XEJ
-            XEK -> Known.XEK
-            XEL -> Known.XEL
-            XEM -> Known.XEM
-            XEN -> Known.XEN
-            XEP -> Known.XEP
-            XEQ -> Known.XEQ
-            XER -> Known.XER
-            XES -> Known.XES
-            XET -> Known.XET
-            XEU -> Known.XEU
-            XEV -> Known.XEV
-            XEW -> Known.XEW
-            XEX -> Known.XEX
-            XEY -> Known.XEY
-            XFB -> Known.XFB
-            XFC -> Known.XFC
-            XFD -> Known.XFD
-            XFE -> Known.XFE
-            XFF -> Known.XFF
-            XFG -> Known.XFG
-            XFH -> Known.XFH
-            XFI -> Known.XFI
-            XFJ -> Known.XFJ
-            XFK -> Known.XFK
-            XFL -> Known.XFL
-            XFM -> Known.XFM
-            XFN -> Known.XFN
-            XFO -> Known.XFO
-            XFP -> Known.XFP
-            XFQ -> Known.XFQ
-            XFR -> Known.XFR
-            XFS -> Known.XFS
-            XFT -> Known.XFT
-            XFU -> Known.XFU
-            XFV -> Known.XFV
-            XFW -> Known.XFW
-            XFX -> Known.XFX
-            XFY -> Known.XFY
-            XFZ -> Known.XFZ
-            XGA -> Known.XGA
-            XGB -> Known.XGB
-            XGC -> Known.XGC
-            XGD -> Known.XGD
-            XGE -> Known.XGE
-            XGF -> Known.XGF
-            XGG -> Known.XGG
-            XGH -> Known.XGH
-            XGI -> Known.XGI
-            XGJ -> Known.XGJ
-            XGK -> Known.XGK
-            XGL -> Known.XGL
-            XGM -> Known.XGM
-            XGN -> Known.XGN
-            XGO -> Known.XGO
-            XGP -> Known.XGP
-            XGQ -> Known.XGQ
-            XGR -> Known.XGR
-            XGS -> Known.XGS
-            XGT -> Known.XGT
-            XGU -> Known.XGU
-            XGV -> Known.XGV
-            XGW -> Known.XGW
-            XGX -> Known.XGX
-            XGY -> Known.XGY
-            XGZ -> Known.XGZ
-            XHA -> Known.XHA
-            XHB -> Known.XHB
-            XHC -> Known.XHC
-            XHD -> Known.XHD
-            XHE -> Known.XHE
-            XHF -> Known.XHF
-            XHG -> Known.XHG
-            XHH -> Known.XHH
-            XHI -> Known.XHI
-            XHJ -> Known.XHJ
-            XHK -> Known.XHK
-            XHL -> Known.XHL
-            XHM -> Known.XHM
-            XHN -> Known.XHN
-            XHP -> Known.XHP
-            XHQ -> Known.XHQ
-            XHR -> Known.XHR
-            XHS -> Known.XHS
-            XHT -> Known.XHT
-            XHU -> Known.XHU
-            XHV -> Known.XHV
-            XHW -> Known.XHW
-            XHX -> Known.XHX
-            XHY -> Known.XHY
-            XHZ -> Known.XHZ
-            XIA -> Known.XIA
-            XIB -> Known.XIB
-            XIC -> Known.XIC
-            XID -> Known.XID
-            XIE -> Known.XIE
-            XIF -> Known.XIF
-            XIG -> Known.XIG
-            XIH -> Known.XIH
-            XII -> Known.XII
-            XIJ -> Known.XIJ
-            XIK -> Known.XIK
-            XIL -> Known.XIL
-            XIM -> Known.XIM
-            XIN -> Known.XIN
-            XIO -> Known.XIO
-            XJA -> Known.XJA
-            XJB -> Known.XJB
-            XJC -> Known.XJC
-            XJD -> Known.XJD
-            XJE -> Known.XJE
-            XJF -> Known.XJF
-            XJG -> Known.XJG
-            XJH -> Known.XJH
-            XJI -> Known.XJI
-            XJJ -> Known.XJJ
-            XJK -> Known.XJK
-            XJL -> Known.XJL
-            XJM -> Known.XJM
-            XJN -> Known.XJN
-            XJO -> Known.XJO
-            XJP -> Known.XJP
-            XJQ -> Known.XJQ
-            XJR -> Known.XJR
-            XJS -> Known.XJS
-            XJT -> Known.XJT
-            XJU -> Known.XJU
-            XJV -> Known.XJV
-            XJW -> Known.XJW
-            XJX -> Known.XJX
-            XJY -> Known.XJY
-            XJZ -> Known.XJZ
-            XLA -> Known.XLA
-            XLB -> Known.XLB
-            XLC -> Known.XLC
-            XLD -> Known.XLD
-            XLE -> Known.XLE
-            XLF -> Known.XLF
-            XLG -> Known.XLG
-            XLH -> Known.XLH
-            XLI -> Known.XLI
-            XLJ -> Known.XLJ
-            XLK -> Known.XLK
-            XLL -> Known.XLL
-            XLM -> Known.XLM
-            XLN -> Known.XLN
-            XLO -> Known.XLO
-            XLP -> Known.XLP
-            XLQ -> Known.XLQ
-            XLR -> Known.XLR
-            XLS -> Known.XLS
-            XLT -> Known.XLT
-            XLU -> Known.XLU
-            XLV -> Known.XLV
-            XLW -> Known.XLW
-            XLX -> Known.XLX
-            XLY -> Known.XLY
-            XLZ -> Known.XLZ
-            XMA -> Known.XMA
-            XMB -> Known.XMB
-            XMC -> Known.XMC
-            XMD -> Known.XMD
-            XME -> Known.XME
-            XMF -> Known.XMF
-            XMG -> Known.XMG
-            XMH -> Known.XMH
-            XMI -> Known.XMI
-            XMJ -> Known.XMJ
-            XMK -> Known.XMK
-            XML -> Known.XML
-            XMM -> Known.XMM
-            XMN -> Known.XMN
-            XMO -> Known.XMO
-            XMP -> Known.XMP
-            XMQ -> Known.XMQ
-            XMR -> Known.XMR
-            XMS -> Known.XMS
-            XMT -> Known.XMT
-            XMU -> Known.XMU
-            XMV -> Known.XMV
-            XMW -> Known.XMW
-            XMX -> Known.XMX
-            XMY -> Known.XMY
-            XMZ -> Known.XMZ
-            XNA -> Known.XNA
-            XNB -> Known.XNB
-            XNC -> Known.XNC
-            XND -> Known.XND
-            XNE -> Known.XNE
-            XNF -> Known.XNF
-            XNG -> Known.XNG
-            XNH -> Known.XNH
-            XNI -> Known.XNI
-            XNJ -> Known.XNJ
-            XNK -> Known.XNK
-            XNL -> Known.XNL
-            XNM -> Known.XNM
-            XOA -> Known.XOA
-            XOB -> Known.XOB
-            XOC -> Known.XOC
-            XOD -> Known.XOD
-            XOE -> Known.XOE
-            XOF -> Known.XOF
-            XOG -> Known.XOG
-            XOH -> Known.XOH
-            XOI -> Known.XOI
-            XOJ -> Known.XOJ
-            XOK -> Known.XOK
-            XOL -> Known.XOL
-            XOM -> Known.XOM
-            XON -> Known.XON
-            XOO -> Known.XOO
-            XOP -> Known.XOP
-            XOQ -> Known.XOQ
-            XOR -> Known.XOR
-            XOS -> Known.XOS
-            XOT -> Known.XOT
-            XOU -> Known.XOU
-            XOV -> Known.XOV
-            XOW -> Known.XOW
-            XOX -> Known.XOX
-            XOY -> Known.XOY
-            XOZ -> Known.XOZ
-            XP1 -> Known.XP1
-            XP2 -> Known.XP2
-            XP3 -> Known.XP3
-            XP4 -> Known.XP4
-            XPA -> Known.XPA
-            XPB -> Known.XPB
-            XPC -> Known.XPC
-            XPD -> Known.XPD
-            XPE -> Known.XPE
-            XPF -> Known.XPF
-            XPG -> Known.XPG
-            XPH -> Known.XPH
-            XPI -> Known.XPI
-            XPJ -> Known.XPJ
-            XPK -> Known.XPK
-            XPL -> Known.XPL
-            XPM -> Known.XPM
-            XPN -> Known.XPN
-            XPO -> Known.XPO
-            XPP -> Known.XPP
-            XPQ -> Known.XPQ
-            XPR -> Known.XPR
-            XPS -> Known.XPS
-            XPT -> Known.XPT
-            XPU -> Known.XPU
-            XPV -> Known.XPV
-            XPW -> Known.XPW
-            XPX -> Known.XPX
-            XPY -> Known.XPY
-            XPZ -> Known.XPZ
-            XQA -> Known.XQA
-            XQB -> Known.XQB
-            XQC -> Known.XQC
-            XQD -> Known.XQD
-            XQE -> Known.XQE
-            XQF -> Known.XQF
-            XQG -> Known.XQG
-            XQH -> Known.XQH
-            XQI -> Known.XQI
-            XQJ -> Known.XQJ
-            XQK -> Known.XQK
-            XQL -> Known.XQL
-            XQM -> Known.XQM
-            XQN -> Known.XQN
-            XQO -> Known.XQO
-            XQP -> Known.XQP
-            XQQ -> Known.XQQ
-            XQR -> Known.XQR
-            XQS -> Known.XQS
-            XRD -> Known.XRD
-            XRE -> Known.XRE
-            XRF -> Known.XRF
-            XRG -> Known.XRG
-            XRH -> Known.XRH
-            XRI -> Known.XRI
-            XRJ -> Known.XRJ
-            XRK -> Known.XRK
-            XRL -> Known.XRL
-            XRM -> Known.XRM
-            XRN -> Known.XRN
-            XRO -> Known.XRO
-            XRP -> Known.XRP
-            XRQ -> Known.XRQ
-            XRR -> Known.XRR
-            XRS -> Known.XRS
-            XRT -> Known.XRT
-            XRU -> Known.XRU
-            XRV -> Known.XRV
-            XRW -> Known.XRW
-            XRX -> Known.XRX
-            XRY -> Known.XRY
-            XRZ -> Known.XRZ
-            XSA -> Known.XSA
-            XSB -> Known.XSB
-            XSC -> Known.XSC
-            XSD -> Known.XSD
-            XSE -> Known.XSE
-            XSF -> Known.XSF
-            XSG -> Known.XSG
-            XSH -> Known.XSH
-            XSI -> Known.XSI
-            XSJ -> Known.XSJ
-            XSK -> Known.XSK
-            XSL -> Known.XSL
-            XSM -> Known.XSM
-            XSN -> Known.XSN
-            XSO -> Known.XSO
-            XSP -> Known.XSP
-            XSQ -> Known.XSQ
-            XSR -> Known.XSR
-            XSS -> Known.XSS
-            XST -> Known.XST
-            XSU -> Known.XSU
-            XSV -> Known.XSV
-            XSW -> Known.XSW
-            XSX -> Known.XSX
-            XSY -> Known.XSY
-            XSZ -> Known.XSZ
-            XTA -> Known.XTA
-            XTB -> Known.XTB
-            XTC -> Known.XTC
-            XTD -> Known.XTD
-            XTE -> Known.XTE
-            XTF -> Known.XTF
-            XTG -> Known.XTG
-            XTI -> Known.XTI
-            XTJ -> Known.XTJ
-            XTK -> Known.XTK
-            XTL -> Known.XTL
-            XTM -> Known.XTM
-            XTN -> Known.XTN
-            XTO -> Known.XTO
-            XTR -> Known.XTR
-            XTS -> Known.XTS
-            XTT -> Known.XTT
-            XTU -> Known.XTU
-            XTV -> Known.XTV
-            XTW -> Known.XTW
-            XTX -> Known.XTX
-            XTY -> Known.XTY
-            XTZ -> Known.XTZ
-            XUC -> Known.XUC
-            XUN -> Known.XUN
-            XVA -> Known.XVA
-            XVG -> Known.XVG
-            XVI -> Known.XVI
-            XVK -> Known.XVK
-            XVL -> Known.XVL
-            XVN -> Known.XVN
-            XVO -> Known.XVO
-            XVP -> Known.XVP
-            XVQ -> Known.XVQ
-            XVR -> Known.XVR
-            XVS -> Known.XVS
-            XVY -> Known.XVY
-            XWA -> Known.XWA
-            XWB -> Known.XWB
-            XWC -> Known.XWC
-            XWD -> Known.XWD
-            XWF -> Known.XWF
-            XWG -> Known.XWG
-            XWH -> Known.XWH
-            XWJ -> Known.XWJ
-            XWK -> Known.XWK
-            XWL -> Known.XWL
-            XWM -> Known.XWM
-            XWN -> Known.XWN
-            XWP -> Known.XWP
-            XWQ -> Known.XWQ
-            XWR -> Known.XWR
-            XWS -> Known.XWS
-            XWT -> Known.XWT
-            XWU -> Known.XWU
-            XWV -> Known.XWV
-            XWW -> Known.XWW
-            XWX -> Known.XWX
-            XWY -> Known.XWY
-            XWZ -> Known.XWZ
-            XXA -> Known.XXA
-            XXB -> Known.XXB
-            XXC -> Known.XXC
-            XXD -> Known.XXD
-            XXF -> Known.XXF
-            XXG -> Known.XXG
-            XXH -> Known.XXH
-            XXJ -> Known.XXJ
-            XXK -> Known.XXK
-            XYA -> Known.XYA
-            XYB -> Known.XYB
-            XYC -> Known.XYC
-            XYD -> Known.XYD
-            XYF -> Known.XYF
-            XYG -> Known.XYG
-            XYH -> Known.XYH
-            XYJ -> Known.XYJ
-            XYK -> Known.XYK
-            XYL -> Known.XYL
-            XYM -> Known.XYM
-            XYN -> Known.XYN
-            XYP -> Known.XYP
-            XYQ -> Known.XYQ
-            XYR -> Known.XYR
-            XYS -> Known.XYS
-            XYT -> Known.XYT
-            XYV -> Known.XYV
-            XYW -> Known.XYW
-            XYX -> Known.XYX
-            XYY -> Known.XYY
-            XYZ -> Known.XYZ
-            XZA -> Known.XZA
-            XZB -> Known.XZB
-            XZC -> Known.XZC
-            XZD -> Known.XZD
-            XZF -> Known.XZF
-            XZG -> Known.XZG
-            XZH -> Known.XZH
-            XZJ -> Known.XZJ
-            XZK -> Known.XZK
-            XZL -> Known.XZL
-            XZM -> Known.XZM
-            XZN -> Known.XZN
-            XZP -> Known.XZP
-            XZQ -> Known.XZQ
-            XZR -> Known.XZR
-            XZS -> Known.XZS
-            XZT -> Known.XZT
-            XZU -> Known.XZU
-            XZV -> Known.XZV
-            XZW -> Known.XZW
-            XZX -> Known.XZX
-            XZY -> Known.XZY
-            XZZ -> Known.XZZ
-            ZZ -> Known.ZZ
-            NAR -> Known.NAR
-            C62 -> Known.C62
-            LTR -> Known.LTR
-            H87 -> Known.H87
-            else -> throw EInvoiceInvalidDataException("Unknown UnitOfMeasureCode: $value")
-        }
+        KNOWN_BY_CODE[this]
+            ?: throw EInvoiceInvalidDataException("Unknown UnitOfMeasureCode: $value")
 
     /**
      * Returns this class instance's primitive wire representation.
