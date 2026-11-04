@@ -5099,9 +5099,9 @@ private constructor(
     class Item
     @JsonCreator(mode = JsonCreator.Mode.DISABLED)
     private constructor(
-        private val allowances: JsonField<List<Allowance>>,
+        private val allowances: JsonField<List<com.e_invoice.api.models.documents.Allowance>>,
         private val amount: JsonField<String>,
-        private val charges: JsonField<List<Charge>>,
+        private val charges: JsonField<List<com.e_invoice.api.models.documents.Charge>>,
         private val date: JsonField<Void>,
         private val description: JsonField<String>,
         private val itemAttributes: JsonField<List<ItemAttribute>>,
@@ -5118,11 +5118,12 @@ private constructor(
         private constructor(
             @JsonProperty("allowances")
             @ExcludeMissing
-            allowances: JsonField<List<Allowance>> = JsonMissing.of(),
+            allowances: JsonField<List<com.e_invoice.api.models.documents.Allowance>> =
+                JsonMissing.of(),
             @JsonProperty("amount") @ExcludeMissing amount: JsonField<String> = JsonMissing.of(),
             @JsonProperty("charges")
             @ExcludeMissing
-            charges: JsonField<List<Charge>> = JsonMissing.of(),
+            charges: JsonField<List<com.e_invoice.api.models.documents.Charge>> = JsonMissing.of(),
             @JsonProperty("date") @ExcludeMissing date: JsonField<Void> = JsonMissing.of(),
             @JsonProperty("description")
             @ExcludeMissing
@@ -5166,7 +5167,8 @@ private constructor(
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
-        fun allowances(): Optional<List<Allowance>> = allowances.getOptional("allowances")
+        fun allowances(): Optional<List<com.e_invoice.api.models.documents.Allowance>> =
+            allowances.getOptional("allowances")
 
         /**
          * The invoice line net amount (BT-131), exclusive of VAT, inclusive of line level
@@ -5185,7 +5187,8 @@ private constructor(
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
-        fun charges(): Optional<List<Charge>> = charges.getOptional("charges")
+        fun charges(): Optional<List<com.e_invoice.api.models.documents.Charge>> =
+            charges.getOptional("charges")
 
         /**
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
@@ -5268,7 +5271,8 @@ private constructor(
          */
         @JsonProperty("allowances")
         @ExcludeMissing
-        fun _allowances(): JsonField<List<Allowance>> = allowances
+        fun _allowances(): JsonField<List<com.e_invoice.api.models.documents.Allowance>> =
+            allowances
 
         /**
          * Returns the raw JSON value of [amount].
@@ -5282,7 +5286,9 @@ private constructor(
          *
          * Unlike [charges], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("charges") @ExcludeMissing fun _charges(): JsonField<List<Charge>> = charges
+        @JsonProperty("charges")
+        @ExcludeMissing
+        fun _charges(): JsonField<List<com.e_invoice.api.models.documents.Charge>> = charges
 
         /**
          * Returns the raw JSON value of [date].
@@ -5375,9 +5381,13 @@ private constructor(
         /** A builder for [Item]. */
         class Builder internal constructor() {
 
-            private var allowances: JsonField<MutableList<Allowance>>? = null
+            private var allowances:
+                JsonField<MutableList<com.e_invoice.api.models.documents.Allowance>>? =
+                null
             private var amount: JsonField<String> = JsonMissing.of()
-            private var charges: JsonField<MutableList<Charge>>? = null
+            private var charges:
+                JsonField<MutableList<com.e_invoice.api.models.documents.Charge>>? =
+                null
             private var date: JsonField<Void> = JsonMissing.of()
             private var description: JsonField<String> = JsonMissing.of()
             private var itemAttributes: JsonField<MutableList<ItemAttribute>>? = null
@@ -5407,30 +5417,31 @@ private constructor(
             }
 
             /** The allowances of the line item. */
-            fun allowances(allowances: List<Allowance>?) =
+            fun allowances(allowances: List<com.e_invoice.api.models.documents.Allowance>?) =
                 allowances(JsonField.ofNullable(allowances))
 
             /** Alias for calling [Builder.allowances] with `allowances.orElse(null)`. */
-            fun allowances(allowances: Optional<List<Allowance>>) =
-                allowances(allowances.getOrNull())
+            fun allowances(
+                allowances: Optional<List<com.e_invoice.api.models.documents.Allowance>>
+            ) = allowances(allowances.getOrNull())
 
             /**
              * Sets [Builder.allowances] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.allowances] with a well-typed `List<Allowance>`
-             * value instead. This method is primarily for setting the field to an undocumented or
-             * not yet supported value.
+             * You should usually call [Builder.allowances] with a well-typed
+             * `List<com.e_invoice.api.models.documents.Allowance>` value instead. This method is
+             * primarily for setting the field to an undocumented or not yet supported value.
              */
-            fun allowances(allowances: JsonField<List<Allowance>>) = apply {
-                this.allowances = allowances.map { it.toMutableList() }
-            }
+            fun allowances(
+                allowances: JsonField<List<com.e_invoice.api.models.documents.Allowance>>
+            ) = apply { this.allowances = allowances.map { it.toMutableList() } }
 
             /**
              * Adds a single [Allowance] to [allowances].
              *
              * @throws IllegalStateException if the field was previously set to a non-list.
              */
-            fun addAllowance(allowance: Allowance) = apply {
+            fun addAllowance(allowance: com.e_invoice.api.models.documents.Allowance) = apply {
                 allowances =
                     (allowances ?: JsonField.of(mutableListOf())).also {
                         checkKnown("allowances", it).add(allowance)
@@ -5458,28 +5469,31 @@ private constructor(
             fun amount(amount: JsonField<String>) = apply { this.amount = amount }
 
             /** The charges of the line item. */
-            fun charges(charges: List<Charge>?) = charges(JsonField.ofNullable(charges))
+            fun charges(charges: List<com.e_invoice.api.models.documents.Charge>?) =
+                charges(JsonField.ofNullable(charges))
 
             /** Alias for calling [Builder.charges] with `charges.orElse(null)`. */
-            fun charges(charges: Optional<List<Charge>>) = charges(charges.getOrNull())
+            fun charges(charges: Optional<List<com.e_invoice.api.models.documents.Charge>>) =
+                charges(charges.getOrNull())
 
             /**
              * Sets [Builder.charges] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.charges] with a well-typed `List<Charge>` value
-             * instead. This method is primarily for setting the field to an undocumented or not yet
-             * supported value.
+             * You should usually call [Builder.charges] with a well-typed
+             * `List<com.e_invoice.api.models.documents.Charge>` value instead. This method is
+             * primarily for setting the field to an undocumented or not yet supported value.
              */
-            fun charges(charges: JsonField<List<Charge>>) = apply {
-                this.charges = charges.map { it.toMutableList() }
-            }
+            fun charges(charges: JsonField<List<com.e_invoice.api.models.documents.Charge>>) =
+                apply {
+                    this.charges = charges.map { it.toMutableList() }
+                }
 
             /**
              * Adds a single [Charge] to [charges].
              *
              * @throws IllegalStateException if the field was previously set to a non-list.
              */
-            fun addCharge(charge: Charge) = apply {
+            fun addCharge(charge: com.e_invoice.api.models.documents.Charge) = apply {
                 charges =
                     (charges ?: JsonField.of(mutableListOf())).also {
                         checkKnown("charges", it).add(charge)
