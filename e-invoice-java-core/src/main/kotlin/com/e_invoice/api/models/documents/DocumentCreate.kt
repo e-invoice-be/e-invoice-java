@@ -41,6 +41,7 @@ private constructor(
     private val attachments: JsonField<List<DocumentAttachmentCreate>>,
     private val billingAddress: JsonField<String>,
     private val billingAddressRecipient: JsonField<String>,
+    private val buyerReference: JsonField<String>,
     private val charges: JsonField<List<Charge>>,
     private val currency: JsonField<CurrencyCode>,
     private val customerAddress: JsonField<String>,
@@ -50,6 +51,7 @@ private constructor(
     private val customerId: JsonField<String>,
     private val customerName: JsonField<String>,
     private val customerPeppolId: JsonField<String>,
+    private val customerPhone: JsonField<String>,
     private val customerTaxId: JsonField<String>,
     private val direction: JsonField<DocumentDirection>,
     private val documentType: JsonField<DocumentType>,
@@ -61,10 +63,14 @@ private constructor(
     private val note: JsonField<String>,
     private val paymentDetails: JsonField<List<PaymentDetailCreate>>,
     private val paymentTerm: JsonField<String>,
+    private val precedingInvoiceDate: JsonField<LocalDate>,
+    private val precedingInvoiceId: JsonField<String>,
     private val previousUnpaidBalance: JsonField<PreviousUnpaidBalance>,
     private val purchaseOrder: JsonField<String>,
     private val remittanceAddress: JsonField<String>,
     private val remittanceAddressRecipient: JsonField<String>,
+    private val roundingAmount: JsonField<RoundingAmount>,
+    private val salesOrder: JsonField<String>,
     private val serviceAddress: JsonField<String>,
     private val serviceAddressRecipient: JsonField<String>,
     private val serviceEndDate: JsonField<LocalDate>,
@@ -74,9 +80,11 @@ private constructor(
     private val state: JsonField<DocumentState>,
     private val subtotal: JsonField<Subtotal>,
     private val taxCode: JsonField<TaxCode>,
+    private val taxCurrency: JsonField<String>,
     private val taxDetails: JsonField<List<TaxDetail>>,
     private val totalDiscount: JsonField<TotalDiscount>,
     private val totalTax: JsonField<TotalTax>,
+    private val totalTaxInTaxCurrency: JsonField<TotalTaxInTaxCurrency>,
     private val vatex: JsonField<Vatex>,
     private val vatexNote: JsonField<String>,
     private val vendorAddress: JsonField<String>,
@@ -84,6 +92,7 @@ private constructor(
     private val vendorCompanyId: JsonField<String>,
     private val vendorEmail: JsonField<String>,
     private val vendorName: JsonField<String>,
+    private val vendorPhone: JsonField<String>,
     private val vendorTaxId: JsonField<String>,
     private val additionalProperties: MutableMap<String, JsonValue>,
 ) {
@@ -105,6 +114,9 @@ private constructor(
         @JsonProperty("billing_address_recipient")
         @ExcludeMissing
         billingAddressRecipient: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("buyer_reference")
+        @ExcludeMissing
+        buyerReference: JsonField<String> = JsonMissing.of(),
         @JsonProperty("charges")
         @ExcludeMissing
         charges: JsonField<List<Charge>> = JsonMissing.of(),
@@ -132,6 +144,9 @@ private constructor(
         @JsonProperty("customer_peppol_id")
         @ExcludeMissing
         customerPeppolId: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("customer_phone")
+        @ExcludeMissing
+        customerPhone: JsonField<String> = JsonMissing.of(),
         @JsonProperty("customer_tax_id")
         @ExcludeMissing
         customerTaxId: JsonField<String> = JsonMissing.of(),
@@ -157,6 +172,12 @@ private constructor(
         @JsonProperty("payment_term")
         @ExcludeMissing
         paymentTerm: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("preceding_invoice_date")
+        @ExcludeMissing
+        precedingInvoiceDate: JsonField<LocalDate> = JsonMissing.of(),
+        @JsonProperty("preceding_invoice_id")
+        @ExcludeMissing
+        precedingInvoiceId: JsonField<String> = JsonMissing.of(),
         @JsonProperty("previous_unpaid_balance")
         @ExcludeMissing
         previousUnpaidBalance: JsonField<PreviousUnpaidBalance> = JsonMissing.of(),
@@ -169,6 +190,12 @@ private constructor(
         @JsonProperty("remittance_address_recipient")
         @ExcludeMissing
         remittanceAddressRecipient: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("rounding_amount")
+        @ExcludeMissing
+        roundingAmount: JsonField<RoundingAmount> = JsonMissing.of(),
+        @JsonProperty("sales_order")
+        @ExcludeMissing
+        salesOrder: JsonField<String> = JsonMissing.of(),
         @JsonProperty("service_address")
         @ExcludeMissing
         serviceAddress: JsonField<String> = JsonMissing.of(),
@@ -190,6 +217,9 @@ private constructor(
         @JsonProperty("state") @ExcludeMissing state: JsonField<DocumentState> = JsonMissing.of(),
         @JsonProperty("subtotal") @ExcludeMissing subtotal: JsonField<Subtotal> = JsonMissing.of(),
         @JsonProperty("tax_code") @ExcludeMissing taxCode: JsonField<TaxCode> = JsonMissing.of(),
+        @JsonProperty("tax_currency")
+        @ExcludeMissing
+        taxCurrency: JsonField<String> = JsonMissing.of(),
         @JsonProperty("tax_details")
         @ExcludeMissing
         taxDetails: JsonField<List<TaxDetail>> = JsonMissing.of(),
@@ -197,6 +227,9 @@ private constructor(
         @ExcludeMissing
         totalDiscount: JsonField<TotalDiscount> = JsonMissing.of(),
         @JsonProperty("total_tax") @ExcludeMissing totalTax: JsonField<TotalTax> = JsonMissing.of(),
+        @JsonProperty("total_tax_in_tax_currency")
+        @ExcludeMissing
+        totalTaxInTaxCurrency: JsonField<TotalTaxInTaxCurrency> = JsonMissing.of(),
         @JsonProperty("vatex") @ExcludeMissing vatex: JsonField<Vatex> = JsonMissing.of(),
         @JsonProperty("vatex_note") @ExcludeMissing vatexNote: JsonField<String> = JsonMissing.of(),
         @JsonProperty("vendor_address")
@@ -214,6 +247,9 @@ private constructor(
         @JsonProperty("vendor_name")
         @ExcludeMissing
         vendorName: JsonField<String> = JsonMissing.of(),
+        @JsonProperty("vendor_phone")
+        @ExcludeMissing
+        vendorPhone: JsonField<String> = JsonMissing.of(),
         @JsonProperty("vendor_tax_id")
         @ExcludeMissing
         vendorTaxId: JsonField<String> = JsonMissing.of(),
@@ -223,6 +259,7 @@ private constructor(
         attachments,
         billingAddress,
         billingAddressRecipient,
+        buyerReference,
         charges,
         currency,
         customerAddress,
@@ -232,6 +269,7 @@ private constructor(
         customerId,
         customerName,
         customerPeppolId,
+        customerPhone,
         customerTaxId,
         direction,
         documentType,
@@ -243,10 +281,14 @@ private constructor(
         note,
         paymentDetails,
         paymentTerm,
+        precedingInvoiceDate,
+        precedingInvoiceId,
         previousUnpaidBalance,
         purchaseOrder,
         remittanceAddress,
         remittanceAddressRecipient,
+        roundingAmount,
+        salesOrder,
         serviceAddress,
         serviceAddressRecipient,
         serviceEndDate,
@@ -256,9 +298,11 @@ private constructor(
         state,
         subtotal,
         taxCode,
+        taxCurrency,
         taxDetails,
         totalDiscount,
         totalTax,
+        totalTaxInTaxCurrency,
         vatex,
         vatexNote,
         vendorAddress,
@@ -266,6 +310,7 @@ private constructor(
         vendorCompanyId,
         vendorEmail,
         vendorName,
+        vendorPhone,
         vendorTaxId,
         mutableMapOf(),
     )
@@ -307,6 +352,15 @@ private constructor(
      */
     fun billingAddressRecipient(): Optional<String> =
         billingAddressRecipient.getOptional("billing_address_recipient")
+
+    /**
+     * The buyer reference (BT-10), e.g. a cost centre or accounting reference requested by the
+     * buyer
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun buyerReference(): Optional<String> = buyerReference.getOptional("buyer_reference")
 
     /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -379,6 +433,14 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun customerPeppolId(): Optional<String> = customerPeppolId.getOptional("customer_peppol_id")
+
+    /**
+     * The telephone number of the customer contact (BT-57)
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun customerPhone(): Optional<String> = customerPhone.getOptional("customer_phone")
 
     /**
      * Customer tax ID. For Belgium this is the VAT number. Must include the country prefix
@@ -469,6 +531,25 @@ private constructor(
     fun paymentTerm(): Optional<String> = paymentTerm.getOptional("payment_term")
 
     /**
+     * The preceding invoice issue date (BT-26)
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun precedingInvoiceDate(): Optional<LocalDate> =
+        precedingInvoiceDate.getOptional("preceding_invoice_date")
+
+    /**
+     * The preceding invoice reference (BT-25): the number of the invoice this document corrects,
+     * for example the invoice a credit note credits
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun precedingInvoiceId(): Optional<String> =
+        precedingInvoiceId.getOptional("preceding_invoice_id")
+
+    /**
      * The previous unpaid balance from prior invoices, if any. Must be positive and rounded to
      * maximum 2 decimals
      *
@@ -502,6 +583,24 @@ private constructor(
      */
     fun remittanceAddressRecipient(): Optional<String> =
         remittanceAddressRecipient.getOptional("remittance_address_recipient")
+
+    /**
+     * The amount added to the invoice total to round the amount for payment (BT-114), for example
+     * to whole kronor (amount_due = invoice_total + rounding_amount when nothing is prepaid). Can
+     * be negative. Between -5.00 and 5.00, rounded to maximum 2 decimals
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun roundingAmount(): Optional<RoundingAmount> = roundingAmount.getOptional("rounding_amount")
+
+    /**
+     * The sales order reference (BT-14) assigned by the seller
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun salesOrder(): Optional<String> = salesOrder.getOptional("sales_order")
 
     /**
      * The address where services were performed or goods were delivered
@@ -580,6 +679,16 @@ private constructor(
     fun taxCode(): Optional<TaxCode> = taxCode.getOptional("tax_code")
 
     /**
+     * The VAT accounting currency (BT-6, ISO 4217 currency code), when VAT is accounted in a
+     * currency other than the invoice currency. Must differ from currency and requires
+     * total_tax_in_tax_currency
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun taxCurrency(): Optional<String> = taxCurrency.getOptional("tax_currency")
+
+    /**
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
      *   server responded with an unexpected value).
      */
@@ -602,6 +711,16 @@ private constructor(
      *   server responded with an unexpected value).
      */
     fun totalTax(): Optional<TotalTax> = totalTax.getOptional("total_tax")
+
+    /**
+     * The total VAT amount in the VAT accounting currency tax_currency (BT-111). Does not add to
+     * invoice_total. Requires tax_currency. Rounded to maximum 2 decimals
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun totalTaxInTaxCurrency(): Optional<TotalTaxInTaxCurrency> =
+        totalTaxInTaxCurrency.getOptional("total_tax_in_tax_currency")
 
     /**
      * VATEX code list for VAT exemption reasons
@@ -664,6 +783,15 @@ private constructor(
     fun vendorName(): Optional<String> = vendorName.getOptional("vendor_name")
 
     /**
+     * The telephone number of the vendor contact (BT-42). Required when vendor and customer are
+     * both in Germany (DE-R-006); it must then hold at least 3 digits (DE-R-027, a warning).
+     *
+     * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
+     *   server responded with an unexpected value).
+     */
+    fun vendorPhone(): Optional<String> = vendorPhone.getOptional("vendor_phone")
+
+    /**
      * Vendor tax ID. For Belgium this is the VAT number. Must include the country prefix
      *
      * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if the
@@ -714,6 +842,15 @@ private constructor(
     @JsonProperty("billing_address_recipient")
     @ExcludeMissing
     fun _billingAddressRecipient(): JsonField<String> = billingAddressRecipient
+
+    /**
+     * Returns the raw JSON value of [buyerReference].
+     *
+     * Unlike [buyerReference], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("buyer_reference")
+    @ExcludeMissing
+    fun _buyerReference(): JsonField<String> = buyerReference
 
     /**
      * Returns the raw JSON value of [charges].
@@ -792,6 +929,15 @@ private constructor(
     @JsonProperty("customer_peppol_id")
     @ExcludeMissing
     fun _customerPeppolId(): JsonField<String> = customerPeppolId
+
+    /**
+     * Returns the raw JSON value of [customerPhone].
+     *
+     * Unlike [customerPhone], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("customer_phone")
+    @ExcludeMissing
+    fun _customerPhone(): JsonField<String> = customerPhone
 
     /**
      * Returns the raw JSON value of [customerTaxId].
@@ -885,6 +1031,26 @@ private constructor(
     fun _paymentTerm(): JsonField<String> = paymentTerm
 
     /**
+     * Returns the raw JSON value of [precedingInvoiceDate].
+     *
+     * Unlike [precedingInvoiceDate], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("preceding_invoice_date")
+    @ExcludeMissing
+    fun _precedingInvoiceDate(): JsonField<LocalDate> = precedingInvoiceDate
+
+    /**
+     * Returns the raw JSON value of [precedingInvoiceId].
+     *
+     * Unlike [precedingInvoiceId], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("preceding_invoice_id")
+    @ExcludeMissing
+    fun _precedingInvoiceId(): JsonField<String> = precedingInvoiceId
+
+    /**
      * Returns the raw JSON value of [previousUnpaidBalance].
      *
      * Unlike [previousUnpaidBalance], this method doesn't throw if the JSON field has an unexpected
@@ -922,6 +1088,22 @@ private constructor(
     @JsonProperty("remittance_address_recipient")
     @ExcludeMissing
     fun _remittanceAddressRecipient(): JsonField<String> = remittanceAddressRecipient
+
+    /**
+     * Returns the raw JSON value of [roundingAmount].
+     *
+     * Unlike [roundingAmount], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("rounding_amount")
+    @ExcludeMissing
+    fun _roundingAmount(): JsonField<RoundingAmount> = roundingAmount
+
+    /**
+     * Returns the raw JSON value of [salesOrder].
+     *
+     * Unlike [salesOrder], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("sales_order") @ExcludeMissing fun _salesOrder(): JsonField<String> = salesOrder
 
     /**
      * Returns the raw JSON value of [serviceAddress].
@@ -1002,6 +1184,15 @@ private constructor(
     @JsonProperty("tax_code") @ExcludeMissing fun _taxCode(): JsonField<TaxCode> = taxCode
 
     /**
+     * Returns the raw JSON value of [taxCurrency].
+     *
+     * Unlike [taxCurrency], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("tax_currency")
+    @ExcludeMissing
+    fun _taxCurrency(): JsonField<String> = taxCurrency
+
+    /**
      * Returns the raw JSON value of [taxDetails].
      *
      * Unlike [taxDetails], this method doesn't throw if the JSON field has an unexpected type.
@@ -1025,6 +1216,16 @@ private constructor(
      * Unlike [totalTax], this method doesn't throw if the JSON field has an unexpected type.
      */
     @JsonProperty("total_tax") @ExcludeMissing fun _totalTax(): JsonField<TotalTax> = totalTax
+
+    /**
+     * Returns the raw JSON value of [totalTaxInTaxCurrency].
+     *
+     * Unlike [totalTaxInTaxCurrency], this method doesn't throw if the JSON field has an unexpected
+     * type.
+     */
+    @JsonProperty("total_tax_in_tax_currency")
+    @ExcludeMissing
+    fun _totalTaxInTaxCurrency(): JsonField<TotalTaxInTaxCurrency> = totalTaxInTaxCurrency
 
     /**
      * Returns the raw JSON value of [vatex].
@@ -1085,6 +1286,15 @@ private constructor(
     @JsonProperty("vendor_name") @ExcludeMissing fun _vendorName(): JsonField<String> = vendorName
 
     /**
+     * Returns the raw JSON value of [vendorPhone].
+     *
+     * Unlike [vendorPhone], this method doesn't throw if the JSON field has an unexpected type.
+     */
+    @JsonProperty("vendor_phone")
+    @ExcludeMissing
+    fun _vendorPhone(): JsonField<String> = vendorPhone
+
+    /**
      * Returns the raw JSON value of [vendorTaxId].
      *
      * Unlike [vendorTaxId], this method doesn't throw if the JSON field has an unexpected type.
@@ -1119,6 +1329,7 @@ private constructor(
         private var attachments: JsonField<MutableList<DocumentAttachmentCreate>>? = null
         private var billingAddress: JsonField<String> = JsonMissing.of()
         private var billingAddressRecipient: JsonField<String> = JsonMissing.of()
+        private var buyerReference: JsonField<String> = JsonMissing.of()
         private var charges: JsonField<MutableList<Charge>>? = null
         private var currency: JsonField<CurrencyCode> = JsonMissing.of()
         private var customerAddress: JsonField<String> = JsonMissing.of()
@@ -1128,6 +1339,7 @@ private constructor(
         private var customerId: JsonField<String> = JsonMissing.of()
         private var customerName: JsonField<String> = JsonMissing.of()
         private var customerPeppolId: JsonField<String> = JsonMissing.of()
+        private var customerPhone: JsonField<String> = JsonMissing.of()
         private var customerTaxId: JsonField<String> = JsonMissing.of()
         private var direction: JsonField<DocumentDirection> = JsonMissing.of()
         private var documentType: JsonField<DocumentType> = JsonMissing.of()
@@ -1139,10 +1351,14 @@ private constructor(
         private var note: JsonField<String> = JsonMissing.of()
         private var paymentDetails: JsonField<MutableList<PaymentDetailCreate>>? = null
         private var paymentTerm: JsonField<String> = JsonMissing.of()
+        private var precedingInvoiceDate: JsonField<LocalDate> = JsonMissing.of()
+        private var precedingInvoiceId: JsonField<String> = JsonMissing.of()
         private var previousUnpaidBalance: JsonField<PreviousUnpaidBalance> = JsonMissing.of()
         private var purchaseOrder: JsonField<String> = JsonMissing.of()
         private var remittanceAddress: JsonField<String> = JsonMissing.of()
         private var remittanceAddressRecipient: JsonField<String> = JsonMissing.of()
+        private var roundingAmount: JsonField<RoundingAmount> = JsonMissing.of()
+        private var salesOrder: JsonField<String> = JsonMissing.of()
         private var serviceAddress: JsonField<String> = JsonMissing.of()
         private var serviceAddressRecipient: JsonField<String> = JsonMissing.of()
         private var serviceEndDate: JsonField<LocalDate> = JsonMissing.of()
@@ -1152,9 +1368,11 @@ private constructor(
         private var state: JsonField<DocumentState> = JsonMissing.of()
         private var subtotal: JsonField<Subtotal> = JsonMissing.of()
         private var taxCode: JsonField<TaxCode> = JsonMissing.of()
+        private var taxCurrency: JsonField<String> = JsonMissing.of()
         private var taxDetails: JsonField<MutableList<TaxDetail>>? = null
         private var totalDiscount: JsonField<TotalDiscount> = JsonMissing.of()
         private var totalTax: JsonField<TotalTax> = JsonMissing.of()
+        private var totalTaxInTaxCurrency: JsonField<TotalTaxInTaxCurrency> = JsonMissing.of()
         private var vatex: JsonField<Vatex> = JsonMissing.of()
         private var vatexNote: JsonField<String> = JsonMissing.of()
         private var vendorAddress: JsonField<String> = JsonMissing.of()
@@ -1162,6 +1380,7 @@ private constructor(
         private var vendorCompanyId: JsonField<String> = JsonMissing.of()
         private var vendorEmail: JsonField<String> = JsonMissing.of()
         private var vendorName: JsonField<String> = JsonMissing.of()
+        private var vendorPhone: JsonField<String> = JsonMissing.of()
         private var vendorTaxId: JsonField<String> = JsonMissing.of()
         private var additionalProperties: MutableMap<String, JsonValue> = mutableMapOf()
 
@@ -1172,6 +1391,7 @@ private constructor(
             attachments = documentCreate.attachments.map { it.toMutableList() }
             billingAddress = documentCreate.billingAddress
             billingAddressRecipient = documentCreate.billingAddressRecipient
+            buyerReference = documentCreate.buyerReference
             charges = documentCreate.charges.map { it.toMutableList() }
             currency = documentCreate.currency
             customerAddress = documentCreate.customerAddress
@@ -1181,6 +1401,7 @@ private constructor(
             customerId = documentCreate.customerId
             customerName = documentCreate.customerName
             customerPeppolId = documentCreate.customerPeppolId
+            customerPhone = documentCreate.customerPhone
             customerTaxId = documentCreate.customerTaxId
             direction = documentCreate.direction
             documentType = documentCreate.documentType
@@ -1192,10 +1413,14 @@ private constructor(
             note = documentCreate.note
             paymentDetails = documentCreate.paymentDetails.map { it.toMutableList() }
             paymentTerm = documentCreate.paymentTerm
+            precedingInvoiceDate = documentCreate.precedingInvoiceDate
+            precedingInvoiceId = documentCreate.precedingInvoiceId
             previousUnpaidBalance = documentCreate.previousUnpaidBalance
             purchaseOrder = documentCreate.purchaseOrder
             remittanceAddress = documentCreate.remittanceAddress
             remittanceAddressRecipient = documentCreate.remittanceAddressRecipient
+            roundingAmount = documentCreate.roundingAmount
+            salesOrder = documentCreate.salesOrder
             serviceAddress = documentCreate.serviceAddress
             serviceAddressRecipient = documentCreate.serviceAddressRecipient
             serviceEndDate = documentCreate.serviceEndDate
@@ -1205,9 +1430,11 @@ private constructor(
             state = documentCreate.state
             subtotal = documentCreate.subtotal
             taxCode = documentCreate.taxCode
+            taxCurrency = documentCreate.taxCurrency
             taxDetails = documentCreate.taxDetails.map { it.toMutableList() }
             totalDiscount = documentCreate.totalDiscount
             totalTax = documentCreate.totalTax
+            totalTaxInTaxCurrency = documentCreate.totalTaxInTaxCurrency
             vatex = documentCreate.vatex
             vatexNote = documentCreate.vatexNote
             vendorAddress = documentCreate.vendorAddress
@@ -1215,6 +1442,7 @@ private constructor(
             vendorCompanyId = documentCreate.vendorCompanyId
             vendorEmail = documentCreate.vendorEmail
             vendorName = documentCreate.vendorName
+            vendorPhone = documentCreate.vendorPhone
             vendorTaxId = documentCreate.vendorTaxId
             additionalProperties = documentCreate.additionalProperties.toMutableMap()
         }
@@ -1337,6 +1565,28 @@ private constructor(
          */
         fun billingAddressRecipient(billingAddressRecipient: JsonField<String>) = apply {
             this.billingAddressRecipient = billingAddressRecipient
+        }
+
+        /**
+         * The buyer reference (BT-10), e.g. a cost centre or accounting reference requested by the
+         * buyer
+         */
+        fun buyerReference(buyerReference: String?) =
+            buyerReference(JsonField.ofNullable(buyerReference))
+
+        /** Alias for calling [Builder.buyerReference] with `buyerReference.orElse(null)`. */
+        fun buyerReference(buyerReference: Optional<String>) =
+            buyerReference(buyerReference.getOrNull())
+
+        /**
+         * Sets [Builder.buyerReference] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.buyerReference] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun buyerReference(buyerReference: JsonField<String>) = apply {
+            this.buyerReference = buyerReference
         }
 
         fun charges(charges: List<Charge>?) = charges(JsonField.ofNullable(charges))
@@ -1510,6 +1760,25 @@ private constructor(
          */
         fun customerPeppolId(customerPeppolId: JsonField<String>) = apply {
             this.customerPeppolId = customerPeppolId
+        }
+
+        /** The telephone number of the customer contact (BT-57) */
+        fun customerPhone(customerPhone: String?) =
+            customerPhone(JsonField.ofNullable(customerPhone))
+
+        /** Alias for calling [Builder.customerPhone] with `customerPhone.orElse(null)`. */
+        fun customerPhone(customerPhone: Optional<String>) =
+            customerPhone(customerPhone.getOrNull())
+
+        /**
+         * Sets [Builder.customerPhone] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.customerPhone] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun customerPhone(customerPhone: JsonField<String>) = apply {
+            this.customerPhone = customerPhone
         }
 
         /** Customer tax ID. For Belgium this is the VAT number. Must include the country prefix */
@@ -1717,6 +1986,52 @@ private constructor(
          */
         fun paymentTerm(paymentTerm: JsonField<String>) = apply { this.paymentTerm = paymentTerm }
 
+        /** The preceding invoice issue date (BT-26) */
+        fun precedingInvoiceDate(precedingInvoiceDate: LocalDate?) =
+            precedingInvoiceDate(JsonField.ofNullable(precedingInvoiceDate))
+
+        /**
+         * Alias for calling [Builder.precedingInvoiceDate] with
+         * `precedingInvoiceDate.orElse(null)`.
+         */
+        fun precedingInvoiceDate(precedingInvoiceDate: Optional<LocalDate>) =
+            precedingInvoiceDate(precedingInvoiceDate.getOrNull())
+
+        /**
+         * Sets [Builder.precedingInvoiceDate] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.precedingInvoiceDate] with a well-typed [LocalDate]
+         * value instead. This method is primarily for setting the field to an undocumented or not
+         * yet supported value.
+         */
+        fun precedingInvoiceDate(precedingInvoiceDate: JsonField<LocalDate>) = apply {
+            this.precedingInvoiceDate = precedingInvoiceDate
+        }
+
+        /**
+         * The preceding invoice reference (BT-25): the number of the invoice this document
+         * corrects, for example the invoice a credit note credits
+         */
+        fun precedingInvoiceId(precedingInvoiceId: String?) =
+            precedingInvoiceId(JsonField.ofNullable(precedingInvoiceId))
+
+        /**
+         * Alias for calling [Builder.precedingInvoiceId] with `precedingInvoiceId.orElse(null)`.
+         */
+        fun precedingInvoiceId(precedingInvoiceId: Optional<String>) =
+            precedingInvoiceId(precedingInvoiceId.getOrNull())
+
+        /**
+         * Sets [Builder.precedingInvoiceId] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.precedingInvoiceId] with a well-typed [String] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun precedingInvoiceId(precedingInvoiceId: JsonField<String>) = apply {
+            this.precedingInvoiceId = precedingInvoiceId
+        }
+
         /**
          * The previous unpaid balance from prior invoices, if any. Must be positive and rounded to
          * maximum 2 decimals
@@ -1813,6 +2128,50 @@ private constructor(
         fun remittanceAddressRecipient(remittanceAddressRecipient: JsonField<String>) = apply {
             this.remittanceAddressRecipient = remittanceAddressRecipient
         }
+
+        /**
+         * The amount added to the invoice total to round the amount for payment (BT-114), for
+         * example to whole kronor (amount_due = invoice_total + rounding_amount when nothing is
+         * prepaid). Can be negative. Between -5.00 and 5.00, rounded to maximum 2 decimals
+         */
+        fun roundingAmount(roundingAmount: RoundingAmount?) =
+            roundingAmount(JsonField.ofNullable(roundingAmount))
+
+        /** Alias for calling [Builder.roundingAmount] with `roundingAmount.orElse(null)`. */
+        fun roundingAmount(roundingAmount: Optional<RoundingAmount>) =
+            roundingAmount(roundingAmount.getOrNull())
+
+        /**
+         * Sets [Builder.roundingAmount] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.roundingAmount] with a well-typed [RoundingAmount] value
+         * instead. This method is primarily for setting the field to an undocumented or not yet
+         * supported value.
+         */
+        fun roundingAmount(roundingAmount: JsonField<RoundingAmount>) = apply {
+            this.roundingAmount = roundingAmount
+        }
+
+        /** Alias for calling [roundingAmount] with `RoundingAmount.ofNumber(number)`. */
+        fun roundingAmount(number: Double) = roundingAmount(RoundingAmount.ofNumber(number))
+
+        /** Alias for calling [roundingAmount] with `RoundingAmount.ofString(string)`. */
+        fun roundingAmount(string: String) = roundingAmount(RoundingAmount.ofString(string))
+
+        /** The sales order reference (BT-14) assigned by the seller */
+        fun salesOrder(salesOrder: String?) = salesOrder(JsonField.ofNullable(salesOrder))
+
+        /** Alias for calling [Builder.salesOrder] with `salesOrder.orElse(null)`. */
+        fun salesOrder(salesOrder: Optional<String>) = salesOrder(salesOrder.getOrNull())
+
+        /**
+         * Sets [Builder.salesOrder] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.salesOrder] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun salesOrder(salesOrder: JsonField<String>) = apply { this.salesOrder = salesOrder }
 
         /** The address where services were performed or goods were delivered */
         fun serviceAddress(serviceAddress: String?) =
@@ -1985,6 +2344,25 @@ private constructor(
          */
         fun taxCode(taxCode: JsonField<TaxCode>) = apply { this.taxCode = taxCode }
 
+        /**
+         * The VAT accounting currency (BT-6, ISO 4217 currency code), when VAT is accounted in a
+         * currency other than the invoice currency. Must differ from currency and requires
+         * total_tax_in_tax_currency
+         */
+        fun taxCurrency(taxCurrency: String?) = taxCurrency(JsonField.ofNullable(taxCurrency))
+
+        /** Alias for calling [Builder.taxCurrency] with `taxCurrency.orElse(null)`. */
+        fun taxCurrency(taxCurrency: Optional<String>) = taxCurrency(taxCurrency.getOrNull())
+
+        /**
+         * Sets [Builder.taxCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.taxCurrency] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun taxCurrency(taxCurrency: JsonField<String>) = apply { this.taxCurrency = taxCurrency }
+
         fun taxDetails(taxDetails: List<TaxDetail>?) = taxDetails(JsonField.ofNullable(taxDetails))
 
         /** Alias for calling [Builder.taxDetails] with `taxDetails.orElse(null)`. */
@@ -2064,6 +2442,43 @@ private constructor(
 
         /** Alias for calling [totalTax] with `TotalTax.ofString(string)`. */
         fun totalTax(string: String) = totalTax(TotalTax.ofString(string))
+
+        /**
+         * The total VAT amount in the VAT accounting currency tax_currency (BT-111). Does not add
+         * to invoice_total. Requires tax_currency. Rounded to maximum 2 decimals
+         */
+        fun totalTaxInTaxCurrency(totalTaxInTaxCurrency: TotalTaxInTaxCurrency?) =
+            totalTaxInTaxCurrency(JsonField.ofNullable(totalTaxInTaxCurrency))
+
+        /**
+         * Alias for calling [Builder.totalTaxInTaxCurrency] with
+         * `totalTaxInTaxCurrency.orElse(null)`.
+         */
+        fun totalTaxInTaxCurrency(totalTaxInTaxCurrency: Optional<TotalTaxInTaxCurrency>) =
+            totalTaxInTaxCurrency(totalTaxInTaxCurrency.getOrNull())
+
+        /**
+         * Sets [Builder.totalTaxInTaxCurrency] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.totalTaxInTaxCurrency] with a well-typed
+         * [TotalTaxInTaxCurrency] value instead. This method is primarily for setting the field to
+         * an undocumented or not yet supported value.
+         */
+        fun totalTaxInTaxCurrency(totalTaxInTaxCurrency: JsonField<TotalTaxInTaxCurrency>) = apply {
+            this.totalTaxInTaxCurrency = totalTaxInTaxCurrency
+        }
+
+        /**
+         * Alias for calling [totalTaxInTaxCurrency] with `TotalTaxInTaxCurrency.ofNumber(number)`.
+         */
+        fun totalTaxInTaxCurrency(number: Double) =
+            totalTaxInTaxCurrency(TotalTaxInTaxCurrency.ofNumber(number))
+
+        /**
+         * Alias for calling [totalTaxInTaxCurrency] with `TotalTaxInTaxCurrency.ofString(string)`.
+         */
+        fun totalTaxInTaxCurrency(string: String) =
+            totalTaxInTaxCurrency(TotalTaxInTaxCurrency.ofString(string))
 
         /**
          * VATEX code list for VAT exemption reasons
@@ -2191,6 +2606,24 @@ private constructor(
          */
         fun vendorName(vendorName: JsonField<String>) = apply { this.vendorName = vendorName }
 
+        /**
+         * The telephone number of the vendor contact (BT-42). Required when vendor and customer are
+         * both in Germany (DE-R-006); it must then hold at least 3 digits (DE-R-027, a warning).
+         */
+        fun vendorPhone(vendorPhone: String?) = vendorPhone(JsonField.ofNullable(vendorPhone))
+
+        /** Alias for calling [Builder.vendorPhone] with `vendorPhone.orElse(null)`. */
+        fun vendorPhone(vendorPhone: Optional<String>) = vendorPhone(vendorPhone.getOrNull())
+
+        /**
+         * Sets [Builder.vendorPhone] to an arbitrary JSON value.
+         *
+         * You should usually call [Builder.vendorPhone] with a well-typed [String] value instead.
+         * This method is primarily for setting the field to an undocumented or not yet supported
+         * value.
+         */
+        fun vendorPhone(vendorPhone: JsonField<String>) = apply { this.vendorPhone = vendorPhone }
+
         /** Vendor tax ID. For Belgium this is the VAT number. Must include the country prefix */
         fun vendorTaxId(vendorTaxId: String?) = vendorTaxId(JsonField.ofNullable(vendorTaxId))
 
@@ -2237,6 +2670,7 @@ private constructor(
                 (attachments ?: JsonMissing.of()).map { it.toImmutable() },
                 billingAddress,
                 billingAddressRecipient,
+                buyerReference,
                 (charges ?: JsonMissing.of()).map { it.toImmutable() },
                 currency,
                 customerAddress,
@@ -2246,6 +2680,7 @@ private constructor(
                 customerId,
                 customerName,
                 customerPeppolId,
+                customerPhone,
                 customerTaxId,
                 direction,
                 documentType,
@@ -2257,10 +2692,14 @@ private constructor(
                 note,
                 (paymentDetails ?: JsonMissing.of()).map { it.toImmutable() },
                 paymentTerm,
+                precedingInvoiceDate,
+                precedingInvoiceId,
                 previousUnpaidBalance,
                 purchaseOrder,
                 remittanceAddress,
                 remittanceAddressRecipient,
+                roundingAmount,
+                salesOrder,
                 serviceAddress,
                 serviceAddressRecipient,
                 serviceEndDate,
@@ -2270,9 +2709,11 @@ private constructor(
                 state,
                 subtotal,
                 taxCode,
+                taxCurrency,
                 (taxDetails ?: JsonMissing.of()).map { it.toImmutable() },
                 totalDiscount,
                 totalTax,
+                totalTaxInTaxCurrency,
                 vatex,
                 vatexNote,
                 vendorAddress,
@@ -2280,6 +2721,7 @@ private constructor(
                 vendorCompanyId,
                 vendorEmail,
                 vendorName,
+                vendorPhone,
                 vendorTaxId,
                 additionalProperties.toMutableMap(),
             )
@@ -2305,6 +2747,7 @@ private constructor(
         attachments().ifPresent { it.forEach { it.validate() } }
         billingAddress()
         billingAddressRecipient()
+        buyerReference()
         charges().ifPresent { it.forEach { it.validate() } }
         currency().ifPresent { it.validate() }
         customerAddress()
@@ -2314,6 +2757,7 @@ private constructor(
         customerId()
         customerName()
         customerPeppolId()
+        customerPhone()
         customerTaxId()
         direction().ifPresent { it.validate() }
         documentType().ifPresent { it.validate() }
@@ -2325,10 +2769,14 @@ private constructor(
         note()
         paymentDetails().ifPresent { it.forEach { it.validate() } }
         paymentTerm()
+        precedingInvoiceDate()
+        precedingInvoiceId()
         previousUnpaidBalance().ifPresent { it.validate() }
         purchaseOrder()
         remittanceAddress()
         remittanceAddressRecipient()
+        roundingAmount().ifPresent { it.validate() }
+        salesOrder()
         serviceAddress()
         serviceAddressRecipient()
         serviceEndDate()
@@ -2338,9 +2786,11 @@ private constructor(
         state().ifPresent { it.validate() }
         subtotal().ifPresent { it.validate() }
         taxCode().ifPresent { it.validate() }
+        taxCurrency()
         taxDetails().ifPresent { it.forEach { it.validate() } }
         totalDiscount().ifPresent { it.validate() }
         totalTax().ifPresent { it.validate() }
+        totalTaxInTaxCurrency().ifPresent { it.validate() }
         vatex().ifPresent { it.validate() }
         vatexNote()
         vendorAddress()
@@ -2348,6 +2798,7 @@ private constructor(
         vendorCompanyId()
         vendorEmail()
         vendorName()
+        vendorPhone()
         vendorTaxId()
         validated = true
     }
@@ -2372,6 +2823,7 @@ private constructor(
             (attachments.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (billingAddress.asKnown().isPresent) 1 else 0) +
             (if (billingAddressRecipient.asKnown().isPresent) 1 else 0) +
+            (if (buyerReference.asKnown().isPresent) 1 else 0) +
             (charges.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (currency.asKnown().getOrNull()?.validity() ?: 0) +
             (if (customerAddress.asKnown().isPresent) 1 else 0) +
@@ -2381,6 +2833,7 @@ private constructor(
             (if (customerId.asKnown().isPresent) 1 else 0) +
             (if (customerName.asKnown().isPresent) 1 else 0) +
             (if (customerPeppolId.asKnown().isPresent) 1 else 0) +
+            (if (customerPhone.asKnown().isPresent) 1 else 0) +
             (if (customerTaxId.asKnown().isPresent) 1 else 0) +
             (direction.asKnown().getOrNull()?.validity() ?: 0) +
             (documentType.asKnown().getOrNull()?.validity() ?: 0) +
@@ -2392,10 +2845,14 @@ private constructor(
             (if (note.asKnown().isPresent) 1 else 0) +
             (paymentDetails.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (if (paymentTerm.asKnown().isPresent) 1 else 0) +
+            (if (precedingInvoiceDate.asKnown().isPresent) 1 else 0) +
+            (if (precedingInvoiceId.asKnown().isPresent) 1 else 0) +
             (previousUnpaidBalance.asKnown().getOrNull()?.validity() ?: 0) +
             (if (purchaseOrder.asKnown().isPresent) 1 else 0) +
             (if (remittanceAddress.asKnown().isPresent) 1 else 0) +
             (if (remittanceAddressRecipient.asKnown().isPresent) 1 else 0) +
+            (roundingAmount.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (salesOrder.asKnown().isPresent) 1 else 0) +
             (if (serviceAddress.asKnown().isPresent) 1 else 0) +
             (if (serviceAddressRecipient.asKnown().isPresent) 1 else 0) +
             (if (serviceEndDate.asKnown().isPresent) 1 else 0) +
@@ -2405,9 +2862,11 @@ private constructor(
             (state.asKnown().getOrNull()?.validity() ?: 0) +
             (subtotal.asKnown().getOrNull()?.validity() ?: 0) +
             (taxCode.asKnown().getOrNull()?.validity() ?: 0) +
+            (if (taxCurrency.asKnown().isPresent) 1 else 0) +
             (taxDetails.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
             (totalDiscount.asKnown().getOrNull()?.validity() ?: 0) +
             (totalTax.asKnown().getOrNull()?.validity() ?: 0) +
+            (totalTaxInTaxCurrency.asKnown().getOrNull()?.validity() ?: 0) +
             (vatex.asKnown().getOrNull()?.validity() ?: 0) +
             (if (vatexNote.asKnown().isPresent) 1 else 0) +
             (if (vendorAddress.asKnown().isPresent) 1 else 0) +
@@ -2415,6 +2874,7 @@ private constructor(
             (if (vendorCompanyId.asKnown().isPresent) 1 else 0) +
             (if (vendorEmail.asKnown().isPresent) 1 else 0) +
             (if (vendorName.asKnown().isPresent) 1 else 0) +
+            (if (vendorPhone.asKnown().isPresent) 1 else 0) +
             (if (vendorTaxId.asKnown().isPresent) 1 else 0)
 
     /** An allowance is a discount for example for early payment, volume discount, etc. */
@@ -7316,8 +7776,10 @@ private constructor(
         private val allowances: JsonField<List<Allowance>>,
         private val amount: JsonField<Amount>,
         private val charges: JsonField<List<Charge>>,
-        private val date: JsonField<Void>,
+        private val date: JsonField<LocalDate>,
         private val description: JsonField<String>,
+        private val name: JsonField<String>,
+        private val priceBaseQuantity: JsonField<PriceBaseQuantity>,
         private val itemAttributes: JsonField<List<ItemAttribute>>,
         private val productCode: JsonField<String>,
         private val quantity: JsonField<Quantity>,
@@ -7337,10 +7799,14 @@ private constructor(
             @JsonProperty("charges")
             @ExcludeMissing
             charges: JsonField<List<Charge>> = JsonMissing.of(),
-            @JsonProperty("date") @ExcludeMissing date: JsonField<Void> = JsonMissing.of(),
+            @JsonProperty("date") @ExcludeMissing date: JsonField<LocalDate> = JsonMissing.of(),
             @JsonProperty("description")
             @ExcludeMissing
             description: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("name") @ExcludeMissing name: JsonField<String> = JsonMissing.of(),
+            @JsonProperty("price_base_quantity")
+            @ExcludeMissing
+            priceBaseQuantity: JsonField<PriceBaseQuantity> = JsonMissing.of(),
             @JsonProperty("item_attributes")
             @ExcludeMissing
             itemAttributes: JsonField<List<ItemAttribute>> = JsonMissing.of(),
@@ -7366,6 +7832,8 @@ private constructor(
             charges,
             date,
             description,
+            name,
+            priceBaseQuantity,
             itemAttributes,
             productCode,
             quantity,
@@ -7407,7 +7875,7 @@ private constructor(
          * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
          *   the server responded with an unexpected value).
          */
-        fun date(): Optional<Void> = date.getOptional("date")
+        fun date(): Optional<LocalDate> = date.getOptional("date")
 
         /**
          * The description of the line item.
@@ -7416,6 +7884,27 @@ private constructor(
          *   the server responded with an unexpected value).
          */
         fun description(): Optional<String> = description.getOptional("description")
+
+        /**
+         * The item name (BT-153), for example the product name. Written to cac:Item/cbc:Name. When
+         * omitted or blank, `description` (BT-154) is used as the item name. A posted line item
+         * needs a `name` or a `description`; a line item with neither is rejected with 422.
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun name(): Optional<String> = name.getOptional("name")
+
+        /**
+         * The item price base quantity (BT-149). The number of item units to which the unit price
+         * applies, for example 100 when the unit price is a price for each 100 units. Must be
+         * greater than 0. Defaults to 1.
+         *
+         * @throws EInvoiceInvalidDataException if the JSON field has an unexpected type (e.g. if
+         *   the server responded with an unexpected value).
+         */
+        fun priceBaseQuantity(): Optional<PriceBaseQuantity> =
+            priceBaseQuantity.getOptional("price_base_quantity")
 
         /**
          * Item-level attributes (BG-32) from cac:AdditionalItemProperty.
@@ -7505,7 +7994,7 @@ private constructor(
          *
          * Unlike [date], this method doesn't throw if the JSON field has an unexpected type.
          */
-        @JsonProperty("date") @ExcludeMissing fun _date(): JsonField<Void> = date
+        @JsonProperty("date") @ExcludeMissing fun _date(): JsonField<LocalDate> = date
 
         /**
          * Returns the raw JSON value of [description].
@@ -7515,6 +8004,23 @@ private constructor(
         @JsonProperty("description")
         @ExcludeMissing
         fun _description(): JsonField<String> = description
+
+        /**
+         * Returns the raw JSON value of [name].
+         *
+         * Unlike [name], this method doesn't throw if the JSON field has an unexpected type.
+         */
+        @JsonProperty("name") @ExcludeMissing fun _name(): JsonField<String> = name
+
+        /**
+         * Returns the raw JSON value of [priceBaseQuantity].
+         *
+         * Unlike [priceBaseQuantity], this method doesn't throw if the JSON field has an unexpected
+         * type.
+         */
+        @JsonProperty("price_base_quantity")
+        @ExcludeMissing
+        fun _priceBaseQuantity(): JsonField<PriceBaseQuantity> = priceBaseQuantity
 
         /**
          * Returns the raw JSON value of [itemAttributes].
@@ -7596,8 +8102,10 @@ private constructor(
             private var allowances: JsonField<MutableList<Allowance>>? = null
             private var amount: JsonField<Amount> = JsonMissing.of()
             private var charges: JsonField<MutableList<Charge>>? = null
-            private var date: JsonField<Void> = JsonMissing.of()
+            private var date: JsonField<LocalDate> = JsonMissing.of()
             private var description: JsonField<String> = JsonMissing.of()
+            private var name: JsonField<String> = JsonMissing.of()
+            private var priceBaseQuantity: JsonField<PriceBaseQuantity> = JsonMissing.of()
             private var itemAttributes: JsonField<MutableList<ItemAttribute>>? = null
             private var productCode: JsonField<String> = JsonMissing.of()
             private var quantity: JsonField<Quantity> = JsonMissing.of()
@@ -7614,6 +8122,8 @@ private constructor(
                 charges = item.charges.map { it.toMutableList() }
                 date = item.date
                 description = item.description
+                name = item.name
+                priceBaseQuantity = item.priceBaseQuantity
                 itemAttributes = item.itemAttributes.map { it.toMutableList() }
                 productCode = item.productCode
                 quantity = item.quantity
@@ -7710,19 +8220,19 @@ private constructor(
                     }
             }
 
-            fun date(date: Void?) = date(JsonField.ofNullable(date))
+            fun date(date: LocalDate?) = date(JsonField.ofNullable(date))
 
             /** Alias for calling [Builder.date] with `date.orElse(null)`. */
-            fun date(date: Optional<Void>) = date(date.getOrNull())
+            fun date(date: Optional<LocalDate>) = date(date.getOrNull())
 
             /**
              * Sets [Builder.date] to an arbitrary JSON value.
              *
-             * You should usually call [Builder.date] with a well-typed [Void] value instead. This
-             * method is primarily for setting the field to an undocumented or not yet supported
-             * value.
+             * You should usually call [Builder.date] with a well-typed [LocalDate] value instead.
+             * This method is primarily for setting the field to an undocumented or not yet
+             * supported value.
              */
-            fun date(date: JsonField<Void>) = apply { this.date = date }
+            fun date(date: JsonField<LocalDate>) = apply { this.date = date }
 
             /** The description of the line item. */
             fun description(description: String?) = description(JsonField.ofNullable(description))
@@ -7740,6 +8250,53 @@ private constructor(
             fun description(description: JsonField<String>) = apply {
                 this.description = description
             }
+
+            /**
+             * The item name (BT-153), for example the product name. Written to cac:Item/cbc:Name.
+             * When omitted or blank, `description` (BT-154) is used as the item name. A posted line
+             * item needs a `name` or a `description`; a line item with neither is rejected
+             * with 422.
+             */
+            fun name(name: String?) = name(JsonField.ofNullable(name))
+
+            /** Alias for calling [Builder.name] with `name.orElse(null)`. */
+            fun name(name: Optional<String>) = name(name.getOrNull())
+
+            /**
+             * Sets [Builder.name] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.name] with a well-typed [String] value instead. This
+             * method is primarily for setting the field to an undocumented or not yet supported
+             * value.
+             */
+            fun name(name: JsonField<String>) = apply { this.name = name }
+
+            /**
+             * The item price base quantity (BT-149). The number of item units to which the unit
+             * price applies, for example 100 when the unit price is a price for each 100 units.
+             * Must be greater than 0. Defaults to 1.
+             */
+            fun priceBaseQuantity(priceBaseQuantity: PriceBaseQuantity) =
+                priceBaseQuantity(JsonField.of(priceBaseQuantity))
+
+            /**
+             * Sets [Builder.priceBaseQuantity] to an arbitrary JSON value.
+             *
+             * You should usually call [Builder.priceBaseQuantity] with a well-typed
+             * [PriceBaseQuantity] value instead. This method is primarily for setting the field to
+             * an undocumented or not yet supported value.
+             */
+            fun priceBaseQuantity(priceBaseQuantity: JsonField<PriceBaseQuantity>) = apply {
+                this.priceBaseQuantity = priceBaseQuantity
+            }
+
+            /** Alias for calling [priceBaseQuantity] with `PriceBaseQuantity.ofNumber(number)`. */
+            fun priceBaseQuantity(number: Double) =
+                priceBaseQuantity(PriceBaseQuantity.ofNumber(number))
+
+            /** Alias for calling [priceBaseQuantity] with `PriceBaseQuantity.ofString(string)`. */
+            fun priceBaseQuantity(string: String) =
+                priceBaseQuantity(PriceBaseQuantity.ofString(string))
 
             /** Item-level attributes (BG-32) from cac:AdditionalItemProperty. */
             fun itemAttributes(itemAttributes: List<ItemAttribute>?) =
@@ -7928,6 +8485,8 @@ private constructor(
                     (charges ?: JsonMissing.of()).map { it.toImmutable() },
                     date,
                     description,
+                    name,
+                    priceBaseQuantity,
                     (itemAttributes ?: JsonMissing.of()).map { it.toImmutable() },
                     productCode,
                     quantity,
@@ -7960,6 +8519,8 @@ private constructor(
             charges().ifPresent { it.forEach { it.validate() } }
             date()
             description()
+            name()
+            priceBaseQuantity().ifPresent { it.validate() }
             itemAttributes().ifPresent { it.forEach { it.validate() } }
             productCode()
             quantity().ifPresent { it.validate() }
@@ -7991,6 +8552,8 @@ private constructor(
                 (charges.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (date.asKnown().isPresent) 1 else 0) +
                 (if (description.asKnown().isPresent) 1 else 0) +
+                (if (name.asKnown().isPresent) 1 else 0) +
+                (priceBaseQuantity.asKnown().getOrNull()?.validity() ?: 0) +
                 (itemAttributes.asKnown().getOrNull()?.sumOf { it.validity().toInt() } ?: 0) +
                 (if (productCode.asKnown().isPresent) 1 else 0) +
                 (quantity.asKnown().getOrNull()?.validity() ?: 0) +
@@ -13177,6 +13740,225 @@ private constructor(
         }
 
         /**
+         * The item price base quantity (BT-149). The number of item units to which the unit price
+         * applies, for example 100 when the unit price is a price for each 100 units. Must be
+         * greater than 0. Defaults to 1.
+         */
+        @JsonDeserialize(using = PriceBaseQuantity.Deserializer::class)
+        @JsonSerialize(using = PriceBaseQuantity.Serializer::class)
+        class PriceBaseQuantity
+        private constructor(
+            private val number: Double? = null,
+            private val string: String? = null,
+            private val _json: JsonValue? = null,
+        ) {
+
+            fun number(): Optional<Double> = Optional.ofNullable(number)
+
+            fun string(): Optional<String> = Optional.ofNullable(string)
+
+            fun isNumber(): Boolean = number != null
+
+            fun isString(): Boolean = string != null
+
+            fun asNumber(): Double = number.getOrThrow("number")
+
+            fun asString(): String = string.getOrThrow("string")
+
+            fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+            /**
+             * Maps this instance's current variant to a value of type [T] using the given
+             * [visitor].
+             *
+             * Note that this method is _not_ forwards compatible with new variants from the API,
+             * unless [visitor] overrides [Visitor.unknown]. To handle variants not known to this
+             * version of the SDK gracefully, consider overriding [Visitor.unknown]:
+             * ```java
+             * import com.e_invoice.api.core.JsonValue;
+             * import java.util.Optional;
+             *
+             * Optional<String> result = priceBaseQuantity.accept(new PriceBaseQuantity.Visitor<Optional<String>>() {
+             *     @Override
+             *     public Optional<String> visitNumber(Double number) {
+             *         return Optional.of(number.toString());
+             *     }
+             *
+             *     // ...
+             *
+             *     @Override
+             *     public Optional<String> unknown(JsonValue json) {
+             *         // Or inspect the `json`.
+             *         return Optional.empty();
+             *     }
+             * });
+             * ```
+             *
+             * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in
+             *   [visitor] and the current variant is unknown.
+             */
+            fun <T> accept(visitor: Visitor<T>): T =
+                when {
+                    number != null -> visitor.visitNumber(number)
+                    string != null -> visitor.visitString(string)
+                    else -> visitor.unknown(_json)
+                }
+
+            private var validated: Boolean = false
+
+            /**
+             * Validates that the types of all values in this object match their expected types
+             * recursively.
+             *
+             * This method is _not_ forwards compatible with new types from the API for existing
+             * fields.
+             *
+             * @throws EInvoiceInvalidDataException if any value type in this object doesn't match
+             *   its expected type.
+             */
+            fun validate(): PriceBaseQuantity = apply {
+                if (validated) {
+                    return@apply
+                }
+
+                accept(
+                    object : Visitor<Unit> {
+                        override fun visitNumber(number: Double) {}
+
+                        override fun visitString(string: String) {}
+                    }
+                )
+                validated = true
+            }
+
+            fun isValid(): Boolean =
+                try {
+                    validate()
+                    true
+                } catch (e: EInvoiceInvalidDataException) {
+                    false
+                }
+
+            /**
+             * Returns a score indicating how many valid values are contained in this object
+             * recursively.
+             *
+             * Used for best match union deserialization.
+             */
+            @JvmSynthetic
+            internal fun validity(): Int =
+                accept(
+                    object : Visitor<Int> {
+                        override fun visitNumber(number: Double) = 1
+
+                        override fun visitString(string: String) = 1
+
+                        override fun unknown(json: JsonValue?) = 0
+                    }
+                )
+
+            override fun equals(other: Any?): Boolean {
+                if (this === other) {
+                    return true
+                }
+
+                return other is PriceBaseQuantity &&
+                    number == other.number &&
+                    string == other.string
+            }
+
+            override fun hashCode(): Int = Objects.hash(number, string)
+
+            override fun toString(): String =
+                when {
+                    number != null -> "PriceBaseQuantity{number=$number}"
+                    string != null -> "PriceBaseQuantity{string=$string}"
+                    _json != null -> "PriceBaseQuantity{_unknown=$_json}"
+                    else -> throw IllegalStateException("Invalid PriceBaseQuantity")
+                }
+
+            companion object {
+
+                @JvmStatic fun ofNumber(number: Double) = PriceBaseQuantity(number = number)
+
+                @JvmStatic fun ofString(string: String) = PriceBaseQuantity(string = string)
+            }
+
+            /**
+             * An interface that defines how to map each variant of [PriceBaseQuantity] to a value
+             * of type [T].
+             */
+            interface Visitor<out T> {
+
+                fun visitNumber(number: Double): T
+
+                fun visitString(string: String): T
+
+                /**
+                 * Maps an unknown variant of [PriceBaseQuantity] to a value of type [T].
+                 *
+                 * An instance of [PriceBaseQuantity] can contain an unknown variant if it was
+                 * deserialized from data that doesn't match any known variant. For example, if the
+                 * SDK is on an older version than the API, then the API may respond with new
+                 * variants that the SDK is unaware of.
+                 *
+                 * @throws EInvoiceInvalidDataException in the default implementation.
+                 */
+                fun unknown(json: JsonValue?): T {
+                    throw EInvoiceInvalidDataException("Unknown PriceBaseQuantity: $json")
+                }
+            }
+
+            internal class Deserializer :
+                BaseDeserializer<PriceBaseQuantity>(PriceBaseQuantity::class) {
+
+                override fun ObjectCodec.deserialize(node: JsonNode): PriceBaseQuantity {
+                    val json = JsonValue.fromJsonNode(node)
+
+                    val bestMatches =
+                        sequenceOf(
+                                tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                    PriceBaseQuantity(string = it, _json = json)
+                                },
+                                tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                    PriceBaseQuantity(number = it, _json = json)
+                                },
+                            )
+                            .filterNotNull()
+                            .allMaxBy { it.validity() }
+                            .toList()
+                    return when (bestMatches.size) {
+                        // This can happen if what we're deserializing is completely incompatible
+                        // with all the possible variants (e.g. deserializing from boolean).
+                        0 -> PriceBaseQuantity(_json = json)
+                        1 -> bestMatches.single()
+                        // If there's more than one match with the highest validity, then use the
+                        // first completely valid match, or simply the first match if none are
+                        // completely valid.
+                        else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                    }
+                }
+            }
+
+            internal class Serializer :
+                BaseSerializer<PriceBaseQuantity>(PriceBaseQuantity::class) {
+
+                override fun serialize(
+                    value: PriceBaseQuantity,
+                    generator: JsonGenerator,
+                    provider: SerializerProvider,
+                ) {
+                    when {
+                        value.number != null -> generator.writeObject(value.number)
+                        value.string != null -> generator.writeObject(value.string)
+                        value._json != null -> generator.writeObject(value._json)
+                        else -> throw IllegalStateException("Invalid PriceBaseQuantity")
+                    }
+                }
+            }
+        }
+
+        /**
          * The total VAT amount for the line item. Must be rounded to maximum 2 decimals. Can be
          * negative for credit notes or corrections.
          */
@@ -13825,6 +14607,8 @@ private constructor(
                 charges == other.charges &&
                 date == other.date &&
                 description == other.description &&
+                name == other.name &&
+                priceBaseQuantity == other.priceBaseQuantity &&
                 itemAttributes == other.itemAttributes &&
                 productCode == other.productCode &&
                 quantity == other.quantity &&
@@ -13842,6 +14626,8 @@ private constructor(
                 charges,
                 date,
                 description,
+                name,
+                priceBaseQuantity,
                 itemAttributes,
                 productCode,
                 quantity,
@@ -13856,7 +14642,7 @@ private constructor(
         override fun hashCode(): Int = hashCode
 
         override fun toString() =
-            "Item{allowances=$allowances, amount=$amount, charges=$charges, date=$date, description=$description, itemAttributes=$itemAttributes, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
+            "Item{allowances=$allowances, amount=$amount, charges=$charges, date=$date, description=$description, name=$name, priceBaseQuantity=$priceBaseQuantity, itemAttributes=$itemAttributes, productCode=$productCode, quantity=$quantity, tax=$tax, taxRate=$taxRate, unit=$unit, unitPrice=$unitPrice, additionalProperties=$additionalProperties}"
     }
 
     /**
@@ -14282,6 +15068,435 @@ private constructor(
                     value.string != null -> generator.writeObject(value.string)
                     value._json != null -> generator.writeObject(value._json)
                     else -> throw IllegalStateException("Invalid Subtotal")
+                }
+            }
+        }
+    }
+
+    /**
+     * The total VAT amount in the VAT accounting currency tax_currency (BT-111). Does not add to
+     * invoice_total. Requires tax_currency. Rounded to maximum 2 decimals
+     */
+    @JsonDeserialize(using = TotalTaxInTaxCurrency.Deserializer::class)
+    @JsonSerialize(using = TotalTaxInTaxCurrency.Serializer::class)
+    class TotalTaxInTaxCurrency
+    private constructor(
+        private val number: Double? = null,
+        private val string: String? = null,
+        private val _json: JsonValue? = null,
+    ) {
+
+        fun number(): Optional<Double> = Optional.ofNullable(number)
+
+        fun string(): Optional<String> = Optional.ofNullable(string)
+
+        fun isNumber(): Boolean = number != null
+
+        fun isString(): Boolean = string != null
+
+        fun asNumber(): Double = number.getOrThrow("number")
+
+        fun asString(): String = string.getOrThrow("string")
+
+        fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+        /**
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
+         *
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.e_invoice.api.core.JsonValue;
+         * import java.util.Optional;
+         *
+         * Optional<String> result = totalTaxInTaxCurrency.accept(new TotalTaxInTaxCurrency.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitNumber(Double number) {
+         *         return Optional.of(number.toString());
+         *     }
+         *
+         *     // ...
+         *
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
+         *
+         * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
+         */
+        fun <T> accept(visitor: Visitor<T>): T =
+            when {
+                number != null -> visitor.visitNumber(number)
+                string != null -> visitor.visitString(string)
+                else -> visitor.unknown(_json)
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): TotalTaxInTaxCurrency = apply {
+            if (validated) {
+                return@apply
+            }
+
+            accept(
+                object : Visitor<Unit> {
+                    override fun visitNumber(number: Double) {}
+
+                    override fun visitString(string: String) {}
+                }
+            )
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            accept(
+                object : Visitor<Int> {
+                    override fun visitNumber(number: Double) = 1
+
+                    override fun visitString(string: String) = 1
+
+                    override fun unknown(json: JsonValue?) = 0
+                }
+            )
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is TotalTaxInTaxCurrency &&
+                number == other.number &&
+                string == other.string
+        }
+
+        override fun hashCode(): Int = Objects.hash(number, string)
+
+        override fun toString(): String =
+            when {
+                number != null -> "TotalTaxInTaxCurrency{number=$number}"
+                string != null -> "TotalTaxInTaxCurrency{string=$string}"
+                _json != null -> "TotalTaxInTaxCurrency{_unknown=$_json}"
+                else -> throw IllegalStateException("Invalid TotalTaxInTaxCurrency")
+            }
+
+        companion object {
+
+            @JvmStatic fun ofNumber(number: Double) = TotalTaxInTaxCurrency(number = number)
+
+            @JvmStatic fun ofString(string: String) = TotalTaxInTaxCurrency(string = string)
+        }
+
+        /**
+         * An interface that defines how to map each variant of [TotalTaxInTaxCurrency] to a value
+         * of type [T].
+         */
+        interface Visitor<out T> {
+
+            fun visitNumber(number: Double): T
+
+            fun visitString(string: String): T
+
+            /**
+             * Maps an unknown variant of [TotalTaxInTaxCurrency] to a value of type [T].
+             *
+             * An instance of [TotalTaxInTaxCurrency] can contain an unknown variant if it was
+             * deserialized from data that doesn't match any known variant. For example, if the SDK
+             * is on an older version than the API, then the API may respond with new variants that
+             * the SDK is unaware of.
+             *
+             * @throws EInvoiceInvalidDataException in the default implementation.
+             */
+            fun unknown(json: JsonValue?): T {
+                throw EInvoiceInvalidDataException("Unknown TotalTaxInTaxCurrency: $json")
+            }
+        }
+
+        internal class Deserializer :
+            BaseDeserializer<TotalTaxInTaxCurrency>(TotalTaxInTaxCurrency::class) {
+
+            override fun ObjectCodec.deserialize(node: JsonNode): TotalTaxInTaxCurrency {
+                val json = JsonValue.fromJsonNode(node)
+
+                val bestMatches =
+                    sequenceOf(
+                            tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                TotalTaxInTaxCurrency(string = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                TotalTaxInTaxCurrency(number = it, _json = json)
+                            },
+                        )
+                        .filterNotNull()
+                        .allMaxBy { it.validity() }
+                        .toList()
+                return when (bestMatches.size) {
+                    // This can happen if what we're deserializing is completely incompatible with
+                    // all the possible variants (e.g. deserializing from boolean).
+                    0 -> TotalTaxInTaxCurrency(_json = json)
+                    1 -> bestMatches.single()
+                    // If there's more than one match with the highest validity, then use the first
+                    // completely valid match, or simply the first match if none are completely
+                    // valid.
+                    else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                }
+            }
+        }
+
+        internal class Serializer :
+            BaseSerializer<TotalTaxInTaxCurrency>(TotalTaxInTaxCurrency::class) {
+
+            override fun serialize(
+                value: TotalTaxInTaxCurrency,
+                generator: JsonGenerator,
+                provider: SerializerProvider,
+            ) {
+                when {
+                    value.number != null -> generator.writeObject(value.number)
+                    value.string != null -> generator.writeObject(value.string)
+                    value._json != null -> generator.writeObject(value._json)
+                    else -> throw IllegalStateException("Invalid TotalTaxInTaxCurrency")
+                }
+            }
+        }
+    }
+
+    /**
+     * The amount added to the invoice total to round the amount for payment (BT-114), for example
+     * to whole kronor (amount_due = invoice_total + rounding_amount when nothing is prepaid). Can
+     * be negative. Between -5.00 and 5.00, rounded to maximum 2 decimals
+     */
+    @JsonDeserialize(using = RoundingAmount.Deserializer::class)
+    @JsonSerialize(using = RoundingAmount.Serializer::class)
+    class RoundingAmount
+    private constructor(
+        private val number: Double? = null,
+        private val string: String? = null,
+        private val _json: JsonValue? = null,
+    ) {
+
+        fun number(): Optional<Double> = Optional.ofNullable(number)
+
+        fun string(): Optional<String> = Optional.ofNullable(string)
+
+        fun isNumber(): Boolean = number != null
+
+        fun isString(): Boolean = string != null
+
+        fun asNumber(): Double = number.getOrThrow("number")
+
+        fun asString(): String = string.getOrThrow("string")
+
+        fun _json(): Optional<JsonValue> = Optional.ofNullable(_json)
+
+        /**
+         * Maps this instance's current variant to a value of type [T] using the given [visitor].
+         *
+         * Note that this method is _not_ forwards compatible with new variants from the API, unless
+         * [visitor] overrides [Visitor.unknown]. To handle variants not known to this version of
+         * the SDK gracefully, consider overriding [Visitor.unknown]:
+         * ```java
+         * import com.e_invoice.api.core.JsonValue;
+         * import java.util.Optional;
+         *
+         * Optional<String> result = roundingAmount.accept(new RoundingAmount.Visitor<Optional<String>>() {
+         *     @Override
+         *     public Optional<String> visitNumber(Double number) {
+         *         return Optional.of(number.toString());
+         *     }
+         *
+         *     // ...
+         *
+         *     @Override
+         *     public Optional<String> unknown(JsonValue json) {
+         *         // Or inspect the `json`.
+         *         return Optional.empty();
+         *     }
+         * });
+         * ```
+         *
+         * @throws EInvoiceInvalidDataException if [Visitor.unknown] is not overridden in [visitor]
+         *   and the current variant is unknown.
+         */
+        fun <T> accept(visitor: Visitor<T>): T =
+            when {
+                number != null -> visitor.visitNumber(number)
+                string != null -> visitor.visitString(string)
+                else -> visitor.unknown(_json)
+            }
+
+        private var validated: Boolean = false
+
+        /**
+         * Validates that the types of all values in this object match their expected types
+         * recursively.
+         *
+         * This method is _not_ forwards compatible with new types from the API for existing fields.
+         *
+         * @throws EInvoiceInvalidDataException if any value type in this object doesn't match its
+         *   expected type.
+         */
+        fun validate(): RoundingAmount = apply {
+            if (validated) {
+                return@apply
+            }
+
+            accept(
+                object : Visitor<Unit> {
+                    override fun visitNumber(number: Double) {}
+
+                    override fun visitString(string: String) {}
+                }
+            )
+            validated = true
+        }
+
+        fun isValid(): Boolean =
+            try {
+                validate()
+                true
+            } catch (e: EInvoiceInvalidDataException) {
+                false
+            }
+
+        /**
+         * Returns a score indicating how many valid values are contained in this object
+         * recursively.
+         *
+         * Used for best match union deserialization.
+         */
+        @JvmSynthetic
+        internal fun validity(): Int =
+            accept(
+                object : Visitor<Int> {
+                    override fun visitNumber(number: Double) = 1
+
+                    override fun visitString(string: String) = 1
+
+                    override fun unknown(json: JsonValue?) = 0
+                }
+            )
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) {
+                return true
+            }
+
+            return other is RoundingAmount && number == other.number && string == other.string
+        }
+
+        override fun hashCode(): Int = Objects.hash(number, string)
+
+        override fun toString(): String =
+            when {
+                number != null -> "RoundingAmount{number=$number}"
+                string != null -> "RoundingAmount{string=$string}"
+                _json != null -> "RoundingAmount{_unknown=$_json}"
+                else -> throw IllegalStateException("Invalid RoundingAmount")
+            }
+
+        companion object {
+
+            @JvmStatic fun ofNumber(number: Double) = RoundingAmount(number = number)
+
+            @JvmStatic fun ofString(string: String) = RoundingAmount(string = string)
+        }
+
+        /**
+         * An interface that defines how to map each variant of [RoundingAmount] to a value of type
+         * [T].
+         */
+        interface Visitor<out T> {
+
+            fun visitNumber(number: Double): T
+
+            fun visitString(string: String): T
+
+            /**
+             * Maps an unknown variant of [RoundingAmount] to a value of type [T].
+             *
+             * An instance of [RoundingAmount] can contain an unknown variant if it was deserialized
+             * from data that doesn't match any known variant. For example, if the SDK is on an
+             * older version than the API, then the API may respond with new variants that the SDK
+             * is unaware of.
+             *
+             * @throws EInvoiceInvalidDataException in the default implementation.
+             */
+            fun unknown(json: JsonValue?): T {
+                throw EInvoiceInvalidDataException("Unknown RoundingAmount: $json")
+            }
+        }
+
+        internal class Deserializer : BaseDeserializer<RoundingAmount>(RoundingAmount::class) {
+
+            override fun ObjectCodec.deserialize(node: JsonNode): RoundingAmount {
+                val json = JsonValue.fromJsonNode(node)
+
+                val bestMatches =
+                    sequenceOf(
+                            tryDeserialize(node, jacksonTypeRef<String>())?.let {
+                                RoundingAmount(string = it, _json = json)
+                            },
+                            tryDeserialize(node, jacksonTypeRef<Double>())?.let {
+                                RoundingAmount(number = it, _json = json)
+                            },
+                        )
+                        .filterNotNull()
+                        .allMaxBy { it.validity() }
+                        .toList()
+                return when (bestMatches.size) {
+                    // This can happen if what we're deserializing is completely incompatible with
+                    // all the possible variants (e.g. deserializing from boolean).
+                    0 -> RoundingAmount(_json = json)
+                    1 -> bestMatches.single()
+                    // If there's more than one match with the highest validity, then use the first
+                    // completely valid match, or simply the first match if none are completely
+                    // valid.
+                    else -> bestMatches.firstOrNull { it.isValid() } ?: bestMatches.first()
+                }
+            }
+        }
+
+        internal class Serializer : BaseSerializer<RoundingAmount>(RoundingAmount::class) {
+
+            override fun serialize(
+                value: RoundingAmount,
+                generator: JsonGenerator,
+                provider: SerializerProvider,
+            ) {
+                when {
+                    value.number != null -> generator.writeObject(value.number)
+                    value.string != null -> generator.writeObject(value.string)
+                    value._json != null -> generator.writeObject(value._json)
+                    else -> throw IllegalStateException("Invalid RoundingAmount")
                 }
             }
         }
@@ -15815,6 +17030,7 @@ private constructor(
             attachments == other.attachments &&
             billingAddress == other.billingAddress &&
             billingAddressRecipient == other.billingAddressRecipient &&
+            buyerReference == other.buyerReference &&
             charges == other.charges &&
             currency == other.currency &&
             customerAddress == other.customerAddress &&
@@ -15824,6 +17040,7 @@ private constructor(
             customerId == other.customerId &&
             customerName == other.customerName &&
             customerPeppolId == other.customerPeppolId &&
+            customerPhone == other.customerPhone &&
             customerTaxId == other.customerTaxId &&
             direction == other.direction &&
             documentType == other.documentType &&
@@ -15835,10 +17052,14 @@ private constructor(
             note == other.note &&
             paymentDetails == other.paymentDetails &&
             paymentTerm == other.paymentTerm &&
+            precedingInvoiceDate == other.precedingInvoiceDate &&
+            precedingInvoiceId == other.precedingInvoiceId &&
             previousUnpaidBalance == other.previousUnpaidBalance &&
             purchaseOrder == other.purchaseOrder &&
             remittanceAddress == other.remittanceAddress &&
             remittanceAddressRecipient == other.remittanceAddressRecipient &&
+            roundingAmount == other.roundingAmount &&
+            salesOrder == other.salesOrder &&
             serviceAddress == other.serviceAddress &&
             serviceAddressRecipient == other.serviceAddressRecipient &&
             serviceEndDate == other.serviceEndDate &&
@@ -15848,9 +17069,11 @@ private constructor(
             state == other.state &&
             subtotal == other.subtotal &&
             taxCode == other.taxCode &&
+            taxCurrency == other.taxCurrency &&
             taxDetails == other.taxDetails &&
             totalDiscount == other.totalDiscount &&
             totalTax == other.totalTax &&
+            totalTaxInTaxCurrency == other.totalTaxInTaxCurrency &&
             vatex == other.vatex &&
             vatexNote == other.vatexNote &&
             vendorAddress == other.vendorAddress &&
@@ -15858,6 +17081,7 @@ private constructor(
             vendorCompanyId == other.vendorCompanyId &&
             vendorEmail == other.vendorEmail &&
             vendorName == other.vendorName &&
+            vendorPhone == other.vendorPhone &&
             vendorTaxId == other.vendorTaxId &&
             additionalProperties == other.additionalProperties
     }
@@ -15869,6 +17093,7 @@ private constructor(
             attachments,
             billingAddress,
             billingAddressRecipient,
+            buyerReference,
             charges,
             currency,
             customerAddress,
@@ -15878,6 +17103,7 @@ private constructor(
             customerId,
             customerName,
             customerPeppolId,
+            customerPhone,
             customerTaxId,
             direction,
             documentType,
@@ -15889,10 +17115,14 @@ private constructor(
             note,
             paymentDetails,
             paymentTerm,
+            precedingInvoiceDate,
+            precedingInvoiceId,
             previousUnpaidBalance,
             purchaseOrder,
             remittanceAddress,
             remittanceAddressRecipient,
+            roundingAmount,
+            salesOrder,
             serviceAddress,
             serviceAddressRecipient,
             serviceEndDate,
@@ -15902,9 +17132,11 @@ private constructor(
             state,
             subtotal,
             taxCode,
+            taxCurrency,
             taxDetails,
             totalDiscount,
             totalTax,
+            totalTaxInTaxCurrency,
             vatex,
             vatexNote,
             vendorAddress,
@@ -15912,6 +17144,7 @@ private constructor(
             vendorCompanyId,
             vendorEmail,
             vendorName,
+            vendorPhone,
             vendorTaxId,
             additionalProperties,
         )
@@ -15920,5 +17153,5 @@ private constructor(
     override fun hashCode(): Int = hashCode
 
     override fun toString() =
-        "DocumentCreate{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerPeppolId=$customerPeppolId, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
+        "DocumentCreate{allowances=$allowances, amountDue=$amountDue, attachments=$attachments, billingAddress=$billingAddress, billingAddressRecipient=$billingAddressRecipient, buyerReference=$buyerReference, charges=$charges, currency=$currency, customerAddress=$customerAddress, customerAddressRecipient=$customerAddressRecipient, customerCompanyId=$customerCompanyId, customerEmail=$customerEmail, customerId=$customerId, customerName=$customerName, customerPeppolId=$customerPeppolId, customerPhone=$customerPhone, customerTaxId=$customerTaxId, direction=$direction, documentType=$documentType, dueDate=$dueDate, invoiceDate=$invoiceDate, invoiceId=$invoiceId, invoiceTotal=$invoiceTotal, items=$items, note=$note, paymentDetails=$paymentDetails, paymentTerm=$paymentTerm, precedingInvoiceDate=$precedingInvoiceDate, precedingInvoiceId=$precedingInvoiceId, previousUnpaidBalance=$previousUnpaidBalance, purchaseOrder=$purchaseOrder, remittanceAddress=$remittanceAddress, remittanceAddressRecipient=$remittanceAddressRecipient, roundingAmount=$roundingAmount, salesOrder=$salesOrder, serviceAddress=$serviceAddress, serviceAddressRecipient=$serviceAddressRecipient, serviceEndDate=$serviceEndDate, serviceStartDate=$serviceStartDate, shippingAddress=$shippingAddress, shippingAddressRecipient=$shippingAddressRecipient, state=$state, subtotal=$subtotal, taxCode=$taxCode, taxCurrency=$taxCurrency, taxDetails=$taxDetails, totalDiscount=$totalDiscount, totalTax=$totalTax, totalTaxInTaxCurrency=$totalTaxInTaxCurrency, vatex=$vatex, vatexNote=$vatexNote, vendorAddress=$vendorAddress, vendorAddressRecipient=$vendorAddressRecipient, vendorCompanyId=$vendorCompanyId, vendorEmail=$vendorEmail, vendorName=$vendorName, vendorPhone=$vendorPhone, vendorTaxId=$vendorTaxId, additionalProperties=$additionalProperties}"
 }

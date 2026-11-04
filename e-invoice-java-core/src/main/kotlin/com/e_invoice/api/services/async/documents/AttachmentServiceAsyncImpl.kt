@@ -60,7 +60,9 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
         // delete /api/documents/{document_id}/attachments/{attachment_id}
         withRawResponse().delete(params, requestOptions).thenApply { it.parse() }
 
-    @Deprecated("deprecated")
+    @Deprecated(
+        "Attachments added this way are not embedded in the UBL document. Pass attachments when creating the document via POST /api/documents instead."
+    )
     override fun add(
         params: AttachmentAddParams,
         requestOptions: RequestOptions,
@@ -196,7 +198,9 @@ class AttachmentServiceAsyncImpl internal constructor(private val clientOptions:
         private val addHandler: Handler<DocumentAttachment> =
             jsonHandler<DocumentAttachment>(clientOptions.jsonMapper)
 
-        @Deprecated("deprecated")
+        @Deprecated(
+            "Attachments added this way are not embedded in the UBL document. Pass attachments when creating the document via POST /api/documents instead."
+        )
         override fun add(
             params: AttachmentAddParams,
             requestOptions: RequestOptions,
