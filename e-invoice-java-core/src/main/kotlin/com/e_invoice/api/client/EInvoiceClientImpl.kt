@@ -4,16 +4,24 @@ package com.e_invoice.api.client
 
 import com.e_invoice.api.core.ClientOptions
 import com.e_invoice.api.core.getPackageVersion
+import com.e_invoice.api.services.blocking.ConversionService
+import com.e_invoice.api.services.blocking.ConversionServiceImpl
 import com.e_invoice.api.services.blocking.DocumentService
 import com.e_invoice.api.services.blocking.DocumentServiceImpl
+import com.e_invoice.api.services.blocking.DraftService
+import com.e_invoice.api.services.blocking.DraftServiceImpl
 import com.e_invoice.api.services.blocking.InboxService
 import com.e_invoice.api.services.blocking.InboxServiceImpl
 import com.e_invoice.api.services.blocking.LookupService
 import com.e_invoice.api.services.blocking.LookupServiceImpl
+import com.e_invoice.api.services.blocking.MailboxService
+import com.e_invoice.api.services.blocking.MailboxServiceImpl
 import com.e_invoice.api.services.blocking.MeService
 import com.e_invoice.api.services.blocking.MeServiceImpl
 import com.e_invoice.api.services.blocking.OutboxService
 import com.e_invoice.api.services.blocking.OutboxServiceImpl
+import com.e_invoice.api.services.blocking.StatsService
+import com.e_invoice.api.services.blocking.StatsServiceImpl
 import com.e_invoice.api.services.blocking.ValidateService
 import com.e_invoice.api.services.blocking.ValidateServiceImpl
 import com.e_invoice.api.services.blocking.WebhookService
@@ -53,6 +61,16 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
 
     private val me: MeService by lazy { MeServiceImpl(clientOptionsWithUserAgent) }
 
+    private val mailbox: MailboxService by lazy { MailboxServiceImpl(clientOptionsWithUserAgent) }
+
+    private val drafts: DraftService by lazy { DraftServiceImpl(clientOptionsWithUserAgent) }
+
+    private val stats: StatsService by lazy { StatsServiceImpl(clientOptionsWithUserAgent) }
+
+    private val conversion: ConversionService by lazy {
+        ConversionServiceImpl(clientOptionsWithUserAgent)
+    }
+
     private val webhooks: WebhookService by lazy { WebhookServiceImpl(clientOptionsWithUserAgent) }
 
     override fun async(): EInvoiceClientAsync = async
@@ -73,6 +91,14 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
     override fun lookup(): LookupService = lookup
 
     override fun me(): MeService = me
+
+    override fun mailbox(): MailboxService = mailbox
+
+    override fun drafts(): DraftService = drafts
+
+    override fun stats(): StatsService = stats
+
+    override fun conversion(): ConversionService = conversion
 
     override fun webhooks(): WebhookService = webhooks
 
@@ -105,6 +131,22 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
             MeServiceImpl.WithRawResponseImpl(clientOptions)
         }
 
+        private val mailbox: MailboxService.WithRawResponse by lazy {
+            MailboxServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val drafts: DraftService.WithRawResponse by lazy {
+            DraftServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val stats: StatsService.WithRawResponse by lazy {
+            StatsServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
+        private val conversion: ConversionService.WithRawResponse by lazy {
+            ConversionServiceImpl.WithRawResponseImpl(clientOptions)
+        }
+
         private val webhooks: WebhookService.WithRawResponse by lazy {
             WebhookServiceImpl.WithRawResponseImpl(clientOptions)
         }
@@ -127,6 +169,14 @@ class EInvoiceClientImpl(private val clientOptions: ClientOptions) : EInvoiceCli
         override fun lookup(): LookupService.WithRawResponse = lookup
 
         override fun me(): MeService.WithRawResponse = me
+
+        override fun mailbox(): MailboxService.WithRawResponse = mailbox
+
+        override fun drafts(): DraftService.WithRawResponse = drafts
+
+        override fun stats(): StatsService.WithRawResponse = stats
+
+        override fun conversion(): ConversionService.WithRawResponse = conversion
 
         override fun webhooks(): WebhookService.WithRawResponse = webhooks
     }

@@ -3,11 +3,15 @@
 package com.e_invoice.api.client
 
 import com.e_invoice.api.core.ClientOptions
+import com.e_invoice.api.services.async.ConversionServiceAsync
 import com.e_invoice.api.services.async.DocumentServiceAsync
+import com.e_invoice.api.services.async.DraftServiceAsync
 import com.e_invoice.api.services.async.InboxServiceAsync
 import com.e_invoice.api.services.async.LookupServiceAsync
+import com.e_invoice.api.services.async.MailboxServiceAsync
 import com.e_invoice.api.services.async.MeServiceAsync
 import com.e_invoice.api.services.async.OutboxServiceAsync
+import com.e_invoice.api.services.async.StatsServiceAsync
 import com.e_invoice.api.services.async.ValidateServiceAsync
 import com.e_invoice.api.services.async.WebhookServiceAsync
 import java.util.function.Consumer
@@ -60,6 +64,14 @@ interface EInvoiceClientAsync {
 
     fun me(): MeServiceAsync
 
+    fun mailbox(): MailboxServiceAsync
+
+    fun drafts(): DraftServiceAsync
+
+    fun stats(): StatsServiceAsync
+
+    fun conversion(): ConversionServiceAsync
+
     fun webhooks(): WebhookServiceAsync
 
     /**
@@ -100,6 +112,14 @@ interface EInvoiceClientAsync {
         fun lookup(): LookupServiceAsync.WithRawResponse
 
         fun me(): MeServiceAsync.WithRawResponse
+
+        fun mailbox(): MailboxServiceAsync.WithRawResponse
+
+        fun drafts(): DraftServiceAsync.WithRawResponse
+
+        fun stats(): StatsServiceAsync.WithRawResponse
+
+        fun conversion(): ConversionServiceAsync.WithRawResponse
 
         fun webhooks(): WebhookServiceAsync.WithRawResponse
     }

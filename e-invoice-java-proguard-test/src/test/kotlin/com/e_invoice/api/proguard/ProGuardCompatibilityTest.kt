@@ -55,6 +55,10 @@ internal class ProGuardCompatibilityTest {
         assertThat(client.lookup()).isNotNull()
         assertThat(client.me()).isNotNull()
         assertThat(client.webhooks()).isNotNull()
+        assertThat(client.mailbox()).isNotNull()
+        assertThat(client.drafts()).isNotNull()
+        assertThat(client.stats()).isNotNull()
+        assertThat(client.conversion()).isNotNull()
     }
 
     @Test
