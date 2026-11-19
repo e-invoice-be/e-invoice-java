@@ -4353,6 +4353,8 @@ private constructor(
 
             @JvmField val VATEX_EU_132_1_Q = of("VATEX-EU-132-1Q")
 
+            @JvmField val VATEX_EU_135_1 = of("VATEX-EU-135-1")
+
             @JvmField val VATEX_EU_143 = of("VATEX-EU-143")
 
             @JvmField val VATEX_EU_143_1_A = of("VATEX-EU-143-1A")
@@ -4415,6 +4417,8 @@ private constructor(
 
             @JvmField val VATEX_EU_151_1_E = of("VATEX-EU-151-1E")
 
+            @JvmField val VATEX_EU_153 = of("VATEX-EU-153")
+
             @JvmField val VATEX_EU_159 = of("VATEX-EU-159")
 
             @JvmField val VATEX_EU_309 = of("VATEX-EU-309")
@@ -4434,6 +4438,54 @@ private constructor(
             @JvmField val VATEX_EU_O = of("VATEX-EU-O")
 
             @JvmField val VATEX_EU_J = of("VATEX-EU-J")
+
+            @JvmField val VATEX_FR_298_SEXDECIESA = of("VATEX-FR-298SEXDECIESA")
+
+            @JvmField val VATEX_FR_AE = of("VATEX-FR-AE")
+
+            @JvmField val VATEX_FR_CGI261_1 = of("VATEX-FR-CGI261-1")
+
+            @JvmField val VATEX_FR_CGI261_2 = of("VATEX-FR-CGI261-2")
+
+            @JvmField val VATEX_FR_CGI261_3 = of("VATEX-FR-CGI261-3")
+
+            @JvmField val VATEX_FR_CGI261_4 = of("VATEX-FR-CGI261-4")
+
+            @JvmField val VATEX_FR_CGI261_5 = of("VATEX-FR-CGI261-5")
+
+            @JvmField val VATEX_FR_CGI261_7 = of("VATEX-FR-CGI261-7")
+
+            @JvmField val VATEX_FR_CGI261_8 = of("VATEX-FR-CGI261-8")
+
+            @JvmField val VATEX_FR_CGI261_A = of("VATEX-FR-CGI261A")
+
+            @JvmField val VATEX_FR_CGI261_B = of("VATEX-FR-CGI261B")
+
+            @JvmField val VATEX_FR_CGI261_C_1 = of("VATEX-FR-CGI261C-1")
+
+            @JvmField val VATEX_FR_CGI261_C_2 = of("VATEX-FR-CGI261C-2")
+
+            @JvmField val VATEX_FR_CGI261_C_3 = of("VATEX-FR-CGI261C-3")
+
+            @JvmField val VATEX_FR_CGI261_D_1 = of("VATEX-FR-CGI261D-1")
+
+            @JvmField val VATEX_FR_CGI261_D_1_BIS = of("VATEX-FR-CGI261D-1BIS")
+
+            @JvmField val VATEX_FR_CGI261_D_2 = of("VATEX-FR-CGI261D-2")
+
+            @JvmField val VATEX_FR_CGI261_D_3 = of("VATEX-FR-CGI261D-3")
+
+            @JvmField val VATEX_FR_CGI261_D_4 = of("VATEX-FR-CGI261D-4")
+
+            @JvmField val VATEX_FR_CGI261_E_1 = of("VATEX-FR-CGI261E-1")
+
+            @JvmField val VATEX_FR_CGI261_E_2 = of("VATEX-FR-CGI261E-2")
+
+            @JvmField val VATEX_FR_CGI275 = of("VATEX-FR-CGI275")
+
+            @JvmField val VATEX_FR_CGI277_A = of("VATEX-FR-CGI277A")
+
+            @JvmField val VATEX_FR_CGI295 = of("VATEX-FR-CGI295")
 
             @JvmField val VATEX_FR_FRANCHISE = of("VATEX-FR-FRANCHISE")
 
@@ -4463,6 +4515,7 @@ private constructor(
             VATEX_EU_132_1_O,
             VATEX_EU_132_1_P,
             VATEX_EU_132_1_Q,
+            VATEX_EU_135_1,
             VATEX_EU_143,
             VATEX_EU_143_1_A,
             VATEX_EU_143_1_B,
@@ -4494,6 +4547,7 @@ private constructor(
             VATEX_EU_151_1_C,
             VATEX_EU_151_1_D,
             VATEX_EU_151_1_E,
+            VATEX_EU_153,
             VATEX_EU_159,
             VATEX_EU_309,
             VATEX_EU_AE,
@@ -4504,6 +4558,30 @@ private constructor(
             VATEX_EU_IC,
             VATEX_EU_O,
             VATEX_EU_J,
+            VATEX_FR_298_SEXDECIESA,
+            VATEX_FR_AE,
+            VATEX_FR_CGI261_1,
+            VATEX_FR_CGI261_2,
+            VATEX_FR_CGI261_3,
+            VATEX_FR_CGI261_4,
+            VATEX_FR_CGI261_5,
+            VATEX_FR_CGI261_7,
+            VATEX_FR_CGI261_8,
+            VATEX_FR_CGI261_A,
+            VATEX_FR_CGI261_B,
+            VATEX_FR_CGI261_C_1,
+            VATEX_FR_CGI261_C_2,
+            VATEX_FR_CGI261_C_3,
+            VATEX_FR_CGI261_D_1,
+            VATEX_FR_CGI261_D_1_BIS,
+            VATEX_FR_CGI261_D_2,
+            VATEX_FR_CGI261_D_3,
+            VATEX_FR_CGI261_D_4,
+            VATEX_FR_CGI261_E_1,
+            VATEX_FR_CGI261_E_2,
+            VATEX_FR_CGI275,
+            VATEX_FR_CGI277_A,
+            VATEX_FR_CGI295,
             VATEX_FR_FRANCHISE,
             VATEX_FR_CNWVAT,
         }
@@ -4537,6 +4615,7 @@ private constructor(
             VATEX_EU_132_1_O,
             VATEX_EU_132_1_P,
             VATEX_EU_132_1_Q,
+            VATEX_EU_135_1,
             VATEX_EU_143,
             VATEX_EU_143_1_A,
             VATEX_EU_143_1_B,
@@ -4568,6 +4647,7 @@ private constructor(
             VATEX_EU_151_1_C,
             VATEX_EU_151_1_D,
             VATEX_EU_151_1_E,
+            VATEX_EU_153,
             VATEX_EU_159,
             VATEX_EU_309,
             VATEX_EU_AE,
@@ -4578,6 +4658,30 @@ private constructor(
             VATEX_EU_IC,
             VATEX_EU_O,
             VATEX_EU_J,
+            VATEX_FR_298_SEXDECIESA,
+            VATEX_FR_AE,
+            VATEX_FR_CGI261_1,
+            VATEX_FR_CGI261_2,
+            VATEX_FR_CGI261_3,
+            VATEX_FR_CGI261_4,
+            VATEX_FR_CGI261_5,
+            VATEX_FR_CGI261_7,
+            VATEX_FR_CGI261_8,
+            VATEX_FR_CGI261_A,
+            VATEX_FR_CGI261_B,
+            VATEX_FR_CGI261_C_1,
+            VATEX_FR_CGI261_C_2,
+            VATEX_FR_CGI261_C_3,
+            VATEX_FR_CGI261_D_1,
+            VATEX_FR_CGI261_D_1_BIS,
+            VATEX_FR_CGI261_D_2,
+            VATEX_FR_CGI261_D_3,
+            VATEX_FR_CGI261_D_4,
+            VATEX_FR_CGI261_E_1,
+            VATEX_FR_CGI261_E_2,
+            VATEX_FR_CGI275,
+            VATEX_FR_CGI277_A,
+            VATEX_FR_CGI295,
             VATEX_FR_FRANCHISE,
             VATEX_FR_CNWVAT,
             /** An enum member indicating that [Vatex] was instantiated with an unknown value. */
@@ -4612,6 +4716,7 @@ private constructor(
                 VATEX_EU_132_1_O -> Value.VATEX_EU_132_1_O
                 VATEX_EU_132_1_P -> Value.VATEX_EU_132_1_P
                 VATEX_EU_132_1_Q -> Value.VATEX_EU_132_1_Q
+                VATEX_EU_135_1 -> Value.VATEX_EU_135_1
                 VATEX_EU_143 -> Value.VATEX_EU_143
                 VATEX_EU_143_1_A -> Value.VATEX_EU_143_1_A
                 VATEX_EU_143_1_B -> Value.VATEX_EU_143_1_B
@@ -4643,6 +4748,7 @@ private constructor(
                 VATEX_EU_151_1_C -> Value.VATEX_EU_151_1_C
                 VATEX_EU_151_1_D -> Value.VATEX_EU_151_1_D
                 VATEX_EU_151_1_E -> Value.VATEX_EU_151_1_E
+                VATEX_EU_153 -> Value.VATEX_EU_153
                 VATEX_EU_159 -> Value.VATEX_EU_159
                 VATEX_EU_309 -> Value.VATEX_EU_309
                 VATEX_EU_AE -> Value.VATEX_EU_AE
@@ -4653,6 +4759,30 @@ private constructor(
                 VATEX_EU_IC -> Value.VATEX_EU_IC
                 VATEX_EU_O -> Value.VATEX_EU_O
                 VATEX_EU_J -> Value.VATEX_EU_J
+                VATEX_FR_298_SEXDECIESA -> Value.VATEX_FR_298_SEXDECIESA
+                VATEX_FR_AE -> Value.VATEX_FR_AE
+                VATEX_FR_CGI261_1 -> Value.VATEX_FR_CGI261_1
+                VATEX_FR_CGI261_2 -> Value.VATEX_FR_CGI261_2
+                VATEX_FR_CGI261_3 -> Value.VATEX_FR_CGI261_3
+                VATEX_FR_CGI261_4 -> Value.VATEX_FR_CGI261_4
+                VATEX_FR_CGI261_5 -> Value.VATEX_FR_CGI261_5
+                VATEX_FR_CGI261_7 -> Value.VATEX_FR_CGI261_7
+                VATEX_FR_CGI261_8 -> Value.VATEX_FR_CGI261_8
+                VATEX_FR_CGI261_A -> Value.VATEX_FR_CGI261_A
+                VATEX_FR_CGI261_B -> Value.VATEX_FR_CGI261_B
+                VATEX_FR_CGI261_C_1 -> Value.VATEX_FR_CGI261_C_1
+                VATEX_FR_CGI261_C_2 -> Value.VATEX_FR_CGI261_C_2
+                VATEX_FR_CGI261_C_3 -> Value.VATEX_FR_CGI261_C_3
+                VATEX_FR_CGI261_D_1 -> Value.VATEX_FR_CGI261_D_1
+                VATEX_FR_CGI261_D_1_BIS -> Value.VATEX_FR_CGI261_D_1_BIS
+                VATEX_FR_CGI261_D_2 -> Value.VATEX_FR_CGI261_D_2
+                VATEX_FR_CGI261_D_3 -> Value.VATEX_FR_CGI261_D_3
+                VATEX_FR_CGI261_D_4 -> Value.VATEX_FR_CGI261_D_4
+                VATEX_FR_CGI261_E_1 -> Value.VATEX_FR_CGI261_E_1
+                VATEX_FR_CGI261_E_2 -> Value.VATEX_FR_CGI261_E_2
+                VATEX_FR_CGI275 -> Value.VATEX_FR_CGI275
+                VATEX_FR_CGI277_A -> Value.VATEX_FR_CGI277_A
+                VATEX_FR_CGI295 -> Value.VATEX_FR_CGI295
                 VATEX_FR_FRANCHISE -> Value.VATEX_FR_FRANCHISE
                 VATEX_FR_CNWVAT -> Value.VATEX_FR_CNWVAT
                 else -> Value._UNKNOWN
@@ -4688,6 +4818,7 @@ private constructor(
                 VATEX_EU_132_1_O -> Known.VATEX_EU_132_1_O
                 VATEX_EU_132_1_P -> Known.VATEX_EU_132_1_P
                 VATEX_EU_132_1_Q -> Known.VATEX_EU_132_1_Q
+                VATEX_EU_135_1 -> Known.VATEX_EU_135_1
                 VATEX_EU_143 -> Known.VATEX_EU_143
                 VATEX_EU_143_1_A -> Known.VATEX_EU_143_1_A
                 VATEX_EU_143_1_B -> Known.VATEX_EU_143_1_B
@@ -4719,6 +4850,7 @@ private constructor(
                 VATEX_EU_151_1_C -> Known.VATEX_EU_151_1_C
                 VATEX_EU_151_1_D -> Known.VATEX_EU_151_1_D
                 VATEX_EU_151_1_E -> Known.VATEX_EU_151_1_E
+                VATEX_EU_153 -> Known.VATEX_EU_153
                 VATEX_EU_159 -> Known.VATEX_EU_159
                 VATEX_EU_309 -> Known.VATEX_EU_309
                 VATEX_EU_AE -> Known.VATEX_EU_AE
@@ -4729,6 +4861,30 @@ private constructor(
                 VATEX_EU_IC -> Known.VATEX_EU_IC
                 VATEX_EU_O -> Known.VATEX_EU_O
                 VATEX_EU_J -> Known.VATEX_EU_J
+                VATEX_FR_298_SEXDECIESA -> Known.VATEX_FR_298_SEXDECIESA
+                VATEX_FR_AE -> Known.VATEX_FR_AE
+                VATEX_FR_CGI261_1 -> Known.VATEX_FR_CGI261_1
+                VATEX_FR_CGI261_2 -> Known.VATEX_FR_CGI261_2
+                VATEX_FR_CGI261_3 -> Known.VATEX_FR_CGI261_3
+                VATEX_FR_CGI261_4 -> Known.VATEX_FR_CGI261_4
+                VATEX_FR_CGI261_5 -> Known.VATEX_FR_CGI261_5
+                VATEX_FR_CGI261_7 -> Known.VATEX_FR_CGI261_7
+                VATEX_FR_CGI261_8 -> Known.VATEX_FR_CGI261_8
+                VATEX_FR_CGI261_A -> Known.VATEX_FR_CGI261_A
+                VATEX_FR_CGI261_B -> Known.VATEX_FR_CGI261_B
+                VATEX_FR_CGI261_C_1 -> Known.VATEX_FR_CGI261_C_1
+                VATEX_FR_CGI261_C_2 -> Known.VATEX_FR_CGI261_C_2
+                VATEX_FR_CGI261_C_3 -> Known.VATEX_FR_CGI261_C_3
+                VATEX_FR_CGI261_D_1 -> Known.VATEX_FR_CGI261_D_1
+                VATEX_FR_CGI261_D_1_BIS -> Known.VATEX_FR_CGI261_D_1_BIS
+                VATEX_FR_CGI261_D_2 -> Known.VATEX_FR_CGI261_D_2
+                VATEX_FR_CGI261_D_3 -> Known.VATEX_FR_CGI261_D_3
+                VATEX_FR_CGI261_D_4 -> Known.VATEX_FR_CGI261_D_4
+                VATEX_FR_CGI261_E_1 -> Known.VATEX_FR_CGI261_E_1
+                VATEX_FR_CGI261_E_2 -> Known.VATEX_FR_CGI261_E_2
+                VATEX_FR_CGI275 -> Known.VATEX_FR_CGI275
+                VATEX_FR_CGI277_A -> Known.VATEX_FR_CGI277_A
+                VATEX_FR_CGI295 -> Known.VATEX_FR_CGI295
                 VATEX_FR_FRANCHISE -> Known.VATEX_FR_FRANCHISE
                 VATEX_FR_CNWVAT -> Known.VATEX_FR_CNWVAT
                 else -> throw EInvoiceInvalidDataException("Unknown Vatex: $value")
